@@ -7,7 +7,7 @@
 weight_cases_x_days_ago(num_days_ago = NULL, mean_si = NULL, sd_si = NULL)
 }
 \arguments{
-\item{num_days_ago}{Numeric of days in the past. Defaults to \code{NULL}.}
+\item{num_days_ago}{Numeric vector of days in the past. Defaults to \code{NULL}.}
 
 \item{mean_si}{Numeric, the mean of the serial interval}
 
@@ -22,5 +22,5 @@ Weight cases x days ago
 \examples{
 
 
-weight_cases_x_days_ago(10, 4.7, 2.9)
+weight_cases_x_days_ago(1:10, 4.7, 2.9)
 }

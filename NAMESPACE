@@ -2,8 +2,12 @@
 
 export("%>%")
 export(get_timeseries)
+export(infectiousness)
+export(predict_incidences)
 export(weight_cases_x_days_ago)
 importFrom(EpiNow,load_nowcast_result)
+importFrom(dplyr,filter)
+importFrom(lubridate,days)
 importFrom(magrittr,"%>%")
 importFrom(purrr,map_dfr)
 importFrom(purrr,safely)

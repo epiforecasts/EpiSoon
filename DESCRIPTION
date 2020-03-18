@@ -14,6 +14,8 @@ RoxygenNote: 7.0.2
 Imports: 
     EpiNow,
     purrr,
-    magrittr
+    magrittr,
+    dplyr,
+    lubridate
 Remotes:
   epiforecasts/EpiNow
