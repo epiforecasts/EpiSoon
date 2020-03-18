@@ -13,11 +13,14 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.0.2
 Imports: 
     EpiNow,
+    scoringutils,
     bsts,
     purrr,
     magrittr,
     dplyr,
     tidyr,
+    tibble,
     lubridate
 Remotes:
-  epiforecasts/EpiNow
+  epiforecasts/EpiNow,
+  epiforecasts/scoringutils

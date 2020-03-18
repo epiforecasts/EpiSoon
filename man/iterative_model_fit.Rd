@@ -29,5 +29,5 @@ rts <- data.frame(rt = 1:10,
                  date = as.Date("2020-01-01") + lubridate::days(1:10))
 
 
-iterative_model_fit(rts, model = bsts::AddAutoAr, horizon = 7, samples = 1000)
+iterative_model_fit(rts, model = bsts::AddAutoAr, horizon = 7, samples = 10)
 }
