@@ -26,7 +26,7 @@
 #'                      horizon = 7, samples = 10)
 #'
 #' ## Score the model fit
-#' score_model(samples, observations[-c(1:10), ])
+#' score_model(samples, observations)
 score_model <- function(fit_samples, observations) {
 
   observations <- observations %>%
