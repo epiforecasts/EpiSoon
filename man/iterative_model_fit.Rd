@@ -4,7 +4,13 @@
 \alias{iterative_model_fit}
 \title{Iteratively fit a BSTS model to each timepoint}
 \usage{
-iterative_model_fit(rts, model = NULL, horizon = 7, samples = 1000)
+iterative_model_fit(
+  rts,
+  model = NULL,
+  horizon = 7,
+  samples = 1000,
+  bound_rt = TRUE
+)
 }
 \arguments{
 \item{rts}{A dataframe of containing two variables \code{rt} and  \code{date} with
@@ -16,6 +22,9 @@ iterative_model_fit(rts, model = NULL, horizon = 7, samples = 1000)
 
 \item{samples}{Numeric, the number of samples to from the posterior of the model
 fit. Note that twice this number of MCMC steps will be taken with half used as burn in.}
+
+\item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
+equal to 0.}
 }
 \value{
 

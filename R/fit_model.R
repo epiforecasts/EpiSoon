@@ -6,7 +6,8 @@
 #' @param horizon Numeric, the time horizon over which to predict
 #' @param samples Numeric, the number of samples to from the posterior of the model
 #' fit. Note that twice this number of MCMC steps will be taken with half used as burn in.
-#'
+#' @param bound_rt Logical, defaults to `TRUE`. Should Rt values be bounded to be greater than or
+#' equal to 0.
 #' @return A dataframe of samples containing the following variables:
 #'  `sample`, `date`, `rt`, and `horizon`.
 #' @importFrom bsts bsts predict.bsts
@@ -23,7 +24,8 @@
 #'
 #' fit_model(rts, model = bsts::AddAutoAr, horizon = 7, samples = 10)
 fit_model <- function(rts, model = model,
-                      horizon = 7, samples = 1000) {
+                      horizon = 7, samples = 1000,
+                      bound_rt = TRUE) {
 
   ## Set up for model fitting
   y <- rts$rt
@@ -52,7 +54,8 @@ fit_model <- function(rts, model = model,
     tidyr::gather(key = "date", value = "rt", -sample) %>%
     dplyr::mutate(date = as.Date(date)) %>%
     dplyr::group_by(sample) %>%
-    dplyr::mutate(horizon = 1:dplyr::n()) %>%
+    dplyr::mutate(horizon = 1:dplyr::n(),
+                  rt = ifelse(rt < 0 & bound_rt, 0, rt))%>%
     dplyr::ungroup()
 
   return(samples)

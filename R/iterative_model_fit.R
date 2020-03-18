@@ -17,7 +17,8 @@
 iterative_model_fit <- function(rts,
                           model = NULL,
                           horizon = 7,
-                          samples = 1000) {
+                          samples = 1000,
+                          bound_rt = TRUE) {
 
   safe_fit <- purrr::safely(fit_model)
 
@@ -27,7 +28,8 @@ iterative_model_fit <- function(rts,
   samples <- purrr::map_dfr(dates, ~ safe_fit(dplyr::filter(rts, date <= .),
                                                      model = model,
                                                      samples = samples,
-                                                     horizon = horizon)[[1]],
+                                                     horizon = horizon,
+                                                     bound_rt = bound_rt)[[1]],
                         .id = "forecast_date")
 
 

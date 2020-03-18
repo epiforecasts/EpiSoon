@@ -1,4 +1,4 @@
-#' Summarise Predicted Rts
+#' Summarise Forecast Rts
 #'
 #' @param fit_samples A dataframe as produced by `EpiSoon::fit_model`.
 #'
@@ -15,8 +15,8 @@
 #' samples <- fit_model(rts, model = bsts::AddAutoAr, horizon = 7, samples = 10)
 #'
 #'
-#' summarise_fit(samples)
-summarise_fit <- function(fit_samples) {
+#' summarise_forecast(samples)
+summarise_forecast <- function(fit_samples) {
 
   summarised_fit <- fit_samples %>%
     dplyr::group_by(date, horizon) %>%

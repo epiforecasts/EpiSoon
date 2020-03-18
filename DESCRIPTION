@@ -20,7 +20,9 @@ Imports:
     dplyr,
     tidyr,
     tibble,
-    lubridate
+    lubridate,
+    ggplot2,
+    cowplot
 Remotes:
   epiforecasts/EpiNow,
   epiforecasts/scoringutils

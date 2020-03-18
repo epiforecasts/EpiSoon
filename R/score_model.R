@@ -12,7 +12,7 @@
 #' @importFrom tibble tibble
 #' @importFrom scoringRules dss_sample crps_sample logs_sample
 #' @importFrom scoringutils bias sharpness
-#' @inheritParams summarise_fit
+#' @inheritParams summarise_forecast
 #' @examples
 #'
 #' ## Observed data
