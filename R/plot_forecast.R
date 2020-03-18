@@ -35,7 +35,7 @@ plot_forecast <- function(forecast = NULL,
                           obs_cutoff_at_forecast = TRUE) {
 
 
-  if (!is.null(obs_cutoff_at_forecast)) {
+  if (obs_cutoff_at_forecast) {
     observations <- observations %>%
       dplyr::filter(date <= min(forecast$date))
   }

@@ -6,7 +6,7 @@
 #' @inheritParams iterative_model_fit
 #' @return
 #' @export
-#' @importFrom dplyr slice group_split
+#' @importFrom dplyr slice group_split filter
 #' @importFrom purrr map_dfr
 #' @examples
 #' ## Observed data
@@ -18,8 +18,6 @@
 #' evaluate_model(observations,
 #'                model = bsts::AddAutoAr,
 #'                horizon = 7, samples = 10)
-#'
-#'
 evaluate_model <- function(observations = NULL,
                            model = NULL,
                            horizon = 7,
@@ -27,11 +25,7 @@ evaluate_model <- function(observations = NULL,
                            bound_rt = TRUE) {
 
 
-
-  obs_to_fit <- observations %>%
-    dplyr::slice(1:(dplyr::n() - horizon))
-
-  samples <- iterative_model_fit(obs_to_fit, model = model, horizon = horizon,
+  samples <- iterative_model_fit(observations, model = model, horizon = horizon,
                                  samples = samples, bound_rt = bound_rt)
 
 
@@ -40,6 +34,9 @@ evaluate_model <- function(observations = NULL,
     setNames(unique(samples$forecast_date)) %>%
     purrr::map_dfr(summarise_forecast, .id = "forecast_date")
 
+
+  samples <- samples %>%
+    dplyr::filter(date <= max(observations$date))
 
   scored_forecasts <- samples %>%
     dplyr::group_split(forecast_date) %>%

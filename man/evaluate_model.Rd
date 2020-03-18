@@ -41,6 +41,4 @@ observations <- data.frame(rt = 1:20,
 evaluate_model(observations,
                model = bsts::AddAutoAr,
                horizon = 7, samples = 10)
-
-
 }
