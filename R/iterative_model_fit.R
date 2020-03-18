@@ -13,7 +13,7 @@
 #'                  date = as.Date("2020-01-01") + lubridate::days(1:10))
 #'
 #'
-#' iterative_model_fit(rts, model = bsts::AddAutoAr, horizon = 7, samples = 1000)
+#' iterative_model_fit(rts, model = bsts::AddAutoAr, horizon = 7, samples = 10)
 iterative_model_fit <- function(rts,
                           model = NULL,
                           horizon = 7,
@@ -21,7 +21,10 @@ iterative_model_fit <- function(rts,
 
   safe_fit <- purrr::safely(fit_model)
 
-  samples <- purrr::map_dfr(rts$date, ~ safe_fit(dplyr::filter(rts, date <= .),
+  dates <- rts$date
+  names(dates) <- rts$date
+
+  samples <- purrr::map_dfr(dates, ~ safe_fit(dplyr::filter(rts, date <= .),
                                                      model = model,
                                                      samples = samples,
                                                      horizon = horizon)[[1]],
