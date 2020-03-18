@@ -2,6 +2,7 @@
 
 export("%>%")
 export(get_timeseries)
+export(weight_cases_x_days_ago)
 importFrom(EpiNow,load_nowcast_result)
 importFrom(magrittr,"%>%")
 importFrom(purrr,map_dfr)
