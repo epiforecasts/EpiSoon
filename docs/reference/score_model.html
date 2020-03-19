@@ -136,22 +136,22 @@ logs, bias, and sharpness as well as the forecast date and time horizon.</p>
                            <span class='kw'>date</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>"2020-01-01"</span>)
                                   + <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/period.html'>days</a></span>(<span class='fl'>1</span>:<span class='fl'>20</span>))
 
-<span class='co'>## Fit a model</span>
+<span class='co'>## Fit a model (using a subset of observations)</span>
 <span class='no'>samples</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_model.html'>fit_model</a></span>(<span class='no'>observations</span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
                      <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)},
                      <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
-<span class='co'>## Score the model fit</span>
+<span class='co'>## Score the model fit (with observations during the time horizon of the forecast)</span>
 <span class='fu'>score_model</span>(<span class='no'>samples</span>, <span class='no'>observations</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 7 x 7</span><span>
-#&gt;   date       horizon    dss   crps   logs  bias sharpness
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> 2020-01-12       1 -</span><span style='color: #BB0000;'>3.00</span><span>  0.061</span><span style='text-decoration: underline;'>6</span><span> -</span><span style='color: #BB0000;'>0.387</span><span> 0.6       0.268
-#&gt; </span><span style='color: #555555;'>2</span><span> 2020-01-13       2 -</span><span style='color: #BB0000;'>1.11</span><span>  0.142   0.402 0.6       0.488
-#&gt; </span><span style='color: #555555;'>3</span><span> 2020-01-14       3 -</span><span style='color: #BB0000;'>1.57</span><span>  0.091</span><span style='text-decoration: underline;'>3</span><span>  0.107 0.4       0.313
-#&gt; </span><span style='color: #555555;'>4</span><span> 2020-01-15       4 -</span><span style='color: #BB0000;'>0.983</span><span> 0.175   0.477 0.200     0.502
-#&gt; </span><span style='color: #555555;'>5</span><span> 2020-01-16       5 -</span><span style='color: #BB0000;'>1.08</span><span>  0.183   0.520 0.3       0.497
-#&gt; </span><span style='color: #555555;'>6</span><span> 2020-01-17       6 -</span><span style='color: #BB0000;'>1.01</span><span>  0.151   0.346 0.3       0.362
-#&gt; </span><span style='color: #555555;'>7</span><span> 2020-01-18       7 -</span><span style='color: #BB0000;'>0.817</span><span> 0.174   0.699 0.5       0.509</div></span></pre>
+#&gt;   date       horizon    dss   crps    logs  bias sharpness
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 2020-01-12       1 -</span><span style='color: #BB0000;'>1.98</span><span>  0.109  -</span><span style='color: #BB0000;'>0.020</span><span style='color: #BB0000;text-decoration: underline;'>0</span><span> 0.3       0.270
+#&gt; </span><span style='color: #555555;'>2</span><span> 2020-01-13       2 -</span><span style='color: #BB0000;'>2.40</span><span>  0.102  -</span><span style='color: #BB0000;'>0.224</span><span>  0.100     0.168
+#&gt; </span><span style='color: #555555;'>3</span><span> 2020-01-14       3 -</span><span style='color: #BB0000;'>2.12</span><span>  0.097</span><span style='text-decoration: underline;'>6</span><span> -</span><span style='color: #BB0000;'>0.127</span><span>  0.3       0.216
+#&gt; </span><span style='color: #555555;'>4</span><span> 2020-01-15       4 -</span><span style='color: #BB0000;'>2.14</span><span>  0.159   0.321  0.100     0.216
+#&gt; </span><span style='color: #555555;'>5</span><span> 2020-01-16       5 -</span><span style='color: #BB0000;'>1.30</span><span>  0.127   0.176  0.200     0.150
+#&gt; </span><span style='color: #555555;'>6</span><span> 2020-01-17       6 -</span><span style='color: #BB0000;'>1.35</span><span>  0.166   0.429  0.3       0.335
+#&gt; </span><span style='color: #555555;'>7</span><span> 2020-01-18       7 -</span><span style='color: #BB0000;'>0.751</span><span> 0.232   0.715  0.3       0.170</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

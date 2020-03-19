@@ -163,32 +163,32 @@ equal to 0.</p></td>
 #&gt; <span style='color: #555555;'># A tibble: 126 x 10</span><span>
 #&gt;    forecast_date date       horizon bottom lower median  mean upper   top    sd
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 2020-01-04    2020-01-05       1  2.33   2.56   3.53  3.65  4.74  5.11 1.14 
-#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-01-04    2020-01-06       2  3.00   3.67   4.12  4.47  5.30  6.51 1.23 
-#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-01-04    2020-01-07       3  1.91   3.17   4.65  4.80  6.03  8.51 2.22 
-#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-01-04    2020-01-08       4  0.422  2.36   5.52  5.03  7.14 10.2  3.39 
-#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-01-04    2020-01-09       5  0.460  2.76   6.58  5.93  8.49 11.6  3.81 
-#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-01-04    2020-01-10       6  0.236  3.65   5.92  5.99  8.64 12.0  4.04 
-#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-01-04    2020-01-11       7  0      2.76   6.67  6.70  9.75 15.3  5.30 
-#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-01-05    2020-01-06       1  3.88   4.56   4.78  4.84  5.18  5.82 0.620
-#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-01-05    2020-01-07       2  2.46   5.50   5.98  5.63  6.52  7.32 1.64 
-#&gt; </span><span style='color: #555555;'>10</span><span> 2020-01-05    2020-01-08       3  2.61   6.71   7.28  6.89  8.00  9.44 2.21 
+#&gt; </span><span style='color: #555555;'> 1</span><span> 2020-01-04    2020-01-05       1   3.52  3.91   4.06  4.04  4.17  4.61 0.342
+#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-01-04    2020-01-06       2   4.07  4.51   5.15  5.01  5.51  5.72 0.626
+#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-01-04    2020-01-07       3   5.24  5.89   6.11  6.05  6.45  6.60 0.486
+#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-01-04    2020-01-08       4   5.91  6.98   7.35  7.21  7.72  8.15 0.783
+#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-01-04    2020-01-09       5   6.45  7.86   8.64  8.43  9.22  9.85 1.13 
+#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-01-04    2020-01-10       6   7.11  8.67   9.57  9.31 10.2  10.4  1.16 
+#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-01-04    2020-01-11       7   8.16  9.35  10.4  10.2  11.1  11.5  1.22 
+#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-01-05    2020-01-06       1   4.41  4.96   5.04  5.22  5.26  6.76 0.745
+#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-01-05    2020-01-07       2   4.15  5.84   5.95  6.09  6.33  8.27 1.22 
+#&gt; </span><span style='color: #555555;'>10</span><span> 2020-01-05    2020-01-08       3   3.48  6.78   7.15  6.90  7.51  8.98 1.70 
 #&gt; </span><span style='color: #555555;'># … with 116 more rows</span><span>
 #&gt; 
 #&gt; $scores
 #&gt; </span><span style='color: #555555;'># A tibble: 98 x 8</span><span>
-#&gt;    forecast_date date       horizon    dss  crps  logs  bias sharpness
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 2020-01-04    2020-01-05       1  0.263 0.419 1.48  0.4       1.66 
-#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-01-04    2020-01-06       2  0.514 0.466 1.51  0.4       1.40 
-#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-01-04    2020-01-07       3  1.82  0.802 2.05  0.4       2.18 
-#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-01-04    2020-01-08       4  2.71  1.17  2.42  0.4       4.12 
-#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-01-04    2020-01-09       5  2.90  1.27  2.50  0.3       3.90 
-#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-01-04    2020-01-10       6  3.30  1.72  2.64  0.200     3.98 
-#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-01-04    2020-01-11       7  3.66  1.98  2.90  0.200     5.33 
-#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-01-05    2020-01-06       1 -</span><span style='color: #BB0000;'>0.991</span><span> 0.179 0.606 0.3       0.497
-#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-01-05    2020-01-07       2  0.940 0.341 1.11  0.5       0.787
-#&gt; </span><span style='color: #555555;'>10</span><span> 2020-01-05    2020-01-08       3  1.48  0.399 1.31  0.7       1.11 
+#&gt;    forecast_date date       horizon    dss   crps   logs  bias sharpness
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> 2020-01-04    2020-01-05       1 -</span><span style='color: #BB0000;'>2.24</span><span>  0.068</span><span style='text-decoration: underline;'>6</span><span> -</span><span style='color: #BB0000;'>0.353</span><span>   0.6     0.189
+#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-01-04    2020-01-06       2 -</span><span style='color: #BB0000;'>1.04</span><span>  0.184   0.750   0.6     0.690
+#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-01-04    2020-01-07       3 -</span><span style='color: #BB0000;'>1.54</span><span>  0.129   0.346   0.7     0.535
+#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-01-04    2020-01-08       4 -</span><span style='color: #BB0000;'>0.512</span><span> 0.255   0.932   0.7     0.620
+#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-01-04    2020-01-09       5  0.293 0.402   1.36    0.7     1.08 
+#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-01-04    2020-01-10       6  0.275 0.411   1.34    0.7     1.07 
+#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-01-04    2020-01-11       7  0.312 0.412   1.46    0.7     1.18 
+#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-01-05    2020-01-06       1 -</span><span style='color: #BB0000;'>0.600</span><span> 0.096</span><span style='text-decoration: underline;'>0</span><span> -</span><span style='color: #BB0000;'>0.154</span><span>   0.6     0.327
+#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-01-05    2020-01-07       2  0.298 0.149   0.278   0.4     0.520
+#&gt; </span><span style='color: #555555;'>10</span><span> 2020-01-05    2020-01-08       3  0.965 0.235   0.730   0.5     0.563
 #&gt; </span><span style='color: #555555;'># … with 88 more rows</span><span>
 #&gt; </div></span></pre>
   </div>
