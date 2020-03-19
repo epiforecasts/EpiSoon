@@ -10,29 +10,27 @@
 #'
 #' incidences <- data.frame(inc = 1:10,
 #'                   date = as.Date("2020-01-01") + lubridate::days(1:10))
+#'
 #' rts <- data.frame(rt = 1:15,
 #'                   date = as.Date("2020-01-01") + lubridate::days(1:15))
+#'
+#' date <- as.Date(max(rts$date))
+#' predict_incidences(rts = rts, incidences = incidences, date = date)
 #'
 #' ## Code
 #' predict_incidences
 #'
 
-
-date <- as.Date(max(rts$date))
-date <- as.Date(max(incidences$date)) + lubridate::days(1)
-
-# predict_incidences(rts = rts, incidences = incidences, date = date)
-
-# predict_incidences <- function(rts = NULL, incidences = NULL,
-#                                days_ahead = NULL, date) {
+predict_incidences <- function(rts = NULL, incidences = NULL,
+                               days_ahead = NULL, date) {
 
   last_obs_date <- as.Date(max(incidences$date))
   days_ahead <- as.numeric(date - last_obs_date)
 
   distances <- (nrow(incidences) + days_ahead - 1):days_ahead
-  weights <- sapply(distances, weight_cases_x_days_ago, mean_si = 4.7, sd_si = 2.7)
+  weights_data <- sapply(distances, weight_cases_x_days_ago, mean_si = 4.7, sd_si = 2.7)
 
-  infectiousness_from_data <- sum(incidences$inc * weights)
+  infectiousness_from_data <- sum(incidences$inc * weights_data)
 
   if (days_ahead == 1) {
     infectiousness_from_predicted <- 0
@@ -43,21 +41,21 @@ date <- as.Date(max(incidences$date)) + lubridate::days(1)
 
     pred_inc <-  data.frame(date = NULL, predicted_inc = NULL)
     for (day in 1:days_ahead) {
-      weights <- sapply(day:1, weight_cases_x_days_ago, mean_si = 4.7, sd_si = 2.7)
       if (day == 1) {
         infectiousness_from_predicted <- 0
       } else {
-        infectiousness_from_predicted <- weights * pred_inc$predicted_inc
+        weights_pred <- sapply((day-1):1, weight_cases_x_days_ago, mean_si = 4.7, sd_si = 2.7)
+        infectiousness_from_predicted <- sum(weights_pred * pred_inc$predicted_inc)
       }
       current_date <- date - lubridate::days(days_ahead - day)
       infectiousness <- infectiousness_from_data + infectiousness_from_predicted
-      pred <- data.frame(date = current_date, predicted_inc = infectiousness * weights)
+      pred <- data.frame(date = current_date,
+                         predicted_inc = infectiousness * rts$rt[rts$date == current_date])
       pred_inc <- rbind(pred_inc, pred)
     }
-
   }
-day = 1
-
+  return(pred_inc)
+}
 
 
 
