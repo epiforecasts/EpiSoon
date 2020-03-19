@@ -24,13 +24,13 @@
 #'
 #' ## Evaluate a model
 #' forecast_eval <- evaluate_model(observations,
-#'                                 model = bsts::AddAutoAr,
+#'                                 model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
 #'                                horizon = 7, samples = 10)
 #'
 #' forecasts <- forecast_eval$forecasts
 #'
 #' ## Plot forecast
-#' plot_forecast_evaluation(forecasts, observations, horizon_to_plot = 1)
+#' plot_forecast_evaluation(forecasts, observations, horizon_to_plot = 7)
 plot_forecast_evaluation <- function(forecasts = NULL,
                                      observation = NULL,
                                      horizon_to_plot = 1) {

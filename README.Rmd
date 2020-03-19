@@ -12,7 +12,7 @@ output: github_document
 
 Install the analysis and all dependencies with: 
 
-```r
+```{r, eval = FALSE}
 remotes::install_github("epiforecasts/EpiSoon", dependencies = TRUE)
 ```
 
@@ -22,13 +22,13 @@ This package was developed in a docker container based on the `rocker/geospatial
 
 To build the docker image run (from the `EpiSoon` directory):
 
-```bash
+```{bash, eval = FALSE}
 docker build . -t episoon
 ```
 
 To run the docker image run:
 
-```bash
+```{bash, eval = FALSE}
 docker run -d -p 8787:8787 --name episoon -e USER=episoon -e PASSWORD=episoon episoon
 ```
 

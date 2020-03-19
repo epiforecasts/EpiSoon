@@ -16,7 +16,7 @@
 #'
 #' ## Evaluate a model
 #' evaluate_model(observations,
-#'                model = bsts::AddAutoAr,
+#'                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
 #'                horizon = 7, samples = 10)
 evaluate_model <- function(observations = NULL,
                            model = NULL,

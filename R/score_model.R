@@ -22,7 +22,7 @@
 #'
 #' ## Fit a model
 #' samples <- fit_model(observations[1:10, ],
-#'                      model = bsts::AddAutoAr,
+#'                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
 #'                      horizon = 7, samples = 10)
 #'
 #' ## Score the model fit
