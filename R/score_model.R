@@ -20,13 +20,13 @@
 #'                            date = as.Date("2020-01-01")
 #'                                   + lubridate::days(1:20))
 #'
-#' ## Fit a model
+#' ## Fit a model (using a subset of observations)
 #' samples <- fit_model(observations[1:10, ],
-#'                      model = bsts::AddAutoAr,
+#'                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
 #'                      horizon = 7, samples = 10)
 #'
-#' ## Score the model fit
-#' score_model(samples, observations[-c(1:10), ])
+#' ## Score the model fit (with observations during the time horizon of the forecast)
+#' score_model(samples, observations)
 score_model <- function(fit_samples, observations) {
 
   observations <- observations %>%

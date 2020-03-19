@@ -33,5 +33,6 @@ rts <- data.frame(rt = 1:10,
                  date = as.Date("2020-01-01") + lubridate::days(1:10))
 
 
-fit_model(rts, model = bsts::AddAutoAr, horizon = 7, samples = 10)
+fit_model(rts, model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+          horizon = 7, samples = 10)
 }

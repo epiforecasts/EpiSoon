@@ -16,6 +16,7 @@ Imports:
     scoringutils,
     bsts,
     purrr,
+    furrr,
     magrittr,
     dplyr,
     tidyr,

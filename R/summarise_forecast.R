@@ -12,7 +12,8 @@
 #'                  date = as.Date("2020-01-01") + lubridate::days(1:10))
 #'
 #'
-#' samples <- fit_model(rts, model = bsts::AddAutoAr, horizon = 7, samples = 10)
+#' samples <- fit_model(rts, model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+#'                      horizon = 7, samples = 10)
 #'
 #'
 #' summarise_forecast(samples)
@@ -29,7 +30,7 @@ summarise_forecast <- function(fit_samples) {
       top = quantile(rt, 0.975, na.rm = TRUE),
       sd = sd(rt, na.rm = TRUE)
     ) %>%
-    ungroup()
+    dplyr::ungroup()
 
   return(summarised_fit)
 }

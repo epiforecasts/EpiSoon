@@ -13,7 +13,8 @@
 #'                  date = as.Date("2020-01-01") + lubridate::days(1:10))
 #'
 #'
-#' iterative_model_fit(rts, model = bsts::AddAutoAr, horizon = 7, samples = 10)
+#' iterative_model_fit(rts, model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+#'                     horizon = 7, samples = 10)
 iterative_model_fit <- function(rts,
                           model = NULL,
                           horizon = 7,
@@ -22,9 +23,11 @@ iterative_model_fit <- function(rts,
 
   safe_fit <- purrr::safely(fit_model)
 
-  dates <- rts$date
-  names(dates) <- rts$date
+  ## Dates to iterate over - remove first two to allow enough data for modelling
+  dates <- rts$date[-c(1:2)]
+  names(dates) <- rts$date[-c(1:2)]
 
+  ## Iteratively fit
   samples <- purrr::map_dfr(dates, ~ safe_fit(dplyr::filter(rts, date <= .),
                                                      model = model,
                                                      samples = samples,

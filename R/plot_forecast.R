@@ -21,7 +21,7 @@
 #'
 #' ## Fit a model
 #' samples <- fit_model(observations[1:10, ],
-#'                      model = bsts::AddAutoAr,
+#'                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
 #'                      horizon = 7, samples = 10)
 #'
 #' ## Summarise forecast
@@ -35,9 +35,9 @@ plot_forecast <- function(forecast = NULL,
                           obs_cutoff_at_forecast = TRUE) {
 
 
-  if (!is.null(obs_cutoff_at_forecast)) {
+  if (obs_cutoff_at_forecast) {
     observations <- observations %>%
-      dplyr::filter(date <= min(forecast$date))
+      dplyr::filter(date < min(forecast$date))
   }
 
   if (!is.null(horizon_cutoff)) {

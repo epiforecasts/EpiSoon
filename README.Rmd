@@ -2,53 +2,178 @@
 output: github_document
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
-)
-```
-
 # EpiSoon
 
-<!-- badges: start -->
-<!-- badges: end -->
+*Warning: This package is a work in progress and is currently developed solely with the COVID-19 outbreak in mind. Breaking changes may occur and the authors cannot guarantee support.*
 
-The goal of EpiSoon is to ...
+**Aim:** To forecast the time-varying reproduction number and using this to forecast reported case counts. 
 
 ## Installation
 
-You can install the released version of EpiSoon from [CRAN](https://CRAN.R-project.org) with:
+Install the analysis and all dependencies with: 
 
-``` r
-install.packages("EpiSoon")
+```{r, eval = FALSE}
+remotes::install_github("epiforecasts/EpiSoon", dependencies = TRUE)
 ```
 
-## Example
 
-This is a basic example which shows you how to solve a common problem:
+## Quick start
 
-```{r example}
+
+* Load the package (`bsts` for models, `ggplot2` for plotting, and `cowplot` for theming)
+
+```{r, message = FALSE}
 library(EpiSoon)
-## basic example code
+library(bsts)
+library(cowplot)
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
 
-```{r cars}
-summary(cars)
+* Define example observations.
+
+```{r}
+observations <- data.frame(rt = 1:20,
+                           date = as.Date("2020-01-01")
+                            + lubridate::days(1:20))
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
+* Forecast a timeseries using a semi-local trend model and  summarise it.
 
-You can also embed plots, for example:
+```{r}
+samples <- fit_model(observations[1:10, ],
+                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                      horizon = 7, samples = 10)
 
-```{r pressure, echo = FALSE}
-plot(pressure)
+ ## Summarise forecast
+ summarised_forecast <- summarise_forecast(samples)
+ 
+ summarised_forecast
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
+* Score the forecast
+
+```{r}
+scores <- score_model(samples, observations)
+
+summarise_scores(scores)
+```
+
+* Plot the forecast
+
+```{r}
+ ## Plot forecast
+ plot_forecast(summarised_forecast, observations)
+```
+
+
+* Iteratively fit the forecast and plot this to visualise the forecast quality
+
+```{r} 
+forecast_eval <- evaluate_model(observations,
+                                 model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                                horizon = 7, samples = 10)
+
+forecasts <- forecast_eval$forecasts
+
+ ## Plot forecast
+ plot_forecast_evaluation(forecasts, observations, horizon_to_plot = c(1, 3, 7)) +
+   ggplot2::facet_wrap(~ horizon, ncol = 1) +
+   cowplot::panel_border()
+```
+
+## Evaluate across models
+
+* Define a list of models.
+
+```{r} 
+## List of forecasting bsts models wrapped in functions.
+models <- list("Sparse AR" = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 7)},
+                "Semi-local linear trend" = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
+```
+
+* Compare across models.
+
+```{r}
+evaluations <- compare_models(observations, models, horizon = 7, samples = 10)
+```
+
+* Plot evaluation of models over a set of time horizons.
+
+```{r}
+plot_forecast_evaluation(evaluations$forecast, observations, c(1, 3, 7)) +
+   ggplot2::facet_grid(model ~ horizon) +
+   cowplot::panel_border()
+```
+
+* Score across models
+
+```{r}
+summarise_scores(evaluations$scores)
+```
+
+
+### Evaluate across regions and models
+
+* Define a list of timeseries 
+
+```{r} 
+timeseries <- list(observations, observations)
+names(timeseries) <- c("Region 1", "Region 2")
+```
+* Compare across regions and models
+
+```{r} 
+evaluations <- compare_timeseries(timeseries, models,
+                                   horizon = 7, samples = 10)
+```
+
+
+* Plot comparison
+
+```{r}
+plot_forecast_evaluation(evaluations$forecast, observations, c(7)) +
+   ggplot2::facet_grid(model ~ region) +
+   cowplot::panel_border()
+```
+
+* Summarise CRPS by region
+
+```{r}
+summarise_scores(evaluations$scores, "region", sel_scores = "crps")
+```
+
+* Summarise logs by horizon
+
+```{r}
+summarise_scores(evaluations$scores, "horizon", sel_scores = "logs")
+```
+
+## Docker
+
+This package was developed in a docker container based on the `rocker/geospatial` docker image. 
+
+To build the docker image run (from the `EpiSoon` directory):
+
+```{bash, eval = FALSE}
+docker build . -t episoon
+```
+
+To run the docker image run:
+
+```{bash, eval = FALSE}
+docker run -d -p 8787:8787 --name episoon -e USER=episoon -e PASSWORD=episoon episoon
+```
+
+The rstudio client can be found on port :8787 at your local machines ip. The default username:password is epinow:epinow, set the user with -e USER=username, and the password with - e PASSWORD=newpasswordhere. The default is to save the analysis files into the user directory.
+
+To mount a folder (from your current working directory - here assumed to be `tmp`) in the docker container to your local system use the following in the above docker run command (as given mounts the whole `episoon` directory to `tmp`).
+
+```{bash, eval = FALSE}
+--mount type=bind,source=$(pwd)/tmp,target=/home/EpiSoon
+```
+
+To access the command line run the following:
+
+```{bash, eval = FALSE}
+docker exec -ti episoon bash
+```
