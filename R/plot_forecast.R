@@ -37,7 +37,7 @@ plot_forecast <- function(forecast = NULL,
 
   if (obs_cutoff_at_forecast) {
     observations <- observations %>%
-      dplyr::filter(date <= min(forecast$date))
+      dplyr::filter(date < min(forecast$date))
   }
 
   if (!is.null(horizon_cutoff)) {

@@ -58,13 +58,13 @@ samples <- fit_model(observations[1:10, ],
     ## # A tibble: 7 x 9
     ##   date       horizon bottom lower median  mean upper   top    sd
     ##   <date>       <int>  <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl>
-    ## 1 2020-01-12       1   10.3  10.7   10.8  10.8  11.0  11.1 0.280
-    ## 2 2020-01-13       2   11.4  11.8   11.9  11.9  12.1  12.2 0.264
-    ## 3 2020-01-14       3   12.6  12.8   12.9  12.9  13.1  13.3 0.244
-    ## 4 2020-01-15       4   13.1  13.8   14.0  13.9  14.1  14.3 0.380
-    ## 5 2020-01-16       5   13.9  14.6   14.7  14.8  15.1  15.4 0.477
-    ## 6 2020-01-17       6   14.7  15.5   15.9  15.8  16.1  16.6 0.607
-    ## 7 2020-01-18       7   16.1  16.7   16.9  16.8  17.1  17.4 0.415
+    ## 1 2020-01-12       1   10.4  11.0   11.2  11.1  11.3  11.7 0.373
+    ## 2 2020-01-13       2   11.0  11.6   11.8  12.0  12.6  13.3 0.782
+    ## 3 2020-01-14       3   11.5  12.1   13.0  13.0  13.9  14.9 1.22 
+    ## 4 2020-01-15       4   11.7  12.8   13.6  13.8  15.0  16.1 1.56 
+    ## 5 2020-01-16       5   12.2  13.5   14.6  14.7  16.2  17.5 1.91 
+    ## 6 2020-01-17       6   12.2  13.7   15.4  15.4  16.8  19.2 2.41 
+    ## 7 2020-01-18       7   13.3  15.2   16.3  16.4  17.1  20.5 2.36
 
   - Score the forecast
 
@@ -77,13 +77,13 @@ summarise_scores(scores)
 ```
 
     ## # A tibble: 5 x 8
-    ##   score      bottom   lower median    mean  upper    top     sd
-    ##   <chr>       <dbl>   <dbl>  <dbl>   <dbl>  <dbl>  <dbl>  <dbl>
-    ## 1 bias       0.215   0.3     0.3    0.357   0.45   0.5   0.113 
-    ## 2 crps       0.0683  0.0770  0.108  0.108   0.126  0.166 0.0378
-    ## 3 dss       -2.73   -2.35   -1.98  -1.92   -1.52  -1.00  0.658 
-    ## 4 logs      -0.320  -0.240  -0.150 -0.0225  0.199  0.403 0.304 
-    ## 5 sharpness  0.163   0.262   0.287  0.314   0.382  0.463 0.108
+    ##   score      bottom  lower median  mean upper   top    sd
+    ##   <chr>       <dbl>  <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl>
+    ## 1 bias       0.4     0.4    0.4   0.457 0.45  0.67  0.113
+    ## 2 crps       0.125   0.268  0.440 0.412 0.567 0.656 0.206
+    ## 3 dss       -1.75   -0.154  0.811 0.452 1.45  1.71  1.34 
+    ## 4 logs       0.0927  1.12   1.65  1.36  1.82  2.01  0.728
+    ## 5 sharpness  0.269   1.07   1.60  1.53  2.07  2.56  0.854
 
   - Plot the forecast
 
@@ -159,18 +159,18 @@ summarise_scores(evaluations$scores)
 ```
 
     ## # A tibble: 10 x 9
-    ##    score    model            bottom   lower median    mean  upper    top      sd
-    ##    <chr>    <chr>             <dbl>   <dbl>  <dbl>   <dbl>  <dbl>  <dbl>   <dbl>
-    ##  1 bias     Semi-local lin…  0.200   0.4     0.5    0.493  0.6     0.758  0.150 
-    ##  2 bias     Sparse AR        0       0       0      0.0745 0.100   0.3    0.0945
-    ##  3 crps     Semi-local lin…  0.0568  0.102   0.154  0.204  0.202   0.690  0.173 
-    ##  4 crps     Sparse AR        0.584   1.66    3.27   3.66   5.39    9.13   2.40  
-    ##  5 dss      Semi-local lin… -3.03   -2.05   -1.11  -0.898  0.0469  2.31   1.46  
-    ##  6 dss      Sparse AR        0.909   2.97    4.96   7.62   7.62   39.5   10.1   
-    ##  7 logs     Semi-local lin… -0.449   0.0193  0.315  0.481  0.745   1.91   0.671 
-    ##  8 logs     Sparse AR        1.52    2.45    3.37   5.85   4.34   26.9   14.6   
-    ##  9 sharpne… Semi-local lin…  0.152   0.300   0.456  0.662  0.733   2.44   0.574 
-    ## 10 sharpne… Sparse AR        0       1.29    1.89   2.09   2.79    4.46   1.13
+    ##    score    model               bottom   lower median   mean upper    top     sd
+    ##    <chr>    <chr>                <dbl>   <dbl>  <dbl>  <dbl> <dbl>  <dbl>  <dbl>
+    ##  1 bias     Semi-local linea…  0.100    0.3     0.5    0.454 0.6    0.7    0.172
+    ##  2 bias     Sparse AR          0        0       0.100  0.117 0.200  0.415  0.131
+    ##  3 crps     Semi-local linea…  0.0474   0.0918  0.138  0.219 0.226  1.02   0.227
+    ##  4 crps     Sparse AR          0.407    1.29    2.53   3.45  5.43   9.64   2.71 
+    ##  5 dss      Semi-local linea… -3.16    -1.95   -1.34  -0.883 0.148  2.57   1.62 
+    ##  6 dss      Sparse AR          0.352    2.68    4.01   9.41  6.67  57.8   16.7  
+    ##  7 logs     Semi-local linea… -0.812   -0.0322  0.357  0.428 0.823  2.36   0.757
+    ##  8 logs     Sparse AR          1.25     2.36    2.89  13.9   3.72  82.9   60.7  
+    ##  9 sharpne… Semi-local linea…  0.130    0.247   0.416  0.670 0.747  3.84   0.848
+    ## 10 sharpne… Sparse AR          0.00897  1.30    2.24   2.45  3.24   5.89   1.55
 
 ### Evaluate across regions and models
 
@@ -215,10 +215,10 @@ summarise_scores(evaluations$scores, "region", sel_scores = "crps")
     ## # A tibble: 4 x 10
     ##   region   score model              bottom  lower median  mean upper   top    sd
     ##   <chr>    <chr> <chr>               <dbl>  <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl>
-    ## 1 Region 1 crps  Semi-local linear… 0.0519 0.0941  0.150 0.265 0.252 1.25  0.317
-    ## 2 Region 1 crps  Sparse AR          0.410  1.31    3.30  3.47  5.05  7.96  2.37 
-    ## 3 Region 2 crps  Semi-local linear… 0.0468 0.0925  0.133 0.197 0.231 0.711 0.177
-    ## 4 Region 2 crps  Sparse AR          0.461  1.29    2.96  3.47  4.87  9.15  2.58
+    ## 1 Region 1 crps  Semi-local linear… 0.0394 0.0877  0.140 0.193 0.257 0.584 0.152
+    ## 2 Region 1 crps  Sparse AR          0.458  1.52    2.86  3.42  5.28  7.70  2.27 
+    ## 3 Region 2 crps  Semi-local linear… 0.0494 0.100   0.154 0.285 0.333 1.16  0.308
+    ## 4 Region 2 crps  Sparse AR          0.403  1.33    3.19  3.68  5.61  9.04  2.54
 
   - Summarise logs by horizon
 
@@ -229,22 +229,22 @@ summarise_scores(evaluations$scores, "horizon", sel_scores = "logs")
 ```
 
     ## # A tibble: 14 x 10
-    ##    horizon score model     bottom   lower  median     mean  upper    top      sd
-    ##      <int> <chr> <chr>      <dbl>   <dbl>   <dbl>    <dbl>  <dbl>  <dbl>   <dbl>
-    ##  1       1 logs  Semi-loc… -0.862 -0.349  -0.123   -0.0766 0.0695   1.17   0.519
-    ##  2       1 logs  Sparse AR  1.11   1.32    1.62     1.75   1.94     2.80   0.528
-    ##  3       2 logs  Semi-loc… -0.517 -0.153   0.0935   0.212  0.431    1.58   0.547
-    ##  4       2 logs  Sparse AR  1.49   2.05    2.34     3.91   2.74    14.5    7.83 
-    ##  5       3 logs  Semi-loc… -0.738 -0.110   0.176    0.253  0.475    1.92   0.663
-    ##  6       3 logs  Sparse AR  1.97   2.33    3.06     4.22   3.63    18.2    4.23 
-    ##  7       4 logs  Semi-loc… -0.388  0.0524  0.499    0.502  0.738    2.24   0.694
-    ##  8       4 logs  Sparse AR  2.35   2.82    3.28     6.14   4.13    25.3    8.19 
-    ##  9       5 logs  Semi-loc… -0.352  0.314   0.585    0.655  0.860    2.18   0.664
-    ## 10       5 logs  Sparse AR  2.83   3.09    3.42    17.9    6.21   139.    49.9  
-    ## 11       6 logs  Semi-loc… -0.310  0.185   0.632    0.751  0.992    2.37   0.744
-    ## 12       6 logs  Sparse AR  3.00   3.42    3.71    11.3    5.30    63.2   18.9  
-    ## 13       7 logs  Semi-loc…  0.113  0.519   0.852    0.946  1.20     2.38   0.674
-    ## 14       7 logs  Sparse AR  3.20   3.68    4.01   Inf      7.11   Inf    Inf
+    ##    horizon score model           bottom  lower median    mean  upper   top    sd
+    ##      <int> <chr> <chr>            <dbl>  <dbl>  <dbl>   <dbl>  <dbl> <dbl> <dbl>
+    ##  1       1 logs  Semi-local li… -0.872  -0.359 -0.170 -0.0890 0.0974  1.19 0.484
+    ##  2       1 logs  Sparse AR       0.815   1.41   1.69   1.79   2.06    3.06 0.591
+    ##  3       2 logs  Semi-local li… -0.974  -0.241  0.127  0.163  0.403   1.34 0.623
+    ##  4       2 logs  Sparse AR       1.71    2.09   2.27   2.46   2.54    4.85 0.899
+    ##  5       3 logs  Semi-local li… -0.817  -0.100  0.329  0.392  0.809   1.57 0.668
+    ##  6       3 logs  Sparse AR       2.22    2.59   2.83   3.58   3.48    8.35 1.97 
+    ##  7       4 logs  Semi-local li… -0.447   0.193  0.497  0.638  1.20    1.75 0.677
+    ##  8       4 logs  Sparse AR       2.57    2.83   3.26   4.32   3.62   13.7  3.22 
+    ##  9       5 logs  Semi-local li… -0.0621  0.240  0.558  0.803  1.30    2.06 0.681
+    ## 10       5 logs  Sparse AR       2.86    3.33   3.81   6.33   4.36   26.4  8.03 
+    ## 11       6 logs  Semi-local li… -0.328   0.342  0.593  0.857  1.31    2.29 0.778
+    ## 12       6 logs  Sparse AR       3.19    3.69   3.99   6.53   5.39   19.9  5.41 
+    ## 13       7 logs  Semi-local li…  0.122   0.510  1.24   1.14   1.62    2.58 0.753
+    ## 14       7 logs  Sparse AR       3.30    3.86   4.86   6.39   6.82   19.7  4.73
 
 ## Docker
 
