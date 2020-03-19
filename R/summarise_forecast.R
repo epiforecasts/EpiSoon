@@ -30,7 +30,7 @@ summarise_forecast <- function(fit_samples) {
       top = quantile(rt, 0.975, na.rm = TRUE),
       sd = sd(rt, na.rm = TRUE)
     ) %>%
-    ungroup()
+    dplyr::ungroup()
 
   return(summarised_fit)
 }

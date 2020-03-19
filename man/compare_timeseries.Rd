@@ -50,7 +50,10 @@ models <- list("Sparse AR" = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 7
 
 
 ## Compare models
-evaluations <- compare_timeseries(timeseries, models, horizon = 7, samples = 10)
+evaluations <- compare_timeseries(timeseries, models,
+                                  horizon = 7, samples = 10)
+
+evaluations
 
 ## Example evaluation plot for comparing forecasts
 ## with actuals for a range of models and timeseries.
