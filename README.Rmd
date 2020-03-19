@@ -16,6 +16,138 @@ Install the analysis and all dependencies with:
 remotes::install_github("epiforecasts/EpiSoon", dependencies = TRUE)
 ```
 
+
+## Quick start
+
+
+* Load the package (`bsts` for models, `ggplot2` for plotting, and `cowplot` for theming)
+
+```{r, message = FALSE}
+library(EpiSoon)
+library(bsts)
+library(cowplot)
+```
+
+
+* Define example observations.
+
+```{r}
+observations <- data.frame(rt = 1:20,
+                           date = as.Date("2020-01-01")
+                            + lubridate::days(1:20))
+```
+
+* Forecast a timeseries using a semi-local trend model and  summarise it.
+
+```{r}
+samples <- fit_model(observations[1:10, ],
+                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                      horizon = 7, samples = 10)
+
+ ## Summarise forecast
+ summarised_forecast <- summarise_forecast(samples)
+ 
+ summarised_forecast
+```
+
+* Score the forecast
+
+```{r}
+scores <- score_model(samples, observations)
+
+summarise_scores(scores)
+```
+
+* Plot the forecast
+
+```{r}
+ ## Plot forecast
+ plot_forecast(summarised_forecast, observations)
+```
+
+
+* Iteratively fit the forecast and plot this to visualise the forecast quality
+
+```{r} 
+forecast_eval <- evaluate_model(observations,
+                                 model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                                horizon = 7, samples = 10)
+
+forecasts <- forecast_eval$forecasts
+
+ ## Plot forecast
+ plot_forecast_evaluation(forecasts, observations, horizon_to_plot = c(1, 3, 7)) +
+   ggplot2::facet_wrap(~ horizon, ncol = 1) +
+   cowplot::panel_border()
+```
+
+## Evaluate across models
+
+* Define a list of models.
+
+```{r} 
+## List of forecasting bsts models wrapped in functions.
+models <- list("Sparse AR" = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 7)},
+                "Semi-local linear trend" = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
+```
+
+* Compare across models.
+
+```{r}
+evaluations <- compare_models(observations, models, horizon = 7, samples = 10)
+```
+
+* Plot evaluation of models over a set of time horizons.
+
+```{r}
+plot_forecast_evaluation(evaluations$forecast, observations, c(1, 3, 7)) +
+   ggplot2::facet_grid(model ~ horizon) +
+   cowplot::panel_border()
+```
+
+* Score across models
+
+```{r}
+summarise_scores(evaluations$scores)
+```
+
+
+### Evaluate across regions and models
+
+* Define a list of timeseries 
+
+```{r} 
+timeseries <- list(observations, observations)
+names(timeseries) <- c("Region 1", "Region 2")
+```
+* Compare across regions and models
+
+```{r} 
+evaluations <- compare_timeseries(timeseries, models,
+                                   horizon = 7, samples = 10)
+```
+
+
+* Plot comparison
+
+```{r}
+plot_forecast_evaluation(evaluations$forecast, observations, c(7)) +
+   ggplot2::facet_grid(model ~ region) +
+   cowplot::panel_border()
+```
+
+* Summarise CRPS by region
+
+```{r}
+summarise_scores(evaluations$scores, "region", sel_scores = "crps")
+```
+
+* Summarise logs by horizon
+
+```{r}
+summarise_scores(evaluations$scores, "horizon", sel_scores = "logs")
+```
+
 ## Docker
 
 This package was developed in a docker container based on the `rocker/geospatial` docker image. 

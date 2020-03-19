@@ -3,6 +3,7 @@
 #' @param scores A dataframe of model scores as produced by `score_model`
 #' @param variables A character vector of variables names to group over. By default score type
 #' and model is grouped over if present.
+#' @param sel_scores A character vector indicating which scores to return information on. Defaults to all scores
 #' @return A dataframe of summarised scores in a tidy format.
 #' @export
 #' @importFrom tidyr gather
@@ -36,11 +37,11 @@
 #'
 #'
 #' ## Also summarise across time horizon
-#' summarise_scores(scores, "horizon")
+#' summarise_scores(scores, "horizon", sel_scores = "crps")
 #'
 #' ## Instead summarise across region
-#' summarise_scores(scores, "region")
-summarise_scores <- function(scores, variables = NULL) {
+#' summarise_scores(scores, "region", sel_scores = "logs")
+summarise_scores <- function(scores, variables = NULL, sel_scores = NULL) {
 
 
   default_groups <- "score"
@@ -50,7 +51,16 @@ summarise_scores <- function(scores, variables = NULL) {
   }
 
   summarised_scores <- scores %>%
-    tidyr::gather(key = "score", value = "value", dss, crps, logs, bias, sharpness) %>%
+    tidyr::gather(key = "score", value = "value", dss, crps, logs, bias, sharpness)
+
+
+  if (!is.null(sel_scores)) {
+    summarised_scores <- summarised_scores %>%
+      dplyr::filter(score %in% sel_scores)
+
+  }
+
+  summarised_scores <- summarised_scores %>%
     dplyr::group_by(.dots = c(variables, default_groups)) %>%
     dplyr::summarise(
       bottom = quantile(value, 0.025, na.rm = TRUE),
