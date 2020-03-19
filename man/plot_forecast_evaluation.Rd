@@ -36,11 +36,11 @@ observations <- data.frame(rt = 1:20,
 
 ## Evaluate a model
 forecast_eval <- evaluate_model(observations,
-                                model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 7)},
+                                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
                                horizon = 7, samples = 10)
 
 forecasts <- forecast_eval$forecasts
 
 ## Plot forecast
-plot_forecast_evaluation(forecasts, observations, horizon_to_plot = 1)
+plot_forecast_evaluation(forecasts, observations, horizon_to_plot = 7)
 }
