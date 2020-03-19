@@ -37,7 +37,7 @@ observations <- data.frame(rt = 1:20,
 ## Evaluate a model
 forecast_eval <- evaluate_model(observations,
                                 model = bsts::AddAutoAr,
-                               horizon = 7, samples = 100)
+                               horizon = 7, samples = 10)
 
 forecasts <- forecast_eval$forecasts
 
