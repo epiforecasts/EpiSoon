@@ -9,7 +9,7 @@
 #' @return
 #' @export
 #' @importFrom dplyr slice group_split filter
-#' @importFrom purrr map_dfr
+#' @importFrom purrr map_dfr map2 map2_dfr
 #' @examples
 #' ## Observed data
 #' observations <- data.frame(rt = 1:20,
@@ -39,7 +39,7 @@ evaluate_model <- function(observations = NULL,
                            bound_rt = TRUE) {
 
 
-  if (!is.null(observations$sample)) {
+  if (!is.null(suppressWarnings(observations$sample))) {
     observations <- observations %>%
       dplyr::group_split(sample)
   }else{
