@@ -85,7 +85,7 @@ predict_cases <- function(cases = NULL,
   if (nrow(rts) > 1) {
     for(i in 2:nrow(rts)) {
       ## Previous cases
-      previous_cases <- predictions$case[1:(i -1)]
+      previous_cases <- predictions$cases[1:(i -1)]
       ## Update infectiousness
       predictions[i, ]$infectiousness <- predictions[i, ]$infectiousness +
         sum(previous_cases * draw_from_si_prob(length(previous_cases):1, serial_interval))
