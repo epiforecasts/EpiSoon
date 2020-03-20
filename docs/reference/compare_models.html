@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiSoon</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -83,6 +83,9 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -122,7 +125,9 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>observations</th>
-      <td><p>A dataframe of observations against which to score. Should contain a <code>date</code> and <code>rt</code> column.</p></td>
+      <td><p>A dataframe of observations to forecast with and score
+against. Should contain a <code>date</code> and <code>rt</code> column. If multiple samples are included this
+should be denoted using a numeric <code>sample</code> variable.</p></td>
     </tr>
     <tr>
       <th>models</th>
@@ -170,7 +175,7 @@ equal to 0.</p></td>
 <span class='co'>## with actuals for a range of models and time horizons.</span>
 <span class='fu'><a href='plot_forecast_evaluation.html'>plot_forecast_evaluation</a></span>(<span class='no'>evaluations</span>$<span class='no'>forecast</span>, <span class='no'>observations</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>7</span>)) +
   <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span>(<span class='no'>model</span> ~ <span class='no'>horizon</span>) +
-  <span class='kw pkg'>cowplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/cowplot/man/panel_border.html'>panel_border</a></span>()</div><div class='output co'>#&gt; <span class='error'>Error in ggplot2::geom_line(data = observations, ggplot2::aes(y = rt),     size = 1.1): object 'observations' not found</span></div><div class='input'>
+  <span class='kw pkg'>cowplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/cowplot/man/panel_border.html'>panel_border</a></span>()</div><div class='img'><img src='compare_models-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
