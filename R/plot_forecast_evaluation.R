@@ -2,7 +2,7 @@
 
 #' Plot a Forecast
 #'
-#' @param forecast A dataframe as produced by `fit_model`.
+#' @param forecast A dataframe as produced by `forecast_rt`.
 #' @param observations A dataframe of observations containing the following variables:
 #' `rt` and `date`.
 #' @param horizon_cutoff Numeric, defaults to NULL. Forecast horizon to plot up to.

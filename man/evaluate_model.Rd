@@ -41,4 +41,16 @@ observations <- data.frame(rt = 1:20,
 evaluate_model(observations,
                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
                horizon = 7, samples = 10)
+
+
+## Samples of observed data
+sampled_obs <- observations \%>\%
+   dplyr::mutate(sample = 1) \%>\%
+   dplyr::bind_rows(observations \%>\%
+       dplyr::mutate(sample = 2))
+
+## Evaluate a model across samples
+evaluate_model(sampled_obs,
+               model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+               horizon = 7, samples = 10)
 }

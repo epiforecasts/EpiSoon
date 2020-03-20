@@ -1,4 +1,4 @@
-#' Fit and Sample From a BSTS Model
+#' Fit and Forecast using a BSTS Model
 #'
 #' @param rts A dataframe of containing two variables `rt` and  `date` with
 #' `rt` being numeric and `date` being a date.
@@ -22,9 +22,9 @@
 #'                  date = as.Date("2020-01-01") + lubridate::days(1:10))
 #'
 #'
-#' fit_model(rts, model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+#' forecast_rt(rts, model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)},
 #'           horizon = 7, samples = 10)
-fit_model <- function(rts, model = model,
+forecast_rt <- function(rts, model = model,
                       horizon = 7, samples = 1000,
                       bound_rt = TRUE) {
 

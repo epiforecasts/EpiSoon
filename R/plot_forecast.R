@@ -20,7 +20,7 @@
 #'                            date = as.Date("2020-01-01") + lubridate::days(1:20))
 #'
 #' ## Fit a model
-#' samples <- fit_model(observations[1:10, ],
+#' samples <- forecast_rt(observations[1:10, ],
 #'                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
 #'                      horizon = 7, samples = 10)
 #'

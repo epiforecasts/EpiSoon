@@ -16,17 +16,12 @@ predict_cases(
 \arguments{
 \item{cases}{A dataframe containing \code{date} and \code{cases} variables}
 
-\item{rts}{A dataframe of containing two variables \code{rt} and  \code{date} with
-\code{rt} being numeric and \code{date} being a date.}
-
 \item{serial_interval}{A numeric vector describing the probability distribution the serial interval.
 See \code{EpiNow::covid_serial_interval} for an example of the format.}
 
 \item{forecast_date}{A character string date (format "yyyy-mm-dd") indicating
 the forecast date. Defaults to \code{NULL} in which case it will be assumed that the
 forecast date is the last data present in the \code{cases} dataframe}
-
-\item{horizon}{Numeric, the time horizon over which to predict}
 
 \item{rdist}{A function to be used to sample the number of cases. Must take two
 arguments with the first specfying the number of samples and the second the mean. Defaults

@@ -40,7 +40,7 @@ observations <- data.frame(rt = 1:20,
 * Forecast a timeseries using a semi-local trend model and  summarise it.
 
 ```{r}
-samples <- fit_model(observations[1:10, ],
+samples <- forecast_rt(observations[1:10, ],
                       model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
                       horizon = 7, samples = 10)
 
@@ -53,7 +53,7 @@ samples <- fit_model(observations[1:10, ],
 * Score the forecast
 
 ```{r}
-scores <- score_model(samples, observations)
+scores <- score_forecast(samples, observations)
 
 summarise_scores(scores)
 ```

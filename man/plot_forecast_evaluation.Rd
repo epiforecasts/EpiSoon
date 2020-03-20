@@ -6,15 +6,15 @@
 \usage{
 plot_forecast_evaluation(
   forecasts = NULL,
-  observation = NULL,
+  observations = NULL,
   horizon_to_plot = 1
 )
 }
 \arguments{
-\item{observation}{A dataframe of observations containing the following variables:
+\item{observations}{A dataframe of observations containing the following variables:
 \code{rt} and \code{date}.}
 
-\item{forecast}{A dataframe as produced by \code{fit_model}.}
+\item{forecast}{A dataframe as produced by \code{forecast_rt}.}
 
 \item{horizon_cutoff}{Numeric, defaults to NULL. Forecast horizon to plot up to.}
 
