@@ -30,7 +30,7 @@
 #' ## Plot forecast
 #' plot_forecast(summarised_forecast, observations)
 plot_forecast <- function(forecast = NULL,
-                          observation = NULL,
+                          observations = NULL,
                           horizon_cutoff = NULL,
                           obs_cutoff_at_forecast = TRUE) {
 
