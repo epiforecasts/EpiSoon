@@ -12,7 +12,6 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.0.2
 Imports: 
-    EpiNow,
     scoringutils,
     bsts,
     purrr,
@@ -25,5 +24,4 @@ Imports:
     ggplot2,
     cowplot
 Remotes:
-  epiforecasts/EpiNow,
   epiforecasts/scoringutils
