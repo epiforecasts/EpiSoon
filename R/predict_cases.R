@@ -13,6 +13,7 @@
 #' @export
 #' @importFrom lubridate days
 #' @importFrom dplyr filter mutate select
+#' @importFrom purrr map_dbl
 #' @examples
 #'
 #' ## Observed cases
@@ -72,15 +73,15 @@ predict_cases <- function(cases = NULL,
   rts <- rts %>%
     dplyr::filter(date > forecast_date)
 
-
-  ## Calculate infectiousness from onserved data
-  case_inf <- sum(cases$cases * draw_from_si_prob(nrow(cases):1, serial_interval))
-
   ## Initialise predictions for first time point.
   predictions <- rts %>%
     dplyr::mutate(
-      infectiousness = case_inf,
-      cases = rdist(1, rt * infectiousness))
+      index = 1:dplyr::n(),
+      ## Calculate infectiousness from onserved data
+      infectiousness = purrr::map_dbl(index,
+                                 ~ sum(cases$cases * draw_from_si_prob((nrow(cases) + . - 1):.,
+                                                           serial_interval))),
+      cases = rdist(1, rt[1] * infectiousness[1]))
 
   if (nrow(rts) > 1) {
     for(i in 2:nrow(rts)) {
