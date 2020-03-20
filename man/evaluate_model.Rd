@@ -13,7 +13,9 @@ evaluate_model(
 )
 }
 \arguments{
-\item{observations}{A dataframe of observations against which to score. Should contain a \code{date} and \code{rt} column.}
+\item{observations}{A dataframe of observations to forecast with and score
+against. Should contain a \code{date} and \code{rt} column. If multiple samples are included this
+should be denoted using a numeric \code{sample} variable.}
 
 \item{model}{An uninitialised \code{bsts} model}
 

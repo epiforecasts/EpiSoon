@@ -13,7 +13,9 @@ compare_models(
 )
 }
 \arguments{
-\item{observations}{A dataframe of observations against which to score. Should contain a \code{date} and \code{rt} column.}
+\item{observations}{A dataframe of observations to forecast with and score
+against. Should contain a \code{date} and \code{rt} column. If multiple samples are included this
+should be denoted using a numeric \code{sample} variable.}
 
 \item{models}{A list of \code{bsts} models. An example configuration is given in the
 examples. Each \code{bsts} model needs to be wrapped in a function that takes a \code{ss} and \code{y}

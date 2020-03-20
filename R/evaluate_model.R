@@ -1,7 +1,9 @@
 
 #' Evaluate a Model for Forecasting Rts
 #'
-#'
+#' @param observations A dataframe of observations to forecast with and score
+#' against. Should contain a `date` and `rt` column. If multiple samples are included this
+#' should be denoted using a numeric `sample` variable.
 #' @inheritParams score_forecast
 #' @inheritParams iterative_rt_forecast
 #' @return
