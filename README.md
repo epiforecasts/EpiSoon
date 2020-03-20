@@ -27,6 +27,7 @@ remotes::install_github("epiforecasts/EpiSoon", dependencies = TRUE)
 library(EpiSoon)
 library(bsts)
 library(cowplot)
+library(dplyr)
 ```
 
   - Define example observations.
@@ -45,7 +46,7 @@ observations <- data.frame(rt = 1:20,
 <!-- end list -->
 
 ``` r
-samples <- fit_model(observations[1:10, ],
+samples <- forecast_rt(observations[1:10, ],
                       model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
                       horizon = 7, samples = 10)
 
@@ -53,37 +54,35 @@ samples <- fit_model(observations[1:10, ],
  summarised_forecast <- summarise_forecast(samples)
  
  summarised_forecast
+#> # A tibble: 7 x 9
+#>   date       horizon bottom lower median  mean upper   top    sd
+#>   <date>       <int>  <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1 2020-01-12       1   10.8  10.9   11.0  11.0  11.1  11.2 0.146
+#> 2 2020-01-13       2   11.7  12.0   12.1  12.1  12.2  12.4 0.212
+#> 3 2020-01-14       3   12.3  12.5   12.8  12.8  13.1  13.6 0.451
+#> 4 2020-01-15       4   13.2  13.6   13.8  13.9  14.1  14.9 0.541
+#> 5 2020-01-16       5   14.6  14.7   14.9  15.0  15.2  16.2 0.567
+#> 6 2020-01-17       6   15.4  15.6   15.9  16.1  16.3  17.5 0.696
+#> 7 2020-01-18       7   16.4  16.8   17.1  17.2  17.3  18.4 0.640
 ```
-
-    ## # A tibble: 7 x 9
-    ##   date       horizon bottom lower median  mean upper   top    sd
-    ##   <date>       <int>  <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl>
-    ## 1 2020-01-12       1   10.4  11.0   11.2  11.1  11.3  11.7 0.373
-    ## 2 2020-01-13       2   11.0  11.6   11.8  12.0  12.6  13.3 0.782
-    ## 3 2020-01-14       3   11.5  12.1   13.0  13.0  13.9  14.9 1.22 
-    ## 4 2020-01-15       4   11.7  12.8   13.6  13.8  15.0  16.1 1.56 
-    ## 5 2020-01-16       5   12.2  13.5   14.6  14.7  16.2  17.5 1.91 
-    ## 6 2020-01-17       6   12.2  13.7   15.4  15.4  16.8  19.2 2.41 
-    ## 7 2020-01-18       7   13.3  15.2   16.3  16.4  17.1  20.5 2.36
 
   - Score the forecast
 
 <!-- end list -->
 
 ``` r
-scores <- score_model(samples, observations)
+scores <- score_forecast(samples, observations)
 
 summarise_scores(scores)
+#> # A tibble: 5 x 8
+#>   score      bottom   lower median    mean  upper    top     sd
+#>   <chr>       <dbl>   <dbl>  <dbl>   <dbl>  <dbl>  <dbl>  <dbl>
+#> 1 bias       0.4     0.4     0.4    0.486   0.6    0.6   0.107 
+#> 2 crps       0.0387  0.0836  0.116  0.106   0.136  0.146 0.0427
+#> 3 dss       -3.82   -2.33   -1.31  -1.84   -1.08  -0.837 1.20  
+#> 4 logs      -0.803  -0.172   0.216  0.0241  0.345  0.443 0.502 
+#> 5 sharpness  0.151   0.310   0.428  0.388   0.468  0.577 0.160
 ```
-
-    ## # A tibble: 5 x 8
-    ##   score      bottom  lower median  mean upper   top    sd
-    ##   <chr>       <dbl>  <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl>
-    ## 1 bias       0.4     0.4    0.4   0.457 0.45  0.67  0.113
-    ## 2 crps       0.125   0.268  0.440 0.412 0.567 0.656 0.206
-    ## 3 dss       -1.75   -0.154  0.811 0.452 1.45  1.71  1.34 
-    ## 4 logs       0.0927  1.12   1.65  1.36  1.82  2.01  0.728
-    ## 5 sharpness  0.269   1.07   1.60  1.53  2.07  2.56  0.854
 
   - Plot the forecast
 
@@ -94,7 +93,7 @@ summarise_scores(scores)
  plot_forecast(summarised_forecast, observations)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](man/figures/unnamed-chunk-7-1.png)<!-- -->
 
   - Iteratively fit the forecast and plot this to visualise the forecast
     quality
@@ -114,7 +113,7 @@ forecasts <- forecast_eval$forecasts
    cowplot::panel_border()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](man/figures/unnamed-chunk-8-1.png)<!-- -->
 
 ## Evaluate across models
 
@@ -148,7 +147,7 @@ plot_forecast_evaluation(evaluations$forecast, observations, c(1, 3, 7)) +
    cowplot::panel_border()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](man/figures/unnamed-chunk-11-1.png)<!-- -->
 
   - Score across models
 
@@ -156,31 +155,36 @@ plot_forecast_evaluation(evaluations$forecast, observations, c(1, 3, 7)) +
 
 ``` r
 summarise_scores(evaluations$scores)
+#> # A tibble: 10 x 9
+#>    score    model            bottom   lower median    mean  upper    top      sd
+#>    <chr>    <chr>             <dbl>   <dbl>  <dbl>   <dbl>  <dbl>  <dbl>   <dbl>
+#>  1 bias     Semi-local lin…  0.200   0.4     0.5     0.512  0.6    0.9     0.194
+#>  2 bias     Sparse AR        0       0       0.150   0.147  0.200  0.358   0.125
+#>  3 crps     Semi-local lin…  0.0485  0.0869  0.138   0.182  0.216  0.673   0.165
+#>  4 crps     Sparse AR        0.428   1.28    2.74    3.31   4.99   8.39    2.41 
+#>  5 dss      Semi-local lin… -3.45   -2.25   -1.42   -1.29  -0.504  2.08    1.35 
+#>  6 dss      Sparse AR        0.599   2.65    4.05    9.77   6.24  41.8    24.7  
+#>  7 logs     Semi-local lin… -0.722  -0.115   0.265   0.307  0.646  1.94    0.659
+#>  8 logs     Sparse AR        1.10    2.25    2.98  Inf      3.67  24.5   Inf    
+#>  9 sharpne… Semi-local lin…  0.130   0.243   0.359   0.476  0.521  1.73    0.438
+#> 10 sharpne… Sparse AR        0       1.61    2.53    2.86   4.20   6.63    1.81
 ```
-
-    ## # A tibble: 10 x 9
-    ##    score    model               bottom   lower median   mean upper    top     sd
-    ##    <chr>    <chr>                <dbl>   <dbl>  <dbl>  <dbl> <dbl>  <dbl>  <dbl>
-    ##  1 bias     Semi-local linea…  0.100    0.3     0.5    0.454 0.6    0.7    0.172
-    ##  2 bias     Sparse AR          0        0       0.100  0.117 0.200  0.415  0.131
-    ##  3 crps     Semi-local linea…  0.0474   0.0918  0.138  0.219 0.226  1.02   0.227
-    ##  4 crps     Sparse AR          0.407    1.29    2.53   3.45  5.43   9.64   2.71 
-    ##  5 dss      Semi-local linea… -3.16    -1.95   -1.34  -0.883 0.148  2.57   1.62 
-    ##  6 dss      Sparse AR          0.352    2.68    4.01   9.41  6.67  57.8   16.7  
-    ##  7 logs     Semi-local linea… -0.812   -0.0322  0.357  0.428 0.823  2.36   0.757
-    ##  8 logs     Sparse AR          1.25     2.36    2.89  13.9   3.72  82.9   60.7  
-    ##  9 sharpne… Semi-local linea…  0.130    0.247   0.416  0.670 0.747  3.84   0.848
-    ## 10 sharpne… Sparse AR          0.00897  1.30    2.24   2.45  3.24   5.89   1.55
 
 ### Evaluate across regions and models
 
-  - Define a list of timeseries
+  - Define multiple timeseries each with multiple samples
 
 <!-- end list -->
 
 ``` r
-timeseries <- list(observations, observations)
-names(timeseries) <- c("Region 1", "Region 2")
+timeseries <- observations %>% 
+   dplyr::mutate(timeseries = "Region 1", sample = 1) %>% 
+   {dplyr::bind_rows(., dplyr::mutate(., sample = 2))} %>% 
+   dplyr::bind_rows(
+      observations %>% 
+   dplyr::mutate(timeseries = "Region 2", sample = 1) %>% 
+   {dplyr::bind_rows(., dplyr::mutate(., sample = 2))}
+   )
 ```
 
   - Compare across regions and models
@@ -198,27 +202,26 @@ evaluations <- compare_timeseries(timeseries, models,
 
 ``` r
 plot_forecast_evaluation(evaluations$forecast, observations, c(7)) +
-   ggplot2::facet_grid(model ~ region) +
+   ggplot2::facet_grid(model ~ timeseries) +
    cowplot::panel_border()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](man/figures/unnamed-chunk-15-1.png)<!-- -->
 
   - Summarise CRPS by region
 
 <!-- end list -->
 
 ``` r
-summarise_scores(evaluations$scores, "region", sel_scores = "crps")
+summarise_scores(evaluations$scores, "timeseries", sel_scores = "crps")
+#> # A tibble: 4 x 10
+#>   timeseries score model            bottom  lower median  mean upper   top    sd
+#>   <chr>      <chr> <chr>             <dbl>  <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1 Region 1   crps  Semi-local line… 0.0434 0.0963  0.142 0.194 0.233 0.735 0.161
+#> 2 Region 1   crps  Sparse AR        0.448  1.48    3.28  3.63  5.36  8.21  2.39 
+#> 3 Region 2   crps  Semi-local line… 0.0489 0.0902  0.133 0.208 0.229 0.844 0.199
+#> 4 Region 2   crps  Sparse AR        0.339  1.40    2.93  3.29  4.89  8.63  2.28
 ```
-
-    ## # A tibble: 4 x 10
-    ##   region   score model              bottom  lower median  mean upper   top    sd
-    ##   <chr>    <chr> <chr>               <dbl>  <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl>
-    ## 1 Region 1 crps  Semi-local linear… 0.0394 0.0877  0.140 0.193 0.257 0.584 0.152
-    ## 2 Region 1 crps  Sparse AR          0.458  1.52    2.86  3.42  5.28  7.70  2.27 
-    ## 3 Region 2 crps  Semi-local linear… 0.0494 0.100   0.154 0.285 0.333 1.16  0.308
-    ## 4 Region 2 crps  Sparse AR          0.403  1.33    3.19  3.68  5.61  9.04  2.54
 
   - Summarise logs by horizon
 
@@ -226,25 +229,24 @@ summarise_scores(evaluations$scores, "region", sel_scores = "crps")
 
 ``` r
 summarise_scores(evaluations$scores, "horizon", sel_scores = "logs")
+#> # A tibble: 14 x 10
+#>    horizon score model         bottom   lower median    mean upper   top      sd
+#>      <int> <chr> <chr>          <dbl>   <dbl>  <dbl>   <dbl> <dbl> <dbl>   <dbl>
+#>  1       1 logs  Semi-local l… -1.13  -0.518  -0.201  -0.141 0.212  1.00   0.565
+#>  2       1 logs  Sparse AR      0.913  1.43    1.84    1.88  2.31   3.04   0.596
+#>  3       2 logs  Semi-local l… -0.770 -0.277   0.154   0.130 0.410  1.26   0.516
+#>  4       2 logs  Sparse AR      1.59   2.01    2.33    2.58  2.83   5.91   1.07 
+#>  5       3 logs  Semi-local l… -0.715 -0.0797  0.280   0.361 0.718  1.64   0.644
+#>  6       3 logs  Sparse AR      2.03   2.55    2.79    5.38  3.24  14.5   16.4  
+#>  7       4 logs  Semi-local l… -0.668  0.0262  0.404   0.504 0.823  2.02   0.666
+#>  8       4 logs  Sparse AR      2.36   2.97    3.20  Inf     4.07  36.7  Inf    
+#>  9       5 logs  Semi-local l… -0.777  0.272   0.611   0.683 0.952  2.09   0.663
+#> 10       5 logs  Sparse AR      2.73   3.28    3.63    6.74  4.75  17.9   14.8  
+#> 11       6 logs  Semi-local l… -0.676  0.220   0.704   0.726 1.23   2.14   0.766
+#> 12       6 logs  Sparse AR      3.05   3.51    3.92   10.9   5.04  40.5   32.2  
+#> 13       7 logs  Semi-local l… -0.160  0.438   0.786   0.932 1.33   2.30   0.735
+#> 14       7 logs  Sparse AR      3.04   3.74    4.21   10.0   5.20  34.0   26.5
 ```
-
-    ## # A tibble: 14 x 10
-    ##    horizon score model           bottom  lower median    mean  upper   top    sd
-    ##      <int> <chr> <chr>            <dbl>  <dbl>  <dbl>   <dbl>  <dbl> <dbl> <dbl>
-    ##  1       1 logs  Semi-local li… -0.872  -0.359 -0.170 -0.0890 0.0974  1.19 0.484
-    ##  2       1 logs  Sparse AR       0.815   1.41   1.69   1.79   2.06    3.06 0.591
-    ##  3       2 logs  Semi-local li… -0.974  -0.241  0.127  0.163  0.403   1.34 0.623
-    ##  4       2 logs  Sparse AR       1.71    2.09   2.27   2.46   2.54    4.85 0.899
-    ##  5       3 logs  Semi-local li… -0.817  -0.100  0.329  0.392  0.809   1.57 0.668
-    ##  6       3 logs  Sparse AR       2.22    2.59   2.83   3.58   3.48    8.35 1.97 
-    ##  7       4 logs  Semi-local li… -0.447   0.193  0.497  0.638  1.20    1.75 0.677
-    ##  8       4 logs  Sparse AR       2.57    2.83   3.26   4.32   3.62   13.7  3.22 
-    ##  9       5 logs  Semi-local li… -0.0621  0.240  0.558  0.803  1.30    2.06 0.681
-    ## 10       5 logs  Sparse AR       2.86    3.33   3.81   6.33   4.36   26.4  8.03 
-    ## 11       6 logs  Semi-local li… -0.328   0.342  0.593  0.857  1.31    2.29 0.778
-    ## 12       6 logs  Sparse AR       3.19    3.69   3.99   6.53   5.39   19.9  5.41 
-    ## 13       7 logs  Semi-local li…  0.122   0.510  1.24   1.14   1.62    2.58 0.753
-    ## 14       7 logs  Sparse AR       3.30    3.86   4.86   6.39   6.82   19.7  4.73
 
 ## Docker
 

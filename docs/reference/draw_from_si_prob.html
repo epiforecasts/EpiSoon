@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot a Forecast — plot_forecast_evaluation • EpiSoon</title>
+<title>Draw from the Serial Interval Probability Distribution — draw_from_si_prob • EpiSoon</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Plot a Forecast — plot_forecast_evaluation" />
-<meta property="og:description" content="Plot a Forecast" />
+<meta property="og:title" content="Draw from the Serial Interval Probability Distribution — draw_from_si_prob" />
+<meta property="og:description" content="Draw from the Serial Interval Probability Distribution" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,64 +103,46 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot a Forecast</h1>
+    <h1>Draw from the Serial Interval Probability Distribution</h1>
     
-    <div class="hidden name"><code>plot_forecast_evaluation.Rd</code></div>
+    <div class="hidden name"><code>draw_from_si_prob.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot a Forecast</p>
+    <p>Draw from the Serial Interval Probability Distribution</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_forecast_evaluation</span>(
-  <span class='kw'>forecasts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>observations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>horizon_to_plot</span> <span class='kw'>=</span> <span class='fl'>1</span>
-)</pre>
+    <pre class="usage"><span class='fu'>draw_from_si_prob</span>(<span class='kw'>days_ago</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>observations</th>
-      <td><p>A dataframe of observations containing the following variables:
-<code>rt</code> and <code>date</code>.</p></td>
+      <th>days_ago</th>
+      <td><p>Numeric vector of days in the past. Defaults to <code>NULL</code>.</p></td>
     </tr>
     <tr>
-      <th>forecast</th>
-      <td><p>A dataframe as produced by <code>forecast_rt</code>.</p></td>
-    </tr>
-    <tr>
-      <th>horizon_cutoff</th>
-      <td><p>Numeric, defaults to NULL. Forecast horizon to plot up to.</p></td>
-    </tr>
-    <tr>
-      <th>obs_cutoff_at_forecast</th>
-      <td><p>Logical defaults to <code>TRUE</code>. Should observations only be shown
-up to the date of the forecast.</p></td>
+      <th>serial_interval</th>
+      <td><p>A numeric vector describing the probability distribution the serial interval.
+See <code>EpiNow::covid_serial_interval</code> for an example of the format.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>ggplot2</code> object</p>
+    <p>A draw from the probability distribution the serial interval.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
+<span class='co'>## Example serial interval</span>
+<span class='no'>mu_log</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>mean_si</span>) - <span class='fl'>1</span>/<span class='fl'>2</span> * <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>((<span class='no'>sd_si</span> / <span class='no'>mean_si</span>)^<span class='fl'>2</span> + <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'mean_si' not found</span></div><div class='input'><span class='no'>sd_log</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>((<span class='no'>sd_si</span>/<span class='no'>mean_si</span>)^<span class='fl'>2</span> + <span class='fl'>1</span>))</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'sd_si' not found</span></div><div class='input'>
 
-<span class='no'>observations</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>rt</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>20</span>,
-                           <span class='kw'>date</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>"2020-01-01"</span>)
-                                  + <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/period.html'>days</a></span>(<span class='fl'>1</span>:<span class='fl'>20</span>))
-
-<span class='co'>## Evaluate a model</span>
-<span class='no'>forecast_eval</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='evaluate_model.html'>evaluate_model</a></span>(<span class='no'>observations</span>,
-                                <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)},
-                               <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)
-
-<span class='no'>forecasts</span> <span class='kw'>&lt;-</span> <span class='no'>forecast_eval</span>$<span class='no'>forecasts</span>
-
-<span class='co'>## Plot forecast</span>
-<span class='fu'>plot_forecast_evaluation</span>(<span class='no'>forecasts</span>, <span class='no'>observations</span>, <span class='kw'>horizon_to_plot</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='img'><img src='plot_forecast_evaluation-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='no'>serial_interval</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Lognormal.html'>rlnorm</a></span>(<span class='fl'>1</span>:<span class='fl'>100</span>, <span class='no'>mu_log</span>, <span class='no'>sd_log</span>) <span class='kw'>%&gt;%</span>
+   <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='fl'>0</span>) <span class='kw'>%&gt;%</span>
+   <span class='no'>table</span> <span class='kw'>%&gt;%</span>
+   {<span class='no'>.</span> / <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>.</span>)}</div><div class='output co'>#&gt; <span class='error'>Error in rlnorm(1:100, mu_log, sd_log): object 'mu_log' not found</span></div><div class='input'>
+<span class='co'>## Draw</span>
+<span class='fu'>draw_from_si_prob</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>4</span>, <span class='fl'>6</span>), <span class='no'>serial_interval</span>)</div><div class='output co'>#&gt; <span class='error'>Error in .f(.x[[i]], ...): object 'serial_interval' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

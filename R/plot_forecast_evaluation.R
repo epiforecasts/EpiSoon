@@ -2,13 +2,10 @@
 
 #' Plot a Forecast
 #'
-#' @param forecast A dataframe as produced by `fit_model`.
-#' @param observations A dataframe of observations containing the following variables:
-#' `rt` and `date`.
-#' @param horizon_cutoff Numeric, defaults to NULL. Forecast horizon to plot up to.
-#' @param obs_cutoff_at_forecast Logical defaults to `TRUE`. Should observations only be shown
-#' up to the date of the forecast.
+#' @param forecasts A dataframe as produced by `forecast_rt`
+#' @param horizon_to_plot Numeric vector, the forecast horizon to plot.
 #'
+#' @inheritParams plot_forecast
 #' @importFrom dplyr filter
 #' @importFrom ggplot2 ggplot aes geom_line geom_ribbon scale_x_date labs
 #' @importFrom cowplot theme_cowplot

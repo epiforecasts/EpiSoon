@@ -6,7 +6,7 @@
 \usage{
 plot_forecast(
   forecast = NULL,
-  observation = NULL,
+  observations = NULL,
   horizon_cutoff = NULL,
   obs_cutoff_at_forecast = TRUE
 )
@@ -14,7 +14,7 @@ plot_forecast(
 \arguments{
 \item{forecast}{A dataframe as produced by \code{fit_model}.}
 
-\item{observation}{A dataframe of observations containing the following variables:
+\item{observations}{A dataframe of observations containing the following variables:
 \code{rt} and \code{date}.}
 
 \item{horizon_cutoff}{Numeric, defaults to NULL. Forecast horizon to plot up to.}
@@ -35,7 +35,7 @@ observations <- data.frame(rt = 1:20,
                            date = as.Date("2020-01-01") + lubridate::days(1:20))
 
 ## Fit a model
-samples <- fit_model(observations[1:10, ],
+samples <- forecast_rt(observations[1:10, ],
                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
                      horizon = 7, samples = 10)
 

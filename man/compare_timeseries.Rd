@@ -5,7 +5,7 @@
 \title{Compare timeseries and forecast models}
 \usage{
 compare_timeseries(
-  timeseries = NULL,
+  observations = NULL,
   models = NULL,
   horizon = 7,
   samples = 1000,
@@ -13,7 +13,9 @@ compare_timeseries(
 )
 }
 \arguments{
-\item{timeseries}{A list of named timeseries with each one having a \code{rt} vector and a \code{date} vector.}
+\item{observations}{A dataframe of observations including a \code{timeseries} variable to denote
+each timeseris and a  \code{rt} vector (to forecast) and a \code{date} vector (to denote time). Optionally this dataframe can
+contain samples for each timeseries in which case this should be denoted using a \code{sample} variable.}
 
 \item{models}{A list of \code{bsts} models. An example configuration is given in the
 examples. Each \code{bsts} model needs to be wrapped in a function that takes a \code{ss} and \code{y}
@@ -40,17 +42,21 @@ observations <- data.frame(rt = 1:20,
                             date = as.Date("2020-01-01")
                            + lubridate::days(1:20))
 
-timeseries <- list(observations, observations)
-names(timeseries) <- c("Region 1", "Region 2")
+observations <- observations \%>\%
+    dplyr::mutate(timeseries = "Region 1") \%>\%
+    dplyr::bind_rows(observations \%>\%
+    dplyr::mutate(timeseries = "Region 2"))
 
 ## List of forecasting bsts models wrapped in functions.
-models <- list("Sparse AR" = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 7)},
-               "Semi-local linear trend" = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
+models <- list("Sparse AR" =
+                    function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 7)},
+               "Semi-local linear trend" =
+                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
 
 
 
 ## Compare models
-evaluations <- compare_timeseries(timeseries, models,
+evaluations <- compare_timeseries(observations, models,
                                   horizon = 7, samples = 10)
 
 evaluations
@@ -58,7 +64,7 @@ evaluations
 ## Example evaluation plot for comparing forecasts
 ## with actuals for a range of models and timeseries.
 plot_forecast_evaluation(evaluations$forecast, observations, c(7)) +
-  ggplot2::facet_grid(model ~ region) +
+  ggplot2::facet_grid(model ~ timeseries) +
   cowplot::panel_border()
 
 }

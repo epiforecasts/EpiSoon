@@ -19,6 +19,9 @@ A draw from the probability distribution the serial interval.
 Draw from the Serial Interval Probability Distribution
 }
 \examples{
+## Example serial interval
+mean_si <- 4.7
+sd_si <- 2.9
 
 ## Example serial interval
 mu_log <- log(mean_si) - 1/2 * log((sd_si / mean_si)^2 + 1)

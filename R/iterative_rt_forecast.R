@@ -1,9 +1,9 @@
-#' Iteratively fit a BSTS model to each timepoint
+#' Iteratively forecast using a BSTS model
 #'
 #'
 #' @return
 #' @export
-#' @inheritParams fit_model
+#' @inheritParams forecast_rt
 #'
 #' @importFrom purrr map_dfr safely
 #' @importFrom dplyr filter
@@ -13,15 +13,15 @@
 #'                  date = as.Date("2020-01-01") + lubridate::days(1:10))
 #'
 #'
-#' iterative_model_fit(rts, model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+#' iterative_rt_forecast(rts, model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
 #'                     horizon = 7, samples = 10)
-iterative_model_fit <- function(rts,
+iterative_rt_forecast <- function(rts,
                           model = NULL,
                           horizon = 7,
                           samples = 1000,
                           bound_rt = TRUE) {
 
-  safe_fit <- purrr::safely(fit_model)
+  safe_fit <- purrr::safely(forecast_rt)
 
   ## Dates to iterate over - remove first two to allow enough data for modelling
   dates <- rts$date[-c(1:2)]
