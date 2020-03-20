@@ -23,8 +23,10 @@
 #'     dplyr::mutate(timeseries = "Region 2"))
 #'
 #' ## List of forecasting bsts models wrapped in functions.
-#' models <- list("Sparse AR" = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 7)},
-#'                "Semi-local linear trend" = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
+#' models <- list("Sparse AR" =
+#'                     function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 7)},
+#'                "Semi-local linear trend" =
+#'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
 #'
 #'
 #'

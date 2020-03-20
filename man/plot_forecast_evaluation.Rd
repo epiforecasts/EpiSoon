@@ -11,15 +11,12 @@ plot_forecast_evaluation(
 )
 }
 \arguments{
+\item{forecasts}{A dataframe as produced by \code{forecast_rt}}
+
 \item{observations}{A dataframe of observations containing the following variables:
 \code{rt} and \code{date}.}
 
-\item{forecast}{A dataframe as produced by \code{forecast_rt}.}
-
-\item{horizon_cutoff}{Numeric, defaults to NULL. Forecast horizon to plot up to.}
-
-\item{obs_cutoff_at_forecast}{Logical defaults to \code{TRUE}. Should observations only be shown
-up to the date of the forecast.}
+\item{horizon_to_plot}{Numeric vector, the forecast horizon to plot.}
 }
 \value{
 A \code{ggplot2} object

@@ -7,7 +7,7 @@
 #' @param rdist A function to be used to sample the number of cases. Must take two
 #' arguments with the first specfying the number of samples and the second the mean. Defaults
 #' to `rpois` if not supplied
-#' @inheritParams fit_model
+#' @inheritParams forecast_rt
 #' @inheritParams draw_from_si_prob
 #' @return The infectiousness at the current time
 #' @export
