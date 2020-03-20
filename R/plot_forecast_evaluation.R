@@ -32,7 +32,7 @@
 #' ## Plot forecast
 #' plot_forecast_evaluation(forecasts, observations, horizon_to_plot = 7)
 plot_forecast_evaluation <- function(forecasts = NULL,
-                                     observation = NULL,
+                                     observations = NULL,
                                      horizon_to_plot = 1) {
 
 
@@ -40,7 +40,7 @@ plot_forecast_evaluation <- function(forecasts = NULL,
     dplyr::filter(horizon == horizon_to_plot)
 
   plot <- plot_forecast(forecasts,
-                observation,
+                observations,
                 obs_cutoff_at_forecast = FALSE)
 
   return(plot)
