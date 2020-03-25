@@ -19,20 +19,22 @@ iterative_rt_forecast <- function(rts,
                           model = NULL,
                           horizon = 7,
                           samples = 1000,
+                          timeout = 30,
                           bound_rt = TRUE) {
 
   safe_fit <- purrr::safely(forecast_rt)
 
-  ## Dates to iterate over - remove first two to allow enough data for modelling
-  dates <- rts$date[-c(1:2)]
-  names(dates) <- rts$date[-c(1:2)]
+  ## Dates to iterate over - remove first three to allow enough data for modelling
+  dates <- rts$date[-c(1:3)]
+  names(dates) <- rts$date[-c(1:3)]
 
   ## Iteratively fit
   samples <- purrr::map_dfr(dates, ~ safe_fit(dplyr::filter(rts, date <= .),
                                                      model = model,
                                                      samples = samples,
                                                      horizon = horizon,
-                                                     bound_rt = bound_rt)[[1]],
+                                                     bound_rt = bound_rt,
+                                                     timeout = timeout)[[1]],
                         .id = "forecast_date")
 
 
