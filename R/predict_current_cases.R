@@ -24,20 +24,8 @@
 #'                                by = "days"),
 #'                    rt = rep(1.2, 10))
 #'
-#' ## Example serial interval
-#' mean_si <- 4.7
-#' sd_si <- 2.9
 #'
-#' mu_log <- log(mean_si) - 1/2 * log((sd_si / mean_si)^2 + 1)
-#' sd_log <- sqrt(log((sd_si/mean_si)^2 + 1))
-#'
-#'
-#' serial_interval <- rlnorm(1:100, mu_log, sd_log) %>%
-#'    round(0) %>%
-#'    table %>%
-#'    {. / sum(.)}
-#'
-#' predict_current_cases(cases, rts, serial_interval)
+#' predict_current_cases(cases, rts, EpiSoon::example_serial_interval)
 predict_current_cases <- function(
   cases = NULL,
   rts = NULL,

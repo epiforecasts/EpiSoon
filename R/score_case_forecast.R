@@ -25,20 +25,8 @@
 #' samples <- forecast_rt(observations[1:10, ],
 #'                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
 #'                      horizon = 7, samples = 10)
-#' ## Example serial interval
-#' mean_si <- 4.7
-#' sd_si <- 2.9
 #'
-#' mu_log <- log(mean_si) - 1/2 * log((sd_si / mean_si)^2 + 1)
-#' sd_log <- sqrt(log((sd_si/mean_si)^2 + 1))
-#'
-#'
-#' serial_interval <- rlnorm(1:100, mu_log, sd_log) %>%
-#'    round(0) %>%
-#'    table %>%
-#'    {. / sum(.)}
-#'
-#' pred_cases <- forecast_cases(cases[1:10, ], samples, serial_interval)
+#' pred_cases <- forecast_cases(cases[1:10, ], samples, EpiSoon::example_serial_interval)
 #'
 #' ## Score the model fit (with observations during the time horizon of the forecast)
 #' score_case_forecast(pred_cases, cases)

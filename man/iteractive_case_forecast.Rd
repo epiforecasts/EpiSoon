@@ -41,19 +41,7 @@ it_forecast <-
   iterative_rt_forecast(rts, model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
                         horizon = 7, samples = 10)
 
-#' ## Example serial interval
-mean_si <- 4.7
-sd_si <- 2.9
-
-mu_log <- log(mean_si) - 1/2 * log((sd_si / mean_si)^2 + 1)
-sd_log <- sqrt(log((sd_si/mean_si)^2 + 1))
-
-
-serial_interval <- rlnorm(1:100, mu_log, sd_log) \%>\%
-   round(0) \%>\%
-   table \%>\%
-   {. / sum(.)}
 
 iteractive_case_forecast(it_fit_samples = it_forecast, cases = cases,
-                         serial_interval = serial_interval)
+                         serial_interval = EpiSoon::example_serial_interval)
 }

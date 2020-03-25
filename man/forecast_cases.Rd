@@ -16,7 +16,7 @@ forecast_cases(
 \arguments{
 \item{cases}{A dataframe containing \code{date} and \code{cases} variables}
 
-\item{fit_samples}{A dataframe as produced by \code{EpiSoon::fit_model}.}
+\item{fit_samples}{A dataframe as produced by \code{EpiSoon::forecast}.}
 
 \item{serial_interval}{A numeric vector describing the probability distribution the serial interval.
 See \code{EpiNow::covid_serial_interval} for an example of the format.}
@@ -58,18 +58,6 @@ forecast <- forecast_rt(rts,
                         },
                         horizon = 7, samples = 10)
 
-## Example serial interval
-mean_si <- 4.7
-sd_si <- 2.9
 
-mu_log <- log(mean_si) - 1/2 * log((sd_si / mean_si)^2 + 1)
-sd_log <- sqrt(log((sd_si/mean_si)^2 + 1))
-
-
-serial_interval <- rlnorm(1:100, mu_log, sd_log) \%>\%
-   round(0) \%>\%
-   table \%>\%
-   {. / sum(.)}
-
-forecast_cases(cases, forecast, serial_interval)
+forecast_cases(cases, forecast, EpiSoon::example_serial_interval)
 }

@@ -1,9 +1,10 @@
 
 #' Evaluate a Model for Forecasting Rts
 #'
-#' @param observations A dataframe of observations to forecast with and score
+#' @param obs_rts dataframe of observations to forecast with and score
 #' against. Should contain a `date` and `rt` column. If multiple samples are included this
 #' should be denoted using a numeric `sample` variable.
+#' @param obs_cases
 #' @inheritParams score_forecast
 #' @inheritParams iterative_rt_forecast
 #' @return
@@ -12,47 +13,73 @@
 #' @importFrom purrr map_dfr map2 map2_dfr
 #' @examples
 #' ## Observed data
-#' observations <- data.frame(rt = 1:20,
+#' obs_rts <- data.frame(rt = 1:20,
 #'                            date = as.Date("2020-01-01")
 #'                                   + lubridate::days(1:20))
 #'
+#'
+#' ## Observed case data
+#' obs_cases <- data.frame(cases = 1:20,
+#'                    date = as.Date("2020-01-01") + lubridate::days(1:20))
+#'
 #' ## Evaluate a model
-#' evaluate_model(observations,
+#' evaluate_model(obs_rts,
+#'                cases_obs,
 #'                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
 #'                horizon = 7, samples = 10)
 #'
 #'
 #' ## Samples of observed data
-#' sampled_obs <- observations %>%
+#' sampled_obs <- obs_rts %>%
 #'    dplyr::mutate(sample = 1) %>%
-#'    dplyr::bind_rows(observations %>%
-#'        dplyr::mutate(sample = 2))
+#'    dplyr::bind_rows(obs_rts %>%
+#'    dplyr::mutate(sample = 2))
+#'
+#' sampled_cases <- obs_cases %>%
+#'    dplyr::mutate(sample = 1) %>%
+#'    dplyr::bind_rows(obs_cases %>%
+#'    dplyr::mutate(sample = 2))
+#'
 #'
 #' ## Evaluate a model across samples
 #' evaluate_model(sampled_obs,
 #'                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
-#'                horizon = 7, samples = 10)
-evaluate_model <- function(observations = NULL,
+#'                horizon = 7, samples = 10,
+#'                 serial_interval = EpiSoon::example_serial_interval)
+evaluate_model <- function(obs_rts = NULL,
+                           obs_cases = NULL,
                            model = NULL,
                            horizon = 7,
                            samples = 1000,
                            timeout = 30,
-                           bound_rt = TRUE) {
+                           bound_rt = TRUE,
+                           serial_interval = NULL,
+                           rdist = NULL) {
 
 
-  ## Split observations into a list if present
-  if (!is.null(suppressWarnings(observations$sample))) {
-    observations <- observations %>%
+  ## Split obs_rt into a list if present
+  if (!is.null(suppressWarnings(obs_rts$sample))) {
+    obs_rts <- obs_rts %>%
       dplyr::group_split(sample)
   }else{
-    observations <- list(observations)
+    obs_rts <- list(obs_rts)
   }
 
+  if (!is.null(suppressWarnings(obs_cases$sample))) {
+    obs_cases <- obs_cases %>%
+      dplyr::group_split(sample)
+  }else{
+    obs_cases <- list(obs_cases)
+  }
+
+  if (length(obs_cases) != length(obs_rts)) {
+    stop("Must have the same number of Rt and case samples.")
+  }
 
   ## Iteratively forecast for each time point
   safe_it <- purrr::safely(iterative_rt_forecast)
 
-  samples <- observations %>%
+  samples <- obs_rts %>%
     purrr::map_dfr(
       ~ safe_it(., model = model, horizon = horizon,
                            samples = samples, bound_rt = bound_rt,
@@ -67,16 +94,19 @@ evaluate_model <- function(observations = NULL,
     purrr::map_dfr(summarise_forecast, .id = "forecast_date")
 
 
+  ## Raw forecasts
+  raw_samples <- samples
+
   ## Filter the forecasts to be in line with observed data
   samples <- samples %>%
     dplyr::group_split(obs_sample) %>%
     purrr::map(~ dplyr::select(., -obs_sample)) %>%
-    purrr::map2(observations,
+    purrr::map2(obs_rts,
                 ~ dplyr::filter(.x, date <= max(.y$date)))
 
   ## Score the forecasts
   scored_forecasts <-
-    purrr::map2_dfr(samples, observations,
+    purrr::map2_dfr(samples, obs_rts,
                     function(sample, obs) {
                       dplyr::group_split(sample, forecast_date) %>%
                         setNames(unique(sample$forecast_date)) %>%
@@ -89,10 +119,47 @@ evaluate_model <- function(observations = NULL,
       dplyr::select(-sample)
   }
 
+  safe_case <- purrr::safely(iteractive_case_forecast)
+
+  ## Predict cases for each iterative forecast
+  case_predictions <- purrr::map2_dfr(
+    samples, obs_cases,
+    function(sample, case) {
+      safe_case(
+        it_fit_samples = sample, cases = dplyr::select(case, -sample),
+        serial_interval = serial_interval, rdist = rdist
+      )[[1]]
+    }, .id = "obs_sample")
+
+
+  ## Summarise case predictions
+  raw_case_preds <- case_predictions
+
+
+  ## Limit case predictions to observed data
+  case_predictions <- case_predictions %>%
+    dplyr::group_split(obs_sample) %>%
+    purrr::map(~ dplyr::select(., -obs_sample)) %>%
+    purrr::map2(obs_cases,
+                ~ dplyr::filter(.x, date <= max(.y$date)))
+
+  ## Score for each forecast
+  score_cases <-
+    purrr::map2_dfr(case_predictions, obs_cases,
+                    function(sample, obs) {
+                      dplyr::group_split(sample, forecast_date) %>%
+                        setNames(unique(sample$forecast_date)) %>%
+                        purrr::map_dfr(~ dplyr::select(., -forecast_date) %>%
+                                         score_case_forecast(obs), .id = "forecast_date")
+                    }, .id = "sample")
+
 
   ## Return output
-  out <- list(summarised_forecasts, scored_forecasts)
-  names(out) <- c("forecasts", "scores")
+  out <- list(summarised_forecasts, scored_forecasts,
+              summarised_case_predictions, score_cases,
+              raw_samples, raw_case_preds)
+  names(out) <- c("forecast_rts", "rt_scores", "forecast_cases", "case_scores",
+                  "raw_rt_forecast", "raw_case_forecast")
 
   return(out)
 }

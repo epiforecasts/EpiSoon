@@ -5,16 +5,19 @@
 \title{Evaluate a Model for Forecasting Rts}
 \usage{
 evaluate_model(
-  observations = NULL,
+  obs_rts = NULL,
+  obs_cases = NULL,
   model = NULL,
   horizon = 7,
   samples = 1000,
   timeout = 30,
-  bound_rt = TRUE
+  bound_rt = TRUE,
+  serial_interval = NULL,
+  rdist = NULL
 )
 }
 \arguments{
-\item{observations}{A dataframe of observations to forecast with and score
+\item{obs_rts}{dataframe of observations to forecast with and score
 against. Should contain a \code{date} and \code{rt} column. If multiple samples are included this
 should be denoted using a numeric \code{sample} variable.}
 
@@ -39,24 +42,37 @@ Evaluate a Model for Forecasting Rts
 }
 \examples{
 ## Observed data
-observations <- data.frame(rt = 1:20,
+obs_rts <- data.frame(rt = 1:20,
                            date = as.Date("2020-01-01")
                                   + lubridate::days(1:20))
 
+
+## Observed case data
+obs_cases <- data.frame(cases = 1:20,
+                   date = as.Date("2020-01-01") + lubridate::days(1:20))
+
 ## Evaluate a model
-evaluate_model(observations,
+evaluate_model(obs_rts,
+               cases_obs,
                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
                horizon = 7, samples = 10)
 
 
 ## Samples of observed data
-sampled_obs <- observations \%>\%
+sampled_obs <- obs_rts \%>\%
    dplyr::mutate(sample = 1) \%>\%
-   dplyr::bind_rows(observations \%>\%
-       dplyr::mutate(sample = 2))
+   dplyr::bind_rows(obs_rts \%>\%
+   dplyr::mutate(sample = 2))
+
+sampled_cases <- obs_cases \%>\%
+   dplyr::mutate(sample = 1) \%>\%
+   dplyr::bind_rows(obs_cases \%>\%
+   dplyr::mutate(sample = 2))
+
 
 ## Evaluate a model across samples
 evaluate_model(sampled_obs,
                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
-               horizon = 7, samples = 10)
+               horizon = 7, samples = 10,
+                serial_interval = EpiSoon::example_serial_interval)
 }
