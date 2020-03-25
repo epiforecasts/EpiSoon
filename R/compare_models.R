@@ -7,7 +7,7 @@
 #' @inheritParams evaluate_model
 #' @return A list of dataframes as produced by `evaluate model` but with an additional model column.
 #' @export
-#' @importFrom purrr map transpose
+#' @importFrom purrr map transpose safely
 #' @importFrom dplyr bind_rows
 #' @examples
 #'
@@ -38,15 +38,17 @@
                             bound_rt = TRUE, timeout = 30) {
 
 
+    safe_eval <- purrr::safely(evaluate_model)
+
    ## Evaluate each model (potential to swap in furrr here)
    evaluations <- models %>%
      purrr::map(
-       ~ evaluate_model(observations,
+       ~ safe_eval(observations,
                         model = .,
                         horizon = horizon,
                         samples = samples,
                         bound_rt = bound_rt,
-                        timeout = timeout)
+                        timeout = timeout)[[1]]
     ) %>%
      purrr::transpose() %>%
      purrr::map(~ dplyr::bind_rows(., .id = "model"))

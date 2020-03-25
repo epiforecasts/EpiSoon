@@ -48,11 +48,13 @@ evaluate_model <- function(observations = NULL,
   }
 
 
+  safe_it <- purrr::safely(iterative_rt_forecast)
+
   samples <- observations %>%
     purrr::map_dfr(
-      ~iterative_rt_forecast(., model = model, horizon = horizon,
+      ~ safe_it(., model = model, horizon = horizon,
                            samples = samples, bound_rt = bound_rt,
-                           timeout = timeout),
+                           timeout = timeout)[[1]],
       .id = "obs_sample")
 
 
