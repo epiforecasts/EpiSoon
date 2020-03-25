@@ -40,6 +40,7 @@ evaluate_model <- function(observations = NULL,
                            bound_rt = TRUE) {
 
 
+  ## Split observations into a list if present
   if (!is.null(suppressWarnings(observations$sample))) {
     observations <- observations %>%
       dplyr::group_split(sample)
@@ -48,6 +49,7 @@ evaluate_model <- function(observations = NULL,
   }
 
 
+  ## Iteratively forecast for each time point
   safe_it <- purrr::safely(iterative_rt_forecast)
 
   samples <- observations %>%
@@ -58,18 +60,21 @@ evaluate_model <- function(observations = NULL,
       .id = "obs_sample")
 
 
+  ## Summarise the forecast
   summarised_forecasts <- samples %>%
     dplyr::group_split(forecast_date) %>%
     setNames(unique(samples$forecast_date)) %>%
     purrr::map_dfr(summarise_forecast, .id = "forecast_date")
 
 
+  ## Filter the forecasts to be in line with observed data
   samples <- samples %>%
     dplyr::group_split(obs_sample) %>%
     purrr::map(~ dplyr::select(., -obs_sample)) %>%
     purrr::map2(observations,
                 ~ dplyr::filter(.x, date <= max(.y$date)))
 
+  ## Score the forecasts
   scored_forecasts <-
     purrr::map2_dfr(samples, observations,
                     function(sample, obs) {
@@ -84,6 +89,8 @@ evaluate_model <- function(observations = NULL,
       dplyr::select(-sample)
   }
 
+
+  ## Return output
   out <- list(summarised_forecasts, scored_forecasts)
   names(out) <- c("forecasts", "scores")
 

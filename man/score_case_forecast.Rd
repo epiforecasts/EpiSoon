@@ -6,6 +6,12 @@
 \usage{
 score_case_forecast(pred_cases, obs_cases)
 }
+\arguments{
+\item{pred_cases}{Dataframe of predicted cases with the following variables: \code{sample}, \code{date},
+\code{cases} and forecast horizon. As produced by \code{forecast_cases}.}
+
+\item{obs_cases}{Dataframe of observed cases with the following variables: \code{date} and \code{cases}.}
+}
 \value{
 A dataframe containing the following scores per forecast timepoint: dss, crps,
 logs, bias, and sharpness as well as the forecast date and time horizon.
@@ -17,9 +23,9 @@ Score a case forecast
 
 ## Observed cases
 cases <- data.frame(date = seq(as.Date("2020-01-01"),
-                               as.Date("2020-01-10"),
+                               as.Date("2020-01-20"),
                                by = "days"),
-                    cases = 1:10)
+                    cases = 1:20)
 ## Observed rts
 observations <- data.frame(rt = 1:20,
                            date = as.Date("2020-01-01")
@@ -42,7 +48,7 @@ serial_interval <- rlnorm(1:100, mu_log, sd_log) \%>\%
    table \%>\%
    {. / sum(.)}
 
-pred_cases <- forecast_cases(cases, samples, serial_interval)
+pred_cases <- forecast_cases(cases[1:10, ], samples, serial_interval)
 
 ## Score the model fit (with observations during the time horizon of the forecast)
 score_case_forecast(pred_cases, cases)
