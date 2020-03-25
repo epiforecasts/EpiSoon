@@ -9,7 +9,7 @@
 #' to `rpois` if not supplied
 #' @inheritParams forecast_rt
 #' @inheritParams draw_from_si_prob
-#' @return Forecast cases for over a future forecast horizon.
+#' @return Forecast cases for over a future forecast horizon
 #' @export
 #' @importFrom lubridate days
 #' @importFrom dplyr filter mutate select
@@ -24,9 +24,16 @@
 #'
 #' ## Forecast Rts
 #' rts <- data.frame(date = seq(as.Date("2020-01-01"),
-#'                                as.Date("2020-01-20"),
+#'                                as.Date("2020-01-10"),
 #'                                by = "days"),
-#'                    rt = rep(1.2, 20))
+#'                    rt = rnorm(10, 1.2, 0.01))
+#'
+#'
+#' forecast <- forecast_rt(rts,
+#'                         model = function(ss, y) {
+#'                         bsts::AddAutoAr(ss, y = y, lags = 7)
+#'                         },
+#'                         horizon = 7, samples = 1)
 #'
 #' ## Example serial interval
 #' mean_si <- 4.7
@@ -41,7 +48,7 @@
 #'    table %>%
 #'    {. / sum(.)}
 #'
-#' predict_cases(cases, rts, serial_interval)
+#' predict_cases(cases, forecast, serial_interval)
 predict_cases <- function(cases = NULL,
                           rts = NULL,
                           serial_interval = NULL,
