@@ -2,23 +2,25 @@
 % Please edit documentation in R/score_case_forecast.R
 \name{score_case_forecast}
 \alias{score_case_forecast}
-\title{Score a Model Fit}
+\title{Score a case forecast}
 \usage{
 score_case_forecast(pred_cases, obs_cases)
-}
-\arguments{
-\item{observations}{A dataframe of observations against which to score. Should contain a \code{date} and \code{rt} column.}
 }
 \value{
 A dataframe containing the following scores per forecast timepoint: dss, crps,
 logs, bias, and sharpness as well as the forecast date and time horizon.
 }
 \description{
-Score a Model Fit
+Score a case forecast
 }
 \examples{
 
-## Observed data
+## Observed cases
+cases <- data.frame(date = seq(as.Date("2020-01-01"),
+                               as.Date("2020-01-10"),
+                               by = "days"),
+                    cases = 1:10)
+## Observed rts
 observations <- data.frame(rt = 1:20,
                            date = as.Date("2020-01-01")
                                   + lubridate::days(1:20))
@@ -27,8 +29,21 @@ observations <- data.frame(rt = 1:20,
 samples <- forecast_rt(observations[1:10, ],
                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
                      horizon = 7, samples = 10)
-pred_cases <- predict_cases()
+## Example serial interval
+mean_si <- 4.7
+sd_si <- 2.9
+
+mu_log <- log(mean_si) - 1/2 * log((sd_si / mean_si)^2 + 1)
+sd_log <- sqrt(log((sd_si/mean_si)^2 + 1))
+
+
+serial_interval <- rlnorm(1:100, mu_log, sd_log) \%>\%
+   round(0) \%>\%
+   table \%>\%
+   {. / sum(.)}
+
+pred_cases <- forecast_cases(cases, samples, serial_interval)
 
 ## Score the model fit (with observations during the time horizon of the forecast)
-score_forecast(samples, observations)
+score_case_forecast(pred_cases, cases)
 }

@@ -9,6 +9,7 @@ evaluate_model(
   model = NULL,
   horizon = 7,
   samples = 1000,
+  timeout = 30,
   bound_rt = TRUE
 )
 }
@@ -23,6 +24,9 @@ should be denoted using a numeric \code{sample} variable.}
 
 \item{samples}{Numeric, the number of samples to from the posterior of the model
 fit. Note that twice this number of MCMC steps will be taken with half used as burn in.}
+
+\item{timeout}{Numeric, the number of seconds to allow before terminating model fitting. Defaults to
+30 seconds.}
 
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}

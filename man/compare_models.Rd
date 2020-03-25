@@ -9,7 +9,8 @@ compare_models(
   models = NULL,
   horizon = 7,
   samples = 1000,
-  bound_rt = TRUE
+  bound_rt = TRUE,
+  timeout = 30
 )
 }
 \arguments{
@@ -28,6 +29,9 @@ fit. Note that twice this number of MCMC steps will be taken with half used as b
 
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}
+
+\item{timeout}{Numeric, the number of seconds to allow before terminating model fitting. Defaults to
+30 seconds.}
 }
 \value{
 A list of dataframes as produced by \verb{evaluate model} but with an additional model column.

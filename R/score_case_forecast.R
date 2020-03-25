@@ -1,21 +1,22 @@
 
-#' Score a Model Fit
+#' Score a case forecast
 #'
-#' @param observations A dataframe of observations against which to score. Should contain a `date` and `rt` column.
-#'
+#' @param pred_cases Dataframe of predicted cases with the following variables: `sample`, `date`,
+#' `cases` and forecast horizon. As produced by `forecast_cases`.
+#' @param obs_cases Dataframe of observed cases with the following variables: `date` and `cases`.
 #' @return A dataframe containing the following scores per forecast timepoint: dss, crps,
 #' logs, bias, and sharpness as well as the forecast date and time horizon.
 #' @export
 #'
-#' @importFrom dplyr filter select
-#' @importFrom tidyr spread
-#' @importFrom tibble tibble
-#' @importFrom scoringRules dss_sample crps_sample logs_sample
-#' @importFrom scoringutils bias sharpness
-#' @inheritParams summarise_forecast
+#' @importFrom dplyr rename
 #' @examples
 #'
-#' ## Observed data
+#' ## Observed cases
+#' cases <- data.frame(date = seq(as.Date("2020-01-01"),
+#'                                as.Date("2020-01-20"),
+#'                                by = "days"),
+#'                     cases = 1:20)
+#' ## Observed rts
 #' observations <- data.frame(rt = 1:20,
 #'                            date = as.Date("2020-01-01")
 #'                                   + lubridate::days(1:20))
@@ -24,10 +25,23 @@
 #' samples <- forecast_rt(observations[1:10, ],
 #'                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
 #'                      horizon = 7, samples = 10)
-#' pred_cases <- predict_cases()
+#' ## Example serial interval
+#' mean_si <- 4.7
+#' sd_si <- 2.9
+#'
+#' mu_log <- log(mean_si) - 1/2 * log((sd_si / mean_si)^2 + 1)
+#' sd_log <- sqrt(log((sd_si/mean_si)^2 + 1))
+#'
+#'
+#' serial_interval <- rlnorm(1:100, mu_log, sd_log) %>%
+#'    round(0) %>%
+#'    table %>%
+#'    {. / sum(.)}
+#'
+#' pred_cases <- forecast_cases(cases[1:10, ], samples, serial_interval)
 #'
 #' ## Score the model fit (with observations during the time horizon of the forecast)
-#' score_forecast(samples, observations)
+#' score_case_forecast(pred_cases, cases)
 score_case_forecast <- function(pred_cases, obs_cases) {
   pred_cases <- pred_cases %>%
     dplyr::rename(rt = cases)

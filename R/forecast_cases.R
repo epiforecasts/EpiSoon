@@ -57,13 +57,14 @@ forecast_cases <- function(cases = NULL, fit_samples = NULL,
   predictions <- fit_samples %>%
     dplyr::group_split(sample) %>%
     purrr::map_dfr(~ predict_cases(
-      cases = cases,
-      rts = .,
-      serial_interval = serial_interval,
-      forecast_date = forecast_date,
-      horizon = horizon,
-      rdist = rdist), .id = "sample") %>%
-    mutate(sample = as.numeric(sample))
+          cases = cases,
+          rts = .,
+          serial_interval = serial_interval,
+          forecast_date = forecast_date,
+          horizon = horizon,
+          rdist = rdist) %>%
+       dplyr::mutate(horizon = 1:dplyr::n()), .id = "sample") %>%
+    dplyr::mutate(sample = as.numeric(sample))
 
 
   return(predictions)
