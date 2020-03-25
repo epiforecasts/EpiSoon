@@ -12,10 +12,11 @@
 #' 30 seconds.
 #' @return A dataframe of samples containing the following variables:
 #'  `sample`, `date`, `rt`, and `horizon`.
-#' @importFrom bsts bsts predict.bsts BstsOptions
+#' @importFrom bsts bsts predict.bsts
 #' @importFrom lubridate days
 #' @importFrom dplyr mutate n group_by ungroup
 #' @importFrom tidyr gather
+#' @importFrom R.utils withTimeout
 #' @export
 #'
 #' @examples
@@ -36,13 +37,13 @@ forecast_rt <- function(rts, model = model,
   model <- model(list(), y)
 
   ## Fit the model
-  fitted_model <- bsts::bsts(y,
-                             state.specification = model,
-                             niter = ifelse(samples < 100, 100 + samples, samples * 2),
-                             ping = 0,
-                             model.options = bsts::BstsOptions(
-                               timeout.seconds = timeout
-                             ))
+  fitted_model <- R.utils::withTimeout(
+    bsts::bsts(y,
+               state.specification = model,
+               niter = ifelse(samples < 100, 100 + samples, samples * 2),
+               ping = 0),
+    timeout = timeout, onTimeout = "error"
+  )
 
 
   ## Predict using the model

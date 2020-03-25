@@ -24,6 +24,7 @@ Imports:
     lubridate,
     ggplot2,
     cowplot,
-    HDInterval
+    HDInterval,
+    R.utils
 Remotes:
   epiforecasts/scoringutils

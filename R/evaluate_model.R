@@ -1,12 +1,15 @@
 
 #' Evaluate a Model for Forecasting Rts
 #'
-#' @param obs_rts dataframe of observations to forecast with and score
+#' @param obs_rts Dataframe of Rt observations to forecast with and score
 #' against. Should contain a `date` and `rt` column. If multiple samples are included this
 #' should be denoted using a numeric `sample` variable.
-#' @param obs_cases
+#' @param obs_cases Dataframe of case observations to use for case prediction and
+#' scoring. Should contain a `date` and `cases` column. If multiple samples are included this
+#' should be denoted using a numeric `sample` variable.
 #' @inheritParams score_forecast
 #' @inheritParams iterative_rt_forecast
+#' @inheritParams iterative_case_forecast
 #' @return
 #' @export
 #' @importFrom dplyr slice group_split filter
@@ -24,9 +27,10 @@
 #'
 #' ## Evaluate a model
 #' evaluate_model(obs_rts,
-#'                cases_obs,
+#'                obs_cases,
 #'                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
-#'                horizon = 7, samples = 10)
+#'                horizon = 7, samples = 10,
+#'                serial_interval = example_serial_interval)
 #'
 #'
 #' ## Samples of observed data
@@ -43,6 +47,7 @@
 #'
 #' ## Evaluate a model across samples
 #' evaluate_model(sampled_obs,
+#'                sampled_cases,
 #'                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
 #'                horizon = 7, samples = 10,
 #'                 serial_interval = EpiSoon::example_serial_interval)
@@ -57,6 +62,7 @@ evaluate_model <- function(obs_rts = NULL,
                            rdist = NULL) {
 
 
+
   ## Split obs_rt into a list if present
   if (!is.null(suppressWarnings(obs_rts$sample))) {
     obs_rts <- obs_rts %>%
@@ -67,7 +73,8 @@ evaluate_model <- function(obs_rts = NULL,
 
   if (!is.null(suppressWarnings(obs_cases$sample))) {
     obs_cases <- obs_cases %>%
-      dplyr::group_split(sample)
+      dplyr::group_split(sample) %>%
+      purrr::map(~ select(., -sample))
   }else{
     obs_cases <- list(obs_cases)
   }
@@ -126,11 +133,15 @@ evaluate_model <- function(obs_rts = NULL,
     samples, obs_cases,
     function(sample, case) {
       safe_case(
-        it_fit_samples = sample, cases = dplyr::select(case, -sample),
+        it_fit_samples = sample, cases = case,
         serial_interval = serial_interval, rdist = rdist
       )[[1]]
     }, .id = "obs_sample")
 
+  summarised_case_forecasts <- case_predictions %>%
+    dplyr::group_split(forecast_date) %>%
+    setNames(unique(case_predictions$forecast_date)) %>%
+    purrr::map_dfr(summarise_case_forecast, .id = "forecast_date")
 
   ## Summarise case predictions
   raw_case_preds <- case_predictions
@@ -156,7 +167,7 @@ evaluate_model <- function(obs_rts = NULL,
 
   ## Return output
   out <- list(summarised_forecasts, scored_forecasts,
-              summarised_case_predictions, score_cases,
+              summarised_case_forecasts, score_cases,
               raw_samples, raw_case_preds)
   names(out) <- c("forecast_rts", "rt_scores", "forecast_cases", "case_scores",
                   "raw_rt_forecast", "raw_case_forecast")

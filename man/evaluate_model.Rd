@@ -17,8 +17,12 @@ evaluate_model(
 )
 }
 \arguments{
-\item{obs_rts}{dataframe of observations to forecast with and score
+\item{obs_rts}{Dataframe of Rt observations to forecast with and score
 against. Should contain a \code{date} and \code{rt} column. If multiple samples are included this
+should be denoted using a numeric \code{sample} variable.}
+
+\item{obs_cases}{Dataframe of case observations to use for case prediction and
+scoring. Should contain a \code{date} and \code{cases} column. If multiple samples are included this
 should be denoted using a numeric \code{sample} variable.}
 
 \item{model}{An uninitialised \code{bsts} model}
@@ -53,9 +57,10 @@ obs_cases <- data.frame(cases = 1:20,
 
 ## Evaluate a model
 evaluate_model(obs_rts,
-               cases_obs,
+               obs_cases,
                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
-               horizon = 7, samples = 10)
+               horizon = 7, samples = 10,
+               serial_interval = example_serial_interval)
 
 
 ## Samples of observed data
@@ -72,6 +77,7 @@ sampled_cases <- obs_cases \%>\%
 
 ## Evaluate a model across samples
 evaluate_model(sampled_obs,
+               sampled_cases,
                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
                horizon = 7, samples = 10,
                 serial_interval = EpiSoon::example_serial_interval)

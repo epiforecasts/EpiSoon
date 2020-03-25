@@ -5,15 +5,26 @@
 \title{Compare forecasting models}
 \usage{
 compare_models(
-  observations = NULL,
+  obs_rts = NULL,
+  obs_cases = NULL,
   models = NULL,
   horizon = 7,
   samples = 1000,
   bound_rt = TRUE,
-  timeout = 30
+  timeout = 30,
+  serial_interval = NULL,
+  rdist = NULL
 )
 }
 \arguments{
+\item{obs_rts}{Dataframe of Rt observations to forecast with and score
+against. Should contain a \code{date} and \code{rt} column. If multiple samples are included this
+should be denoted using a numeric \code{sample} variable.}
+
+\item{obs_cases}{Dataframe of case observations to use for case prediction and
+scoring. Should contain a \code{date} and \code{cases} column. If multiple samples are included this
+should be denoted using a numeric \code{sample} variable.}
+
 \item{models}{A list of \code{bsts} models. An example configuration is given in the
 examples. Each \code{bsts} model needs to be wrapped in a function that takes a \code{ss} and \code{y}
 argument (i.e. \code{function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}}).}
@@ -37,10 +48,15 @@ Compare forecasting models
 }
 \examples{
 
-## Dummy data
-observations <- data.frame(rt = 1:20,
-                            date = as.Date("2020-01-01")
-                           + lubridate::days(1:20))
+## Observed rts
+obs_rts <- data.frame(rt = 1:20,
+                           date = as.Date("2020-01-01")
+                                  + lubridate::days(1:20))
+
+
+## Observed case data
+obs_cases <- data.frame(cases = (1:20),
+                   date = as.Date("2020-01-01") + lubridate::days(1:20))
 
 ## List of forecasting bsts models wrapped in functions.
 models <- list("Sparse AR" =
@@ -51,12 +67,20 @@ models <- list("Sparse AR" =
 
 
 ## Compare models
-evaluations <- compare_models(observations, models, horizon = 7, samples = 10)
+evaluations <- compare_models(obs_rts, obs_cases, models,
+                              horizon = 7, samples = 10,
+                              serial_interval = example_serial_interval)
 
 ## Example evaluation plot for comparing forecasts
 ## with actuals for a range of models and time horizons.
-plot_forecast_evaluation(evaluations$forecast, observations, c(1, 3, 7)) +
+plot_forecast_evaluation(evaluations$forecast_rts, obs_rts, c(1, 3, 7)) +
   ggplot2::facet_grid(model ~ horizon) +
   cowplot::panel_border()
 
+## Hack to plot observed cases vs predicted
+plot_forecast_evaluation(evaluations$forecast_cases,
+                         obs_cases \%>\%
+                         dplyr::rename(rt = cases), c(1, 3, 7)) +
+  ggplot2::facet_wrap(model ~ horizon, scales = "free") +
+  cowplot::panel_border()
 }
