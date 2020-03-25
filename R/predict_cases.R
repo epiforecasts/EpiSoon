@@ -1,4 +1,4 @@
-#' Predict cases for Rt forecasts
+#' Predict cases for a single Rt sample forecasts
 #'
 #' @param cases A dataframe containing `date` and `cases` variables
 #' @param forecast_date A character string date (format "yyyy-mm-dd") indicating

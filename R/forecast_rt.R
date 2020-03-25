@@ -36,13 +36,13 @@ forecast_rt <- function(rts, model = model,
   ## Fit the model
   fitted_model <- bsts::bsts(y,
                              state.specification = model,
-                             niter = samples * 2,
+                             niter = ifelse(samples < 100, 100 + samples, samples * 2),
                              ping=0)
 
 
   ## Predict using the model
   prediction <- bsts::predict.bsts(fitted_model, horizon = horizon,
-                                   burn = samples,
+                                   burn = ifelse(samples < 100, 100, samples),
                                    quantiles = c(.025, .975))
 
   ## Extract samples and tidy format
