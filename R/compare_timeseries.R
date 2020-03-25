@@ -48,7 +48,8 @@ compare_timeseries <- function(observations = NULL,
                                models = NULL,
                                horizon = 7,
                                samples = 1000,
-                               bound_rt = TRUE) {
+                               bound_rt = TRUE,
+                               timeout = 30) {
 
 
   evaluations <- observations %>%
@@ -56,7 +57,7 @@ compare_timeseries <- function(observations = NULL,
     setNames(unique(observations$timeseries)) %>%
     furrr::future_map(~ compare_models(observations = ., models = models,
                                        horizon = horizon , samples = samples,
-                                       bound_rt = bound_rt),
+                                       bound_rt = bound_rt, timeout = timeout),
                        .progress = TRUE) %>%
     purrr::transpose() %>%
     purrr::map(~ dplyr::bind_rows(., .id = "timeseries"))

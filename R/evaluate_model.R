@@ -36,6 +36,7 @@ evaluate_model <- function(observations = NULL,
                            model = NULL,
                            horizon = 7,
                            samples = 1000,
+                           timeout = 30,
                            bound_rt = TRUE) {
 
 
@@ -50,7 +51,8 @@ evaluate_model <- function(observations = NULL,
   samples <- observations %>%
     purrr::map_dfr(
       ~iterative_rt_forecast(., model = model, horizon = horizon,
-                           samples = samples, bound_rt = bound_rt),
+                           samples = samples, bound_rt = bound_rt,
+                           timeout = timeout),
       .id = "obs_sample")
 
 

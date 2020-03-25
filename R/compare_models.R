@@ -35,7 +35,7 @@
 #'
  compare_models <- function(observations = NULL, models = NULL,
                             horizon = 7, samples = 1000,
-                            bound_rt = TRUE) {
+                            bound_rt = TRUE, timeout = 30) {
 
 
    ## Evaluate each model (potential to swap in furrr here)
@@ -45,7 +45,8 @@
                         model = .,
                         horizon = horizon,
                         samples = samples,
-                        bound_rt = bound_rt)
+                        bound_rt = bound_rt,
+                        timeout = timeout)
     ) %>%
      purrr::transpose() %>%
      purrr::map(~ dplyr::bind_rows(., .id = "model"))

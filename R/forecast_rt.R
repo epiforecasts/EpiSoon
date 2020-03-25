@@ -8,9 +8,11 @@
 #' fit. Note that twice this number of MCMC steps will be taken with half used as burn in.
 #' @param bound_rt Logical, defaults to `TRUE`. Should Rt values be bounded to be greater than or
 #' equal to 0.
+#' @param timeout Numeric, the number of seconds to allow before terminating model fitting. Defaults to
+#' 30 seconds.
 #' @return A dataframe of samples containing the following variables:
 #'  `sample`, `date`, `rt`, and `horizon`.
-#' @importFrom bsts bsts predict.bsts
+#' @importFrom bsts bsts predict.bsts BstsOptions
 #' @importFrom lubridate days
 #' @importFrom dplyr mutate n group_by ungroup
 #' @importFrom tidyr gather
@@ -26,7 +28,7 @@
 #'           horizon = 7, samples = 10)
 forecast_rt <- function(rts, model = model,
                       horizon = 7, samples = 1000,
-                      bound_rt = TRUE) {
+                      bound_rt = TRUE, timeout = 30) {
 
   ## Set up for model fitting
   y <- rts$rt
@@ -37,7 +39,10 @@ forecast_rt <- function(rts, model = model,
   fitted_model <- bsts::bsts(y,
                              state.specification = model,
                              niter = ifelse(samples < 100, 100 + samples, samples * 2),
-                             ping=0)
+                             ping = 0,
+                             model.options = bsts::BstsOptions(
+                               timeout.seconds = timeout
+                             ))
 
 
   ## Predict using the model
