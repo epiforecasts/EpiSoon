@@ -5,16 +5,24 @@
 \title{Compare timeseries and forecast models}
 \usage{
 compare_timeseries(
-  observations = NULL,
+  obs_rts = NULL,
+  obs_cases = NULL,
   models = NULL,
   horizon = 7,
   samples = 1000,
-  bound_rt = TRUE
+  bound_rt = TRUE,
+  timeout = 30,
+  serial_interval = NULL,
+  rdist = NULL
 )
 }
 \arguments{
-\item{observations}{A dataframe of observations including a \code{timeseries} variable to denote
+\item{obs_rts}{A dataframe of observed Rts including a \code{timeseries} variable to denote
 each timeseris and a  \code{rt} vector (to forecast) and a \code{date} vector (to denote time). Optionally this dataframe can
+contain samples for each timeseries in which case this should be denoted using a \code{sample} variable.}
+
+\item{obs_cases}{A dataframe of observed cases including a \code{timeseries} variable to denote
+each timeseris and a  \code{cases} vector (to forecast) and a \code{date} vector (to denote time). Optionally this dataframe can
 contain samples for each timeseries in which case this should be denoted using a \code{sample} variable.}
 
 \item{models}{A list of \code{bsts} models. An example configuration is given in the
@@ -28,6 +36,9 @@ fit. Note that twice this number of MCMC steps will be taken with half used as b
 
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}
+
+\item{timeout}{Numeric, the number of seconds to allow before terminating model fitting. Defaults to
+30 seconds.}
 }
 \value{
 A list of dataframes as produced by \verb{evaluate model} but with an additional model column.
@@ -38,13 +49,22 @@ Compare timeseries and forecast models
 \examples{
 
 ## Dummy data
-observations <- data.frame(rt = 1:20,
+obs_rts <- data.frame(rt = 1:20,
                             date = as.Date("2020-01-01")
                            + lubridate::days(1:20))
 
-observations <- observations \%>\%
+obs_rts <- obs_rts \%>\%
     dplyr::mutate(timeseries = "Region 1") \%>\%
-    dplyr::bind_rows(observations \%>\%
+    dplyr::bind_rows(obs_rts \%>\%
+    dplyr::mutate(timeseries = "Region 2"))
+
+obs_cases <- data.frame(cases = 1:20,
+                            date = as.Date("2020-01-01")
+                           + lubridate::days(1:20))
+
+obs_cases <- obs_cases \%>\%
+    dplyr::mutate(timeseries = "Region 1") \%>\%
+    dplyr::bind_rows(obs_cases \%>\%
     dplyr::mutate(timeseries = "Region 2"))
 
 ## List of forecasting bsts models wrapped in functions.
@@ -54,17 +74,23 @@ models <- list("Sparse AR" =
                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
 
 
-
 ## Compare models
-evaluations <- compare_timeseries(observations, models,
-                                  horizon = 7, samples = 10)
+evaluations <- compare_timeseries(obs_rts, obs_cases, models,
+                                  horizon = 7, samples = 10,
+                                  serial_interval = example_serial_interval)
 
 evaluations
 
 ## Example evaluation plot for comparing forecasts
 ## with actuals for a range of models and timeseries.
-plot_forecast_evaluation(evaluations$forecast, observations, c(7)) +
+plot_forecast_evaluation(evaluations$forecast_rts, obs_rts, c(7)) +
   ggplot2::facet_grid(model ~ timeseries) +
   cowplot::panel_border()
 
+## Hack to plot observed cases vs predicted
+plot_forecast_evaluation(evaluations$forecast_cases,
+                         obs_cases \%>\%
+                         dplyr::rename(rt = cases), c(3)) +
+  ggplot2::facet_wrap(model ~ timeseries, scales = "free") +
+  cowplot::panel_border()
 }

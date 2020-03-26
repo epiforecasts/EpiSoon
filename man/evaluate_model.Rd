@@ -5,16 +5,24 @@
 \title{Evaluate a Model for Forecasting Rts}
 \usage{
 evaluate_model(
-  observations = NULL,
+  obs_rts = NULL,
+  obs_cases = NULL,
   model = NULL,
   horizon = 7,
   samples = 1000,
-  bound_rt = TRUE
+  timeout = 30,
+  bound_rt = TRUE,
+  serial_interval = NULL,
+  rdist = NULL
 )
 }
 \arguments{
-\item{observations}{A dataframe of observations to forecast with and score
+\item{obs_rts}{Dataframe of Rt observations to forecast with and score
 against. Should contain a \code{date} and \code{rt} column. If multiple samples are included this
+should be denoted using a numeric \code{sample} variable.}
+
+\item{obs_cases}{Dataframe of case observations to use for case prediction and
+scoring. Should contain a \code{date} and \code{cases} column. If multiple samples are included this
 should be denoted using a numeric \code{sample} variable.}
 
 \item{model}{An uninitialised \code{bsts} model}
@@ -23,6 +31,9 @@ should be denoted using a numeric \code{sample} variable.}
 
 \item{samples}{Numeric, the number of samples to from the posterior of the model
 fit. Note that twice this number of MCMC steps will be taken with half used as burn in.}
+
+\item{timeout}{Numeric, the number of seconds to allow before terminating model fitting. Defaults to
+30 seconds.}
 
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}
@@ -35,24 +46,39 @@ Evaluate a Model for Forecasting Rts
 }
 \examples{
 ## Observed data
-observations <- data.frame(rt = 1:20,
+obs_rts <- data.frame(rt = 1:20,
                            date = as.Date("2020-01-01")
                                   + lubridate::days(1:20))
 
+
+## Observed case data
+obs_cases <- data.frame(cases = 1:20,
+                   date = as.Date("2020-01-01") + lubridate::days(1:20))
+
 ## Evaluate a model
-evaluate_model(observations,
+evaluate_model(obs_rts,
+               obs_cases,
                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
-               horizon = 7, samples = 10)
+               horizon = 7, samples = 10,
+               serial_interval = example_serial_interval)
 
 
 ## Samples of observed data
-sampled_obs <- observations \%>\%
+sampled_obs <- obs_rts \%>\%
    dplyr::mutate(sample = 1) \%>\%
-   dplyr::bind_rows(observations \%>\%
-       dplyr::mutate(sample = 2))
+   dplyr::bind_rows(obs_rts \%>\%
+   dplyr::mutate(sample = 2))
+
+sampled_cases <- obs_cases \%>\%
+   dplyr::mutate(sample = 1) \%>\%
+   dplyr::bind_rows(obs_cases \%>\%
+   dplyr::mutate(sample = 2))
+
 
 ## Evaluate a model across samples
 evaluate_model(sampled_obs,
+               sampled_cases,
                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
-               horizon = 7, samples = 10)
+               horizon = 7, samples = 10,
+                serial_interval = EpiSoon::example_serial_interval)
 }

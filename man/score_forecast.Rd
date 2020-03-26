@@ -7,7 +7,7 @@
 score_forecast(fit_samples, observations)
 }
 \arguments{
-\item{fit_samples}{A dataframe as produced by \code{EpiSoon::fit_model}.}
+\item{fit_samples}{A dataframe as produced by \code{EpiSoon::forecast}.}
 
 \item{observations}{A dataframe of observations against which to score. Should contain a \code{date} and \code{rt} column.}
 }

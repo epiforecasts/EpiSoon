@@ -1,4 +1,4 @@
-#' Calculate Infectiousness
+#' Predict cases for a single Rt sample forecasts
 #'
 #' @param cases A dataframe containing `date` and `cases` variables
 #' @param forecast_date A character string date (format "yyyy-mm-dd") indicating
@@ -9,7 +9,7 @@
 #' to `rpois` if not supplied
 #' @inheritParams forecast_rt
 #' @inheritParams draw_from_si_prob
-#' @return The infectiousness at the current time
+#' @return Forecast cases for over a future forecast horizon
 #' @export
 #' @importFrom lubridate days
 #' @importFrom dplyr filter mutate select
@@ -24,24 +24,19 @@
 #'
 #' ## Forecast Rts
 #' rts <- data.frame(date = seq(as.Date("2020-01-01"),
-#'                                as.Date("2020-01-20"),
+#'                                as.Date("2020-01-10"),
 #'                                by = "days"),
-#'                    rt = rep(1.2, 20))
-#'
-#' ## Example serial interval
-#' mean_si <- 4.7
-#' sd_si <- 2.9
-#'
-#' mu_log <- log(mean_si) - 1/2 * log((sd_si / mean_si)^2 + 1)
-#' sd_log <- sqrt(log((sd_si/mean_si)^2 + 1))
+#'                    rt = rnorm(10, 1.2, 0.01))
 #'
 #'
-#' serial_interval <- rlnorm(1:100, mu_log, sd_log) %>%
-#'    round(0) %>%
-#'    table %>%
-#'    {. / sum(.)}
+#' forecast <- forecast_rt(rts,
+#'                         model = function(ss, y) {
+#'                         bsts::AddAutoAr(ss, y = y, lags = 7)
+#'                         },
+#'                         horizon = 7, samples = 1)
 #'
-#' predict_cases(cases, rts, serial_interval)
+#'
+#' predict_cases(cases, forecast, EpiSoon::example_serial_interval)
 predict_cases <- function(cases = NULL,
                           rts = NULL,
                           serial_interval = NULL,

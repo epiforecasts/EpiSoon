@@ -7,7 +7,7 @@
 summarise_forecast(fit_samples)
 }
 \arguments{
-\item{fit_samples}{A dataframe as produced by \code{EpiSoon::fit_model}.}
+\item{fit_samples}{A dataframe as produced by \code{EpiSoon::forecast}.}
 }
 \value{
 A summarised dataframe.

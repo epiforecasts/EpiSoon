@@ -23,6 +23,8 @@ Imports:
     tibble,
     lubridate,
     ggplot2,
-    cowplot
+    cowplot,
+    HDInterval,
+    R.utils
 Remotes:
   epiforecasts/scoringutils

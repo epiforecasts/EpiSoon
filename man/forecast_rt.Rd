@@ -4,7 +4,14 @@
 \alias{forecast_rt}
 \title{Fit and Forecast using a BSTS Model}
 \usage{
-forecast_rt(rts, model = model, horizon = 7, samples = 1000, bound_rt = TRUE)
+forecast_rt(
+  rts,
+  model = model,
+  horizon = 7,
+  samples = 1000,
+  bound_rt = TRUE,
+  timeout = 30
+)
 }
 \arguments{
 \item{rts}{A dataframe of containing two variables \code{rt} and  \code{date} with
@@ -19,6 +26,9 @@ fit. Note that twice this number of MCMC steps will be taken with half used as b
 
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}
+
+\item{timeout}{Numeric, the number of seconds to allow before terminating model fitting. Defaults to
+30 seconds.}
 }
 \value{
 A dataframe of samples containing the following variables:
