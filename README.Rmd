@@ -133,16 +133,14 @@ summarise_scores(evaluations$rt_scores)
 
 ### Evaluate across regions and models
 
-* Define multiple timeseries each with multiple samples
+* Define multiple timeseries
 
 ```{r} 
 obs_rts_ts <- obs_rts %>% 
-   dplyr::mutate(timeseries = "Region 1", sample = 1) %>% 
-   {dplyr::bind_rows(., dplyr::mutate(., sample = 2))} %>% 
+   dplyr::mutate(timeseries = "Region 1") %>% 
    dplyr::bind_rows(
       obs_rts %>% 
-   dplyr::mutate(timeseries = "Region 2", sample = 1) %>% 
-   {dplyr::bind_rows(., dplyr::mutate(., sample = 2))}
+   dplyr::mutate(timeseries = "Region 2")
    )
 
 obs_cases_ts <- obs_cases %>% 
@@ -151,6 +149,7 @@ obs_cases_ts <- obs_cases %>%
       obs_cases %>% 
    dplyr::mutate(timeseries = "Region 2")
    )
+
 
 
 ```
@@ -169,7 +168,7 @@ evaluations <- compare_timeseries(obs_rts = obs_rts_ts,
 * Plot comparison
 
 ```{r}
-plot_forecast_evaluation(evaluations$forecast, observations, c(7)) +
+plot_forecast_evaluation(evaluations$forecast_rts, obs_rts_ts, c(7)) +
    ggplot2::facet_grid(model ~ timeseries) +
    cowplot::panel_border()
 ```
@@ -177,13 +176,13 @@ plot_forecast_evaluation(evaluations$forecast, observations, c(7)) +
 * Summarise CRPS by region
 
 ```{r}
-summarise_scores(evaluations$scores, "timeseries", sel_scores = "crps")
+summarise_scores(evaluations$rt_scores, "timeseries", sel_scores = "crps")
 ```
 
 * Summarise logs by horizon
 
 ```{r}
-summarise_scores(evaluations$scores, "horizon", sel_scores = "logs")
+summarise_scores(evaluations$rt_scores, "horizon", sel_scores = "logs")
 ```
 
 ## Docker
