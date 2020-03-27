@@ -42,6 +42,9 @@ forecast_cases <- function(cases = NULL, fit_samples = NULL,
                            horizon = NULL, rdist = NULL
                            ){
 
+  if(is.null(serial_interval)) {
+    stop("serial_interval argument missing. For a Covid-19 serial interval, try EpiNow::covid_serial_intervals")
+  }
   predictions <- fit_samples %>%
     dplyr::group_split(sample) %>%
     purrr::map_dfr(~ predict_cases(
