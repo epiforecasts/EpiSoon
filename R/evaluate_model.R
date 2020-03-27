@@ -61,7 +61,9 @@ evaluate_model <- function(obs_rts = NULL,
                            serial_interval = NULL,
                            rdist = NULL) {
 
-
+  if(is.null(serial_interval)) {
+    stop("serial_interval argument missing. For a Covid-19 serial interval, try EpiNow::covid_serial_intervals")
+  }
 
   ## Split obs_rt into a list if present
   if (!is.null(suppressWarnings(obs_rts$sample))) {

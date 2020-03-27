@@ -1,8 +1,11 @@
 #' Plot a Forecast
 #'
-#' @param forecast A dataframe as produced by `fit_model`.
-#' @param observations A dataframe of observations containing the following variables:
-#' `rt` and `date`.
+#' @param forecast A dataframe with summarised forecasts as produced
+#' by `summarise_forecast` or `summarise_case_forecast` .
+#' @param observations A dataframe of observations containing the
+#' following variables:
+#' - either `rt` or `cases`
+#' - and `date`.
 #' @param horizon_cutoff Numeric, defaults to NULL. Forecast horizon to plot up to.
 #' @param obs_cutoff_at_forecast Logical defaults to `TRUE`. Should observations only be shown
 #' up to the date of the forecast.
@@ -45,16 +48,33 @@ plot_forecast <- function(forecast = NULL,
       dplyr::filter(horizon <= horizon_cutoff)
   }
 
+  if ("cases" %in% colnames(observations)) {
+    case_plot <- TRUE
+    observations <- observations %>%
+      dplyr::mutate(y = cases)
+  } else {
+    case_plot <- FALSE
+    observations <- observations %>%
+      dplyr::mutate(y = rt)
+  }
+
+
+
   plot <- ggplot2::ggplot(forecast, ggplot2::aes(x = date)) +
     ggplot2::geom_line(ggplot2::aes(y = bottom), alpha = 0.5) +
     ggplot2::geom_line(ggplot2::aes(y = top), alpha =  0.5) +
     ggplot2::geom_ribbon(ggplot2::aes(ymin = bottom, ymax = top), alpha = 0.1) +
     ggplot2::geom_ribbon(ggplot2::aes(ymin = lower, ymax = upper), alpha = 0.2) +
     ggplot2::geom_line(data = observations,
-                       ggplot2::aes(y = rt), size = 1.1) +
+                       ggplot2::aes(y = y), size = 1.1) +
     cowplot::theme_cowplot() +
-    ggplot2::scale_x_date(date_breaks = "1 week", date_labels = "%b %d") +
-    ggplot2::labs(x = "Date", y = "Effective Reproduction no.")
+    ggplot2::scale_x_date(date_breaks = "1 week", date_labels = "%b %d")
+
+  if (case_plot) {
+    plot <- plot + ggplot2::labs(x = "Date", y = "Cases")
+  } else {
+    plot <- plot + ggplot2::labs(x = "Date", y = "Effective Reproduction no.")
+  }
 
   return(plot)
   }
