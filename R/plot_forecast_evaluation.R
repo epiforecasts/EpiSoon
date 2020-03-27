@@ -3,6 +3,7 @@
 #' Plot a Forecast
 #'
 #' @param forecasts A dataframe as produced by `forecast_rt`
+#' or `forecast_cases`
 #' @param horizon_to_plot Numeric vector, the forecast horizon to plot.
 #'
 #' @inheritParams plot_forecast
