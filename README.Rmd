@@ -50,32 +50,60 @@ obs_cases <- data.frame(cases = 5:24,
                         + lubridate::days(1:20))
 ```
 
-* Forecast a timeseries using a semi-local trend model and  summarise it.
+* Forecast a timeseries of $R_t$ values using a semi-local trend model and  summarise it.
 
 ```{r}
-samples <- forecast_rt(obs_rts[1:10, ],
-                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
-                      horizon = 7, samples = 10)
+samples_rt <- forecast_rt(rts = obs_rts[1:10, ],
+                          model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                          horizon = 7, samples = 10)
 
- ## Summarise forecast
- summarised_forecast <- summarise_forecast(samples)
+## Summarise R_t forecasts
+summarised_forecast_rt <- summarise_forecast(samples_rt)
  
- summarised_forecast
+summarised_forecast_rt
 ```
 
-* Score the forecast
+* Forecast incidences using a semi-local trend model and  summarise it.
 
 ```{r}
-scores <- score_forecast(samples, obs_rts)
+samples_cases <- forecast_cases(cases = obs_cases[1:10, ],
+                                fit_samples = samples_rt, 
+                                serial_interval = EpiNow::covid_serial_intervals)
+
+## Summarise case forecast
+summarised_forecast_cases <- summarise_case_forecast(samples_cases)
+ 
+summarised_forecast_cases
+```
+
+* Score the $R_t$ forecast
+
+```{r}
+scores <- score_forecast(samples_rt, obs_rts)
 
 summarise_scores(scores)
 ```
 
-* Plot the forecast
+* Score the case forecast
+
+```{r}
+scores_cases <- score_case_forecast(samples_cases, obs_cases)
+
+summarise_scores(scores_cases)
+```
+
+* Plot the $R_t$ forecast
 
 ```{r}
  ## Plot forecast
- plot_forecast(summarised_forecast, obs_rts)
+ plot_forecast(summarised_forecast_rt, obs_rts)
+```
+
+* Plot the case forecast
+
+```{r}
+ ## Plot forecasted cases
+ plot_forecast(summarised_forecast_cases, obs_cases)
 ```
 
 
@@ -85,16 +113,27 @@ summarise_scores(scores)
 forecast_eval <- evaluate_model(obs_rts = obs_rts,
                                 obs_cases = obs_cases, 
                                 model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                                serial_interval = example_serial_interval,
                                 horizon = 7, samples = 10)
 
 forecast_rts <- forecast_eval$forecast_rts
 
- ## Plot forecast
- plot_forecast_evaluation(forecast_rts, obs_rts, horizon_to_plot = c(1, 3, 7)) +
+## Plot forecast_rt
+plot_forecast_evaluation(forecast_rts, obs_rts, horizon_to_plot = c(1, 3, 7)) +
    ggplot2::facet_wrap(~ horizon, ncol = 1) +
    cowplot::panel_border() 
- ## currently still returns warning: "longer object length is not a multiple of shorter object length"
-   
+## currently still returns warning: "longer object length is not a multiple of shorter object length"
+
+
+forecast_cases <- forecast_eval$forecast_cases
+
+## Plot forecast_cases
+plot_forecast_evaluation(forecast_cases, obs_cases, horizon_to_plot = c(1, 3, 7)) +
+   ggplot2::facet_wrap(~ horizon, ncol = 1, scales = "free") +
+   cowplot::panel_border() 
+## currently still returns warning: "longer object length is not a multiple of shorter object length"
+
+
 ```
 
 ## Evaluate across models
@@ -113,10 +152,11 @@ models <- list("Sparse AR" = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 7
 evaluations <- compare_models(obs_rts = obs_rts, 
                               obs_cases = obs_cases, 
                               models = models, 
+                              serial_interval = example_serial_interval,
                               horizon = 7, samples = 10)
 ```
 
-* Plot evaluation of models over a set of time horizons.
+* Plot evaluation of models in terms of $R_t$ over a set of time horizons.
 
 ```{r}
 plot_forecast_evaluation(evaluations$forecast_rts, obs_rts, c(1, 3, 7)) +
@@ -124,10 +164,21 @@ plot_forecast_evaluation(evaluations$forecast_rts, obs_rts, c(1, 3, 7)) +
    cowplot::panel_border() 
 ```
 
+* Plot evaluation of models in terms of cases over a set of time horizons.
+
+```{r}
+plot_forecast_evaluation(evaluations$forecast_cases, obs_cases, c(1, 3, 7)) +
+   ggplot2::facet_wrap(model ~ horizon, scales = "free") +
+   cowplot::panel_border() 
+```
+
+
 * Score across models
 
 ```{r}
 summarise_scores(evaluations$rt_scores)
+
+summarise_scores(evaluations$case_scores)
 ```
 
 
@@ -159,13 +210,14 @@ obs_cases_ts <- obs_cases %>%
 evaluations <- compare_timeseries(obs_rts = obs_rts_ts, 
                                   obs_cases = obs_cases_ts, 
                                   models = models,
+                                  serial_interval = example_serial_interval,
                                   horizon = 7, samples = 10)
 
 
 ```
 
 
-* Plot comparison
+* Plot comparison in terms of $R_t$
 
 ```{r}
 plot_forecast_evaluation(evaluations$forecast_rts, obs_rts_ts, c(7)) +
@@ -173,10 +225,20 @@ plot_forecast_evaluation(evaluations$forecast_rts, obs_rts_ts, c(7)) +
    cowplot::panel_border()
 ```
 
+
+* Plot comparison in terms of $R_t$
+
+```{r}
+plot_forecast_evaluation(evaluations$forecast_cases, obs_cases_ts, c(7)) +
+   ggplot2::facet_wrap(model ~ timeseries, scales = "free") +
+   cowplot::panel_border()
+```
+
 * Summarise CRPS by region
 
 ```{r}
 summarise_scores(evaluations$rt_scores, "timeseries", sel_scores = "crps")
+summarise_scores(evaluations$case_scores, "timeseries", sel_scores = "crps")
 ```
 
 * Summarise logs by horizon
