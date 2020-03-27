@@ -55,7 +55,11 @@
                             rdist = NULL) {
 
 
-    safe_eval <- purrr::safely(evaluate_model)
+   safe_eval <- purrr::safely(evaluate_model)
+
+   if(is.null(serial_interval)) {
+      stop("serial_interval argument missing. For a Covid-19 serial interval, try EpiNow::covid_serial_intervals")
+   }
 
    ## Evaluate each model (potential to swap in furrr here)
    evaluations <- models %>%

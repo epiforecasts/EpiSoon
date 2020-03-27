@@ -72,9 +72,12 @@ compare_timeseries <- function(obs_rts = NULL,
                                serial_interval = NULL,
                                rdist = NULL) {
 
+  if(is.null(serial_interval)) {
+    stop("serial_interval argument missing. For a Covid-19 serial interval, try EpiNow::covid_serial_intervals")
+  }
+
   obs_rts <- obs_rts %>%
     dplyr::group_split(timeseries)
-
 
   timeseries <- unique(obs_cases$timeseries)
 
