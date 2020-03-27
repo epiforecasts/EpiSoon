@@ -48,13 +48,13 @@ plot_forecast <- function(forecast = NULL,
       dplyr::filter(horizon <= horizon_cutoff)
   }
 
-  if ("cases" %in% colnames(forecast)) {
+  if ("cases" %in% colnames(observations)) {
     case_plot <- TRUE
-
-    forecast <- forecast %>%
+    observations <- observations %>%
       dplyr::mutate(y = cases)
   } else {
-    forecast <- forecast %>%
+    case_plot <- FALSE
+    observations <- observations %>%
       dplyr::mutate(y = rt)
   }
 
@@ -66,11 +66,11 @@ plot_forecast <- function(forecast = NULL,
     ggplot2::geom_ribbon(ggplot2::aes(ymin = bottom, ymax = top), alpha = 0.1) +
     ggplot2::geom_ribbon(ggplot2::aes(ymin = lower, ymax = upper), alpha = 0.2) +
     ggplot2::geom_line(data = observations,
-                       ggplot2::aes(y = rt), size = 1.1) +
+                       ggplot2::aes(y = y), size = 1.1) +
     cowplot::theme_cowplot() +
     ggplot2::scale_x_date(date_breaks = "1 week", date_labels = "%b %d")
 
-  if (cases_plot) {
+  if (case_plot) {
     plot <- plot + ggplot2::labs(x = "Date", y = "Cases")
   } else {
     plot <- plot + ggplot2::labs(x = "Date", y = "Effective Reproduction no.")
