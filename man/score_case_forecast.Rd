@@ -20,24 +20,14 @@ logs, bias, and sharpness as well as the forecast date and time horizon.
 Score a case forecast
 }
 \examples{
-
-## Observed cases
-cases <- data.frame(date = seq(as.Date("2020-01-01"),
-                               as.Date("2020-01-20"),
-                               by = "days"),
-                    cases = 1:20)
-## Observed rts
-observations <- data.frame(rt = 1:20,
-                           date = as.Date("2020-01-01")
-                                  + lubridate::days(1:20))
-
 ## Fit a model (using a subset of observations)
-samples <- forecast_rt(observations[1:10, ],
+samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
                      horizon = 7, samples = 10)
 
-pred_cases <- forecast_cases(cases[1:10, ], samples, EpiSoon::example_serial_interval)
+pred_cases <- forecast_cases(EpiSoon::example_obs_cases,
+                             samples, EpiSoon::example_serial_interval)
 
 ## Score the model fit (with observations during the time horizon of the forecast)
-score_case_forecast(pred_cases, cases)
+score_case_forecast(pred_cases, EpiSoon::example_obs_cases)
 }

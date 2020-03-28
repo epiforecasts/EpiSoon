@@ -16,19 +16,24 @@
 #' @examples
 #'
 #'
-#' observations <- data.frame(rt = 1:20,
-#'                            date = as.Date("2020-01-01")
-#'                                   + lubridate::days(1:20))
-#'
 #' ## Evaluate a model
-#' forecast_eval <- evaluate_model(observations,
+#' forecast_eval <- evaluate_model(EpiSoon::example_obs_rts,
+#'                                 EpiSoon::example_obs_cases,
 #'                                 model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
-#'                                horizon = 7, samples = 10)
+#'                                 serial_interval = EpiSoon::example_serial_interval,
+#'                                 horizon = 7, samples = 10)
 #'
-#' forecasts <- forecast_eval$forecasts
+#' ## Plot Rt forecast
+#' plot_forecast_evaluation(forecast_eval$forecast_rts,
+#'                          EpiSoon::example_obs_rts,
+#'                          horizon_to_plot = 7)
 #'
-#' ## Plot forecast
-#' plot_forecast_evaluation(forecasts, observations, horizon_to_plot = 7)
+#'
+#' ## Plot case forecast
+#' plot_forecast_evaluation(forecast_eval$forecast_cases,
+#'                          EpiSoon::example_obs_cases,
+#'                          horizon_to_plot = 7)
+#'
 plot_forecast_evaluation <- function(forecasts = NULL,
                                      observations = NULL,
                                      horizon_to_plot = 1) {

@@ -10,7 +10,8 @@ iterative_rt_forecast(
   horizon = 7,
   samples = 1000,
   timeout = 30,
-  bound_rt = TRUE
+  bound_rt = TRUE,
+  min_points = 3
 )
 }
 \arguments{
@@ -29,6 +30,9 @@ fit. Note that twice this number of MCMC steps will be taken with half used as b
 
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}
+
+\item{min_points}{Numeric, defaults to 3. The minimum number of time points at which to begin
+iteratively evaluating the forecast.}
 }
 \value{
 
@@ -38,10 +42,8 @@ Iteratively forecast using a BSTS model
 }
 \examples{
 
-rts <- data.frame(rt = 1:10,
-                 date = as.Date("2020-01-01") + lubridate::days(1:10))
 
-
-iterative_rt_forecast(rts, model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
-                    horizon = 7, samples = 10)
+iterative_rt_forecast(EpiSoon::example_obs_rts,
+                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                      horizon = 7, samples = 10, min_points = 4)
 }

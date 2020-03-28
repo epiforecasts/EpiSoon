@@ -9,18 +9,16 @@
 #' @importFrom dplyr filter group_split
 #' @examples
 #'
-#' cases <- data.frame(cases = 1:20,
-#'                     date = as.Date("2020-01-01") + lubridate::days(1:20))
-#' rts <- data.frame(rt = 1:10,
-#'                  date = as.Date("2020-01-01") + lubridate::days(1:10))
-#'
-#'
+#' ## Iterative Rt forecast
 #' it_forecast <-
-#'   iterative_rt_forecast(rts, model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+#'   iterative_rt_forecast(EpiSoon::example_obs_rts,
+#'                         model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
 #'                         horizon = 7, samples = 10)
 #'
 #'
-#' iteractive_case_forecast(it_fit_samples = it_forecast, cases = cases,
+#' ## Iterative case forecast
+#' iteractive_case_forecast(it_fit_samples = it_forecast,
+#'                          cases = EpiSoon::example_obs_cases,
 #'                          serial_interval = EpiSoon::example_serial_interval)
 iteractive_case_forecast <- function(it_fit_samples = NULL, cases = NULL,
                                     serial_interval, rdist = NULL) {
@@ -39,30 +37,3 @@ iteractive_case_forecast <- function(it_fit_samples = NULL, cases = NULL,
   return(predictions)
 
 }
-
-# rts <- out %>%
-#   tidyr::unnest(R) %>%
-#   dplyr::group_by(date) %>%
-#   dplyr::mutate(sample = 1:dplyr::n()) %>%
-#   dplyr::ungroup() %>%
-#   dplyr::rename(rt = R)
-#
-# preds <- rts %>%
-#   dplyr::group_split(sample) %>%
-#   purrr::map_dfr(~iterative_case_forecast(rts = dplyr::select(., -sample),
-#                                           cases = cases,
-#                                           serial_interval = serial_intervals[, 1],
-#                                           horizon = 1),
-#                  .id = "sample") %>%
-#   dplyr::mutate(sample = as.numeric(sample)) %>%
-#   dplyr::select(forecast_date, date, cases, horizon, sample)
-#
-#
-# scores <- preds %>%
-#   dplyr::group_split(forecast_date) %>%
-#   setNames(unique(preds$forecast_date)) %>%
-#   purrr::map_dfr(~score_case_forecast(dplyr::select(., -forecast_date),
-#                                       cases), .id = "forecast_date")
-#
-# summarised_score <- scores %>%
-#   dplyr::summarise(crps = mean(crps, na.rm = TRUE))

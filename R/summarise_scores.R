@@ -10,41 +10,42 @@
 #' @importFrom dplyr group_by summarise ungroup
 #' @examples
 #'
-#' ## Dummy data
-#' observations <- data.frame(rt = 1:20,
-#'                             date = as.Date("2020-01-01")
-#'                            + lubridate::days(1:20))
-#'
-#' observations <- observations %>%
+#' ## Example cases
+#' cases <- EpiSoon::example_obs_cases %>%
 #'     dplyr::mutate(timeseries = "Region 1") %>%
-#'     dplyr::bind_rows(observations %>%
+#'     dplyr::bind_rows(EpiSoon::example_obs_cases %>%
+#'     dplyr::mutate(timeseries = "Region 2"))
+#'
+#'
+#' ## Example Rts
+#' rts <- EpiSoon::example_obs_rts %>%
+#'     dplyr::mutate(timeseries = "Region 1") %>%
+#'     dplyr::bind_rows(EpiSoon::example_obs_rts %>%
 #'     dplyr::mutate(timeseries = "Region 2"))
 #'
 #' ## List of forecasting bsts models wrapped in functions.
-#' models <- list("Sparse AR" =
-#'                     function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 7)},
+#' models <- list("AR 4" =
+#'                     function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 4)},
 #'                "Semi-local linear trend" =
 #'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
 #'
 #'
-#'
 #' ## Compare models
-#' evaluations <- compare_timeseries(observations, models,
-#'                                   horizon = 7, samples = 10)
+#' evaluations <- compare_timeseries(rts, cases, models,
+#'                                   horizon = 7, samples = 10,
+#'                                   serial_interval = example_serial_interval)
 #'
-#'
-#' scores <- evaluations$scores
 #'
 #'
 #' ## Score across the default groups
-#' summarise_scores(scores)
+#' summarise_scores(evaluations$rt_scores)
 #'
 #'
 #' ## Also summarise across time horizon
-#' summarise_scores(scores, "horizon", sel_scores = "crps")
+#' summarise_scores(evaluations$rt_scores, "horizon", sel_scores = "crps")
 #'
-#' ## Instead summarise across region
-#' summarise_scores(scores, "timeseries", sel_scores = "logs")
+#' ## Instead summarise across region and summarise case scores
+#' summarise_scores(evaluations$case_scores, "timeseries", sel_scores = "logs")
 summarise_scores <- function(scores, variables = NULL, sel_scores = NULL) {
 
 

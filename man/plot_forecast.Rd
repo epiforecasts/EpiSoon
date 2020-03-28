@@ -35,18 +35,22 @@ Plot a Forecast
 }
 \examples{
 
-
-observations <- data.frame(rt = 1:20,
-                           date = as.Date("2020-01-01") + lubridate::days(1:20))
-
-## Fit a model
-samples <- forecast_rt(observations[1:10, ],
+## Forecast an Rt sample
+samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
-                     horizon = 7, samples = 10)
+                     horizon = 21, samples = 10)
 
 ## Summarise forecast
 summarised_forecast <- summarise_forecast(samples)
 
-## Plot forecast
-plot_forecast(summarised_forecast, observations)
+## Plot forecast_cases
+plot_forecast(summarised_forecast, EpiSoon::example_obs_rts)
+
+## Forecast a case sample
+pred_cases <- forecast_cases(EpiSoon::example_obs_cases, samples,
+                            serial_interval = EpiSoon::example_serial_interval)
+
+summarised_case_forecast <- summarise_case_forecast(pred_cases)
+
+plot_forecast(summarised_case_forecast, EpiSoon::example_obs_cases)
 }

@@ -11,6 +11,7 @@ compare_timeseries(
   horizon = 7,
   samples = 1000,
   bound_rt = TRUE,
+  min_points = 3,
   timeout = 30,
   serial_interval = NULL,
   rdist = NULL
@@ -37,8 +38,18 @@ fit. Note that twice this number of MCMC steps will be taken with half used as b
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}
 
+\item{min_points}{Numeric, defaults to 3. The minimum number of time points at which to begin
+iteratively evaluating the forecast.}
+
 \item{timeout}{Numeric, the number of seconds to allow before terminating model fitting. Defaults to
 30 seconds.}
+
+\item{serial_interval}{A numeric vector describing the probability distribution the serial interval.
+See \code{EpiNow::covid_serial_interval} for an example of the format.}
+
+\item{rdist}{A function to be used to sample the number of cases. Must take two
+arguments with the first specfying the number of samples and the second the mean. Defaults
+to \code{rpois} if not supplied}
 }
 \value{
 A list of dataframes as produced by \verb{evaluate model} but with an additional model column.
@@ -48,28 +59,20 @@ Compare timeseries and forecast models
 }
 \examples{
 
-## Dummy data
-obs_rts <- data.frame(rt = 1:20,
-                            date = as.Date("2020-01-01")
-                           + lubridate::days(1:20))
-
-obs_rts <- obs_rts \%>\%
+## Example data
+obs_rts <- EpiSoon::example_obs_rts \%>\%
     dplyr::mutate(timeseries = "Region 1") \%>\%
-    dplyr::bind_rows(obs_rts \%>\%
+    dplyr::bind_rows(EpiSoon::example_obs_rts \%>\%
     dplyr::mutate(timeseries = "Region 2"))
 
-obs_cases <- data.frame(cases = 1:20,
-                            date = as.Date("2020-01-01")
-                           + lubridate::days(1:20))
-
-obs_cases <- obs_cases \%>\%
+obs_cases <- EpiSoon::example_obs_cases \%>\%
     dplyr::mutate(timeseries = "Region 1") \%>\%
-    dplyr::bind_rows(obs_cases \%>\%
+    dplyr::bind_rows(EpiSoon::example_obs_cases \%>\%
     dplyr::mutate(timeseries = "Region 2"))
 
 ## List of forecasting bsts models wrapped in functions.
-models <- list("Sparse AR" =
-                    function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 7)},
+models <- list("AR 3" =
+                    function(ss, y){bsts::AddAr(ss, y = y, lags = 3)},
                "Semi-local linear trend" =
                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
 
@@ -77,7 +80,7 @@ models <- list("Sparse AR" =
 ## Compare models
 evaluations <- compare_timeseries(obs_rts, obs_cases, models,
                                   horizon = 7, samples = 10,
-                                  serial_interval = example_serial_interval)
+                                  serial_interval = EpiSoon::example_serial_interval)
 
 evaluations
 
@@ -89,8 +92,7 @@ plot_forecast_evaluation(evaluations$forecast_rts, obs_rts, c(7)) +
 
 ## Hack to plot observed cases vs predicted
 plot_forecast_evaluation(evaluations$forecast_cases,
-                         obs_cases \%>\%
-                         dplyr::rename(rt = cases), c(3)) +
-  ggplot2::facet_wrap(model ~ timeseries, scales = "free") +
+                         obs_cases, c(7)) +
+  ggplot2::facet_grid(model ~ timeseries, scales = "free") +
   cowplot::panel_border()
 }

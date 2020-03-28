@@ -12,20 +12,10 @@
 #' @importFrom purrr map_dbl
 #' @examples
 #'
-#' ## Observed cases
-#' cases <- data.frame(date = seq(as.Date("2020-01-01"),
-#'                                as.Date("2020-01-10"),
-#'                                by = "days"),
-#'                     cases = 1:10)
 #'
-#' ## Forecast Rts
-#' rts <- data.frame(date = seq(as.Date("2020-01-01"),
-#'                                as.Date("2020-01-10"),
-#'                                by = "days"),
-#'                    rt = rep(1.2, 10))
-#'
-#'
-#' predict_current_cases(cases, rts, EpiSoon::example_serial_interval)
+#' predict_current_cases(cases = EpiSoon::example_obs_cases,
+#'                       rts = EpiSoon::example_obs_rts,
+#'                       serial_interval = EpiSoon::example_serial_interval)
 predict_current_cases <- function(
   cases = NULL,
   rts = NULL,
@@ -39,12 +29,19 @@ predict_current_cases <- function(
 
   predictions <- rts %>%
     dplyr::mutate(
-      index = 1:dplyr::n(),
       infectiousness =
-        purrr::map_dbl(index,
-                       ~ sum(cases$cases[1:.] *
-                               EpiSoon::draw_from_si_prob(.:1,
-                                                          serial_interval))),
+        purrr::map_dbl(date,
+                       function(rt_date) {
+                         filt_cases <- dplyr::filter(cases, date <= rt_date)
+                         cases_vect <- filt_cases$cases
+
+                         inf <- sum(cases_vect * EpiSoon::draw_from_si_prob(
+                                                          length(cases_vect):1,
+                                                          serial_interval
+                                                          ))
+
+                         return(inf)
+                       }),
       cases = purrr::map2_dbl(rt, infectiousness, ~ rdist(1, .x * .y))
     )
 

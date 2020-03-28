@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiSoon</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -121,33 +121,6 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='co'>## Dummy data</span>
-<span class='no'>observations</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>rt</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>20</span>,
-                            <span class='kw'>date</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>"2020-01-01"</span>)
-                           + <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/period.html'>days</a></span>(<span class='fl'>1</span>:<span class='fl'>20</span>))
-
-<span class='no'>timeseries</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>observations</span>, <span class='no'>observations</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>timeseries</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Region 1"</span>, <span class='st'>"Region 2"</span>)
-
-<span class='co'>## List of forecasting bsts models wrapped in functions.</span>
-<span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='st'>"Sparse AR"</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/auto.ar.html'>AddAutoAr</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>lags</span> <span class='kw'>=</span> <span class='fl'>7</span>)},
-               <span class='st'>"Semi-local linear trend"</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)})
-
-
-
-<span class='co'>## Compare models</span>
-<span class='no'>evaluations</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='compare_timeseries.html'>compare_timeseries</a></span>(<span class='no'>timeseries</span>, <span class='no'>models</span>,
-                                  <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("group_split"): no applicable method for 'group_split' applied to an object of class "list"</span></div><div class='input'>
-
-<span class='no'>scores</span> <span class='kw'>&lt;-</span> <span class='no'>evaluations</span>$<span class='no'>scores</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'evaluations' not found</span></div><div class='input'>
-
-<span class='co'>## Score across the default groups</span>
-<span class='fu'><a href='summarise_scores.html'>summarise_scores</a></span>(<span class='no'>scores</span>)</div><div class='output co'>#&gt; <span class='error'>Error in summarise_scores(scores): object 'scores' not found</span></div><div class='input'>
-
-<span class='co'>## Also summarise across time horizon</span>
-<span class='fu'><a href='summarise_scores.html'>summarise_scores</a></span>(<span class='no'>scores</span>, <span class='st'>"horizon"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in summarise_scores(scores, "horizon"): object 'scores' not found</span></div><div class='input'>
-<span class='co'>## Instead summarise across region</span>
-<span class='fu'><a href='summarise_scores.html'>summarise_scores</a></span>(<span class='no'>scores</span>, <span class='st'>"region"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in summarise_scores(scores, "region"): object 'scores' not found</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -163,7 +136,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by The package maintainer.</p>
+  <p>Developed by Sam Abbott, Joel Hellewell, Nikos Bosse, Katharine Sherratt, James Munday, Robin Thompson, Sebastian Funk.</p>
 </div>
 
 <div class="pkgdown">

@@ -13,6 +13,7 @@ compare_models(
   bound_rt = TRUE,
   timeout = 30,
   serial_interval = NULL,
+  min_points = 3,
   rdist = NULL
 )
 }
@@ -39,6 +40,16 @@ equal to 0.}
 
 \item{timeout}{Numeric, the number of seconds to allow before terminating model fitting. Defaults to
 30 seconds.}
+
+\item{serial_interval}{A numeric vector describing the probability distribution the serial interval.
+See \code{EpiNow::covid_serial_interval} for an example of the format.}
+
+\item{min_points}{Numeric, defaults to 3. The minimum number of time points at which to begin
+iteratively evaluating the forecast.}
+
+\item{rdist}{A function to be used to sample the number of cases. Must take two
+arguments with the first specfying the number of samples and the second the mean. Defaults
+to \code{rpois} if not supplied}
 }
 \value{
 A list of dataframes as produced by \verb{evaluate model} but with an additional model column.
@@ -48,39 +59,29 @@ Compare forecasting models
 }
 \examples{
 
-## Observed rts
-obs_rts <- data.frame(rt = 1:20,
-                           date = as.Date("2020-01-01")
-                                  + lubridate::days(1:20))
-
-
-## Observed case data
-obs_cases <- data.frame(cases = (1:20),
-                   date = as.Date("2020-01-01") + lubridate::days(1:20))
-
 ## List of forecasting bsts models wrapped in functions.
-models <- list("Sparse AR" =
-                    function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 7)},
+models <- list("AR 3" =
+                    function(ss, y){bsts::AddAr(ss, y = y, lags = 3)},
                "Semi-local linear trend" =
                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
 
 
 
 ## Compare models
-evaluations <- compare_models(obs_rts, obs_cases, models,
+evaluations <- compare_models(EpiSoon::example_obs_rts,
+                              EpiSoon::example_obs_cases, models,
                               horizon = 7, samples = 10,
                               serial_interval = example_serial_interval)
 
 ## Example evaluation plot for comparing forecasts
 ## with actuals for a range of models and time horizons.
-plot_forecast_evaluation(evaluations$forecast_rts, obs_rts, c(1, 3, 7)) +
+plot_forecast_evaluation(evaluations$forecast_rts, EpiSoon::example_obs_rts, c(1, 3, 7)) +
   ggplot2::facet_grid(model ~ horizon) +
   cowplot::panel_border()
 
 ## Hack to plot observed cases vs predicted
 plot_forecast_evaluation(evaluations$forecast_cases,
-                         obs_cases \%>\%
-                         dplyr::rename(rt = cases), c(1, 3, 7)) +
+                         EpiSoon::example_obs_cases, c(1, 3, 7)) +
   ggplot2::facet_wrap(model ~ horizon, scales = "free") +
   cowplot::panel_border()
 }

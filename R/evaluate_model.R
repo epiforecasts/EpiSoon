@@ -9,39 +9,29 @@
 #' should be denoted using a numeric `sample` variable.
 #' @inheritParams score_forecast
 #' @inheritParams iterative_rt_forecast
-#' @inheritParams iterative_case_forecast
+#' @inheritParams iteractive_case_forecast
 #' @return
 #' @export
 #' @importFrom dplyr slice group_split filter
 #' @importFrom purrr map_dfr map2 map2_dfr
 #' @examples
-#' ## Observed data
-#' obs_rts <- data.frame(rt = 1:20,
-#'                            date = as.Date("2020-01-01")
-#'                                   + lubridate::days(1:20))
-#'
-#'
-#' ## Observed case data
-#' obs_cases <- data.frame(cases = 1:20,
-#'                    date = as.Date("2020-01-01") + lubridate::days(1:20))
-#'
-#' ## Evaluate a model
-#' evaluate_model(obs_rts,
-#'                obs_cases,
+#' ## Evaluate a model based on a single sample of input cases
+#' evaluate_model(EpiSoon::example_obs_rts,
+#'                EpiSoon::example_obs_cases,
 #'                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
 #'                horizon = 7, samples = 10,
 #'                serial_interval = example_serial_interval)
 #'
 #'
 #' ## Samples of observed data
-#' sampled_obs <- obs_rts %>%
+#' sampled_obs <- EpiSoon::example_obs_rts %>%
 #'    dplyr::mutate(sample = 1) %>%
-#'    dplyr::bind_rows(obs_rts %>%
+#'    dplyr::bind_rows(EpiSoon::example_obs_rts %>%
 #'    dplyr::mutate(sample = 2))
 #'
-#' sampled_cases <- obs_cases %>%
+#' sampled_cases <- EpiSoon::example_obs_cases %>%
 #'    dplyr::mutate(sample = 1) %>%
-#'    dplyr::bind_rows(obs_cases %>%
+#'    dplyr::bind_rows(EpiSoon::example_obs_cases %>%
 #'    dplyr::mutate(sample = 2))
 #'
 #'
@@ -50,7 +40,7 @@
 #'                sampled_cases,
 #'                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
 #'                horizon = 7, samples = 10,
-#'                 serial_interval = EpiSoon::example_serial_interval)
+#'                serial_interval = EpiSoon::example_serial_interval)
 evaluate_model <- function(obs_rts = NULL,
                            obs_cases = NULL,
                            model = NULL,
@@ -58,6 +48,7 @@ evaluate_model <- function(obs_rts = NULL,
                            samples = 1000,
                            timeout = 30,
                            bound_rt = TRUE,
+                           min_points = 3,
                            serial_interval = NULL,
                            rdist = NULL) {
 
@@ -92,7 +83,7 @@ evaluate_model <- function(obs_rts = NULL,
     purrr::map_dfr(
       ~ safe_it(., model = model, horizon = horizon,
                            samples = samples, bound_rt = bound_rt,
-                           timeout = timeout)[[1]],
+                           timeout = timeout, min_points = min_points)[[1]],
       .id = "obs_sample")
 
 

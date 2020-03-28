@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiSoon</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -119,7 +119,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>fit_samples</th>
-      <td><p>A dataframe as produced by <code>EpiSoon::fit_model</code>.</p></td>
+      <td><p>A dataframe as produced by <code>EpiSoon::forecast</code>.</p></td>
     </tr>
     <tr>
       <th>observations</th>
@@ -134,27 +134,22 @@ logs, bias, and sharpness as well as the forecast date and time horizon.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='co'>## Observed data</span>
-<span class='no'>observations</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>rt</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>20</span>,
-                           <span class='kw'>date</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>"2020-01-01"</span>)
-                                  + <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/period.html'>days</a></span>(<span class='fl'>1</span>:<span class='fl'>20</span>))
-
 <span class='co'>## Fit a model (using a subset of observations)</span>
-<span class='no'>samples</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='no'>observations</span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
+<span class='no'>samples</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
                      <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)},
                      <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
 <span class='co'>## Score the model fit (with observations during the time horizon of the forecast)</span>
-<span class='fu'>score_forecast</span>(<span class='no'>samples</span>, <span class='no'>observations</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 7 x 7</span><span>
-#&gt;   date       horizon    dss   crps    logs  bias sharpness
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> 2020-01-12       1 -</span><span style='color: #BB0000;'>2.43</span><span>  0.065</span><span style='text-decoration: underline;'>6</span><span> -</span><span style='color: #BB0000;'>0.417</span><span>    0.6     0.230
-#&gt; </span><span style='color: #555555;'>2</span><span> 2020-01-13       2 -</span><span style='color: #BB0000;'>2.37</span><span>  0.064</span><span style='text-decoration: underline;'>8</span><span> -</span><span style='color: #BB0000;'>0.296</span><span>    0.6     0.231
-#&gt; </span><span style='color: #555555;'>3</span><span> 2020-01-14       3 -</span><span style='color: #BB0000;'>2.02</span><span>  0.092</span><span style='text-decoration: underline;'>7</span><span>  0.033</span><span style='text-decoration: underline;'>8</span><span>   0.5     0.361
-#&gt; </span><span style='color: #555555;'>4</span><span> 2020-01-15       4 -</span><span style='color: #BB0000;'>2.12</span><span>  0.111   0.176    0.7     0.302
-#&gt; </span><span style='color: #555555;'>5</span><span> 2020-01-16       5 -</span><span style='color: #BB0000;'>1.57</span><span>  0.144   0.159    0.7     0.516
-#&gt; </span><span style='color: #555555;'>6</span><span> 2020-01-17       6 -</span><span style='color: #BB0000;'>1.08</span><span>  0.182   0.553    0.6     0.641
-#&gt; </span><span style='color: #555555;'>7</span><span> 2020-01-18       7 -</span><span style='color: #BB0000;'>0.933</span><span> 0.228   0.747    0.6     0.732</div></span></pre>
+<span class='fu'>score_forecast</span>(<span class='no'>samples</span>, <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 7 x 7</span><span>
+#&gt;   date       horizon   dss   crps   logs  bias sharpness
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 2020-03-11       1 -</span><span style='color: #BB0000;'>5.62</span><span> 0.026</span><span style='text-decoration: underline;'>0</span><span> -</span><span style='color: #BB0000;'>1.41</span><span>  0.100    0.025</span><span style='text-decoration: underline;'>4</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> 2020-03-12       2 -</span><span style='color: #BB0000;'>2.88</span><span> 0.040</span><span style='text-decoration: underline;'>7</span><span> -</span><span style='color: #BB0000;'>1.25</span><span>  0        0.039</span><span style='text-decoration: underline;'>5</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> 2020-03-13       3 -</span><span style='color: #BB0000;'>4.35</span><span> 0.044</span><span style='text-decoration: underline;'>0</span><span> -</span><span style='color: #BB0000;'>1.03</span><span>  0.200    0.038</span><span style='text-decoration: underline;'>5</span><span>
+#&gt; </span><span style='color: #555555;'>4</span><span> 2020-03-14       4 -</span><span style='color: #BB0000;'>2.11</span><span> 0.061</span><span style='text-decoration: underline;'>7</span><span> -</span><span style='color: #BB0000;'>0.805</span><span> 0        0.041</span><span style='text-decoration: underline;'>2</span><span>
+#&gt; </span><span style='color: #555555;'>5</span><span> 2020-03-15       5 -</span><span style='color: #BB0000;'>3.49</span><span> 0.057</span><span style='text-decoration: underline;'>1</span><span> -</span><span style='color: #BB0000;'>1.09</span><span>  0.100    0.069</span><span style='text-decoration: underline;'>9</span><span>
+#&gt; </span><span style='color: #555555;'>6</span><span> 2020-03-16       6 -</span><span style='color: #BB0000;'>5.12</span><span> 0.025</span><span style='text-decoration: underline;'>0</span><span> -</span><span style='color: #BB0000;'>1.61</span><span>  0.200    0.050</span><span style='text-decoration: underline;'>2</span><span>
+#&gt; </span><span style='color: #555555;'>7</span><span> 2020-03-17       7 -</span><span style='color: #BB0000;'>4.79</span><span> 0.022</span><span style='text-decoration: underline;'>3</span><span> -</span><span style='color: #BB0000;'>1.22</span><span>  0.4      0.108 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -170,7 +165,7 @@ logs, bias, and sharpness as well as the forecast date and time horizon.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by The package maintainer.</p>
+  <p>Developed by Sam Abbott, Joel Hellewell, Nikos Bosse, Katharine Sherratt, James Munday, Robin Thompson, Sebastian Funk.</p>
 </div>
 
 <div class="pkgdown">

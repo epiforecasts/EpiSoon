@@ -12,6 +12,7 @@ evaluate_model(
   samples = 1000,
   timeout = 30,
   bound_rt = TRUE,
+  min_points = 3,
   serial_interval = NULL,
   rdist = NULL
 )
@@ -37,6 +38,16 @@ fit. Note that twice this number of MCMC steps will be taken with half used as b
 
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}
+
+\item{min_points}{Numeric, defaults to 3. The minimum number of time points at which to begin
+iteratively evaluating the forecast.}
+
+\item{serial_interval}{A numeric vector describing the probability distribution the serial interval.
+See \code{EpiNow::covid_serial_interval} for an example of the format.}
+
+\item{rdist}{A function to be used to sample the number of cases. Must take two
+arguments with the first specfying the number of samples and the second the mean. Defaults
+to \code{rpois} if not supplied}
 }
 \value{
 
@@ -45,33 +56,23 @@ equal to 0.}
 Evaluate a Model for Forecasting Rts
 }
 \examples{
-## Observed data
-obs_rts <- data.frame(rt = 1:20,
-                           date = as.Date("2020-01-01")
-                                  + lubridate::days(1:20))
-
-
-## Observed case data
-obs_cases <- data.frame(cases = 1:20,
-                   date = as.Date("2020-01-01") + lubridate::days(1:20))
-
-## Evaluate a model
-evaluate_model(obs_rts,
-               obs_cases,
+## Evaluate a model based on a single sample of input cases
+evaluate_model(EpiSoon::example_obs_rts,
+               EpiSoon::example_obs_cases,
                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
                horizon = 7, samples = 10,
                serial_interval = example_serial_interval)
 
 
 ## Samples of observed data
-sampled_obs <- obs_rts \%>\%
+sampled_obs <- EpiSoon::example_obs_rts \%>\%
    dplyr::mutate(sample = 1) \%>\%
-   dplyr::bind_rows(obs_rts \%>\%
+   dplyr::bind_rows(EpiSoon::example_obs_rts \%>\%
    dplyr::mutate(sample = 2))
 
-sampled_cases <- obs_cases \%>\%
+sampled_cases <- EpiSoon::example_obs_cases \%>\%
    dplyr::mutate(sample = 1) \%>\%
-   dplyr::bind_rows(obs_cases \%>\%
+   dplyr::bind_rows(EpiSoon::example_obs_cases \%>\%
    dplyr::mutate(sample = 2))
 
 
@@ -80,5 +81,5 @@ evaluate_model(sampled_obs,
                sampled_cases,
                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
                horizon = 7, samples = 10,
-                serial_interval = EpiSoon::example_serial_interval)
+               serial_interval = EpiSoon::example_serial_interval)
 }

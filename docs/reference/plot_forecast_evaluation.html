@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">EpiSoon</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -122,22 +122,21 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>forecasts</th>
+      <td><p>A dataframe as produced by <code>forecast_rt</code>
+or <code>forecast_cases</code></p></td>
+    </tr>
+    <tr>
       <th>observations</th>
-      <td><p>A dataframe of observations containing the following variables:
-<code>rt</code> and <code>date</code>.</p></td>
+      <td><p>A dataframe of observations containing the
+following variables:</p><ul>
+<li><p>either <code>rt</code> or <code>cases</code></p></li>
+<li><p>and <code>date</code>.</p></li>
+</ul></td>
     </tr>
     <tr>
-      <th>forecast</th>
-      <td><p>A dataframe as produced by <code>forecast_rt</code>.</p></td>
-    </tr>
-    <tr>
-      <th>horizon_cutoff</th>
-      <td><p>Numeric, defaults to NULL. Forecast horizon to plot up to.</p></td>
-    </tr>
-    <tr>
-      <th>obs_cutoff_at_forecast</th>
-      <td><p>Logical defaults to <code>TRUE</code>. Should observations only be shown
-up to the date of the forecast.</p></td>
+      <th>horizon_to_plot</th>
+      <td><p>Numeric vector, the forecast horizon to plot.</p></td>
     </tr>
     </table>
 
@@ -148,19 +147,23 @@ up to the date of the forecast.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 
-<span class='no'>observations</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>rt</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>20</span>,
-                           <span class='kw'>date</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>"2020-01-01"</span>)
-                                  + <span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/period.html'>days</a></span>(<span class='fl'>1</span>:<span class='fl'>20</span>))
-
 <span class='co'>## Evaluate a model</span>
-<span class='no'>forecast_eval</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='evaluate_model.html'>evaluate_model</a></span>(<span class='no'>observations</span>,
+<span class='no'>forecast_eval</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='evaluate_model.html'>evaluate_model</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>,
+                                <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>,
                                 <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)},
-                               <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)
+                                <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_serial_interval.html'>example_serial_interval</a></span>,
+                                <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
-<span class='no'>forecasts</span> <span class='kw'>&lt;-</span> <span class='no'>forecast_eval</span>$<span class='no'>forecasts</span>
+<span class='co'>## Plot Rt forecast</span>
+<span class='fu'>plot_forecast_evaluation</span>(<span class='no'>forecast_eval</span>$<span class='no'>forecast_rts</span>,
+                         <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>,
+                         <span class='kw'>horizon_to_plot</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='img'><img src='plot_forecast_evaluation-1.png' alt='' width='700' height='433' /></div><div class='input'>
 
-<span class='co'>## Plot forecast</span>
-<span class='fu'>plot_forecast_evaluation</span>(<span class='no'>forecasts</span>, <span class='no'>observations</span>, <span class='kw'>horizon_to_plot</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='img'><img src='plot_forecast_evaluation-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='co'>## Plot case forecast</span>
+<span class='fu'>plot_forecast_evaluation</span>(<span class='no'>forecast_eval</span>$<span class='no'>forecast_cases</span>,
+                         <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>,
+                         <span class='kw'>horizon_to_plot</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='img'><img src='plot_forecast_evaluation-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -176,7 +179,7 @@ up to the date of the forecast.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by The package maintainer.</p>
+  <p>Developed by Sam Abbott, Joel Hellewell, Nikos Bosse, Katharine Sherratt, James Munday, Robin Thompson, Sebastian Funk.</p>
 </div>
 
 <div class="pkgdown">
