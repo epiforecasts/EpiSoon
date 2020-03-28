@@ -4,3 +4,4 @@
 ^LICENSE\.md$
 ^docs$
 ^data-raw$
+^\.travis\.yml$
