@@ -15,7 +15,7 @@
 #'                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
 #'                      horizon = 7, samples = 10)
 #'
-#' pred_cases <- forecast_cases(EpiSoon::example_obs_cases[1:20, ],
+#' pred_cases <- forecast_cases(EpiSoon::example_obs_cases,
 #'                              samples, EpiSoon::example_serial_interval)
 #'
 #' ## Score the model fit (with observations during the time horizon of the forecast)
