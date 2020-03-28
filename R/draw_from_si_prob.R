@@ -8,22 +8,9 @@
 #' @export
 #' @importFrom purrr map_dbl
 #' @examples
-#' ## Example serial interval
-#' mean_si <- 4.7
-#' sd_si <- 2.9
-#'
-#' ## Example serial interval
-#' mu_log <- log(mean_si) - 1/2 * log((sd_si / mean_si)^2 + 1)
-#' sd_log <- sqrt(log((sd_si/mean_si)^2 + 1))
-#'
-#'
-#' serial_interval <- rlnorm(1:100, mu_log, sd_log) %>%
-#'    round(0) %>%
-#'    table %>%
-#'    {. / sum(.)}
 #'
 #' ## Draw
-#' draw_from_si_prob(c(1, 4, 6), serial_interval)
+#' draw_from_si_prob(c(1, 4, 6), EpiSoon::example_serial_interval)
 draw_from_si_prob <- function(days_ago = NULL,
                          serial_interval = NULL) {
 
