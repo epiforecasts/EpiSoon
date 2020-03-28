@@ -16,15 +16,16 @@
 #' @importFrom purrr map_dbl
 #' @examples
 #'
-#' forecast <- forecast_rt(example_obs_rts,
+#' forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 #'                         model = function(ss, y) {
 #'                         bsts::AddAutoAr(ss, y = y, lags = 7)
 #'                         },
 #'                         horizon = 7, samples = 1)
 #'
 #'
-#' predict_cases(cases = example_obs_cases,
+#' predict_cases(cases = EpiSoon::example_obs_cases,
 #'               rts = forecast,
+#'               forecast_date = as.Date("2020-03-10"),
 #'               serial_interval = example_serial_interval)
 predict_cases <- function(cases = NULL,
                           rts = NULL,
