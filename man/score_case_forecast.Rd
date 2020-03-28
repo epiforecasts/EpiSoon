@@ -23,7 +23,7 @@ Score a case forecast
 ## Fit a model (using a subset of observations)
 samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
-                     horizon = 7, samples = 10)
+                     horizon = 7, samples = 1)
 
 pred_cases <- forecast_cases(EpiSoon::example_obs_cases[1:10, ],
                              samples, EpiSoon::example_serial_interval)

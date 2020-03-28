@@ -22,7 +22,7 @@ usethis::use_data(example_obs_rts, overwrite = TRUE)
 example_obs_cases <- readRDS("data-raw/obs_cases.rds") %>%
   dplyr::filter(timeseries %in% "austria") %>%
   dplyr::select(-timeseries) %>%
-  dplyr::filter(date >= min(example_obs_rts$date))
+  dplyr::slice(1:63)
 
 
 usethis::use_data(example_obs_cases, overwrite = TRUE)
