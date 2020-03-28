@@ -21,13 +21,21 @@
 #' ## Forecast an Rt sample
 #' samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 #'                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
-#'                      horizon = 7, samples = 10)
+#'                      horizon = 21, samples = 10)
 #'
 #' ## Summarise forecast
 #' summarised_forecast <- summarise_forecast(samples)
 #'
-#' ## Plot forecast
-#' plot_forecast(summarised_forecast, observations)
+#' ## Plot forecast_cases
+#' plot_forecast(summarised_forecast, EpiSoon::example_obs_rts)
+#'
+#' ## Forecast a case sample
+#' pred_cases <- forecast_cases(EpiSoon::example_obs_cases, samples,
+#'                             serial_interval = EpiSoon::example_serial_interval)
+#'
+#' summarised_case_forecast <- summarise_case_forecast(pred_cases)
+#'
+#' plot_forecast(summarised_case_forecast, EpiSoon::example_obs_cases)
 plot_forecast <- function(forecast = NULL,
                           observations = NULL,
                           horizon_cutoff = NULL,
@@ -64,10 +72,11 @@ plot_forecast <- function(forecast = NULL,
     ggplot2::geom_line(data = observations,
                        ggplot2::aes(y = y), size = 1.1) +
     cowplot::theme_cowplot() +
-    ggplot2::scale_x_date(date_breaks = "1 week", date_labels = "%b %d")
+    ggplot2::scale_x_date(date_breaks = "1 week", date_labels = "%b %d") +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90))
 
   if (case_plot) {
-    plot <- plot + ggplot2::labs(x = "Date", y = "Cases")
+    plot <- plot + ggplot2::labs(x = "Date", y = "New daily cases")
   } else {
     plot <- plot + ggplot2::labs(x = "Date", y = "Effective Reproduction no.")
   }
