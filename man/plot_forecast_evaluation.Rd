@@ -11,10 +11,15 @@ plot_forecast_evaluation(
 )
 }
 \arguments{
-\item{forecasts}{A dataframe as produced by \code{forecast_rt}}
+\item{forecasts}{A dataframe as produced by \code{forecast_rt}
+or \code{forecast_cases}}
 
-\item{observations}{A dataframe of observations containing the following variables:
-\code{rt} and \code{date}.}
+\item{observations}{A dataframe of observations containing the
+following variables:
+\itemize{
+\item either \code{rt} or \code{cases}
+\item and \code{date}.
+}}
 
 \item{horizon_to_plot}{Numeric vector, the forecast horizon to plot.}
 }

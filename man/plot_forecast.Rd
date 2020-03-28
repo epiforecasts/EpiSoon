@@ -12,10 +12,15 @@ plot_forecast(
 )
 }
 \arguments{
-\item{forecast}{A dataframe as produced by \code{fit_model}.}
+\item{forecast}{A dataframe with summarised forecasts as produced
+by \code{summarise_forecast} or \code{summarise_case_forecast} .}
 
-\item{observations}{A dataframe of observations containing the following variables:
-\code{rt} and \code{date}.}
+\item{observations}{A dataframe of observations containing the
+following variables:
+\itemize{
+\item either \code{rt} or \code{cases}
+\item and \code{date}.
+}}
 
 \item{horizon_cutoff}{Numeric, defaults to NULL. Forecast horizon to plot up to.}
 
