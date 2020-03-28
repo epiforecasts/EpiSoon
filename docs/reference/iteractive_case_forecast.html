@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Predict cases for a single Rt sample forecasts — predict_cases • EpiSoon</title>
+<title>Iteratively forecast cases using a iterative Rt forecasts — iteractive_case_forecast • EpiSoon</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Predict cases for a single Rt sample forecasts — predict_cases" />
-<meta property="og:description" content="Predict cases for a single Rt sample forecasts" />
+<meta property="og:title" content="Iteratively forecast cases using a iterative Rt forecasts — iteractive_case_forecast" />
+<meta property="og:description" content="Iteratively forecast cases using a iterative Rt forecasts" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,21 +103,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Predict cases for a single Rt sample forecasts</h1>
+    <h1>Iteratively forecast cases using a iterative Rt forecasts</h1>
     
-    <div class="hidden name"><code>predict_cases.Rd</code></div>
+    <div class="hidden name"><code>iteractive_case_forecast.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Predict cases for a single Rt sample forecasts</p>
+    <p>Iteratively forecast cases using a iterative Rt forecasts</p>
     </div>
 
-    <pre class="usage"><span class='fu'>predict_cases</span>(
+    <pre class="usage"><span class='fu'>iteractive_case_forecast</span>(
+  <span class='kw'>it_fit_samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>cases</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>rts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>forecast_date</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>serial_interval</span>,
   <span class='kw'>rdist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
 
@@ -125,28 +123,17 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>cases</th>
-      <td><p>A dataframe containing <code>date</code> and <code>cases</code> variables</p></td>
+      <th>it_fit_samples</th>
+      <td><p>Dataframe of iterative forecasts as produced by <code>iterative_rt_forecast</code>.</p></td>
     </tr>
     <tr>
-      <th>rts</th>
-      <td><p>A dataframe of containing two variables <code>rt</code> and  <code>date</code> with
-<code>rt</code> being numeric and <code>date</code> being a date.</p></td>
+      <th>cases</th>
+      <td><p>A dataframe containing <code>date</code> and <code>cases</code> variables</p></td>
     </tr>
     <tr>
       <th>serial_interval</th>
       <td><p>A numeric vector describing the probability distribution the serial interval.
 See <code>EpiNow::covid_serial_interval</code> for an example of the format.</p></td>
-    </tr>
-    <tr>
-      <th>forecast_date</th>
-      <td><p>A character string date (format "yyyy-mm-dd") indicating
-the forecast date. Defaults to <code>NULL</code> in which case it will be assumed that the
-forecast date is the last data present in the <code>cases</code> dataframe</p></td>
-    </tr>
-    <tr>
-      <th>horizon</th>
-      <td><p>Numeric, the time horizon over which to predict</p></td>
     </tr>
     <tr>
       <th>rdist</th>
@@ -158,30 +145,34 @@ to <code>rpois</code> if not supplied</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Forecast cases for over a future forecast horizon</p>
+    <p>A dataframe of iterative case forecasts</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>forecast</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
-                        <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>) {
-                        <span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/auto.ar.html'>AddAutoAr</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>lags</span> <span class='kw'>=</span> <span class='fl'>7</span>)
-                        },
-                        <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='co'>## Iterative Rt forecast</span>
+<span class='no'>it_forecast</span> <span class='kw'>&lt;-</span>
+  <span class='fu'><a href='iterative_rt_forecast.html'>iterative_rt_forecast</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>,
+                        <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)},
+                        <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
 
-<span class='fu'>predict_cases</span>(<span class='kw'>cases</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>,
-              <span class='kw'>rts</span> <span class='kw'>=</span> <span class='no'>forecast</span>,
-              <span class='kw'>forecast_date</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>"2020-03-10"</span>),
-              <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='no'>example_serial_interval</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 7 x 2</span><span>
-#&gt;   date       cases
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> 2020-03-11   128
-#&gt; </span><span style='color: #555555;'>2</span><span> 2020-03-12   171
-#&gt; </span><span style='color: #555555;'>3</span><span> 2020-03-13   166
-#&gt; </span><span style='color: #555555;'>4</span><span> 2020-03-14   203
-#&gt; </span><span style='color: #555555;'>5</span><span> 2020-03-15   267
-#&gt; </span><span style='color: #555555;'>6</span><span> 2020-03-16   266
-#&gt; </span><span style='color: #555555;'>7</span><span> 2020-03-17   283</div></span></pre>
+<span class='co'>## Iterative case forecast</span>
+<span class='fu'>iteractive_case_forecast</span>(<span class='kw'>it_fit_samples</span> <span class='kw'>=</span> <span class='no'>it_forecast</span>,
+                         <span class='kw'>cases</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>,
+                         <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_serial_interval.html'>example_serial_interval</a></span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1,330 x 5</span><span>
+#&gt;    forecast_date sample date       cases horizon
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> 2020-03-04         1 2020-03-05    69       1
+#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-03-04         1 2020-03-06    75       2
+#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-03-04         1 2020-03-07    69       3
+#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-03-04         1 2020-03-08    88       4
+#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-03-04         1 2020-03-09   119       5
+#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-03-04         1 2020-03-10   130       6
+#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-03-04         1 2020-03-11   132       7
+#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-03-04         2 2020-03-05    59       1
+#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-03-04         2 2020-03-06    64       2
+#&gt; </span><span style='color: #555555;'>10</span><span> 2020-03-04         2 2020-03-07    78       3
+#&gt; </span><span style='color: #555555;'># … with 1,320 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

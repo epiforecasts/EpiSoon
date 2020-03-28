@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Predict cases for a single Rt sample forecasts — predict_cases • EpiSoon</title>
+<title>Score a case forecast — score_case_forecast • EpiSoon</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Predict cases for a single Rt sample forecasts — predict_cases" />
-<meta property="og:description" content="Predict cases for a single Rt sample forecasts" />
+<meta property="og:title" content="Score a case forecast — score_case_forecast" />
+<meta property="og:description" content="Score a case forecast" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,85 +103,56 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Predict cases for a single Rt sample forecasts</h1>
+    <h1>Score a case forecast</h1>
     
-    <div class="hidden name"><code>predict_cases.Rd</code></div>
+    <div class="hidden name"><code>score_case_forecast.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Predict cases for a single Rt sample forecasts</p>
+    <p>Score a case forecast</p>
     </div>
 
-    <pre class="usage"><span class='fu'>predict_cases</span>(
-  <span class='kw'>cases</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>rts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>forecast_date</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>rdist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>score_case_forecast</span>(<span class='no'>pred_cases</span>, <span class='no'>obs_cases</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>cases</th>
-      <td><p>A dataframe containing <code>date</code> and <code>cases</code> variables</p></td>
+      <th>pred_cases</th>
+      <td><p>Dataframe of predicted cases with the following variables: <code>sample</code>, <code>date</code>,
+<code>cases</code> and forecast horizon. As produced by <code>forecast_cases</code>.</p></td>
     </tr>
     <tr>
-      <th>rts</th>
-      <td><p>A dataframe of containing two variables <code>rt</code> and  <code>date</code> with
-<code>rt</code> being numeric and <code>date</code> being a date.</p></td>
-    </tr>
-    <tr>
-      <th>serial_interval</th>
-      <td><p>A numeric vector describing the probability distribution the serial interval.
-See <code>EpiNow::covid_serial_interval</code> for an example of the format.</p></td>
-    </tr>
-    <tr>
-      <th>forecast_date</th>
-      <td><p>A character string date (format "yyyy-mm-dd") indicating
-the forecast date. Defaults to <code>NULL</code> in which case it will be assumed that the
-forecast date is the last data present in the <code>cases</code> dataframe</p></td>
-    </tr>
-    <tr>
-      <th>horizon</th>
-      <td><p>Numeric, the time horizon over which to predict</p></td>
-    </tr>
-    <tr>
-      <th>rdist</th>
-      <td><p>A function to be used to sample the number of cases. Must take two
-arguments with the first specfying the number of samples and the second the mean. Defaults
-to <code>rpois</code> if not supplied</p></td>
+      <th>obs_cases</th>
+      <td><p>Dataframe of observed cases with the following variables: <code>date</code> and <code>cases</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Forecast cases for over a future forecast horizon</p>
+    <p>A dataframe containing the following scores per forecast timepoint: dss, crps,
+logs, bias, and sharpness as well as the forecast date and time horizon.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='no'>forecast</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
-                        <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>) {
-                        <span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/auto.ar.html'>AddAutoAr</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>lags</span> <span class='kw'>=</span> <span class='fl'>7</span>)
-                        },
-                        <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+    <pre class="examples"><div class='input'><span class='co'>## Fit a model (using a subset of observations)</span>
+<span class='no'>samples</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
+                     <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)},
+                     <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
+<span class='no'>pred_cases</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='forecast_cases.html'>forecast_cases</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>,
+                             <span class='no'>samples</span>, <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_serial_interval.html'>example_serial_interval</a></span>)
 
-<span class='fu'>predict_cases</span>(<span class='kw'>cases</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>,
-              <span class='kw'>rts</span> <span class='kw'>=</span> <span class='no'>forecast</span>,
-              <span class='kw'>forecast_date</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>"2020-03-10"</span>),
-              <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='no'>example_serial_interval</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 7 x 2</span><span>
-#&gt;   date       cases
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> 2020-03-11   128
-#&gt; </span><span style='color: #555555;'>2</span><span> 2020-03-12   171
-#&gt; </span><span style='color: #555555;'>3</span><span> 2020-03-13   166
-#&gt; </span><span style='color: #555555;'>4</span><span> 2020-03-14   203
-#&gt; </span><span style='color: #555555;'>5</span><span> 2020-03-15   267
-#&gt; </span><span style='color: #555555;'>6</span><span> 2020-03-16   266
-#&gt; </span><span style='color: #555555;'>7</span><span> 2020-03-17   283</div></span></pre>
+<span class='co'>## Score the model fit (with observations during the time horizon of the forecast)</span>
+<span class='fu'>score_case_forecast</span>(<span class='no'>pred_cases</span>, <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 7 x 7</span><span>
+#&gt;   date       horizon   dss  crps  logs  bias sharpness
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 2020-03-11       1  9.37  19.3  5.14 0.100      8.90
+#&gt; </span><span style='color: #555555;'>2</span><span> 2020-03-12       2 12.5   24.6  6.59 0         14.1 
+#&gt; </span><span style='color: #555555;'>3</span><span> 2020-03-13       3  7.03  13.1  4.53 0.200     25.9 
+#&gt; </span><span style='color: #555555;'>4</span><span> 2020-03-14       4 10.2   33.4  5.80 0         17.0 
+#&gt; </span><span style='color: #555555;'>5</span><span> 2020-03-15       5 11.8   34.2  6.93 0          6.67
+#&gt; </span><span style='color: #555555;'>6</span><span> 2020-03-16       6  7.08  12.0  4.64 0.3       36.3 
+#&gt; </span><span style='color: #555555;'>7</span><span> 2020-03-17       7  7.61  19.7  5.71 0.200     17.8 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

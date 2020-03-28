@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Predict cases for a single Rt sample forecasts — predict_cases • EpiSoon</title>
+<title>Predict cases for Rts based on observed data — predict_current_cases • EpiSoon</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Predict cases for a single Rt sample forecasts — predict_cases" />
-<meta property="og:description" content="Predict cases for a single Rt sample forecasts" />
+<meta property="og:title" content="Predict cases for Rts based on observed data — predict_current_cases" />
+<meta property="og:description" content="Predict cases for Rts based on observed data" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,21 +103,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Predict cases for a single Rt sample forecasts</h1>
+    <h1>Predict cases for Rts based on observed data</h1>
     
-    <div class="hidden name"><code>predict_cases.Rd</code></div>
+    <div class="hidden name"><code>predict_current_cases.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Predict cases for a single Rt sample forecasts</p>
+    <p>Predict cases for Rts based on observed data</p>
     </div>
 
-    <pre class="usage"><span class='fu'>predict_cases</span>(
+    <pre class="usage"><span class='fu'>predict_current_cases</span>(
   <span class='kw'>cases</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>rts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>forecast_date</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>rdist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
 
@@ -139,16 +137,6 @@
 See <code>EpiNow::covid_serial_interval</code> for an example of the format.</p></td>
     </tr>
     <tr>
-      <th>forecast_date</th>
-      <td><p>A character string date (format "yyyy-mm-dd") indicating
-the forecast date. Defaults to <code>NULL</code> in which case it will be assumed that the
-forecast date is the last data present in the <code>cases</code> dataframe</p></td>
-    </tr>
-    <tr>
-      <th>horizon</th>
-      <td><p>Numeric, the time horizon over which to predict</p></td>
-    </tr>
-    <tr>
       <th>rdist</th>
       <td><p>A function to be used to sample the number of cases. Must take two
 arguments with the first specfying the number of samples and the second the mean. Defaults
@@ -158,30 +146,36 @@ to <code>rpois</code> if not supplied</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Forecast cases for over a future forecast horizon</p>
+    <p>Forecast cases for the current timestep</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>forecast</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
-                        <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>) {
-                        <span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/auto.ar.html'>AddAutoAr</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>lags</span> <span class='kw'>=</span> <span class='fl'>7</span>)
-                        },
-                        <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
-
-<span class='fu'>predict_cases</span>(<span class='kw'>cases</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>,
-              <span class='kw'>rts</span> <span class='kw'>=</span> <span class='no'>forecast</span>,
-              <span class='kw'>forecast_date</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/as.Date.html'>as.Date</a></span>(<span class='st'>"2020-03-10"</span>),
-              <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='no'>example_serial_interval</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 7 x 2</span><span>
-#&gt;   date       cases
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> 2020-03-11   128
-#&gt; </span><span style='color: #555555;'>2</span><span> 2020-03-12   171
-#&gt; </span><span style='color: #555555;'>3</span><span> 2020-03-13   166
-#&gt; </span><span style='color: #555555;'>4</span><span> 2020-03-14   203
-#&gt; </span><span style='color: #555555;'>5</span><span> 2020-03-15   267
-#&gt; </span><span style='color: #555555;'>6</span><span> 2020-03-16   266
-#&gt; </span><span style='color: #555555;'>7</span><span> 2020-03-17   283</div></span></pre>
+<span class='fu'>predict_current_cases</span>(<span class='kw'>cases</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>,
+                      <span class='kw'>rts</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>,
+                      <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_serial_interval.html'>example_serial_interval</a></span>)</div><div class='output co'>#&gt;          rt       date infectiousness cases
+#&gt; 1  2.490547 2020-03-01         14.145    34
+#&gt; 2  2.442588 2020-03-02         17.355    51
+#&gt; 3  2.402473 2020-03-03         21.145    50
+#&gt; 4  2.335572 2020-03-04         25.515    67
+#&gt; 5  2.266551 2020-03-05         30.875    69
+#&gt; 6  2.192293 2020-03-06         37.220    85
+#&gt; 7  2.146429 2020-03-07         44.195    96
+#&gt; 8  2.104371 2020-03-08         52.205   125
+#&gt; 9  2.059281 2020-03-09         62.125   128
+#&gt; 10 2.027134 2020-03-10         73.060   156
+#&gt; 11 2.014678 2020-03-11         84.975   163
+#&gt; 12 1.998946 2020-03-12        100.695   209
+#&gt; 13 1.968350 2020-03-13        119.065   248
+#&gt; 14 1.947376 2020-03-14        138.675   258
+#&gt; 15 1.906984 2020-03-15        158.155   342
+#&gt; 16 1.812842 2020-03-16        183.825   338
+#&gt; 17 1.718532 2020-03-17        208.025   337
+#&gt; 18 1.665646 2020-03-18        223.985   387
+#&gt; 19 1.639927 2020-03-19        246.015   376
+#&gt; 20 1.633795 2020-03-20        276.575   463
+#&gt; 21 1.682025 2020-03-21        309.540   542
+#&gt; 22 1.561653 2020-03-22        349.995   526</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
