@@ -9,12 +9,10 @@
 #' @importFrom dplyr filter
 #' @examples
 #'
-#' rts <- data.frame(rt = 1:10,
-#'                  date = as.Date("2020-01-01") + lubridate::days(1:10))
 #'
-#'
-#' iterative_rt_forecast(rts, model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
-#'                     horizon = 7, samples = 10)
+#' iterative_rt_forecast(example_obs_rts,
+#'                       model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+#'                       horizon = 7, samples = 10)
 iterative_rt_forecast <- function(rts,
                           model = NULL,
                           horizon = 7,

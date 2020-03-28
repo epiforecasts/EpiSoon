@@ -11,13 +11,10 @@
 #' @examples
 #'
 #' ## Dummy data
-#' observations <- data.frame(rt = 1:20,
-#'                             date = as.Date("2020-01-01")
-#'                            + lubridate::days(1:20))
 #'
-#' observations <- observations %>%
+#' observations <- example_obs_rts %>%
 #'     dplyr::mutate(timeseries = "Region 1") %>%
-#'     dplyr::bind_rows(observations %>%
+#'     dplyr::bind_rows(example_obs_rts %>%
 #'     dplyr::mutate(timeseries = "Region 2"))
 #'
 #' ## List of forecasting bsts models wrapped in functions.
@@ -25,7 +22,6 @@
 #'                     function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 7)},
 #'                "Semi-local linear trend" =
 #'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
-#'
 #'
 #'
 #' ## Compare models
