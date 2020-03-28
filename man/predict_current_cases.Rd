@@ -33,7 +33,7 @@ Predict cases for Rts based on observed data
 \examples{
 
 
-predict_current_cases(cases = example_obs_cases,
-                      rts = example_obs_rts,
-                      serial_interval = example_serial_interval)
+predict_current_cases(cases = EpiSoon::example_obs_cases,
+                      rts = EpiSoon::example_obs_rts,
+                      serial_interval = EpiSoon::example_serial_interval)
 }
