@@ -23,7 +23,7 @@ See \code{EpiNow::covid_serial_interval} for an example of the format.}
 
 \item{forecast_date}{A character string date (format "yyyy-mm-dd") indicating
 the forecast date. Defaults to \code{NULL} in which case it will be assumed that the
-forecast date is the last data present in the \code{cases} dataframe}
+forecast date is the  day before the first date present in the \code{fit_samples} dataframe}
 
 \item{horizon}{Numeric, the time horizon over which to predict}
 
@@ -39,25 +39,14 @@ Forecasts cases for a Rt forecasts
 }
 \examples{
 
-## Observed cases
-cases <- data.frame(date = seq(as.Date("2020-01-01"),
-                               as.Date("2020-01-10"),
-                               by = "days"),
-                    cases = 1:10)
-
-## Forecast Rts
-rts <- data.frame(date = seq(as.Date("2020-01-01"),
-                               as.Date("2020-01-10"),
-                               by = "days"),
-                   rt = rnorm(10, 1.2, 0.01))
-
-
-forecast <- forecast_rt(rts,
+forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
                         model = function(ss, y) {
                         bsts::AddAutoAr(ss, y = y, lags = 7)
                         },
                         horizon = 7, samples = 10)
 
 
-forecast_cases(cases, forecast, EpiSoon::example_serial_interval)
+forecast_cases(EpiSoon::example_obs_cases,
+               fit_samples =  forecast,
+               serial_interval = EpiSoon::example_serial_interval)
 }

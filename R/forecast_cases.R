@@ -14,7 +14,7 @@
 #' @export
 #' @importFrom dplyr mutate group_split
 #' @importFrom purrr map_dfr
-#' @importFrom lubirdate days
+#' @importFrom lubridate days
 #' @examples
 #'
 #' forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
