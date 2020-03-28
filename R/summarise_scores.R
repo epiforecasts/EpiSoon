@@ -10,9 +10,15 @@
 #' @importFrom dplyr group_by summarise ungroup
 #' @examples
 #'
-#' ## Dummy data
+#' ## Example cases
+#' cases <- example_obs_cases %>%
+#'     dplyr::mutate(timeseries = "Region 1") %>%
+#'     dplyr::bind_rows(example_obs_cases %>%
+#'     dplyr::mutate(timeseries = "Region 2"))
 #'
-#' observations <- example_obs_rts %>%
+#'
+#' ## Example Rts
+#' rts <- example_obs_rts %>%
 #'     dplyr::mutate(timeseries = "Region 1") %>%
 #'     dplyr::bind_rows(example_obs_rts %>%
 #'     dplyr::mutate(timeseries = "Region 2"))
@@ -25,8 +31,9 @@
 #'
 #'
 #' ## Compare models
-#' evaluations <- compare_timeseries(observations, models,
-#'                                   horizon = 7, samples = 10)
+#' evaluations <- compare_timeseries(observations, cases, models,
+#'                                   horizon = 7, samples = 10,
+#'                                   serial_interval = example_serial_interval)
 #'
 #'
 #' scores <- evaluations$scores

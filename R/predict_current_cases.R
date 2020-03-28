@@ -12,20 +12,10 @@
 #' @importFrom purrr map_dbl
 #' @examples
 #'
-#' ## Observed cases
-#' cases <- data.frame(date = seq(as.Date("2020-01-01"),
-#'                                as.Date("2020-01-10"),
-#'                                by = "days"),
-#'                     cases = 1:10)
 #'
-#' ## Forecast Rts
-#' rts <- data.frame(date = seq(as.Date("2020-01-01"),
-#'                                as.Date("2020-01-10"),
-#'                                by = "days"),
-#'                    rt = rep(1.2, 10))
-#'
-#'
-#' predict_current_cases(cases, rts, EpiSoon::example_serial_interval)
+#' predict_current_cases(cases = example_obs_cases,
+#'                       rts = example_obs_rts,
+#'                       serial_interval = example_serial_interval)
 predict_current_cases <- function(
   cases = NULL,
   rts = NULL,
