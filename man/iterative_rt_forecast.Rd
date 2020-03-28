@@ -10,7 +10,8 @@ iterative_rt_forecast(
   horizon = 7,
   samples = 1000,
   timeout = 30,
-  bound_rt = TRUE
+  bound_rt = TRUE,
+  min_points = 3
 )
 }
 \arguments{
