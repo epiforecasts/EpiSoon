@@ -42,6 +42,7 @@
                             horizon = 7, samples = 1000,
                             bound_rt = TRUE, timeout = 30,
                             serial_interval = NULL,
+                            min_points = 3,
                             rdist = NULL) {
 
 
@@ -62,6 +63,7 @@
                    bound_rt = bound_rt,
                    timeout = timeout,
                    serial_interval = serial_interval,
+                   min_points = min_points,
                    rdist = rdist)[[1]]
     ) %>%
      purrr::transpose() %>%

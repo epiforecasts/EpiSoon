@@ -11,7 +11,7 @@ compare_timeseries(
   horizon = 7,
   samples = 1000,
   bound_rt = TRUE,
-  min_pounts = 3,
+  min_points = 3,
   timeout = 30,
   serial_interval = NULL,
   rdist = NULL
@@ -37,6 +37,9 @@ fit. Note that twice this number of MCMC steps will be taken with half used as b
 
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}
+
+\item{min_points}{Numeric, defaults to 3. The minimum number of time points at which to begin
+iteratively evaluating the forecast.}
 
 \item{timeout}{Numeric, the number of seconds to allow before terminating model fitting. Defaults to
 30 seconds.}

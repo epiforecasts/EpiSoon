@@ -13,6 +13,7 @@ compare_models(
   bound_rt = TRUE,
   timeout = 30,
   serial_interval = NULL,
+  min_points = 3,
   rdist = NULL
 )
 }
@@ -39,6 +40,9 @@ equal to 0.}
 
 \item{timeout}{Numeric, the number of seconds to allow before terminating model fitting. Defaults to
 30 seconds.}
+
+\item{min_points}{Numeric, defaults to 3. The minimum number of time points at which to begin
+iteratively evaluating the forecast.}
 }
 \value{
 A list of dataframes as produced by \verb{evaluate model} but with an additional model column.
