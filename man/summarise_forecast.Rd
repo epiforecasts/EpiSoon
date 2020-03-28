@@ -17,11 +17,9 @@ Summarise Forecast Rts
 }
 \examples{
 
-rts <- data.frame(rt = 1:10,
-                 date = as.Date("2020-01-01") + lubridate::days(1:10))
 
-
-samples <- forecast_rt(rts, model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+samples <- forecast_rt(example_obs_rts,
+                       model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
                        horizon = 7, samples = 10)
 
 

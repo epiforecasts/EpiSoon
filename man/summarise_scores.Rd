@@ -22,14 +22,17 @@ Summarise model forecasting scores
 }
 \examples{
 
-## Dummy data
-observations <- data.frame(rt = 1:20,
-                            date = as.Date("2020-01-01")
-                           + lubridate::days(1:20))
-
-observations <- observations \%>\%
+## Example cases
+cases <- example_obs_cases \%>\%
     dplyr::mutate(timeseries = "Region 1") \%>\%
-    dplyr::bind_rows(observations \%>\%
+    dplyr::bind_rows(example_obs_cases \%>\%
+    dplyr::mutate(timeseries = "Region 2"))
+
+
+## Example Rts
+rts <- example_obs_rts \%>\%
+    dplyr::mutate(timeseries = "Region 1") \%>\%
+    dplyr::bind_rows(example_obs_rts \%>\%
     dplyr::mutate(timeseries = "Region 2"))
 
 ## List of forecasting bsts models wrapped in functions.
@@ -39,10 +42,10 @@ models <- list("Sparse AR" =
                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
 
 
-
 ## Compare models
-evaluations <- compare_timeseries(observations, models,
-                                  horizon = 7, samples = 10)
+evaluations <- compare_timeseries(observations, cases, models,
+                                  horizon = 7, samples = 10,
+                                  serial_interval = example_serial_interval)
 
 
 scores <- evaluations$scores
