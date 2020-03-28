@@ -52,10 +52,6 @@ evaluate_model <- function(obs_rts = NULL,
                            serial_interval = NULL,
                            rdist = NULL) {
 
-  if(is.null(serial_interval)) {
-    stop("serial_interval argument missing. For a Covid-19 serial interval, try EpiNow::covid_serial_intervals")
-  }
-
   ## Split obs_rt into a list if present
   if (!is.null(suppressWarnings(obs_rts$sample))) {
     obs_rts <- obs_rts %>%
@@ -119,7 +115,7 @@ evaluate_model <- function(obs_rts = NULL,
       dplyr::select(-sample)
   }
 
-  safe_case <- purrr::safely(iteractive_case_forecast)
+  safe_case <- purrr::safely(iterative_case_forecast)
 
   ## Predict cases for each iterative forecast
   case_predictions <- purrr::map2_dfr(

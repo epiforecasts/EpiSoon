@@ -1,0 +1,192 @@
+---
+title: "Getting started"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dpi = 320,
+  fig.height = 6,
+  fig.width = 8
+)
+```
+
+
+## Introduction
+
+This vignette briefly outlines the functionality of `EpiSoon`. To get started load the required packages.
+
+
+* Load the package (`bsts` for models, `ggplot2` for plotting, and `cowplot` for theming)
+
+```{r, message = FALSE}
+library(EpiSoon)
+library(bsts)
+library(cowplot)
+library(dplyr)
+```
+
+
+## Forecast Rts, score and plot
+
+
+* We use an example dataframe built into the package but this could be replaced with your own data.
+
+```{r}
+EpiSoon::example_obs_rts
+```
+
+* Fit a `bsts` model and produce a Rt forecast
+```{r}
+rt_forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
+                       model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                       horizon = 21, samples = 10)
+
+rt_forecast
+```
+
+* Score the forecast
+
+```{r}
+rt_scores <- score_forecast(rt_forecast, EpiSoon::example_obs_rts)
+
+rt_scores
+```
+
+* Summarise the forecast scores
+
+```{r}
+summarise_scores(rt_scores)
+```
+
+* Summarise the forecast
+
+```{r}
+summarised_rt_forecast <- summarise_forecast(rt_forecast)
+
+summarised_rt_forecast
+```
+
+* Plot the forecast against observed data
+
+```{r}
+plot_forecast(summarised_rt_forecast, EpiSoon::example_obs_rts)
+```
+
+## Forecast cases, score and plot
+
+* Forecasting cases requires the observed cases on which the observed Rt estimates were based
+
+```{r}
+EpiSoon::example_obs_cases
+```
+
+* It also requires an assumption to be made about the serial interval (defined using probability distribution).
+
+```{r}
+EpiSoon::example_serial_interval
+```
+
+* Forecast cases (using the case data on which the observed Rt estimates were based)
+
+```{r}
+case_forecast <- forecast_cases(EpiSoon::example_obs_cases, rt_forecast,
+                                serial_interval = EpiSoon::example_serial_interval)
+
+case_forecast
+```
+
+
+* Score the cases forecast
+
+```{r}
+case_scores <- score_case_forecast(case_forecast, EpiSoon::example_obs_cases)
+
+case_scores
+```
+
+* Summarise the cases scores
+
+```{r}
+summarise_scores(case_scores)
+```
+
+* Summarise the cases forecast
+
+```{r}
+summarised_case_forecast <- summarise_case_forecast(case_forecast)
+
+summarised_case_forecast
+```
+
+* Plot the forecast against observed case data
+
+```{r}
+plot_forecast(summarised_case_forecast, EpiSoon::example_obs_cases)
+```
+
+## Use iterative fitting to explore a forecast
+
+* To explore the quality of a models forecast it can help to iteratively forecast from each available data point. This is supported in `EpiSoon` using the following:
+
+```{r}
+it_rt_forecast <- iterative_rt_forecast(EpiSoon::example_obs_rts,
+                                        model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                                        horizon = 7, samples = 10, min_points = 4)
+
+it_rt_forecast
+```
+
+
+* We can then iteratively forecast cases using the following:
+
+```{r}
+it_cases_forecast <- iterative_case_forecast(it_fit_samples = it_rt_forecast,
+                                             cases = EpiSoon::example_obs_cases,
+                                             serial_interval = EpiSoon::example_serial_interval)
+
+it_cases_forecast
+```
+
+* All functionality shown above is also supported for iterative forecasting.
+
+## Evaluate a model
+
+In real world use we are likely to want to evaluate a model by iteratively forecasting Rts and cases, summarising these forecasts, scoring them and then returning them in a sensible format. These steps are all contained in the `evaluate_model` function.
+
+```{r}
+model_eval <- evaluate_model(EpiSoon::example_obs_rts,
+                             EpiSoon::example_obs_cases,
+                             model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                             horizon = 21, samples = 10,
+                             serial_interval = EpiSoon::example_serial_interval)
+
+model_eval
+```
+* All functionality outlined above can be applied to this output but a special plotting function (`plot_forecast_evaluation`) is also provided. First evaluate the Rt forecast against observed values.
+
+```{r}
+plot_forecast_evaluation(model_eval$forecast_rts,
+                         EpiSoon::example_obs_rts,
+                         horizon_to_plot = 7)
+```
+
+* Then evaluate forecast cases against observed values.
+
+
+```{r}
+plot_forecast_evaluation(model_eval$forecast_cases,
+                         EpiSoon::example_obs_cases,
+                         horizon_to_plot = 7)
+```
+
+## Wrapper functions
+
+`EpiSoon` provides several wrapper functions (`compare_models` and `compare_timeseries`). These both wrap `evaluate_model` and can be used to rapidly explore several forecasting models (`compare_models`) against multiple time series (`compare_timeseries`). All lower level summary and plotting functions can be then used with the output of these wrappers to explore the results. See the function documentation for further details.
+

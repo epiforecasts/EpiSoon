@@ -12,8 +12,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -58,7 +58,7 @@
   <body>
     <div class="container template-reference-topic">
       <header>
-      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
@@ -76,20 +76,29 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+  <a href="../index.html">Home</a>
+</li>
+<li>
+  <a href="../articles/introduction.html">Getting started</a>
+</li>
+<li>
+  <a href="../news/index.html">News</a>
+</li>
+<li>
+  <a href="../reference/index.html">
+    <span class="fa fa-file-code-o"></span>
      
+    Functions
   </a>
-</li>
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/epiforecasts/EpiSoon">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -138,13 +147,13 @@
 <span class='fu'>summarise_forecast</span>(<span class='no'>samples</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 7 x 9</span><span>
 #&gt;   date       horizon median  mean     sd bottom lower upper   top
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> 2020-03-23       1   1.56  1.55 0.035</span><span style='text-decoration: underline;'>2</span><span>   1.49  1.54  1.58  1.60
-#&gt; </span><span style='color: #555555;'>2</span><span> 2020-03-24       2   1.52  1.52 0.071</span><span style='text-decoration: underline;'>1</span><span>   1.40  1.50  1.57  1.63
-#&gt; </span><span style='color: #555555;'>3</span><span> 2020-03-25       3   1.49  1.48 0.077</span><span style='text-decoration: underline;'>8</span><span>   1.35  1.46  1.55  1.59
-#&gt; </span><span style='color: #555555;'>4</span><span> 2020-03-26       4   1.49  1.46 0.115    1.26  1.43  1.54  1.59
-#&gt; </span><span style='color: #555555;'>5</span><span> 2020-03-27       5   1.42  1.41 0.136    1.19  1.41  1.57  1.57
-#&gt; </span><span style='color: #555555;'>6</span><span> 2020-03-28       6   1.37  1.38 0.145    1.18  1.23  1.41  1.63
-#&gt; </span><span style='color: #555555;'>7</span><span> 2020-03-29       7   1.30  1.35 0.173    1.11  1.11  1.31  1.61</div></span></pre>
+#&gt; </span><span style='color: #555555;'>1</span><span> 2020-03-23       1   1.54  1.54 0.020</span><span style='text-decoration: underline;'>5</span><span>   1.51  1.54  1.56  1.57
+#&gt; </span><span style='color: #555555;'>2</span><span> 2020-03-24       2   1.47  1.47 0.034</span><span style='text-decoration: underline;'>7</span><span>   1.42  1.45  1.49  1.52
+#&gt; </span><span style='color: #555555;'>3</span><span> 2020-03-25       3   1.44  1.44 0.048</span><span style='text-decoration: underline;'>5</span><span>   1.36  1.42  1.49  1.52
+#&gt; </span><span style='color: #555555;'>4</span><span> 2020-03-26       4   1.39  1.39 0.057</span><span style='text-decoration: underline;'>2</span><span>   1.31  1.37  1.45  1.47
+#&gt; </span><span style='color: #555555;'>5</span><span> 2020-03-27       5   1.36  1.34 0.060</span><span style='text-decoration: underline;'>1</span><span>   1.26  1.36  1.43  1.43
+#&gt; </span><span style='color: #555555;'>6</span><span> 2020-03-28       6   1.29  1.31 0.060</span><span style='text-decoration: underline;'>2</span><span>   1.25  1.25  1.32  1.41
+#&gt; </span><span style='color: #555555;'>7</span><span> 2020-03-29       7   1.26  1.26 0.073</span><span style='text-decoration: underline;'>2</span><span>   1.08  1.26  1.32  1.34</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

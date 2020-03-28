@@ -27,8 +27,8 @@ Authors@R: c(
     person("Sebastian", "Funk", 
             email = "sebastian.funk@lshtm.ac.uk", 
             role = c("aut")))
-Description: Forecast cases using estimates of the time-varying reproduction number. Tools to evaluate a range
-             of models across samples and time series using proper scoring rules.
+Description: To forecast the time-varying reproduction number and using this to forecast reported case counts. Includes
+             tools to evaluate a range of models across samples and time series using proper scoring rules.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -53,3 +53,7 @@ Imports:
     R.utils
 Remotes:
   epiforecasts/scoringutils
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

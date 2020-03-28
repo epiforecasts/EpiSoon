@@ -17,10 +17,10 @@
 #'
 #'
 #' ## Iterative case forecast
-#' iteractive_case_forecast(it_fit_samples = it_forecast,
+#' iterative_case_forecast(it_fit_samples = it_forecast,
 #'                          cases = EpiSoon::example_obs_cases,
 #'                          serial_interval = EpiSoon::example_serial_interval)
-iteractive_case_forecast <- function(it_fit_samples = NULL, cases = NULL,
+iterative_case_forecast <- function(it_fit_samples = NULL, cases = NULL,
                                     serial_interval, rdist = NULL) {
 
   predictions <- it_fit_samples %>%

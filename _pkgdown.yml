@@ -1,0 +1,69 @@
+url: epiforecasts.io/EpiSoon/
+template:
+  params:
+    bootswatch: lumen
+
+development:
+  mode: release
+
+navbar:
+  type: inverse
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Getting started"
+      href: articles/introduction.html
+    - text: News
+      href: news/index.html
+    - icon: fa-file-code-o
+      text: "Functions"
+      href: reference/index.html
+  right:
+    - icon: fa-github
+      href: https://github.com/epiforecasts/EpiSoon
+
+
+
+reference:
+  - title: Analysis wrappers
+    desc: Functions that wrap multiple steps to allow end to end forecasting analyses
+    contents:
+      - evaluate_model
+      - compare_models
+      - compare_timeseries
+  - title: Forecast
+    desc: Forecasting tools
+    contents:
+      - forecast_rt
+      - forecast_cases
+      - iterative_rt_forecast
+      - iterative_case_forecast
+  - title: Predicting cases from reproduction numbers
+    desc: Functions to for mapping reproduction number estimates to forecast cases
+    contents:
+      - predict_cases
+      - predict_current_cases
+      - draw_from_si_prob
+  - title: Score forecasts
+    desc: Functions to score forecasts
+    contents:
+      - score_forecast
+      - score_case_forecast
+  - title: Summary functions
+    desc: Tools to summarise forecasts and scores
+    contents:
+      - summarise_forecast
+      - summarise_case_forecast
+      - summarise_scores
+  - title: Plotting functions
+    desc: Tools to plot forecasts
+    contents:
+      - plot_forecast
+      - plot_forecast_evaluation
+      - plot_scores
+  - title: Example datasets
+    desc: Example datasets used in the package.
+    contents:
+      - example_obs_cases
+      - example_obs_rts
+      - example_serial_interval
