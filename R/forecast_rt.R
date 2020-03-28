@@ -20,13 +20,9 @@
 #' @export
 #'
 #' @examples
-#'
-#' rts <- data.frame(rt = 1:10,
-#'                  date = as.Date("2020-01-01") + lubridate::days(1:10))
-#'
-#'
-#' forecast_rt(rts, model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)},
-#'           horizon = 7, samples = 10)
+#' forecast_rt(EpiSoon::example_obs_rts[1:10, ],
+#'             model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)},
+#'             horizon = 7, samples = 10)
 forecast_rt <- function(rts, model = model,
                       horizon = 7, samples = 1000,
                       bound_rt = TRUE, timeout = 30) {
@@ -62,7 +58,7 @@ forecast_rt <- function(rts, model = model,
     dplyr::mutate(date = as.Date(date)) %>%
     dplyr::group_by(sample) %>%
     dplyr::mutate(horizon = 1:dplyr::n(),
-                  rt = ifelse(rt < 0 & bound_rt, 0, rt))%>%
+                  rt = ifelse(rt < 0 & bound_rt, 0, rt)) %>%
     dplyr::ungroup()
 
   return(samples)

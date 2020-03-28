@@ -18,12 +18,8 @@
 #'
 #' @examples
 #'
-#'
-#' observations <- data.frame(rt = 1:20,
-#'                            date = as.Date("2020-01-01") + lubridate::days(1:20))
-#'
-#' ## Fit a model
-#' samples <- forecast_rt(observations[1:10, ],
+#' ## Forecast an Rt sample
+#' samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 #'                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
 #'                      horizon = 7, samples = 10)
 #'
