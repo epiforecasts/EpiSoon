@@ -38,11 +38,7 @@ A dataframe of samples containing the following variables:
 Fit and Forecast using a BSTS Model
 }
 \examples{
-
-rts <- data.frame(rt = 1:10,
-                 date = as.Date("2020-01-01") + lubridate::days(1:10))
-
-
-forecast_rt(rts, model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)},
-          horizon = 7, samples = 10)
+forecast_rt(EpiSoon::example_obs_rts[1:10, ],
+            model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)},
+            horizon = 7, samples = 10)
 }

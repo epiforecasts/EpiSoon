@@ -1,6 +1,6 @@
 #' Iteratively forecast using a BSTS model
 #'
-#' @params min_points Numeric, defaults to 3. The minimum number of time points at which to begin
+#' @param min_points Numeric, defaults to 3. The minimum number of time points at which to begin
 #' iteratively evaluating the forecast.
 #' @return
 #' @export

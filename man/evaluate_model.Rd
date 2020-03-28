@@ -12,6 +12,7 @@ evaluate_model(
   samples = 1000,
   timeout = 30,
   bound_rt = TRUE,
+  min_points = 3,
   serial_interval = NULL,
   rdist = NULL
 )
@@ -37,6 +38,9 @@ fit. Note that twice this number of MCMC steps will be taken with half used as b
 
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}
+
+\item{min_points}{Numeric, defaults to 3. The minimum number of time points at which to begin
+iteratively evaluating the forecast.}
 }
 \value{
 
@@ -45,19 +49,9 @@ equal to 0.}
 Evaluate a Model for Forecasting Rts
 }
 \examples{
-## Observed data
-obs_rts <- data.frame(rt = 1:20,
-                           date = as.Date("2020-01-01")
-                                  + lubridate::days(1:20))
-
-
-## Observed case data
-obs_cases <- data.frame(cases = 1:20,
-                   date = as.Date("2020-01-01") + lubridate::days(1:20))
-
 ## Evaluate a model
-evaluate_model(obs_rts,
-               obs_cases,
+evaluate_model(EpiSoon::example_obs_rts,
+               EpiSoon::example_obs_cases,
                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
                horizon = 7, samples = 10,
                serial_interval = example_serial_interval)
