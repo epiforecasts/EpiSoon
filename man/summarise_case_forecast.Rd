@@ -17,17 +17,17 @@ Summarise Forecast Cases
 }
 \examples{
 
-
+## Example forecast
 forecast <- forecast_rt(EpiSoon::example_obs_rts,
                         model = function(ss, y) {
                         bsts::AddAutoAr(ss, y = y, lags = 7)
                         },
                         horizon = 7, samples = 10)
 
-
+## Forecast cases
 case_forecast <- forecast_cases(EpiSoon::example_obs_cases,
                                 forecast,
                                 EpiSoon::example_serial_interval)
-
+## Summarise case forecast
 summarise_case_forecast(case_forecast)
 }
