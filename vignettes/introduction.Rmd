@@ -19,7 +19,9 @@ library(EpiSoon)
 ```
 
 
-## Quick start
+## Introduction
+
+This vignette briefly outlines the functionality of `EpiSoon`. To get started load the required packages.
 
 
 * Load the package (`bsts` for models, `ggplot2` for plotting, and `cowplot` for theming)
@@ -31,6 +33,54 @@ library(cowplot)
 library(dplyr)
 ```
 
+
+## Forecast Rts, score and plot
+
+
+* We use an example dataframe built into the package but this could be replaced with your own data.
+
+```{r}
+EpiSoon::example_obs_rts
+```
+
+* Fit a `bsts` model and produce a Rt forecast
+```{r}
+rt_forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
+                       model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                       horizon = 21, samples = 10)
+
+rt_forecast
+```
+
+* Score the forecast
+
+```{r}
+score_forecast(rt_forecast, EpiSoon::example_obs_rts)
+```
+```{r}
+summarised_rt_forecast <- summarise_forecast(rt_forecast)
+```
+
+#'
+#' ## Summarise forecast
+#' summarised_forecast <- summarise_forecast(samples)
+#'
+
+
+## Forecast cases, score and plot
+
+
+## Use iterative fitting to explore a forecast
+
+
+## Evaluate a model
+
+
+## Wrapper functions
+
+`EpiSoon` provides several wrapper functions (`compare_models` and `compare_timeseries`). These both wrap `evaluate_model` and can be used to rapidly explore several forecasting models (`compare_models`) against multiple time series (`compare_timeseries`). All lower level summary and plotting functions can be then used with the output of these wrappers to explore the results. See the function documentation for further details.
+
+## Compare models across timeseries
 
 * Define example observations.
 

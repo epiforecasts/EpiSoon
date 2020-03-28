@@ -30,6 +30,13 @@ score_forecast <- function(fit_samples, observations) {
       date <= max(fit_samples$date)
     )
 
+  fit_samples <- fit_samples %>%
+    dplyr::filter(
+      date >= min(observations$date),
+      date <= max(observations$date)
+    )
+
+
   obs <- observations$rt
 
   samples_matrix <- fit_samples %>%
