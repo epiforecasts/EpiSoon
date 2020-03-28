@@ -9,7 +9,7 @@
 #' should be denoted using a numeric `sample` variable.
 #' @inheritParams score_forecast
 #' @inheritParams iterative_rt_forecast
-#' @inheritParams iterative_case_forecast
+#' @inheritParams iteractive_case_forecast
 #' @return
 #' @export
 #' @importFrom dplyr slice group_split filter

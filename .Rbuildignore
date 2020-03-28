@@ -5,3 +5,5 @@
 ^docs$
 ^data-raw$
 ^\.travis\.yml$
+^.cache$
+^inst/pkg-structure$
