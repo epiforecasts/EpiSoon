@@ -55,20 +55,82 @@ rt_forecast
 * Score the forecast
 
 ```{r}
-score_forecast(rt_forecast, EpiSoon::example_obs_rts)
+rt_scores <- score_forecast(rt_forecast, EpiSoon::example_obs_rts)
+
+rt_scores
 ```
+
+* Summarise the forecast scores
+
+```{r}
+summarise_scores(rt_scores)
+```
+
+* Summarise the forecast
+
 ```{r}
 summarised_rt_forecast <- summarise_forecast(rt_forecast)
+
+summarised_rt_forecast
 ```
 
-#'
-#' ## Summarise forecast
-#' summarised_forecast <- summarise_forecast(samples)
-#'
+* Plot the forecast against observed data
 
+```{r}
+plot_forecast(summarised_rt_forecast, EpiSoon::example_obs_rts)
+```
 
 ## Forecast cases, score and plot
 
+* Forecasting cases requires the observed cases on which the observed Rt estimates were based
+
+```{r}
+EpiSoon::example_obs_cases
+```
+
+* It also requires an assumption to be made about the serial interval (defined using probability distribution).
+
+```{r}
+EpiSoon::example_serial_interval
+```
+
+* Forecast cases (using the case data on which the observed Rt estimates were based)
+
+```{r}
+case_forecast <- forecast_cases(EpiSoon::example_obs_cases, rt_forecast,
+                                serial_interval = EpiSoon::example_serial_interval)
+
+case_forecast
+```
+
+
+* Score the cases forecast
+
+```{r}
+case_scores <- score_case_forecast(case_forecast, EpiSoon::example_obs_cases)
+
+case_scores
+```
+
+* Summarise the cases scores
+
+```{r}
+summarise_scores(case_scores)
+```
+
+* Summarise the cases forecast
+
+```{r}
+summarised_case_forecast <- summarise_case_forecast(case_forecast)
+
+summarised_case_forecast
+```
+
+* Plot the forecast against observed case data
+
+```{r}
+plot_forecast(summarised_case_forecast, EpiSoon::example_obs_cases)
+```
 
 ## Use iterative fitting to explore a forecast
 
