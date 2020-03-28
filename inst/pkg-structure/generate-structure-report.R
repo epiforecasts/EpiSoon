@@ -8,4 +8,4 @@ report_path <- file.path("inst/pkg-structure", "EpiSoon_report.html")
 
 ## Generate pkg report
 report <- CreatePackageReport("EpiSoon",
-                            O  report_path = report_path)
+                              report_path = report_path)

@@ -1,3 +1,9 @@
+# EpiSoon 0.3.0
+
+* Reviewed and updated all tooling and examples
+* Added documentation 
+* Bugs squashed.
+
 # EpiSoon 0.2.0
 
 * Added a `NEWS.md` file to track changes to the package.

@@ -1,6 +1,6 @@
 #' Summarise Forecast Cases
 #'
-#' @param fit_samples A dataframe as produced by `EpiSoon::forecast_cases`.
+#' @param pred_cases A dataframe as produced by `EpiSoon::forecast_cases`.
 #'
 #' @return A summarised dataframe.
 #' @export
