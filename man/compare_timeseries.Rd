@@ -11,6 +11,7 @@ compare_timeseries(
   horizon = 7,
   samples = 1000,
   bound_rt = TRUE,
+  min_pounts = 3,
   timeout = 30,
   serial_interval = NULL,
   rdist = NULL
@@ -48,28 +49,20 @@ Compare timeseries and forecast models
 }
 \examples{
 
-## Dummy data
-obs_rts <- data.frame(rt = 1:20,
-                            date = as.Date("2020-01-01")
-                           + lubridate::days(1:20))
-
-obs_rts <- obs_rts \%>\%
+## Example data
+obs_rts <- EpiSoon::example_obs_rts \%>\%
     dplyr::mutate(timeseries = "Region 1") \%>\%
-    dplyr::bind_rows(obs_rts \%>\%
+    dplyr::bind_rows(EpiSoon::example_obs_rts \%>\%
     dplyr::mutate(timeseries = "Region 2"))
 
-obs_cases <- data.frame(cases = 1:20,
-                            date = as.Date("2020-01-01")
-                           + lubridate::days(1:20))
-
-obs_cases <- obs_cases \%>\%
+obs_cases <- EpiSoon::example_obs_cases \%>\%
     dplyr::mutate(timeseries = "Region 1") \%>\%
-    dplyr::bind_rows(obs_cases \%>\%
+    dplyr::bind_rows(EpiSoon::example_obs_cases \%>\%
     dplyr::mutate(timeseries = "Region 2"))
 
 ## List of forecasting bsts models wrapped in functions.
-models <- list("Sparse AR" =
-                    function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 7)},
+models <- list("AR 3" =
+                    function(ss, y){bsts::AddAr(ss, y = y, lags = 3)},
                "Semi-local linear trend" =
                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
 
@@ -77,7 +70,7 @@ models <- list("Sparse AR" =
 ## Compare models
 evaluations <- compare_timeseries(obs_rts, obs_cases, models,
                                   horizon = 7, samples = 10,
-                                  serial_interval = example_serial_interval)
+                                  serial_interval = EpiSoon::example_serial_interval)
 
 evaluations
 
@@ -89,8 +82,7 @@ plot_forecast_evaluation(evaluations$forecast_rts, obs_rts, c(7)) +
 
 ## Hack to plot observed cases vs predicted
 plot_forecast_evaluation(evaluations$forecast_cases,
-                         obs_cases \%>\%
-                         dplyr::rename(rt = cases), c(3)) +
-  ggplot2::facet_wrap(model ~ timeseries, scales = "free") +
+                         obs_cases, c(7)) +
+  ggplot2::facet_grid(model ~ timeseries, scales = "free") +
   cowplot::panel_border()
 }

@@ -49,7 +49,7 @@ iteratively evaluating the forecast.}
 Evaluate a Model for Forecasting Rts
 }
 \examples{
-## Evaluate a model
+## Evaluate a model based on a single sample of input cases
 evaluate_model(EpiSoon::example_obs_rts,
                EpiSoon::example_obs_cases,
                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
@@ -58,14 +58,14 @@ evaluate_model(EpiSoon::example_obs_rts,
 
 
 ## Samples of observed data
-sampled_obs <- obs_rts \%>\%
+sampled_obs <- EpiSoon::example_obs_rts \%>\%
    dplyr::mutate(sample = 1) \%>\%
-   dplyr::bind_rows(obs_rts \%>\%
+   dplyr::bind_rows(EpiSoon::example_obs_rts \%>\%
    dplyr::mutate(sample = 2))
 
-sampled_cases <- obs_cases \%>\%
+sampled_cases <- EpiSoon::example_obs_cases \%>\%
    dplyr::mutate(sample = 1) \%>\%
-   dplyr::bind_rows(obs_cases \%>\%
+   dplyr::bind_rows(EpiSoon::example_obs_cases \%>\%
    dplyr::mutate(sample = 2))
 
 
@@ -74,5 +74,5 @@ evaluate_model(sampled_obs,
                sampled_cases,
                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
                horizon = 7, samples = 10,
-                serial_interval = EpiSoon::example_serial_interval)
+               serial_interval = EpiSoon::example_serial_interval)
 }
