@@ -31,18 +31,15 @@ Iteratively forecast cases using a iterative Rt forecasts
 }
 \examples{
 
-## Example data
-cases <- example_obs_cases
-rts <- example_obs_rts
-
-
 ## Iterative Rt forecast
 it_forecast <-
-  iterative_rt_forecast(rts, model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+  iterative_rt_forecast(EpiSoon::example_obs_rts,
+                        model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
                         horizon = 7, samples = 10)
 
 
 ## Iterative case forecast
-iteractive_case_forecast(it_fit_samples = it_forecast, cases = cases,
+iteractive_case_forecast(it_fit_samples = it_forecast,
+                         cases = EpiSoon::example_obs_cases,
                          serial_interval = EpiSoon::example_serial_interval)
 }

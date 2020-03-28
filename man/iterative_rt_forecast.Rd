@@ -40,7 +40,7 @@ Iteratively forecast using a BSTS model
 \examples{
 
 
-iterative_rt_forecast(example_obs_rts,
+iterative_rt_forecast(EpiSoon::example_obs_rts,
                       model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
-                      horizon = 7, samples = 10)
+                      horizon = 7, samples = 10, min_points = 4)
 }
