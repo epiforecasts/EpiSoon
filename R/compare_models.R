@@ -7,7 +7,8 @@
 #' @inheritParams evaluate_model
 #' @return A list of dataframes as produced by `evaluate model` but with an additional model column.
 #' @export
-#' @importFrom purrr map transpose safely
+#' @importFrom purrr transpose safely
+#' @importFrom furrr future_map
 #' @importFrom dplyr bind_rows
 #' @examples
 #'
@@ -48,13 +49,9 @@
 
    safe_eval <- purrr::safely(evaluate_model)
 
-   if(is.null(serial_interval)) {
-      stop("serial_interval argument missing. For a Covid-19 serial interval, try EpiNow::covid_serial_intervals")
-   }
-
    ## Evaluate each model (potential to swap in furrr here)
    evaluations <- models %>%
-     purrr::map(
+     furrr::future_map(
        ~ safe_eval(obs_rts,
                    obs_cases,
                    model = .,
@@ -64,7 +61,8 @@
                    timeout = timeout,
                    serial_interval = serial_interval,
                    min_points = min_points,
-                   rdist = rdist)[[1]]
+                   rdist = rdist)[[1]],
+       .progress = TRUE
     ) %>%
      purrr::transpose() %>%
      purrr::map(~ dplyr::bind_rows(., .id = "model"))
