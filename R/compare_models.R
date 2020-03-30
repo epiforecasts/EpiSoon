@@ -7,7 +7,8 @@
 #' @inheritParams evaluate_model
 #' @return A list of dataframes as produced by `evaluate model` but with an additional model column.
 #' @export
-#' @importFrom purrr map transpose safely
+#' @importFrom purrr transpose safely
+#' @importFrom furrr future_map
 #' @importFrom dplyr bind_rows
 #' @examples
 #'
@@ -50,7 +51,7 @@
 
    ## Evaluate each model (potential to swap in furrr here)
    evaluations <- models %>%
-     purrr::map(
+     furrr::future_map(
        ~ safe_eval(obs_rts,
                    obs_cases,
                    model = .,
