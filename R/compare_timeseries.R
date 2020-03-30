@@ -100,7 +100,8 @@ compare_timeseries <- function(obs_rts = NULL,
                                     serial_interval = serial_interval,
                                     min_points = min_points,
                                     rdist = rdist
-                                  )[[1]]})) %>%
+                                  )[[1]]}),
+      .progress = TRUE) %>%
       dplyr::select(timeseries, model = model_name, eval)
 
   ## Output

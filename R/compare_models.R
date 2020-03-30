@@ -61,7 +61,8 @@
                    timeout = timeout,
                    serial_interval = serial_interval,
                    min_points = min_points,
-                   rdist = rdist)[[1]]
+                   rdist = rdist)[[1]],
+       .progress = TRUE
     ) %>%
      purrr::transpose() %>%
      purrr::map(~ dplyr::bind_rows(., .id = "model"))
