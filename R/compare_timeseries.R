@@ -10,9 +10,11 @@
 #' @inheritParams compare_models
 #' @return A list of dataframes as produced by `evaluate model` but with an additional model column.
 #' @export
-#' @importFrom purrr transpose
-#' @importFrom dplyr bind_rows group_split select
-#' @importFrom furrr future_map2
+#' @importFrom purrr transpose map
+#' @importFrom dplyr group_split select mutate
+#' @importFrom furrr future_pmap
+#' @importFrom tidyr expand_grid unnest
+#' @importFrom tibble tibble
 #' @examples
 #'
 #' ## Example data
@@ -64,30 +66,55 @@ compare_timeseries <- function(obs_rts = NULL,
                                serial_interval = NULL,
                                rdist = NULL) {
 
+  ## Make a nested tibble of timseries and observed ata
+  data_tibble <- tibble::tibble(
+                                 timeseries = unique(obs_cases$timeseries),
+                                 rts = obs_rts %>%
+                                   dplyr::group_split(timeseries),
+                                 cases = obs_cases %>%
+                                   dplyr::group_split(timeseries)
+                                 )
 
-  obs_rts <- obs_rts %>%
-    dplyr::group_split(timeseries)
+  ## Make a tibble of all data and model combinations
+  combinations <- tidyr::expand_grid(data = list(data_tibble), models = models) %>%
+    tidyr::unnest("data") %>%
+    dplyr::mutate(model_name = names(models))
 
-  timeseries <- unique(obs_cases$timeseries)
-
-  obs_cases <- obs_cases %>%
-    dplyr::group_split(timeseries)
-
-  evaluations <-
-    furrr::future_map2(obs_rts, obs_cases,
-                       ~ compare_models(obs_rts = dplyr::select(.x, -timeseries),
-                                        obs_cases = dplyr::select(.y, -timeseries),
-                                        models = models,
-                                        horizon = horizon , samples = samples,
-                                        bound_rt = bound_rt, timeout = timeout,
-                                        serial_interval = serial_interval,
-                                        min_points = min_points,
-                                        rdist = rdist),
-                       .progress = TRUE) %>%
-    setNames(timeseries) %>%
-    purrr::transpose() %>%
-    purrr::map(~ dplyr::bind_rows(., .id = "timeseries"))
+  ## Safe model evaluation
+  safe_eval <- purrr::safely(evaluate_model)
 
 
-  return(evaluations)
+  ## Run each row combination and pull out the model evaluation
+  evaluations <- combinations %>%
+    dplyr::mutate(
+      eval = furrr::future_pmap(list(rts, cases, models),
+                                function(rt, case, model) {
+                                  safe_eval(
+                                    obs_rts = rt,
+                                    obs_cases = case,
+                                    model = model,
+                                    horizon = horizon,
+                                    samples = samples,
+                                    bound_rt = bound_rt,
+                                    timeout = timeout,
+                                    serial_interval = serial_interval,
+                                    min_points = min_points,
+                                    rdist = rdist
+                                  )[[1]]})) %>%
+      dplyr::select(timeseries, model = model_name, eval)
+
+  ## Output
+  out_names <- c("forecast_rts", "rt_scores", "forecast_cases", "case_scores",
+           "raw_rt_forecast", "raw_case_forecast")
+
+  out <- purrr::map(out_names, function(list_obj) {
+    out <- evaluations %>%
+      dplyr::mutate(eval = purrr::map(eval, ~ .[[list_obj]])) %>%
+      tidyr::unnest("eval")
+  })
+
+  names(out) <- out_names
+
+
+  return(out)
 }
