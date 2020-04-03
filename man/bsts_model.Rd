@@ -23,9 +23,16 @@ BSTS model wrapper
 }
 \examples{
 
+## Used on its own
+bsts_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
+           model = function(ss, y){
+           bsts::AddAr(ss, y = y, lags = 2)},
+           samples = 10, horizon = 7)
 
-forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-           model = function(...){bsts_model(model = function(ss, y){
-           bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)},
-           horizon = 7, samples = 10)
+## Used for forecasting
+ forecast_rt(EpiSoon::example_obs_rts[1:10, ],
+                    model = function(...){EpiSoon::bsts_model(model =
+                      function(ss, y){
+                        bsts::AddAr(ss, y = y, lags = 3)}, ...)},
+                    horizon = 7, samples = 10)
 }
