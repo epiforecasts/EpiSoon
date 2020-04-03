@@ -30,19 +30,13 @@ contain samples for each timeseries in which case this should be denoted using a
 examples. Each \code{bsts} model needs to be wrapped in a function that takes a \code{ss} and \code{y}
 argument (i.e. \code{function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}}).}
 
-\item{horizon}{Numeric, the time horizon over which to predict}
-
-\item{samples}{Numeric, the number of samples to from the posterior of the model
-fit. Note that twice this number of MCMC steps will be taken with half used as burn in.}
-
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}
 
 \item{min_points}{Numeric, defaults to 3. The minimum number of time points at which to begin
 iteratively evaluating the forecast.}
 
-\item{timeout}{Numeric, the number of seconds to allow before terminating model fitting. Defaults to
-30 seconds.}
+\item{timeout}{Numeric, timeout of model fitting in seconds. Defaults to 30 seconds.}
 
 \item{serial_interval}{A numeric vector describing the probability distribution the serial interval.
 See \code{EpiNow::covid_serial_interval} for an example of the format.}

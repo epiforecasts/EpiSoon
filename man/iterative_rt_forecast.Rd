@@ -18,15 +18,9 @@ iterative_rt_forecast(
 \item{rts}{A dataframe of containing two variables \code{rt} and  \code{date} with
 \code{rt} being numeric and \code{date} being a date.}
 
-\item{model}{An uninitialised \code{bsts} model}
+\item{model}{A model object in the format of \code{bsts_model} etc.}
 
-\item{horizon}{Numeric, the time horizon over which to predict}
-
-\item{samples}{Numeric, the number of samples to from the posterior of the model
-fit. Note that twice this number of MCMC steps will be taken with half used as burn in.}
-
-\item{timeout}{Numeric, the number of seconds to allow before terminating model fitting. Defaults to
-30 seconds.}
+\item{timeout}{Numeric, timeout of model fitting in seconds. Defaults to 30 seconds.}
 
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}
