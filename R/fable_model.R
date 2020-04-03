@@ -1,8 +1,10 @@
 #' Fable model wrapper
 #'
-#' @param model A `fable` model object wrapped in a function with an `ss` and `y` argument.
-#' @inheritParams
-#' @return A dataframe of predictions (with columns representing the time horizon and rows representing samples).
+#' @param model A `fable` model object. For models that use a formula interface time
+#' can be accessed using `time`.
+#' @inheritParams bsts_model
+#' @return A dataframe of predictions (with columns representing the
+#'  time horizon and rows representing samples).
 #' @export
 #' @importFrom tsibble tsibble
 #' @importFrom fabletools model forecast

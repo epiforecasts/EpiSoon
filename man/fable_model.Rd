@@ -7,10 +7,18 @@
 fable_model(y = NULL, samples = NULL, horizon = NULL, model = NULL)
 }
 \arguments{
-\item{model}{A \code{fable} model object wrapped in a function with an \code{ss} and \code{y} argument.}
+\item{y}{Numeric vector of time points to forecast}
+
+\item{samples}{Numeric, number of samples to take.}
+
+\item{horizon}{Numeric, the time horizon over which to predict.}
+
+\item{model}{A \code{fable} model object. For models that use a formula interface time
+can be accessed using \code{time}.}
 }
 \value{
-A dataframe of predictions (with columns representing the time horizon and rows representing samples).
+A dataframe of predictions (with columns representing the
+time horizon and rows representing samples).
 }
 \description{
 Fable model wrapper
