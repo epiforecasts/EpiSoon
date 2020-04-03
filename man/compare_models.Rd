@@ -67,7 +67,7 @@ models <- list("AR 3" =
 ## Compare models
 evaluations <- compare_models(EpiSoon::example_obs_rts,
                               EpiSoon::example_obs_cases, models,
-                              horizon = 7, samples = 100,
+                              horizon = 7, samples = 10,
                               serial_interval = example_serial_interval)
 
 ## Example evaluation plot for comparing forecasts

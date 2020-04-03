@@ -39,9 +39,8 @@ Predict cases for a single Rt sample forecasts
 \examples{
 
 forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-                        model = function(ss, y) {
-                        bsts::AddAutoAr(ss, y = y, lags = 7)
-                        },
+                        model = function(...) {EpiSoon::bsts_model(model =
+                                function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
                         horizon = 7, samples = 1)
 
 

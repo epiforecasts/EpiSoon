@@ -34,7 +34,8 @@ Iteratively forecast cases using a iterative Rt forecasts
 ## Iterative Rt forecast
 it_forecast <-
   iterative_rt_forecast(EpiSoon::example_obs_rts,
-                        model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                        model = function(...) {EpiSoon::bsts_model(model =
+                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
                         horizon = 7, samples = 10)
 
 
