@@ -71,7 +71,7 @@ plot_forecast <- function(forecast = NULL,
                        ggplot2::aes(y = y), size = 1.1,
                        alpha = ifelse(rlang::has_name(observations, "sample"),
                                       max(1 / max(observations$sample, na.rm = TRUE), 0.01),
-                                      1)) +
+                                      0.7 )) +
     cowplot::theme_cowplot() +
     ggplot2::scale_x_date(date_breaks = "1 week", date_labels = "%b %d") +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90))

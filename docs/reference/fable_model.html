@@ -36,7 +36,9 @@
 
 
 <meta property="og:title" content="Fable model wrapper — fable_model" />
-<meta property="og:description" content="Fable model wrapper" />
+<meta property="og:description" content="Provides an interface for models from the fable package. Not the ARIMA model
+requires the feast package. If future is being used fable will require future.apply in
+order to not silently fail." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,7 +120,9 @@
     </div>
 
     <div class="ref-description">
-    <p>Fable model wrapper</p>
+    <p>Provides an interface for models from the <code>fable</code> package. Not the <code>ARIMA</code> model
+requires the <code>feast</code> package. If <code>future</code> is being used <code>fable</code> will require <code>future.apply</code> in
+order to not silently fail.</p>
     </div>
 
     <pre class="usage"><span class='fu'>fable_model</span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -140,7 +144,7 @@
     </tr>
     <tr>
       <th>model</th>
-      <td><p>A <code>fable</code> model object. For models that use a formula interface time
+      <td><p>A <code>fable</code> model object. For  models that use a formula interface time
 can be accessed using <code>time</code>.</p></td>
     </tr>
     </table>
@@ -157,16 +161,16 @@ time horizon and rows representing samples).</p>
            <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10 x 7</span><span>
 #&gt;      `1`   `2`   `3`   `4`   `5`   `6`   `7`
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>  1.93  1.86  1.83  1.76  1.73  1.67  1.59
-#&gt; </span><span style='color: #555555;'> 2</span><span>  1.98  1.88  1.84  1.79  1.73  1.67  1.62
-#&gt; </span><span style='color: #555555;'> 3</span><span>  1.95  1.88  1.84  1.79  1.73  1.63  1.65
-#&gt; </span><span style='color: #555555;'> 4</span><span>  1.93  1.89  1.86  1.78  1.73  1.71  1.65
-#&gt; </span><span style='color: #555555;'> 5</span><span>  1.94  1.93  1.82  1.80  1.76  1.71  1.62
-#&gt; </span><span style='color: #555555;'> 6</span><span>  1.95  1.89  1.86  1.79  1.73  1.70  1.62
-#&gt; </span><span style='color: #555555;'> 7</span><span>  1.98  1.89  1.82  1.78  1.73  1.66  1.61
-#&gt; </span><span style='color: #555555;'> 8</span><span>  1.94  1.91  1.88  1.75  1.73  1.65  1.57
-#&gt; </span><span style='color: #555555;'> 9</span><span>  1.94  1.91  1.83  1.79  1.71  1.67  1.61
-#&gt; </span><span style='color: #555555;'>10</span><span>  1.95  1.89  1.82  1.78  1.73  1.69  1.58</div><div class='input'>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  1.96  1.90  1.85  1.78  1.74  1.65  1.64
+#&gt; </span><span style='color: #555555;'> 2</span><span>  1.96  1.90  1.82  1.79  1.73  1.68  1.60
+#&gt; </span><span style='color: #555555;'> 3</span><span>  1.95  1.90  1.83  1.77  1.73  1.63  1.61
+#&gt; </span><span style='color: #555555;'> 4</span><span>  1.95  1.87  1.82  1.79  1.73  1.71  1.61
+#&gt; </span><span style='color: #555555;'> 5</span><span>  1.93  1.89  1.82  1.78  1.72  1.67  1.59
+#&gt; </span><span style='color: #555555;'> 6</span><span>  1.95  1.90  1.82  1.79  1.72  1.65  1.63
+#&gt; </span><span style='color: #555555;'> 7</span><span>  1.95  1.88  1.85  1.80  1.74  1.68  1.59
+#&gt; </span><span style='color: #555555;'> 8</span><span>  1.94  1.91  1.81  1.79  1.71  1.67  1.60
+#&gt; </span><span style='color: #555555;'> 9</span><span>  1.97  1.90  1.84  1.78  1.70  1.66  1.61
+#&gt; </span><span style='color: #555555;'>10</span><span>  1.97  1.89  1.87  1.79  1.71  1.67  1.62</div><div class='input'>
 
 <span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
            <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>){
@@ -176,14 +180,14 @@ time horizon and rows representing samples).</p>
 #&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span>      1 2020-03-11  1.94       1
 #&gt; </span><span style='color: #555555;'> 2</span><span>      2 2020-03-11  1.96       1
-#&gt; </span><span style='color: #555555;'> 3</span><span>      3 2020-03-11  1.92       1
-#&gt; </span><span style='color: #555555;'> 4</span><span>      4 2020-03-11  1.94       1
+#&gt; </span><span style='color: #555555;'> 3</span><span>      3 2020-03-11  1.97       1
+#&gt; </span><span style='color: #555555;'> 4</span><span>      4 2020-03-11  1.93       1
 #&gt; </span><span style='color: #555555;'> 5</span><span>      5 2020-03-11  1.98       1
-#&gt; </span><span style='color: #555555;'> 6</span><span>      6 2020-03-11  1.91       1
-#&gt; </span><span style='color: #555555;'> 7</span><span>      7 2020-03-11  1.96       1
+#&gt; </span><span style='color: #555555;'> 6</span><span>      6 2020-03-11  1.95       1
+#&gt; </span><span style='color: #555555;'> 7</span><span>      7 2020-03-11  1.94       1
 #&gt; </span><span style='color: #555555;'> 8</span><span>      8 2020-03-11  1.94       1
-#&gt; </span><span style='color: #555555;'> 9</span><span>      9 2020-03-11  1.96       1
-#&gt; </span><span style='color: #555555;'>10</span><span>     10 2020-03-11  1.94       1
+#&gt; </span><span style='color: #555555;'> 9</span><span>      9 2020-03-11  1.97       1
+#&gt; </span><span style='color: #555555;'>10</span><span>     10 2020-03-11  1.98       1
 #&gt; </span><span style='color: #555555;'># … with 60 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -59,13 +59,13 @@ obs_cases <- EpiSoon::example_obs_cases %>%
 
 ```{r}
 models <- list("AR 3" =
-                    function(...) {EpiSoon::bsts_model(model =
+                function(...) {EpiSoon::bsts_model(model =
                      function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)},
-                "Semi-local linear trend" =
+               "Semi-local linear trend" =
                 function(...) {EpiSoon::bsts_model(model =
                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
                "ARIMA" = 
-                  function(...){EpiSoon::fable_model(model = fable::ARIMA(y ~ time), ...)})
+                    function(...){EpiSoon::fable_model(model = fable::ARIMA(y ~ time), ...)})
 ```
 
 * Compare models across timeseries (change the `future::plan` to do this in parallel).

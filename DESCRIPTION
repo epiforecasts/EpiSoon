@@ -60,5 +60,6 @@ Suggests:
     knitr,
     rmarkdown,
     fable,
-    feasts
+    feasts,
+    future.apply
 VignetteBuilder: knitr

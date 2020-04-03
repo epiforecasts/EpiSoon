@@ -195,3 +195,6 @@ plot_forecast_evaluation(model_eval$forecast_cases,
 
 `EpiSoon` provides several wrapper functions (`compare_models` and `compare_timeseries`). These both wrap `evaluate_model` and can be used to rapidly explore several forecasting models (`compare_models`) against multiple time series (`compare_timeseries`). All lower level summary and plotting functions can be then used with the output of these wrappers to explore the results. See the function documentation for further details.
 
+## Supporting generic modelling packages
+
+`EpiSoon` supports the use of generic forecasting models if they are used in a wrapper that accepts a standardised set of inputs and outputs its forecast in the form the package expects. Examples of model wrappers are those for the `bsts` and `fable` packages (`bsts_model` and `fable_model`). See the examples and documentation for `fable_model` for further details. 

@@ -34,7 +34,9 @@
 #'                     function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)},
 #'                "Semi-local linear trend" =
 #'                function(...) {EpiSoon::bsts_model(model =
-#'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)})
+#'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
+#'                "ARIMA" =
+#'                     function(...){fable_model(model = fable::ARIMA(y ~ time), ...)})
 #'
 #'
 #' ## Compare models
