@@ -9,10 +9,10 @@
 #' @param horizon_cutoff Numeric, defaults to NULL. Forecast horizon to plot up to.
 #' @param obs_cutoff_at_forecast Logical defaults to `TRUE`. Should observations only be shown
 #' up to the date of the forecast.
-#'
 #' @importFrom dplyr filter
 #' @importFrom ggplot2 ggplot aes geom_line geom_ribbon scale_x_date labs
 #' @importFrom cowplot theme_cowplot
+#' @importFrom rlang has_name
 #' @return A `ggplot2` object
 #' @export
 #'
@@ -42,7 +42,6 @@ plot_forecast <- function(forecast = NULL,
                           horizon_cutoff = NULL,
                           obs_cutoff_at_forecast = TRUE) {
 
-
   if (obs_cutoff_at_forecast) {
     observations <- observations %>%
       dplyr::filter(date < min(forecast$date))
@@ -63,15 +62,16 @@ plot_forecast <- function(forecast = NULL,
       dplyr::mutate(y = rt)
   }
 
-
-
   plot <- ggplot2::ggplot(forecast, ggplot2::aes(x = date)) +
     ggplot2::geom_line(ggplot2::aes(y = bottom), alpha = 0.5) +
     ggplot2::geom_line(ggplot2::aes(y = top), alpha =  0.5) +
     ggplot2::geom_ribbon(ggplot2::aes(ymin = bottom, ymax = top), alpha = 0.1) +
     ggplot2::geom_ribbon(ggplot2::aes(ymin = lower, ymax = upper), alpha = 0.2) +
-    ggplot2::geom_line(data = observations,
-                       ggplot2::aes(y = y), size = 1.1) +
+    ggplot2::geom_point(data = observations,
+                       ggplot2::aes(y = y), size = 1.1,
+                       alpha = ifelse(rlang::has_name(observations, "sample"),
+                                      max(1 / max(observations$sample, na.rm = TRUE), 0.01),
+                                      1)) +
     cowplot::theme_cowplot() +
     ggplot2::scale_x_date(date_breaks = "1 week", date_labels = "%b %d") +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90))
