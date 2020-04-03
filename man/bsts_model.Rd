@@ -25,6 +25,7 @@ BSTS model wrapper
 
 
 forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-           model = function(...){bsts_model(model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)},
+           model = function(...){bsts_model(model = function(ss, y){
+           bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)},
            horizon = 7, samples = 10)
 }

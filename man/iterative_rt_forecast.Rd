@@ -20,6 +20,10 @@ iterative_rt_forecast(
 
 \item{model}{A model object in the format of \code{bsts_model} etc.}
 
+\item{horizon}{Numeric, the time horizon over which to predict.}
+
+\item{samples}{Numeric, number of samples to take.}
+
 \item{timeout}{Numeric, timeout of model fitting in seconds. Defaults to 30 seconds.}
 
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or

@@ -31,6 +31,10 @@ examples. Each model needs to be wrapped in a function that takes a \code{...} a
 of samples with each column representing a time horizon.
 Example: \code{function(...) {EpiSoon::bsts_model(model = function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)}}.}
 
+\item{horizon}{Numeric, the time horizon over which to predict.}
+
+\item{samples}{Numeric, number of samples to take.}
+
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}
 

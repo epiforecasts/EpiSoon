@@ -8,6 +8,7 @@
 #' @param timeout Numeric, timeout of model fitting in seconds. Defaults to 30 seconds.
 #' @return A dataframe of samples containing the following variables:
 #'  `sample`, `date`, `rt`, and `horizon`.
+#'@inheritParams bsts_model
 #' @importFrom lubridate days
 #' @importFrom dplyr mutate n group_by ungroup
 #' @importFrom tidyr gather
@@ -16,7 +17,10 @@
 #'
 #' @examples
 #' forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-#'             model = function(...){EpiSoon::bsts_model(model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)},
+#'             model = function(...){
+#'             EpiSoon::bsts_model(model = function(ss, y){
+#'             bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
+#'             },
 #'             horizon = 7, samples = 10)
 forecast_rt <- function(rts, model = model,
                       horizon = 7, samples = 1000,

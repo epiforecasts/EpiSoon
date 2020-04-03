@@ -19,6 +19,10 @@ forecast_rt(
 
 \item{model}{A model object in the format of \code{bsts_model} etc.}
 
+\item{horizon}{Numeric, the time horizon over which to predict.}
+
+\item{samples}{Numeric, number of samples to take.}
+
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}
 
@@ -33,6 +37,9 @@ Fit and Forecast using a BSTS Model
 }
 \examples{
 forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-            model = function(...){EpiSoon::bsts_model(model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)},
+            model = function(...){
+            EpiSoon::bsts_model(model = function(ss, y){
+            bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
+            },
             horizon = 7, samples = 10)
 }
