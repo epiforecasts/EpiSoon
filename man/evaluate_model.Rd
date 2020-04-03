@@ -27,7 +27,8 @@ should be denoted using a numeric \code{sample} variable.}
 scoring. Should contain a \code{date} and \code{cases} column. If multiple samples are included this
 should be denoted using a numeric \code{sample} variable.}
 
-\item{model}{A model object in the format of \code{bsts_model} etc.}
+\item{model}{A model object in the format of \code{bsts_model} or \code{fable_model}. See the corresponding
+help files for details.}
 
 \item{horizon}{Numeric, the time horizon over which to predict.}
 

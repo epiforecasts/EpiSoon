@@ -30,11 +30,12 @@ remotes::install_github("epiforecasts/EpiSoon", dependencies = TRUE)
 ## Quick start
 
 
-* Load packages (`bsts` for models, `ggplot2` for plotting, and `cowplot` for theming)
+* Load packages (`bsts` and `fable` for models, `ggplot2` for plotting, and `cowplot` for theming)
 
 ```{r, message = FALSE}
 library(EpiSoon)
 library(bsts)
+library(fable)
 library(future)
 library(cowplot)
 library(dplyr)
@@ -62,7 +63,9 @@ models <- list("AR 3" =
                      function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)},
                 "Semi-local linear trend" =
                 function(...) {EpiSoon::bsts_model(model =
-                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)})
+                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
+               "ARIMA" = 
+                  function(...){fable_model(model = fable::ARIMA(y ~ time), ...)})
 ```
 
 * Compare models across timeseries (change the `future::plan` to do this in parallel).

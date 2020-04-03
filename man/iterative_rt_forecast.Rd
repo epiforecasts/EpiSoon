@@ -18,7 +18,8 @@ iterative_rt_forecast(
 \item{rts}{A dataframe of containing two variables \code{rt} and  \code{date} with
 \code{rt} being numeric and \code{date} being a date.}
 
-\item{model}{A model object in the format of \code{bsts_model} etc.}
+\item{model}{A model object in the format of \code{bsts_model} or \code{fable_model}. See the corresponding
+help files for details.}
 
 \item{horizon}{Numeric, the time horizon over which to predict.}
 

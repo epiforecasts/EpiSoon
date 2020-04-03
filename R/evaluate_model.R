@@ -15,6 +15,7 @@
 #' @export
 #' @importFrom dplyr slice group_split filter
 #' @importFrom purrr map_dfr map2 map2_dfr
+#' @importFrom rlang has_name
 #' @examples
 #' ## Evaluate a model based on a single sample of input cases
 #' evaluate_model(EpiSoon::example_obs_rts,
@@ -57,14 +58,14 @@ evaluate_model <- function(obs_rts = NULL,
                            return_raw = FALSE) {
 
   ## Split obs_rt into a list if present
-  if (!is.null(suppressWarnings(obs_rts$sample))) {
+  if (rlang::has_name(obs_rts, "sample")) {
     obs_rts <- obs_rts %>%
       dplyr::group_split(sample)
   }else{
     obs_rts <- list(obs_rts)
   }
 
-  if (!is.null(suppressWarnings(obs_cases$sample))) {
+  if (rlang::has_name(obs_cases, "sample")) {
     obs_cases <- obs_cases %>%
       dplyr::group_split(sample) %>%
       purrr::map(~ select(., -sample))

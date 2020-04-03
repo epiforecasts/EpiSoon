@@ -2,7 +2,8 @@
 #'
 #' @param rts A dataframe of containing two variables `rt` and  `date` with
 #' `rt` being numeric and `date` being a date.
-#' @param model A model object in the format of `bsts_model` etc.
+#' @param model A model object in the format of `bsts_model` or `fable_model`. See the corresponding
+#' help files for details.
 #' @param bound_rt Logical, defaults to `TRUE`. Should Rt values be bounded to be greater than or
 #' equal to 0.
 #' @param timeout Numeric, timeout of model fitting in seconds. Defaults to 30 seconds.
