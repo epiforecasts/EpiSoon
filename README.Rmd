@@ -65,7 +65,7 @@ models <- list("AR 3" =
                 function(...) {EpiSoon::bsts_model(model =
                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
                "ARIMA" = 
-                  function(...){fable_model(model = fable::ARIMA(y ~ time), ...)})
+                  function(...){EpiSoon::fable_model(model = fable::ARIMA(y ~ time), ...)})
 ```
 
 * Compare models across timeseries (change the `future::plan` to do this in parallel).
@@ -74,9 +74,9 @@ models <- list("AR 3" =
 future::plan("sequential")
 
 ## Compare models
-forecasts <- compare_timeseries(obs_rts, obs_cases, models,
-                                   horizon = 7, samples = 10,
-                                   serial_interval = EpiSoon::example_serial_interval)
+forecasts <- EpiSoon::compare_timeseries(obs_rts, obs_cases, models,
+                                         horizon = 7, samples = 10,
+                                         serial_interval = EpiSoon::example_serial_interval)
 
 forecasts
 ```
@@ -84,7 +84,7 @@ forecasts
 * Plot an evaluation of Rt forecasts using iterative fitting.
 
 ```{r, fig.width = 7, fig.height = 7, dpi = 320, out.width = "60%"}
-plot_forecast_evaluation(forecasts$forecast_rts, obs_rts, c(7)) +
+EpiSoon::plot_forecast_evaluation(forecasts$forecast_rts, obs_rts, c(7)) +
    ggplot2::facet_grid(model ~ timeseries) +
    cowplot::panel_border()
 ```
@@ -93,7 +93,7 @@ plot_forecast_evaluation(forecasts$forecast_rts, obs_rts, c(7)) +
 
 
 ```{r, fig.width = 7, fig.height = 7, dpi = 320, out.width = "60%"}
-plot_forecast_evaluation(forecasts$forecast_cases, obs_cases, c(7)) +
+EpiSoon::plot_forecast_evaluation(forecasts$forecast_cases, obs_cases, c(7)) +
    ggplot2::facet_grid(model ~ timeseries, scales = "free") +
    cowplot::panel_border()
 ```
@@ -101,7 +101,7 @@ plot_forecast_evaluation(forecasts$forecast_cases, obs_cases, c(7)) +
 * Summarise the forecasts by model scored against observed cases
 
 ```{r}
-summarise_scores(forecasts$case_scores)
+EpiSoon::summarise_scores(forecasts$case_scores)
 ```
 
 

@@ -28,6 +28,7 @@ This vignette briefly outlines the functionality of `EpiSoon`. To get started lo
 ```{r, message = FALSE}
 library(EpiSoon)
 library(bsts)
+library(fable)
 library(cowplot)
 library(dplyr)
 ```
@@ -42,7 +43,7 @@ library(dplyr)
 EpiSoon::example_obs_rts
 ```
 
-* Fit a `bsts` model and produce a Rt forecast. Us appropriately wrapped any model can be used (see `bsts_model` for an example wrapper).
+* Fit a `bsts` model and produce a Rt forecast. Any appropriately wrapped model can be used (see `bsts_model` and `fable_model` for an examples).
 ```{r}
 rt_forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
                        model = function(...){EpiSoon::bsts_model(model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)},

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fit and Forecast using a BSTS Model — forecast_rt • EpiSoon</title>
+<title>Fable model wrapper — fable_model • EpiSoon</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Fit and Forecast using a BSTS Model — forecast_rt" />
-<meta property="og:description" content="Fit and Forecast using a BSTS Model" />
+<meta property="og:title" content="Fable model wrapper — fable_model" />
+<meta property="og:description" content="Fable model wrapper" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -112,80 +112,78 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Fit and Forecast using a BSTS Model</h1>
+    <h1>Fable model wrapper</h1>
     
-    <div class="hidden name"><code>forecast_rt.Rd</code></div>
+    <div class="hidden name"><code>fable_model.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Fit and Forecast using a BSTS Model</p>
+    <p>Fable model wrapper</p>
     </div>
 
-    <pre class="usage"><span class='fu'>forecast_rt</span>(
-  <span class='no'>rts</span>,
-  <span class='kw'>model</span> <span class='kw'>=</span> <span class='no'>model</span>,
-  <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>,
-  <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>bound_rt</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>30</span>
-)</pre>
+    <pre class="usage"><span class='fu'>fable_model</span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>rts</th>
-      <td><p>A dataframe of containing two variables <code>rt</code> and  <code>date</code> with
-<code>rt</code> being numeric and <code>date</code> being a date.</p></td>
-    </tr>
-    <tr>
-      <th>model</th>
-      <td><p>A model object in the format of <code>bsts_model</code> or <code>fable_model</code>. See the corresponding
-help files for details.</p></td>
-    </tr>
-    <tr>
-      <th>horizon</th>
-      <td><p>Numeric, the time horizon over which to predict.</p></td>
+      <th>y</th>
+      <td><p>Numeric vector of time points to forecast</p></td>
     </tr>
     <tr>
       <th>samples</th>
       <td><p>Numeric, number of samples to take.</p></td>
     </tr>
     <tr>
-      <th>bound_rt</th>
-      <td><p>Logical, defaults to <code>TRUE</code>. Should Rt values be bounded to be greater than or
-equal to 0.</p></td>
+      <th>horizon</th>
+      <td><p>Numeric, the time horizon over which to predict.</p></td>
     </tr>
     <tr>
-      <th>timeout</th>
-      <td><p>Numeric, timeout of model fitting in seconds. Defaults to 30 seconds.</p></td>
+      <th>model</th>
+      <td><p>A <code>fable</code> model object. For models that use a formula interface time
+can be accessed using <code>time</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataframe of samples containing the following variables:
-<code>sample</code>, <code>date</code>, <code>rt</code>, and <code>horizon</code>.</p>
+    <p>A dataframe of predictions (with columns representing the
+time horizon and rows representing samples).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>forecast_rt</span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
-            <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>){
-            <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){
-            <span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/auto.ar.html'>AddAutoAr</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>lags</span> <span class='kw'>=</span> <span class='fl'>10</span>)}, <span class='no'>...</span>)
-            },
-            <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 70 x 4</span><span>
+    <pre class="examples"><div class='input'><span class='co'>## Used on its own</span>
+<span class='fu'>fable_model</span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ]$<span class='no'>rt</span>,
+           <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw pkg'>fable</span><span class='kw ns'>::</span><span class='fu'><a href='https://fable.tidyverts.org/reference/ARIMA.html'>ARIMA</a></span>(<span class='no'>y</span> ~ <span class='no'>time</span>),
+           <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10 x 7</span><span>
+#&gt;      `1`   `2`   `3`   `4`   `5`   `6`   `7`
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  1.93  1.86  1.83  1.76  1.73  1.67  1.59
+#&gt; </span><span style='color: #555555;'> 2</span><span>  1.98  1.88  1.84  1.79  1.73  1.67  1.62
+#&gt; </span><span style='color: #555555;'> 3</span><span>  1.95  1.88  1.84  1.79  1.73  1.63  1.65
+#&gt; </span><span style='color: #555555;'> 4</span><span>  1.93  1.89  1.86  1.78  1.73  1.71  1.65
+#&gt; </span><span style='color: #555555;'> 5</span><span>  1.94  1.93  1.82  1.80  1.76  1.71  1.62
+#&gt; </span><span style='color: #555555;'> 6</span><span>  1.95  1.89  1.86  1.79  1.73  1.70  1.62
+#&gt; </span><span style='color: #555555;'> 7</span><span>  1.98  1.89  1.82  1.78  1.73  1.66  1.61
+#&gt; </span><span style='color: #555555;'> 8</span><span>  1.94  1.91  1.88  1.75  1.73  1.65  1.57
+#&gt; </span><span style='color: #555555;'> 9</span><span>  1.94  1.91  1.83  1.79  1.71  1.67  1.61
+#&gt; </span><span style='color: #555555;'>10</span><span>  1.95  1.89  1.82  1.78  1.73  1.69  1.58</div><div class='input'>
+
+<span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
+           <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>){
+           <span class='fu'>fable_model</span>(<span class='kw'>model</span> <span class='kw'>=</span> <span class='kw pkg'>fable</span><span class='kw ns'>::</span><span class='fu'><a href='https://fable.tidyverts.org/reference/ARIMA.html'>ARIMA</a></span>(<span class='no'>y</span> ~ <span class='no'>time</span>), <span class='no'>...</span>)},
+           <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 70 x 4</span><span>
 #&gt;    sample date          rt horizon
 #&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>      1 2020-03-11  1.99       1
-#&gt; </span><span style='color: #555555;'> 2</span><span>      2 2020-03-11  1.98       1
-#&gt; </span><span style='color: #555555;'> 3</span><span>      3 2020-03-11  1.99       1
-#&gt; </span><span style='color: #555555;'> 4</span><span>      4 2020-03-11  2.02       1
-#&gt; </span><span style='color: #555555;'> 5</span><span>      5 2020-03-11  2.00       1
-#&gt; </span><span style='color: #555555;'> 6</span><span>      6 2020-03-11  2.02       1
-#&gt; </span><span style='color: #555555;'> 7</span><span>      7 2020-03-11  2.10       1
-#&gt; </span><span style='color: #555555;'> 8</span><span>      8 2020-03-11  2.12       1
-#&gt; </span><span style='color: #555555;'> 9</span><span>      9 2020-03-11  1.97       1
-#&gt; </span><span style='color: #555555;'>10</span><span>     10 2020-03-11  1.92       1
+#&gt; </span><span style='color: #555555;'> 1</span><span>      1 2020-03-11  1.94       1
+#&gt; </span><span style='color: #555555;'> 2</span><span>      2 2020-03-11  1.96       1
+#&gt; </span><span style='color: #555555;'> 3</span><span>      3 2020-03-11  1.92       1
+#&gt; </span><span style='color: #555555;'> 4</span><span>      4 2020-03-11  1.94       1
+#&gt; </span><span style='color: #555555;'> 5</span><span>      5 2020-03-11  1.98       1
+#&gt; </span><span style='color: #555555;'> 6</span><span>      6 2020-03-11  1.91       1
+#&gt; </span><span style='color: #555555;'> 7</span><span>      7 2020-03-11  1.96       1
+#&gt; </span><span style='color: #555555;'> 8</span><span>      8 2020-03-11  1.94       1
+#&gt; </span><span style='color: #555555;'> 9</span><span>      9 2020-03-11  1.96       1
+#&gt; </span><span style='color: #555555;'>10</span><span>     10 2020-03-11  1.94       1
 #&gt; </span><span style='color: #555555;'># … with 60 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

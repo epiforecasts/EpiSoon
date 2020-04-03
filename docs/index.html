@@ -90,13 +90,14 @@
 <h2 class="hasAnchor">
 <a href="#quick-start" class="anchor"></a>Quick start</h2>
 <ul>
-<li>Load packages (<code>bsts</code> for models, <code>ggplot2</code> for plotting, and <code>cowplot</code> for theming)</li>
+<li>Load packages (<code>bsts</code> and <code>fable</code> for models, <code>ggplot2</code> for plotting, and <code>cowplot</code> for theming)</li>
 </ul>
 <!-- end list --><div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(EpiSoon)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(bsts)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(future)</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(cowplot)</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a></code></pre></div>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(fable)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(future)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(cowplot)</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a></code></pre></div>
 <ul>
 <li>Set up example data (using <code><a href="reference/example_obs_rts.html">EpiSoon::example_obs_rts</a></code> and <code><a href="reference/example_obs_cases.html">EpiSoon::example_obs_cases</a></code> as starting data sets). When generating timeseries with <code>EpiNow</code> use <code>get_timeseries</code> to extract the required data.</li>
 </ul>
@@ -117,114 +118,119 @@
 <a class="sourceLine" id="cb4-3" data-line-number="3">                     <span class="cf">function</span>(ss, y){bsts<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/bsts/man/add.ar.html">AddAr</a></span>(ss, <span class="dt">y =</span> y, <span class="dt">lags =</span> <span class="dv">3</span>)}, ...)},</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4">                <span class="st">"Semi-local linear trend"</span> =</a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="st">                </span><span class="cf">function</span>(...) {EpiSoon<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/EpiSoon/man/bsts_model.html">bsts_model</a></span>(<span class="dt">model =</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">                    <span class="cf">function</span>(ss, y){bsts<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html">AddSemilocalLinearTrend</a></span>(ss, <span class="dt">y =</span> y)}, ...)})</a></code></pre></div>
+<a class="sourceLine" id="cb4-6" data-line-number="6">                    <span class="cf">function</span>(ss, y){bsts<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html">AddSemilocalLinearTrend</a></span>(ss, <span class="dt">y =</span> y)}, ...)},</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">               <span class="st">"ARIMA"</span> =<span class="st"> </span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="st">                  </span><span class="cf">function</span>(...){EpiSoon<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/EpiSoon/man/fable_model.html">fable_model</a></span>(<span class="dt">model =</span> fable<span class="op">::</span><span class="kw"><a href="https://fable.tidyverts.org/reference/ARIMA.html">ARIMA</a></span>(y <span class="op">~</span><span class="st"> </span>time), ...)})</a></code></pre></div>
 <ul>
 <li>Compare models across timeseries (change the <code><a href="https://rdrr.io/pkg/future/man/plan.html">future::plan</a></code> to do this in parallel).</li>
 </ul>
 <!-- end list --><div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">future<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/future/man/plan.html">plan</a></span>(<span class="st">"sequential"</span>)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">## Compare models</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">forecasts &lt;-<span class="st"> </span><span class="kw"><a href="reference/compare_timeseries.html">compare_timeseries</a></span>(obs_rts, obs_cases, models,</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">                                   <span class="dt">horizon =</span> <span class="dv">7</span>, <span class="dt">samples =</span> <span class="dv">10</span>,</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">                                   <span class="dt">serial_interval =</span> EpiSoon<span class="op">::</span>example_serial_interval)</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">forecasts</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; $forecast_rts</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; # A tibble: 504 x 12</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt;    timeseries model forecast_date date       horizon median  mean     sd bottom</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;         &lt;date&gt;       &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt;  1 Region 1   AR 3  2020-03-05    2020-03-06       1   2.16  2.16 0.0119   2.14</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt;  2 Region 1   AR 3  2020-03-05    2020-03-07       2   2.07  2.07 0.0269   2.03</span></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt;  3 Region 1   AR 3  2020-03-05    2020-03-08       3   2.00  2.00 0.0157   1.98</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt;  4 Region 1   AR 3  2020-03-05    2020-03-09       4   1.91  1.91 0.0225   1.87</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt;  5 Region 1   AR 3  2020-03-05    2020-03-10       5   1.85  1.85 0.0228   1.81</span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt;  6 Region 1   AR 3  2020-03-05    2020-03-11       6   1.76  1.76 0.0168   1.74</span></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt;  7 Region 1   AR 3  2020-03-05    2020-03-12       7   1.70  1.69 0.0419   1.60</span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt;  8 Region 1   AR 3  2020-03-06    2020-03-07       1   2.13  2.13 0.0163   2.08</span></a>
-<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt;  9 Region 1   AR 3  2020-03-06    2020-03-08       2   2.06  2.06 0.0149   2.04</span></a>
-<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt; 10 Region 1   AR 3  2020-03-06    2020-03-09       3   2.01  2.01 0.0116   1.99</span></a>
-<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt; # … with 494 more rows, and 3 more variables: lower &lt;dbl&gt;, upper &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt; #   top &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; $rt_scores</span></a>
-<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; # A tibble: 392 x 10</span></a>
-<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">#&gt;    timeseries model forecast_date date       horizon    dss   crps    logs  bias</span></a>
-<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;         &lt;date&gt;       &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt;  1 Region 1   AR 3  2020-03-05    2020-03-06       1  -2.26 0.0231  -1.42      0</span></a>
-<a class="sourceLine" id="cb5-31" data-line-number="31"><span class="co">#&gt;  2 Region 1   AR 3  2020-03-05    2020-03-07       2   1.40 0.0611   0.487     0</span></a>
-<a class="sourceLine" id="cb5-32" data-line-number="32"><span class="co">#&gt;  3 Region 1   AR 3  2020-03-05    2020-03-08       3  40.9  0.0960  43.9       0</span></a>
-<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#&gt;  4 Region 1   AR 3  2020-03-05    2020-03-09       4  40.0  0.136   76.4       0</span></a>
-<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="co">#&gt;  5 Region 1   AR 3  2020-03-05    2020-03-10       5  59.5  0.165   42.8       0</span></a>
-<a class="sourceLine" id="cb5-35" data-line-number="35"><span class="co">#&gt;  6 Region 1   AR 3  2020-03-05    2020-03-11       6 239.   0.242  193.        0</span></a>
-<a class="sourceLine" id="cb5-36" data-line-number="36"><span class="co">#&gt;  7 Region 1   AR 3  2020-03-05    2020-03-12       7  52.1  0.284  250.        0</span></a>
-<a class="sourceLine" id="cb5-37" data-line-number="37"><span class="co">#&gt;  8 Region 1   AR 3  2020-03-06    2020-03-07       1  -6.53 0.0135  -2.29      0</span></a>
-<a class="sourceLine" id="cb5-38" data-line-number="38"><span class="co">#&gt;  9 Region 1   AR 3  2020-03-06    2020-03-08       2   1.53 0.0370   7.87      0</span></a>
-<a class="sourceLine" id="cb5-39" data-line-number="39"><span class="co">#&gt; 10 Region 1   AR 3  2020-03-06    2020-03-09       3  14.2  0.0469   9.39      0</span></a>
-<a class="sourceLine" id="cb5-40" data-line-number="40"><span class="co">#&gt; # … with 382 more rows, and 1 more variable: sharpness &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb5-41" data-line-number="41"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-42" data-line-number="42"><span class="co">#&gt; $forecast_cases</span></a>
-<a class="sourceLine" id="cb5-43" data-line-number="43"><span class="co">#&gt; # A tibble: 392 x 12</span></a>
-<a class="sourceLine" id="cb5-44" data-line-number="44"><span class="co">#&gt;    timeseries model forecast_date date       horizon median  mean    sd bottom</span></a>
-<a class="sourceLine" id="cb5-45" data-line-number="45"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;         &lt;date&gt;       &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb5-46" data-line-number="46"><span class="co">#&gt;  1 Region 1   AR 3  2020-03-05    2020-03-06       1   71    71    8.30     61</span></a>
-<a class="sourceLine" id="cb5-47" data-line-number="47"><span class="co">#&gt;  2 Region 1   AR 3  2020-03-05    2020-03-07       2   75.5  75    7.76     63</span></a>
-<a class="sourceLine" id="cb5-48" data-line-number="48"><span class="co">#&gt;  3 Region 1   AR 3  2020-03-05    2020-03-08       3   87    86.1  8.31     74</span></a>
-<a class="sourceLine" id="cb5-49" data-line-number="49"><span class="co">#&gt;  4 Region 1   AR 3  2020-03-05    2020-03-09       4   94    95.8  5.92     89</span></a>
-<a class="sourceLine" id="cb5-50" data-line-number="50"><span class="co">#&gt;  5 Region 1   AR 3  2020-03-05    2020-03-10       5  106   109.  15.4      88</span></a>
-<a class="sourceLine" id="cb5-51" data-line-number="51"><span class="co">#&gt;  6 Region 1   AR 3  2020-03-05    2020-03-11       6  111   114.   9.26    107</span></a>
-<a class="sourceLine" id="cb5-52" data-line-number="52"><span class="co">#&gt;  7 Region 1   AR 3  2020-03-05    2020-03-12       7  118.  122.  15.5     101</span></a>
-<a class="sourceLine" id="cb5-53" data-line-number="53"><span class="co">#&gt;  8 Region 1   AR 3  2020-03-06    2020-03-07       1   83.5  82.8  6.99     68</span></a>
-<a class="sourceLine" id="cb5-54" data-line-number="54"><span class="co">#&gt;  9 Region 1   AR 3  2020-03-06    2020-03-08       2   91    91   10.5      76</span></a>
-<a class="sourceLine" id="cb5-55" data-line-number="55"><span class="co">#&gt; 10 Region 1   AR 3  2020-03-06    2020-03-09       3  105   104.   8.56     86</span></a>
-<a class="sourceLine" id="cb5-56" data-line-number="56"><span class="co">#&gt; # … with 382 more rows, and 3 more variables: lower &lt;dbl&gt;, upper &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb5-57" data-line-number="57"><span class="co">#&gt; #   top &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb5-58" data-line-number="58"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-59" data-line-number="59"><span class="co">#&gt; $case_scores</span></a>
-<a class="sourceLine" id="cb5-60" data-line-number="60"><span class="co">#&gt; # A tibble: 392 x 11</span></a>
-<a class="sourceLine" id="cb5-61" data-line-number="61"><span class="co">#&gt;    timeseries model sample forecast_date date       horizon   dss  crps  logs</span></a>
-<a class="sourceLine" id="cb5-62" data-line-number="62"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;         &lt;date&gt;       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb5-63" data-line-number="63"><span class="co">#&gt;  1 Region 1   AR 3  1      2020-03-05    2020-03-06       1  4.19  3     3.42</span></a>
-<a class="sourceLine" id="cb5-64" data-line-number="64"><span class="co">#&gt;  2 Region 1   AR 3  1      2020-03-05    2020-03-07       2  7.11  8.78  3.98</span></a>
-<a class="sourceLine" id="cb5-65" data-line-number="65"><span class="co">#&gt;  3 Region 1   AR 3  1      2020-03-05    2020-03-08       3  8.20 11.8   4.63</span></a>
-<a class="sourceLine" id="cb5-66" data-line-number="66"><span class="co">#&gt;  4 Region 1   AR 3  1      2020-03-05    2020-03-09       4 16.4  17.1   7.96</span></a>
-<a class="sourceLine" id="cb5-67" data-line-number="67"><span class="co">#&gt;  5 Region 1   AR 3  1      2020-03-05    2020-03-10       5 10.4  26.7   5.59</span></a>
-<a class="sourceLine" id="cb5-68" data-line-number="68"><span class="co">#&gt;  6 Region 1   AR 3  1      2020-03-05    2020-03-11       6 40.0  48.1  26.1 </span></a>
-<a class="sourceLine" id="cb5-69" data-line-number="69"><span class="co">#&gt;  7 Region 1   AR 3  1      2020-03-05    2020-03-12       7 29.2  64.0  14.4 </span></a>
-<a class="sourceLine" id="cb5-70" data-line-number="70"><span class="co">#&gt;  8 Region 1   AR 3  1      2020-03-06    2020-03-07       1  4.40  2.62  2.89</span></a>
-<a class="sourceLine" id="cb5-71" data-line-number="71"><span class="co">#&gt;  9 Region 1   AR 3  1      2020-03-06    2020-03-08       2  5.82  7.52  4.16</span></a>
-<a class="sourceLine" id="cb5-72" data-line-number="72"><span class="co">#&gt; 10 Region 1   AR 3  1      2020-03-06    2020-03-09       3  6.30  7.48  3.69</span></a>
-<a class="sourceLine" id="cb5-73" data-line-number="73"><span class="co">#&gt; # … with 382 more rows, and 2 more variables: bias &lt;dbl&gt;, sharpness &lt;dbl&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-4" data-line-number="4">forecasts &lt;-<span class="st"> </span>EpiSoon<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/EpiSoon/man/compare_timeseries.html">compare_timeseries</a></span>(obs_rts, obs_cases, models,</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">                                         <span class="dt">horizon =</span> <span class="dv">7</span>, <span class="dt">samples =</span> <span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">                                         <span class="dt">serial_interval =</span> EpiSoon<span class="op">::</span>example_serial_interval)</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; Warning: Unknown or uninitialised column: 'sample'.</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; Warning: Unknown or uninitialised column: 'sample'.</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">forecasts</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; $forecast_rts</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; # A tibble: 497 x 12</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt;    timeseries model forecast_date date       horizon median  mean     sd bottom</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;         &lt;date&gt;       &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt;  1 Region 1   AR 3  2020-03-04    2020-03-05       1   2.23  2.22 0.0265   2.18</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt;  2 Region 1   AR 3  2020-03-04    2020-03-06       2   2.15  2.15 0.0325   2.10</span></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt;  3 Region 1   AR 3  2020-03-04    2020-03-07       3   2.07  2.06 0.0489   1.95</span></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt;  4 Region 1   AR 3  2020-03-04    2020-03-08       4   1.97  1.98 0.0668   1.90</span></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt;  5 Region 1   AR 3  2020-03-04    2020-03-09       5   1.87  1.87 0.0443   1.78</span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">#&gt;  6 Region 1   AR 3  2020-03-04    2020-03-10       6   1.83  1.82 0.0441   1.77</span></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">#&gt;  7 Region 1   AR 3  2020-03-04    2020-03-11       7   1.75  1.75 0.0386   1.69</span></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">#&gt;  8 Region 1   AR 3  2020-03-07    2020-03-08       1   2.07  2.07 0.0237   2.04</span></a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">#&gt;  9 Region 1   AR 3  2020-03-07    2020-03-09       2   2.02  2.02 0.0301   1.99</span></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">#&gt; 10 Region 1   AR 3  2020-03-07    2020-03-10       3   1.97  1.98 0.0303   1.93</span></a>
+<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">#&gt; # … with 487 more rows, and 3 more variables: lower &lt;dbl&gt;, upper &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">#&gt; #   top &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-29" data-line-number="29"><span class="co">#&gt; $rt_scores</span></a>
+<a class="sourceLine" id="cb5-30" data-line-number="30"><span class="co">#&gt; # A tibble: 385 x 10</span></a>
+<a class="sourceLine" id="cb5-31" data-line-number="31"><span class="co">#&gt;    timeseries model forecast_date date       horizon   dss   crps   logs  bias</span></a>
+<a class="sourceLine" id="cb5-32" data-line-number="32"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;         &lt;date&gt;       &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb5-33" data-line-number="33"><span class="co">#&gt;  1 Region 1   AR 3  2020-03-04    2020-03-05       1 -3.36 0.0373 -1.05  0    </span></a>
+<a class="sourceLine" id="cb5-34" data-line-number="34"><span class="co">#&gt;  2 Region 1   AR 3  2020-03-04    2020-03-06       2 -4.94 0.0273 -1.83  0.100</span></a>
+<a class="sourceLine" id="cb5-35" data-line-number="35"><span class="co">#&gt;  3 Region 1   AR 3  2020-03-04    2020-03-07       3 -2.30 0.0658 -0.519 0    </span></a>
+<a class="sourceLine" id="cb5-36" data-line-number="36"><span class="co">#&gt;  4 Region 1   AR 3  2020-03-04    2020-03-08       4 -1.80 0.0872 -0.575 0.100</span></a>
+<a class="sourceLine" id="cb5-37" data-line-number="37"><span class="co">#&gt;  5 Region 1   AR 3  2020-03-04    2020-03-09       5 14.7  0.170   9.40  0    </span></a>
+<a class="sourceLine" id="cb5-38" data-line-number="38"><span class="co">#&gt;  6 Region 1   AR 3  2020-03-04    2020-03-10       6 17.0  0.179   9.64  0    </span></a>
+<a class="sourceLine" id="cb5-39" data-line-number="39"><span class="co">#&gt;  7 Region 1   AR 3  2020-03-04    2020-03-11       7 44.2  0.240  30.3   0    </span></a>
+<a class="sourceLine" id="cb5-40" data-line-number="40"><span class="co">#&gt;  8 Region 1   AR 3  2020-03-07    2020-03-08       1 -5.27 0.0234 -1.90  0.200</span></a>
+<a class="sourceLine" id="cb5-41" data-line-number="41"><span class="co">#&gt;  9 Region 1   AR 3  2020-03-07    2020-03-09       2 -5.66 0.0244 -1.77  0.100</span></a>
+<a class="sourceLine" id="cb5-42" data-line-number="42"><span class="co">#&gt; 10 Region 1   AR 3  2020-03-07    2020-03-10       3 -4.71 0.0334 -0.779 0.100</span></a>
+<a class="sourceLine" id="cb5-43" data-line-number="43"><span class="co">#&gt; # … with 375 more rows, and 1 more variable: sharpness &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb5-44" data-line-number="44"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-45" data-line-number="45"><span class="co">#&gt; $forecast_cases</span></a>
+<a class="sourceLine" id="cb5-46" data-line-number="46"><span class="co">#&gt; # A tibble: 385 x 12</span></a>
+<a class="sourceLine" id="cb5-47" data-line-number="47"><span class="co">#&gt;    timeseries model forecast_date date       horizon median  mean    sd bottom</span></a>
+<a class="sourceLine" id="cb5-48" data-line-number="48"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;         &lt;date&gt;       &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb5-49" data-line-number="49"><span class="co">#&gt;  1 Region 1   AR 3  2020-03-04    2020-03-05       1   58.5  58.1 10.8      39</span></a>
+<a class="sourceLine" id="cb5-50" data-line-number="50"><span class="co">#&gt;  2 Region 1   AR 3  2020-03-04    2020-03-06       2   64    62.8  9.00     49</span></a>
+<a class="sourceLine" id="cb5-51" data-line-number="51"><span class="co">#&gt;  3 Region 1   AR 3  2020-03-04    2020-03-07       3   76    78.2  7.18     70</span></a>
+<a class="sourceLine" id="cb5-52" data-line-number="52"><span class="co">#&gt;  4 Region 1   AR 3  2020-03-04    2020-03-08       4   86    85.9 10.0      71</span></a>
+<a class="sourceLine" id="cb5-53" data-line-number="53"><span class="co">#&gt;  5 Region 1   AR 3  2020-03-04    2020-03-09       5   88    87.7 13.6      67</span></a>
+<a class="sourceLine" id="cb5-54" data-line-number="54"><span class="co">#&gt;  6 Region 1   AR 3  2020-03-04    2020-03-10       6  102   106.  16.8      84</span></a>
+<a class="sourceLine" id="cb5-55" data-line-number="55"><span class="co">#&gt;  7 Region 1   AR 3  2020-03-04    2020-03-11       7  112.  113.  15.4      92</span></a>
+<a class="sourceLine" id="cb5-56" data-line-number="56"><span class="co">#&gt;  8 Region 1   AR 3  2020-03-07    2020-03-08       1   86.5  86.7  4.52     80</span></a>
+<a class="sourceLine" id="cb5-57" data-line-number="57"><span class="co">#&gt;  9 Region 1   AR 3  2020-03-07    2020-03-09       2  104   106.  11.8      92</span></a>
+<a class="sourceLine" id="cb5-58" data-line-number="58"><span class="co">#&gt; 10 Region 1   AR 3  2020-03-07    2020-03-10       3  114.  117.  13.5      97</span></a>
+<a class="sourceLine" id="cb5-59" data-line-number="59"><span class="co">#&gt; # … with 375 more rows, and 3 more variables: lower &lt;dbl&gt;, upper &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb5-60" data-line-number="60"><span class="co">#&gt; #   top &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb5-61" data-line-number="61"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb5-62" data-line-number="62"><span class="co">#&gt; $case_scores</span></a>
+<a class="sourceLine" id="cb5-63" data-line-number="63"><span class="co">#&gt; # A tibble: 385 x 11</span></a>
+<a class="sourceLine" id="cb5-64" data-line-number="64"><span class="co">#&gt;    timeseries model sample forecast_date date       horizon   dss  crps  logs</span></a>
+<a class="sourceLine" id="cb5-65" data-line-number="65"><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;         &lt;date&gt;       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb5-66" data-line-number="66"><span class="co">#&gt;  1 Region 1   AR 3  1      2020-03-04    2020-03-05       1  4.88  3.21  3.35</span></a>
+<a class="sourceLine" id="cb5-67" data-line-number="67"><span class="co">#&gt;  2 Region 1   AR 3  1      2020-03-04    2020-03-06       2  5.72  6.14  3.66</span></a>
+<a class="sourceLine" id="cb5-68" data-line-number="68"><span class="co">#&gt;  3 Region 1   AR 3  1      2020-03-04    2020-03-07       3  5.91  6.22  3.56</span></a>
+<a class="sourceLine" id="cb5-69" data-line-number="69"><span class="co">#&gt;  4 Region 1   AR 3  1      2020-03-04    2020-03-08       4  7.36 10.6   4.12</span></a>
+<a class="sourceLine" id="cb5-70" data-line-number="70"><span class="co">#&gt;  5 Region 1   AR 3  1      2020-03-04    2020-03-09       5  9.95 21.4   4.83</span></a>
+<a class="sourceLine" id="cb5-71" data-line-number="71"><span class="co">#&gt;  6 Region 1   AR 3  1      2020-03-04    2020-03-10       6 10.6  28.1   5.35</span></a>
+<a class="sourceLine" id="cb5-72" data-line-number="72"><span class="co">#&gt;  7 Region 1   AR 3  1      2020-03-04    2020-03-11       7 18.9  46.4   9.53</span></a>
+<a class="sourceLine" id="cb5-73" data-line-number="73"><span class="co">#&gt;  8 Region 1   AR 3  1      2020-03-07    2020-03-08       1 15.6  12.8   8.36</span></a>
+<a class="sourceLine" id="cb5-74" data-line-number="74"><span class="co">#&gt;  9 Region 1   AR 3  1      2020-03-07    2020-03-09       2  5.71  8.25  4.63</span></a>
+<a class="sourceLine" id="cb5-75" data-line-number="75"><span class="co">#&gt; 10 Region 1   AR 3  1      2020-03-07    2020-03-10       3  8.86 17.8   4.78</span></a>
+<a class="sourceLine" id="cb5-76" data-line-number="76"><span class="co">#&gt; # … with 375 more rows, and 2 more variables: bias &lt;dbl&gt;, sharpness &lt;dbl&gt;</span></a></code></pre></div>
 <ul>
 <li>Plot an evaluation of Rt forecasts using iterative fitting.</li>
 </ul>
-<!-- end list --><div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="reference/plot_forecast_evaluation.html">plot_forecast_evaluation</a></span>(forecasts<span class="op">$</span>forecast_rts, obs_rts, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">7</span>)) <span class="op">+</span></a>
+<!-- end list --><div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">EpiSoon<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/EpiSoon/man/plot_forecast_evaluation.html">plot_forecast_evaluation</a></span>(forecasts<span class="op">$</span>forecast_rts, obs_rts, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">7</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">   </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span>(model <span class="op">~</span><span class="st"> </span>timeseries) <span class="op">+</span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">   </span>cowplot<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/cowplot/man/panel_border.html">panel_border</a></span>()</a></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-7-1.png" width="60%"></p>
 <ul>
 <li>Plot an evaluation of case forecasts using iterative fitting</li>
 </ul>
-<!-- end list --><div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="reference/plot_forecast_evaluation.html">plot_forecast_evaluation</a></span>(forecasts<span class="op">$</span>forecast_cases, obs_cases, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">7</span>)) <span class="op">+</span></a>
+<!-- end list --><div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">EpiSoon<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/EpiSoon/man/plot_forecast_evaluation.html">plot_forecast_evaluation</a></span>(forecasts<span class="op">$</span>forecast_cases, obs_cases, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">7</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">   </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span>(model <span class="op">~</span><span class="st"> </span>timeseries, <span class="dt">scales =</span> <span class="st">"free"</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">   </span>cowplot<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/cowplot/man/panel_border.html">panel_border</a></span>()</a></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-8-1.png" width="60%"></p>
 <ul>
 <li>Summarise the forecasts by model scored against observed cases</li>
 </ul>
-<!-- end list --><div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="reference/summarise_scores.html">summarise_scores</a></span>(forecasts<span class="op">$</span>case_scores)</a>
+<!-- end list --><div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">EpiSoon<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/EpiSoon/man/summarise_scores.html">summarise_scores</a></span>(forecasts<span class="op">$</span>case_scores)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; # A tibble: 10 x 9</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;    score     model                bottom lower median   mean  upper   top     sd</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;                 &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt;  1 bias      AR 3                   0     0     0.100  0.298  0.575   1    0.379</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;  2 bias      Semi-local linear t…   0     0     0.100  0.287  0.5     1    0.353</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt;  3 crps      AR 3                   4.02 11.2  23.1   37.1   46.7   166.  40.9  </span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;  4 crps      Semi-local linear t…   3.90  9.38 20.2   33.1   37.0   157.  39.6  </span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;  5 dss       AR 3                   5.00  7.05  9.54  15.0   16.0    62.7 15.0  </span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;  6 dss       Semi-local linear t…   4.96  6.69  8.59  12.8   12.0    64.0 13.7  </span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;  7 logs      AR 3                   3.48  4.45  5.33  10.2    8.17   62.1 13.7  </span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;  8 logs      Semi-local linear t…   3.45  4.29  5.10   8.78   6.94   39.3 15.6  </span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;  9 sharpness AR 3                   5.19 10.6  17.0   18.7   22.2    48.1 10.7  </span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; 10 sharpness Semi-local linear t…   5.93 11.1  17.0   20.6   24.8    55.1 13.5</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;    score     model                 bottom lower median   mean upper   top     sd</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;                  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt;  1 bias      AR 3                    0     0     0.100  0.274  0.5    1    0.370</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;  2 bias      Semi-local linear tr…   0     0     0.100  0.3    0.5    1    0.351</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt;  3 crps      AR 3                    3.91 12.8  21.9   37.4   44.5  157.  39.6  </span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;  4 crps      Semi-local linear tr…   2.85  9.17 19.3   32.7   36.6  163.  39.7  </span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;  5 dss       AR 3                    5.41  7.25  9.77  15.0   15.5   47.9 19.7  </span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;  6 dss       Semi-local linear tr…   4.30  6.71  8.59  13.1   12.9   50.9 13.6  </span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;  7 logs      AR 3                    3.55  4.62  5.35  10.7    8.39  45.4 16.8  </span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;  8 logs      Semi-local linear tr…   3.31  4.34  5.13   9.92   6.94  45.1 19.8  </span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;  9 sharpness AR 3                    4.71 11.1  16.3   19.4   25.9   48.1 11.5  </span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; 10 sharpness Semi-local linear tr…   5.93 10.6  16.3   19.5   25.2   49.7 12.5</span></a></code></pre></div>
 </div>
 <div id="docker" class="section level2">
 <h2 class="hasAnchor">
