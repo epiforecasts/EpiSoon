@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot a Forecast — plot_forecast_evaluation • EpiSoon</title>
+<title>BSTS model wrapper — bsts_model • EpiSoon</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Plot a Forecast — plot_forecast_evaluation" />
-<meta property="og:description" content="Plot a Forecast" />
+<meta property="og:title" content="BSTS model wrapper — bsts_model" />
+<meta property="og:description" content="BSTS model wrapper" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -112,68 +112,62 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot a Forecast</h1>
+    <h1>BSTS model wrapper</h1>
     
-    <div class="hidden name"><code>plot_forecast_evaluation.Rd</code></div>
+    <div class="hidden name"><code>bsts_model.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot a Forecast</p>
+    <p>BSTS model wrapper</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_forecast_evaluation</span>(
-  <span class='kw'>forecasts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>observations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>horizon_to_plot</span> <span class='kw'>=</span> <span class='fl'>1</span>
-)</pre>
+    <pre class="usage"><span class='fu'>bsts_model</span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>forecasts</th>
-      <td><p>A dataframe as produced by <code>forecast_rt</code>
-or <code>forecast_cases</code></p></td>
+      <th>y</th>
+      <td><p>Numeric vector of time points to forecast</p></td>
     </tr>
     <tr>
-      <th>observations</th>
-      <td><p>A dataframe of observations containing the
-following variables:</p><ul>
-<li><p>either <code>rt</code> or <code>cases</code></p></li>
-<li><p>and <code>date</code>.</p></li>
-</ul></td>
+      <th>samples</th>
+      <td><p>Numeric, number of samples to take.</p></td>
     </tr>
     <tr>
-      <th>horizon_to_plot</th>
-      <td><p>Numeric vector, the forecast horizon to plot.</p></td>
+      <th>horizon</th>
+      <td><p>Numeric, the time horizon over which to predict.</p></td>
+    </tr>
+    <tr>
+      <th>model</th>
+      <td><p>A <code>bsts</code> model object wrapped in a function with an <code>ss</code> and <code>y</code> argument.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>ggplot2</code> object</p>
+    <p>A dataframe of predictions (with columns representing the time horizon and rows representing samples).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 
-<span class='co'>## Evaluate a model</span>
-<span class='no'>forecast_eval</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='evaluate_model.html'>evaluate_model</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>,
-                                <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>,
-                                <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>) {<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
-                                <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)}, <span class='no'>...</span>)},
-                                <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_serial_interval.html'>example_serial_interval</a></span>,
-                                <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)
-
-<span class='co'>## Plot Rt forecast</span>
-<span class='fu'>plot_forecast_evaluation</span>(<span class='no'>forecast_eval</span>$<span class='no'>forecast_rts</span>,
-                         <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>,
-                         <span class='kw'>horizon_to_plot</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='img'><img src='plot_forecast_evaluation-1.png' alt='' width='700' height='433' /></div><div class='input'>
-
-<span class='co'>## Plot case forecast</span>
-<span class='fu'>plot_forecast_evaluation</span>(<span class='no'>forecast_eval</span>$<span class='no'>forecast_cases</span>,
-                         <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>,
-                         <span class='kw'>horizon_to_plot</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='img'><img src='plot_forecast_evaluation-2.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
+           <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>){<span class='fu'>bsts_model</span>(<span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){
+           <span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/auto.ar.html'>AddAutoAr</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>lags</span> <span class='kw'>=</span> <span class='fl'>10</span>)}, <span class='no'>...</span>)},
+           <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 70 x 4</span><span>
+#&gt;    sample date          rt horizon
+#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>      1 2020-03-11  1.88       1
+#&gt; </span><span style='color: #555555;'> 2</span><span>      2 2020-03-11  1.96       1
+#&gt; </span><span style='color: #555555;'> 3</span><span>      3 2020-03-11  2.02       1
+#&gt; </span><span style='color: #555555;'> 4</span><span>      4 2020-03-11  1.95       1
+#&gt; </span><span style='color: #555555;'> 5</span><span>      5 2020-03-11  1.93       1
+#&gt; </span><span style='color: #555555;'> 6</span><span>      6 2020-03-11  2.02       1
+#&gt; </span><span style='color: #555555;'> 7</span><span>      7 2020-03-11  1.91       1
+#&gt; </span><span style='color: #555555;'> 8</span><span>      8 2020-03-11  1.87       1
+#&gt; </span><span style='color: #555555;'> 9</span><span>      9 2020-03-11  1.92       1
+#&gt; </span><span style='color: #555555;'>10</span><span>     10 2020-03-11  2.30       1
+#&gt; </span><span style='color: #555555;'># … with 60 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

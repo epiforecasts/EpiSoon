@@ -47,7 +47,8 @@
                             bound_rt = TRUE, timeout = 30,
                             serial_interval = NULL,
                             min_points = 3,
-                            rdist = NULL) {
+                            rdist = NULL,
+                            return_raw = FALSE) {
 
 
    safe_eval <- purrr::safely(evaluate_model)
@@ -64,7 +65,8 @@
                    timeout = timeout,
                    serial_interval = serial_interval,
                    min_points = min_points,
-                   rdist = rdist)[[1]],
+                   rdist = rdist,
+                   return_raw = return_raw)[[1]],
        .progress = TRUE
     ) %>%
      purrr::transpose() %>%

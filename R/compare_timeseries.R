@@ -66,7 +66,8 @@ compare_timeseries <- function(obs_rts = NULL,
                                min_points = 3,
                                timeout = 30,
                                serial_interval = NULL,
-                               rdist = NULL) {
+                               rdist = NULL,
+                               return_raw = FALSE) {
 
   ## Make a nested tibble of timseries and observed ata
   data_tibble <- tibble::tibble(
@@ -101,14 +102,18 @@ compare_timeseries <- function(obs_rts = NULL,
                                     timeout = timeout,
                                     serial_interval = serial_interval,
                                     min_points = min_points,
-                                    rdist = rdist
+                                    rdist = rdist,
+                                    return_raw = return_raw
                                   )[[1]]}),
       .progress = TRUE) %>%
       dplyr::select(timeseries, model = model_name, eval)
 
   ## Output
-  out_names <- c("forecast_rts", "rt_scores", "forecast_cases", "case_scores",
-           "raw_rt_forecast", "raw_case_forecast")
+  out_names <- c("forecast_rts", "rt_scores", "forecast_cases", "case_scores")
+
+  if (return_raw) {
+    out_names <- c(out_names, "raw_rt_forecast", "raw_case_forecast")
+  }
 
   out <- purrr::map(out_names, function(list_obj) {
     out <- evaluations %>%

@@ -7,6 +7,7 @@
 #' @param obs_cases Dataframe of case observations to use for case prediction and
 #' scoring. Should contain a `date` and `cases` column. If multiple samples are included this
 #' should be denoted using a numeric `sample` variable.
+#' @param return_raw Logical, should raw cases and rt forecasts be returned. Defaults to `FALSE`.
 #' @inheritParams score_forecast
 #' @inheritParams iterative_rt_forecast
 #' @inheritParams iterative_case_forecast
@@ -52,7 +53,8 @@ evaluate_model <- function(obs_rts = NULL,
                            bound_rt = TRUE,
                            min_points = 3,
                            serial_interval = NULL,
-                           rdist = NULL) {
+                           rdist = NULL,
+                           return_raw = FALSE) {
 
   ## Split obs_rt into a list if present
   if (!is.null(suppressWarnings(obs_rts$sample))) {
@@ -92,8 +94,11 @@ evaluate_model <- function(obs_rts = NULL,
     purrr::map_dfr(summarise_forecast, .id = "forecast_date")
 
 
-  ## Raw forecasts
-  raw_samples <- samples
+  if (return_raw) {
+    ## Raw forecasts
+    raw_samples <- samples
+  }
+
 
   ## Filter the forecasts to be in line with observed data
   samples <- samples %>%
@@ -134,8 +139,10 @@ evaluate_model <- function(obs_rts = NULL,
     setNames(unique(case_predictions$forecast_date)) %>%
     purrr::map_dfr(summarise_case_forecast, .id = "forecast_date")
 
-  ## Summarise case predictions
-  raw_case_preds <- case_predictions
+  if (return_raw) {
+    ## Summarise case predictions
+    raw_case_preds <- case_predictions
+  }
 
 
   ## Limit case predictions to observed data
@@ -158,10 +165,14 @@ evaluate_model <- function(obs_rts = NULL,
 
   ## Return output
   out <- list(summarised_forecasts, scored_forecasts,
-              summarised_case_forecasts, score_cases,
-              raw_samples, raw_case_preds)
-  names(out) <- c("forecast_rts", "rt_scores", "forecast_cases", "case_scores",
-                  "raw_rt_forecast", "raw_case_forecast")
+              summarised_case_forecasts, score_cases)
+
+  names(out) <- c("forecast_rts", "rt_scores", "forecast_cases", "case_scores")
+
+  if (return_raw) {
+    out$raw_rt_forecast <- raw_samples
+    out$raw_case_forecast <- raw_case_preds
+  }
 
   return(out)
 }

@@ -14,7 +14,8 @@ compare_timeseries(
   min_points = 3,
   timeout = 30,
   serial_interval = NULL,
-  rdist = NULL
+  rdist = NULL,
+  return_raw = FALSE
 )
 }
 \arguments{
@@ -49,6 +50,8 @@ See \code{EpiNow::covid_serial_interval} for an example of the format.}
 \item{rdist}{A function to be used to sample the number of cases. Must take two
 arguments with the first specfying the number of samples and the second the mean. Defaults
 to \code{rpois} if not supplied}
+
+\item{return_raw}{Logical, should raw cases and rt forecasts be returned. Defaults to \code{FALSE}.}
 }
 \value{
 A list of dataframes as produced by \verb{evaluate model} but with an additional model column.
