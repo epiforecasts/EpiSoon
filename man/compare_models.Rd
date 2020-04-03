@@ -26,9 +26,10 @@ should be denoted using a numeric \code{sample} variable.}
 scoring. Should contain a \code{date} and \code{cases} column. If multiple samples are included this
 should be denoted using a numeric \code{sample} variable.}
 
-\item{models}{A list of \code{bsts} models. An example configuration is given in the
-examples. Each \code{bsts} model needs to be wrapped in a function that takes a \code{ss} and \code{y}
-argument (i.e. \code{function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}}).}
+\item{models}{A list of models. A configuration is given in the
+examples. Each model needs to be wrapped in a function that takes a \code{...} argument and returns a dataframe
+of samples with each column representing a time horizon.
+Example: \code{function(...) {EpiSoon::bsts_model(model = function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)}}.}
 
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}
@@ -55,16 +56,18 @@ Compare forecasting models
 
 ## List of forecasting bsts models wrapped in functions.
 models <- list("AR 3" =
-                    function(ss, y){bsts::AddAr(ss, y = y, lags = 3)},
+                    function(...) {EpiSoon::bsts_model(model =
+                    function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)},
                "Semi-local linear trend" =
-                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
+               function(...) {EpiSoon::bsts_model(model =
+                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)})
 
 
 
 ## Compare models
 evaluations <- compare_models(EpiSoon::example_obs_rts,
                               EpiSoon::example_obs_cases, models,
-                              horizon = 7, samples = 10,
+                              horizon = 7, samples = 100,
                               serial_interval = example_serial_interval)
 
 ## Example evaluation plot for comparing forecasts

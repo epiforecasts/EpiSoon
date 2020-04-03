@@ -26,9 +26,10 @@ contain samples for each timeseries in which case this should be denoted using a
 each timeseris and a  \code{cases} vector (to forecast) and a \code{date} vector (to denote time). Optionally this dataframe can
 contain samples for each timeseries in which case this should be denoted using a \code{sample} variable.}
 
-\item{models}{A list of \code{bsts} models. An example configuration is given in the
-examples. Each \code{bsts} model needs to be wrapped in a function that takes a \code{ss} and \code{y}
-argument (i.e. \code{function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}}).}
+\item{models}{A list of models. A configuration is given in the
+examples. Each model needs to be wrapped in a function that takes a \code{...} argument and returns a dataframe
+of samples with each column representing a time horizon.
+Example: \code{function(...) {EpiSoon::bsts_model(model = function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)}}.}
 
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}

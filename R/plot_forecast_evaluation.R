@@ -40,7 +40,7 @@ plot_forecast_evaluation <- function(forecasts = NULL,
 
 
   forecasts <- forecasts %>%
-    dplyr::filter(horizon == horizon_to_plot)
+    dplyr::filter(horizon %in% horizon_to_plot)
 
   plot <- plot_forecast(forecasts,
                 observations,
