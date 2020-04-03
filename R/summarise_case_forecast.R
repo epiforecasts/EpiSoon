@@ -11,9 +11,8 @@
 #'
 #' ## Example forecast
 #' forecast <- forecast_rt(EpiSoon::example_obs_rts,
-#'                         model = function(ss, y) {
-#'                         bsts::AddAutoAr(ss, y = y, lags = 7)
-#'                         },
+#'                         model = function(...) {EpiSoon::bsts_model(model =
+#'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
 #'                         horizon = 7, samples = 10)
 #'
 #' ## Forecast cases

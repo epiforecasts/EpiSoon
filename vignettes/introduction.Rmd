@@ -42,10 +42,10 @@ library(dplyr)
 EpiSoon::example_obs_rts
 ```
 
-* Fit a `bsts` model and produce a Rt forecast
+* Fit a `bsts` model and produce a Rt forecast. Us appropriately wrapped any model can be used (see `bsts_model` for an example wrapper).
 ```{r}
 rt_forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-                       model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                       model = function(...){EpiSoon::bsts_model(model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)},
                        horizon = 21, samples = 10)
 
 rt_forecast
@@ -137,7 +137,9 @@ plot_forecast(summarised_case_forecast, EpiSoon::example_obs_cases)
 
 ```{r}
 it_rt_forecast <- iterative_rt_forecast(EpiSoon::example_obs_rts,
-                                        model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                                        model = function(...){
+                                          EpiSoon::bsts_model(model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
+                                          },
                                         horizon = 7, samples = 10, min_points = 4)
 
 it_rt_forecast
@@ -163,7 +165,9 @@ In real world use we are likely to want to evaluate a model by iteratively forec
 ```{r}
 model_eval <- evaluate_model(EpiSoon::example_obs_rts,
                              EpiSoon::example_obs_cases,
-                             model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                             model = function(...){
+                                          EpiSoon::bsts_model(model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
+                                          },
                              horizon = 21, samples = 10,
                              serial_interval = EpiSoon::example_serial_interval)
 

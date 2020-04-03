@@ -20,7 +20,8 @@
 #'
 #' ## Forecast an Rt sample
 #' samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-#'                      model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+#'                      model = function(...) {EpiSoon::bsts_model(model =
+#'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
 #'                      horizon = 21, samples = 10)
 #'
 #' ## Summarise forecast

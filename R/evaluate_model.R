@@ -18,7 +18,8 @@
 #' ## Evaluate a model based on a single sample of input cases
 #' evaluate_model(EpiSoon::example_obs_rts,
 #'                EpiSoon::example_obs_cases,
-#'                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+#'                model = function(...) {EpiSoon::bsts_model(model =
+#'                                 function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
 #'                horizon = 7, samples = 10,
 #'                serial_interval = example_serial_interval)
 #'
@@ -38,7 +39,8 @@
 #' ## Evaluate a model across samples
 #' evaluate_model(sampled_obs,
 #'                sampled_cases,
-#'                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+#'                model = function(...) {EpiSoon::bsts_model(model =
+#'                                 function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
 #'                horizon = 7, samples = 10,
 #'                serial_interval = EpiSoon::example_serial_interval)
 evaluate_model <- function(obs_rts = NULL,

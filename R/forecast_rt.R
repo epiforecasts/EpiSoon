@@ -16,7 +16,7 @@
 #'
 #' @examples
 #' forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-#'             model = function(...){bsts_model(model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)},
+#'             model = function(...){EpiSoon::bsts_model(model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)},
 #'             horizon = 7, samples = 10)
 forecast_rt <- function(rts, model = model,
                       horizon = 7, samples = 1000,
