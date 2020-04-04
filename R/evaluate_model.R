@@ -179,7 +179,7 @@ evaluate_model <- function(obs_rts = NULL,
 
   ## Return output
   out <- list(summarised_forecasts, scored_forecasts,
-              summarised_case_forecasts, score_cases)
+              summarised_case_forecasts, scored_cases)
 
   names(out) <- c("forecast_rts", "rt_scores", "forecast_cases", "case_scores")
 
