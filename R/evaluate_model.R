@@ -7,6 +7,7 @@
 #' @param obs_cases Dataframe of case observations to use for case prediction and
 #' scoring. Should contain a `date` and `cases` column. If multiple samples are included this
 #' should be denoted using a numeric `sample` variable.
+#' @param return_raw Logical, should raw cases and rt forecasts be returned. Defaults to `FALSE`.
 #' @inheritParams score_forecast
 #' @inheritParams iterative_rt_forecast
 #' @inheritParams iterative_case_forecast
@@ -14,11 +15,13 @@
 #' @export
 #' @importFrom dplyr slice group_split filter
 #' @importFrom purrr map_dfr map2 map2_dfr
+#' @importFrom rlang has_name
 #' @examples
 #' ## Evaluate a model based on a single sample of input cases
 #' evaluate_model(EpiSoon::example_obs_rts,
 #'                EpiSoon::example_obs_cases,
-#'                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+#'                model = function(...) {EpiSoon::bsts_model(model =
+#'                                 function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
 #'                horizon = 7, samples = 10,
 #'                serial_interval = example_serial_interval)
 #'
@@ -38,7 +41,8 @@
 #' ## Evaluate a model across samples
 #' evaluate_model(sampled_obs,
 #'                sampled_cases,
-#'                model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+#'                model = function(...) {EpiSoon::bsts_model(model =
+#'                                 function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
 #'                horizon = 7, samples = 10,
 #'                serial_interval = EpiSoon::example_serial_interval)
 evaluate_model <- function(obs_rts = NULL,
@@ -50,17 +54,18 @@ evaluate_model <- function(obs_rts = NULL,
                            bound_rt = TRUE,
                            min_points = 3,
                            serial_interval = NULL,
-                           rdist = NULL) {
+                           rdist = NULL,
+                           return_raw = FALSE) {
 
   ## Split obs_rt into a list if present
-  if (!is.null(suppressWarnings(obs_rts$sample))) {
+  if (rlang::has_name(obs_rts, "sample")) {
     obs_rts <- obs_rts %>%
       dplyr::group_split(sample)
   }else{
     obs_rts <- list(obs_rts)
   }
 
-  if (!is.null(suppressWarnings(obs_cases$sample))) {
+  if (rlang::has_name(obs_cases, "sample")) {
     obs_cases <- obs_cases %>%
       dplyr::group_split(sample) %>%
       purrr::map(~ select(., -sample))
@@ -90,8 +95,11 @@ evaluate_model <- function(obs_rts = NULL,
     purrr::map_dfr(summarise_forecast, .id = "forecast_date")
 
 
-  ## Raw forecasts
-  raw_samples <- samples
+  if (return_raw) {
+    ## Raw forecasts
+    raw_samples <- samples
+  }
+
 
   ## Filter the forecasts to be in line with observed data
   samples <- samples %>%
@@ -132,8 +140,10 @@ evaluate_model <- function(obs_rts = NULL,
     setNames(unique(case_predictions$forecast_date)) %>%
     purrr::map_dfr(summarise_case_forecast, .id = "forecast_date")
 
-  ## Summarise case predictions
-  raw_case_preds <- case_predictions
+  if (return_raw) {
+    ## Summarise case predictions
+    raw_case_preds <- case_predictions
+  }
 
 
   ## Limit case predictions to observed data
@@ -156,10 +166,14 @@ evaluate_model <- function(obs_rts = NULL,
 
   ## Return output
   out <- list(summarised_forecasts, scored_forecasts,
-              summarised_case_forecasts, score_cases,
-              raw_samples, raw_case_preds)
-  names(out) <- c("forecast_rts", "rt_scores", "forecast_cases", "case_scores",
-                  "raw_rt_forecast", "raw_case_forecast")
+              summarised_case_forecasts, score_cases)
+
+  names(out) <- c("forecast_rts", "rt_scores", "forecast_cases", "case_scores")
+
+  if (return_raw) {
+    out$raw_rt_forecast <- raw_samples
+    out$raw_case_forecast <- raw_case_preds
+  }
 
   return(out)
 }

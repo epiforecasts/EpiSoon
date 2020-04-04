@@ -28,6 +28,7 @@ This vignette briefly outlines the functionality of `EpiSoon`. To get started lo
 ```{r, message = FALSE}
 library(EpiSoon)
 library(bsts)
+library(fable)
 library(cowplot)
 library(dplyr)
 ```
@@ -42,10 +43,10 @@ library(dplyr)
 EpiSoon::example_obs_rts
 ```
 
-* Fit a `bsts` model and produce a Rt forecast
+* Fit a `bsts` model and produce a Rt forecast. Any appropriately wrapped model can be used (see `bsts_model` and `fable_model` for an examples).
 ```{r}
 rt_forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-                       model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                       model = function(...){EpiSoon::bsts_model(model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)},
                        horizon = 21, samples = 10)
 
 rt_forecast
@@ -137,7 +138,9 @@ plot_forecast(summarised_case_forecast, EpiSoon::example_obs_cases)
 
 ```{r}
 it_rt_forecast <- iterative_rt_forecast(EpiSoon::example_obs_rts,
-                                        model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                                        model = function(...){
+                                          EpiSoon::bsts_model(model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
+                                          },
                                         horizon = 7, samples = 10, min_points = 4)
 
 it_rt_forecast
@@ -163,7 +166,9 @@ In real world use we are likely to want to evaluate a model by iteratively forec
 ```{r}
 model_eval <- evaluate_model(EpiSoon::example_obs_rts,
                              EpiSoon::example_obs_cases,
-                             model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+                             model = function(...){
+                                          EpiSoon::bsts_model(model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
+                                          },
                              horizon = 21, samples = 10,
                              serial_interval = EpiSoon::example_serial_interval)
 
@@ -190,3 +195,6 @@ plot_forecast_evaluation(model_eval$forecast_cases,
 
 `EpiSoon` provides several wrapper functions (`compare_models` and `compare_timeseries`). These both wrap `evaluate_model` and can be used to rapidly explore several forecasting models (`compare_models`) against multiple time series (`compare_timeseries`). All lower level summary and plotting functions can be then used with the output of these wrappers to explore the results. See the function documentation for further details.
 
+## Supporting generic modelling packages
+
+`EpiSoon` supports the use of generic forecasting models if they are used in a wrapper that accepts a standardised set of inputs and outputs its forecast in the form the package expects. Examples of model wrappers are those for the `bsts` and `fable` packages (`bsts_model` and `fable_model`). See the examples and documentation for `fable_model` for further details. 

@@ -26,7 +26,7 @@ See \code{EpiNow::covid_serial_interval} for an example of the format.}
 the forecast date. Defaults to \code{NULL} in which case it will be assumed that the
 forecast date is the last data present in the \code{cases} dataframe}
 
-\item{horizon}{Numeric, the time horizon over which to predict}
+\item{horizon}{Numeric, the time horizon over which to predict.}
 
 \item{rdist}{A function to be used to sample the number of cases. Must take two
 arguments with the first specfying the number of samples and the second the mean. Defaults
@@ -41,9 +41,8 @@ Predict cases for a single Rt sample forecasts
 \examples{
 
 forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-                        model = function(ss, y) {
-                        bsts::AddAutoAr(ss, y = y, lags = 7)
-                        },
+                        model = function(...) {EpiSoon::bsts_model(model =
+                                function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
                         horizon = 7, samples = 1)
 
 

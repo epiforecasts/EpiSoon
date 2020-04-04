@@ -14,7 +14,8 @@ compare_timeseries(
   min_points = 3,
   timeout = 30,
   serial_interval = NULL,
-  rdist = NULL
+  rdist = NULL,
+  return_raw = FALSE
 )
 }
 \arguments{
@@ -26,14 +27,14 @@ contain samples for each timeseries in which case this should be denoted using a
 each timeseris and a  \code{cases} vector (to forecast) and a \code{date} vector (to denote time). Optionally this dataframe can
 contain samples for each timeseries in which case this should be denoted using a \code{sample} variable.}
 
-\item{models}{A list of \code{bsts} models. An example configuration is given in the
-examples. Each \code{bsts} model needs to be wrapped in a function that takes a \code{ss} and \code{y}
-argument (i.e. \code{function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}}).}
+\item{models}{A list of models. A configuration is given in the
+examples. Each model needs to be wrapped in a function that takes a \code{...} argument and returns a dataframe
+of samples with each column representing a time horizon.
+Example: \code{function(...) {EpiSoon::bsts_model(model = function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)}}.}
 
-\item{horizon}{Numeric, the time horizon over which to predict}
+\item{horizon}{Numeric, the time horizon over which to predict.}
 
-\item{samples}{Numeric, the number of samples to from the posterior of the model
-fit. Note that twice this number of MCMC steps will be taken with half used as burn in.}
+\item{samples}{Numeric, number of samples to take.}
 
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}
@@ -41,8 +42,7 @@ equal to 0.}
 \item{min_points}{Numeric, defaults to 3. The minimum number of time points at which to begin
 iteratively evaluating the forecast.}
 
-\item{timeout}{Numeric, the number of seconds to allow before terminating model fitting. Defaults to
-30 seconds.}
+\item{timeout}{Numeric, timeout of model fitting in seconds. Defaults to 30 seconds.}
 
 \item{serial_interval}{A numeric vector describing the probability distribution the serial interval.
 See \code{EpiNow::covid_serial_interval} for an example of the format.}
@@ -50,6 +50,8 @@ See \code{EpiNow::covid_serial_interval} for an example of the format.}
 \item{rdist}{A function to be used to sample the number of cases. Must take two
 arguments with the first specfying the number of samples and the second the mean. Defaults
 to \code{rpois} if not supplied}
+
+\item{return_raw}{Logical, should raw cases and rt forecasts be returned. Defaults to \code{FALSE}.}
 }
 \value{
 A list of dataframes as produced by \verb{evaluate model} but with an additional model column.
@@ -72,9 +74,13 @@ obs_cases <- EpiSoon::example_obs_cases \%>\%
 
 ## List of forecasting bsts models wrapped in functions.
 models <- list("AR 3" =
-                    function(ss, y){bsts::AddAr(ss, y = y, lags = 3)},
+                    function(...) {EpiSoon::bsts_model(model =
+                    function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)},
                "Semi-local linear trend" =
-                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
+               function(...) {EpiSoon::bsts_model(model =
+                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
+               "ARIMA" =
+                    function(...){fable_model(model = fable::ARIMA(y ~ time), ...)})
 
 
 ## Compare models

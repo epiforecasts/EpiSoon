@@ -4,6 +4,9 @@
     <loc>epiforecasts.io/EpiSoon//index.html</loc>
   </url>
   <url>
+    <loc>epiforecasts.io/EpiSoon//reference/bsts_model.html</loc>
+  </url>
+  <url>
     <loc>epiforecasts.io/EpiSoon//reference/compare_models.html</loc>
   </url>
   <url>
@@ -23,6 +26,9 @@
   </url>
   <url>
     <loc>epiforecasts.io/EpiSoon//reference/example_serial_interval.html</loc>
+  </url>
+  <url>
+    <loc>epiforecasts.io/EpiSoon//reference/fable_model.html</loc>
   </url>
   <url>
     <loc>epiforecasts.io/EpiSoon//reference/forecast_cases.html</loc>

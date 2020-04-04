@@ -36,10 +36,12 @@ rts <- EpiSoon::example_obs_rts \%>\%
     dplyr::mutate(timeseries = "Region 2"))
 
 ## List of forecasting bsts models wrapped in functions.
-models <- list("AR 4" =
-                    function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 4)},
+models <- list("AR 3" =
+                    function(...) {EpiSoon::bsts_model(model =
+                    function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)},
                "Semi-local linear trend" =
-                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
+               function(...) {EpiSoon::bsts_model(model =
+                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)})
 
 
 ## Compare models

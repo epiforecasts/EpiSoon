@@ -131,7 +131,8 @@
   <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>30</span>,
   <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>min_points</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>rdist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>rdist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>return_raw</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -151,18 +152,18 @@ should be denoted using a numeric <code>sample</code> variable.</p></td>
     </tr>
     <tr>
       <th>models</th>
-      <td><p>A list of <code>bsts</code> models. An example configuration is given in the
-examples. Each <code>bsts</code> model needs to be wrapped in a function that takes a <code>ss</code> and <code>y</code>
-argument (i.e. <code>function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}</code>).</p></td>
+      <td><p>A list of models. A configuration is given in the
+examples. Each model needs to be wrapped in a function that takes a <code>...</code> argument and returns a dataframe
+of samples with each column representing a time horizon.
+Example: <code>function(...) {EpiSoon::bsts_model(model = function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)}</code>.</p></td>
     </tr>
     <tr>
       <th>horizon</th>
-      <td><p>Numeric, the time horizon over which to predict</p></td>
+      <td><p>Numeric, the time horizon over which to predict.</p></td>
     </tr>
     <tr>
       <th>samples</th>
-      <td><p>Numeric, the number of samples to from the posterior of the model
-fit. Note that twice this number of MCMC steps will be taken with half used as burn in.</p></td>
+      <td><p>Numeric, number of samples to take.</p></td>
     </tr>
     <tr>
       <th>bound_rt</th>
@@ -171,13 +172,27 @@ equal to 0.</p></td>
     </tr>
     <tr>
       <th>timeout</th>
-      <td><p>Numeric, the number of seconds to allow before terminating model fitting. Defaults to
-30 seconds.</p></td>
+      <td><p>Numeric, timeout of model fitting in seconds. Defaults to 30 seconds.</p></td>
+    </tr>
+    <tr>
+      <th>serial_interval</th>
+      <td><p>A numeric vector describing the probability distribution the serial interval.
+See <code>EpiNow::covid_serial_interval</code> for an example of the format.</p></td>
     </tr>
     <tr>
       <th>min_points</th>
       <td><p>Numeric, defaults to 3. The minimum number of time points at which to begin
 iteratively evaluating the forecast.</p></td>
+    </tr>
+    <tr>
+      <th>rdist</th>
+      <td><p>A function to be used to sample the number of cases. Must take two
+arguments with the first specfying the number of samples and the second the mean. Defaults
+to <code>rpois</code> if not supplied</p></td>
+    </tr>
+    <tr>
+      <th>return_raw</th>
+      <td><p>Logical, should raw cases and rt forecasts be returned. Defaults to <code>FALSE</code>.</p></td>
     </tr>
     </table>
 
@@ -189,9 +204,13 @@ iteratively evaluating the forecast.</p></td>
     <pre class="examples"><div class='input'>
 <span class='co'>## List of forecasting bsts models wrapped in functions.</span>
 <span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='st'>"AR 3"</span> <span class='kw'>=</span>
-                    <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.ar.html'>AddAr</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>lags</span> <span class='kw'>=</span> <span class='fl'>3</span>)},
+                    <span class='kw'>function</span>(<span class='no'>...</span>) {<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
+                    <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.ar.html'>AddAr</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>lags</span> <span class='kw'>=</span> <span class='fl'>3</span>)}, <span class='no'>...</span>)},
                <span class='st'>"Semi-local linear trend"</span> <span class='kw'>=</span>
-                    <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)})
+               <span class='kw'>function</span>(<span class='no'>...</span>) {<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
+                    <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)}, <span class='no'>...</span>)},
+               <span class='st'>"ARIMA"</span> <span class='kw'>=</span>
+                    <span class='kw'>function</span>(<span class='no'>...</span>){<span class='fu'><a href='fable_model.html'>fable_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span> <span class='kw pkg'>fable</span><span class='kw ns'>::</span><span class='fu'><a href='https://fable.tidyverts.org/reference/ARIMA.html'>ARIMA</a></span>(<span class='no'>y</span> ~ <span class='no'>time</span>), <span class='no'>...</span>)})
 
 
 
@@ -205,7 +224,7 @@ iteratively evaluating the forecast.</p></td>
 <span class='co'>## with actuals for a range of models and time horizons.</span>
 <span class='fu'><a href='plot_forecast_evaluation.html'>plot_forecast_evaluation</a></span>(<span class='no'>evaluations</span>$<span class='no'>forecast_rts</span>, <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>7</span>)) +
   <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span>(<span class='no'>model</span> ~ <span class='no'>horizon</span>) +
-  <span class='kw pkg'>cowplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/cowplot/man/panel_border.html'>panel_border</a></span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: longer object length is not a multiple of shorter object length</span></div><div class='img'><img src='compare_models-1.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='kw pkg'>cowplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/cowplot/man/panel_border.html'>panel_border</a></span>()</div><div class='img'><img src='compare_models-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>## Hack to plot observed cases vs predicted</span>
 <span class='fu'><a href='plot_forecast_evaluation.html'>plot_forecast_evaluation</a></span>(<span class='no'>evaluations</span>$<span class='no'>forecast_cases</span>,
                          <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>7</span>)) +

@@ -1,8 +1,9 @@
 #' Compare forecasting models
 #'
-#' @param models A list of `bsts` models. An example configuration is given in the
-#' examples. Each `bsts` model needs to be wrapped in a function that takes a `ss` and `y`
-#' argument (i.e. `function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}`).
+#' @param models A list of models. A configuration is given in the
+#' examples. Each model needs to be wrapped in a function that takes a `...` argument and returns a dataframe
+#' of samples with each column representing a time horizon.
+#' Example: `function(...) {EpiSoon::bsts_model(model = function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)}`.
 #'
 #' @inheritParams evaluate_model
 #' @return A list of dataframes as produced by `evaluate model` but with an additional model column.
@@ -14,9 +15,13 @@
 #'
 #' ## List of forecasting bsts models wrapped in functions.
 #' models <- list("AR 3" =
-#'                     function(ss, y){bsts::AddAr(ss, y = y, lags = 3)},
+#'                     function(...) {EpiSoon::bsts_model(model =
+#'                     function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)},
 #'                "Semi-local linear trend" =
-#'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
+#'                function(...) {EpiSoon::bsts_model(model =
+#'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
+#'                "ARIMA" =
+#'                     function(...){fable_model(model = fable::ARIMA(y ~ time), ...)})
 #'
 #'
 #'
@@ -44,7 +49,8 @@
                             bound_rt = TRUE, timeout = 30,
                             serial_interval = NULL,
                             min_points = 3,
-                            rdist = NULL) {
+                            rdist = NULL,
+                            return_raw = FALSE) {
 
 
    safe_eval <- purrr::safely(evaluate_model)
@@ -61,7 +67,8 @@
                    timeout = timeout,
                    serial_interval = serial_interval,
                    min_points = min_points,
-                   rdist = rdist)[[1]],
+                   rdist = rdist,
+                   return_raw = return_raw)[[1]],
        .progress = TRUE
     ) %>%
      purrr::transpose() %>%

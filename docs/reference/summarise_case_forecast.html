@@ -140,9 +140,8 @@
     <pre class="examples"><div class='input'>
 <span class='co'>## Example forecast</span>
 <span class='no'>forecast</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>,
-                        <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>) {
-                        <span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/auto.ar.html'>AddAutoAr</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>lags</span> <span class='kw'>=</span> <span class='fl'>7</span>)
-                        },
+                        <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>) {<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
+                    <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)}, <span class='no'>...</span>)},
                         <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
 <span class='co'>## Forecast cases</span>
@@ -153,13 +152,13 @@
 <span class='fu'>summarise_case_forecast</span>(<span class='no'>case_forecast</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 7 x 9</span><span>
 #&gt;   date       horizon median  mean    sd bottom lower upper   top
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> 2020-03-23       1   532   540   38.8    503   511   534   637
-#&gt; </span><span style='color: #555555;'>2</span><span> 2020-03-24       2   602.  594.  48.7    509   587   655   655
-#&gt; </span><span style='color: #555555;'>3</span><span> 2020-03-25       3   592.  586.  57.3    514   587   660   660
-#&gt; </span><span style='color: #555555;'>4</span><span> 2020-03-26       4   600.  608.  51.2    540   540   603   690
-#&gt; </span><span style='color: #555555;'>5</span><span> 2020-03-27       5   658.  670.  77.2    547   636   741   807
-#&gt; </span><span style='color: #555555;'>6</span><span> 2020-03-28       6   696.  694. 101.     524   674   789   844
-#&gt; </span><span style='color: #555555;'>7</span><span> 2020-03-29       7   741   730.  97.3    556   684   796   863</div></span></pre>
+#&gt; </span><span style='color: #555555;'>1</span><span> 2020-03-23       1   534   535.  23.8    490   515   543   566
+#&gt; </span><span style='color: #555555;'>2</span><span> 2020-03-24       2   627   623.  27.6    575   597   634   658
+#&gt; </span><span style='color: #555555;'>3</span><span> 2020-03-25       3   600.  606.  29.2    568   578   611   648
+#&gt; </span><span style='color: #555555;'>4</span><span> 2020-03-26       4   646.  638.  54.9    550   638   699   699
+#&gt; </span><span style='color: #555555;'>5</span><span> 2020-03-27       5   696.  680.  82.3    536   676   787   787
+#&gt; </span><span style='color: #555555;'>6</span><span> 2020-03-28       6   694.  689.  93.3    469   640   734   782
+#&gt; </span><span style='color: #555555;'>7</span><span> 2020-03-29       7   684   694. 119.     428   657   764   870</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

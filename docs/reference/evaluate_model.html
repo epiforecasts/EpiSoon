@@ -131,7 +131,8 @@
   <span class='kw'>bound_rt</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>min_points</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>rdist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>rdist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>return_raw</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -151,21 +152,20 @@ should be denoted using a numeric <code>sample</code> variable.</p></td>
     </tr>
     <tr>
       <th>model</th>
-      <td><p>An uninitialised <code>bsts</code> model</p></td>
+      <td><p>A model object in the format of <code>bsts_model</code> or <code>fable_model</code>. See the corresponding
+help files for details.</p></td>
     </tr>
     <tr>
       <th>horizon</th>
-      <td><p>Numeric, the time horizon over which to predict</p></td>
+      <td><p>Numeric, the time horizon over which to predict.</p></td>
     </tr>
     <tr>
       <th>samples</th>
-      <td><p>Numeric, the number of samples to from the posterior of the model
-fit. Note that twice this number of MCMC steps will be taken with half used as burn in.</p></td>
+      <td><p>Numeric, number of samples to take.</p></td>
     </tr>
     <tr>
       <th>timeout</th>
-      <td><p>Numeric, the number of seconds to allow before terminating model fitting. Defaults to
-30 seconds.</p></td>
+      <td><p>Numeric, timeout of model fitting in seconds. Defaults to 30 seconds.</p></td>
     </tr>
     <tr>
       <th>bound_rt</th>
@@ -176,6 +176,21 @@ equal to 0.</p></td>
       <th>min_points</th>
       <td><p>Numeric, defaults to 3. The minimum number of time points at which to begin
 iteratively evaluating the forecast.</p></td>
+    </tr>
+    <tr>
+      <th>serial_interval</th>
+      <td><p>A numeric vector describing the probability distribution the serial interval.
+See <code>EpiNow::covid_serial_interval</code> for an example of the format.</p></td>
+    </tr>
+    <tr>
+      <th>rdist</th>
+      <td><p>A function to be used to sample the number of cases. Must take two
+arguments with the first specfying the number of samples and the second the mean. Defaults
+to <code>rpois</code> if not supplied</p></td>
+    </tr>
+    <tr>
+      <th>return_raw</th>
+      <td><p>Logical, should raw cases and rt forecasts be returned. Defaults to <code>FALSE</code>.</p></td>
     </tr>
     </table>
 
@@ -189,103 +204,72 @@ iteratively evaluating the forecast.</p></td>
     <pre class="examples"><div class='input'><span class='co'>## Evaluate a model based on a single sample of input cases</span>
 <span class='fu'>evaluate_model</span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>,
                <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>,
-               <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)},
+               <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>) {<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
+                                <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)}, <span class='no'>...</span>)},
                <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>,
                <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='no'>example_serial_interval</span>)</div><div class='output co'>#&gt; $forecast_rts
 #&gt; <span style='color: #555555;'># A tibble: 133 x 10</span><span>
 #&gt;    forecast_date date       horizon median  mean     sd bottom lower upper   top
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 2020-03-04    2020-03-05       1   2.29  2.29 0.016</span><span style='text-decoration: underline;'>8</span><span>   2.27  2.27  2.29  2.32
-#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-03-04    2020-03-06       2   2.23  2.23 0.018</span><span style='text-decoration: underline;'>2</span><span>   2.18  2.22  2.24  2.25
-#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-03-04    2020-03-07       3   2.18  2.18 0.020</span><span style='text-decoration: underline;'>6</span><span>   2.15  2.17  2.19  2.22
-#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-03-04    2020-03-08       4   2.13  2.13 0.029</span><span style='text-decoration: underline;'>7</span><span>   2.08  2.12  2.14  2.19
-#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-03-04    2020-03-09       5   2.08  2.08 0.020</span><span style='text-decoration: underline;'>8</span><span>   2.04  2.07  2.09  2.12
-#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-03-04    2020-03-10       6   2.02  2.03 0.027</span><span style='text-decoration: underline;'>1</span><span>   1.99  2.01  2.05  2.07
-#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-03-04    2020-03-11       7   1.97  1.97 0.023</span><span style='text-decoration: underline;'>8</span><span>   1.93  1.96  1.99  2.01
-#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-03-05    2020-03-06       1   2.21  2.23 0.103    2.14  2.17  2.23  2.47
-#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-03-05    2020-03-07       2   2.15  2.16 0.085</span><span style='text-decoration: underline;'>2</span><span>   2.05  2.13  2.17  2.37
-#&gt; </span><span style='color: #555555;'>10</span><span> 2020-03-05    2020-03-08       3   2.07  2.08 0.120    1.91  2.03  2.14  2.35
+#&gt; </span><span style='color: #555555;'> 1</span><span> 2020-03-04    2020-03-05       1   2.32  2.34 0.046</span><span style='text-decoration: underline;'>7</span><span>   2.26  2.32  2.36  2.43
+#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-03-04    2020-03-06       2   2.25  2.23 0.074</span><span style='text-decoration: underline;'>1</span><span>   2.11  2.23  2.32  2.32
+#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-03-04    2020-03-07       3   2.17  2.20 0.095</span><span style='text-decoration: underline;'>5</span><span>   2.06  2.06  2.18  2.36
+#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-03-04    2020-03-08       4   2.18  2.17 0.107    1.99  2.07  2.23  2.32
+#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-03-04    2020-03-09       5   2.13  2.11 0.120    1.87  2.01  2.14  2.27
+#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-03-04    2020-03-10       6   2.02  2.03 0.114    1.80  1.95  2.08  2.19
+#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-03-04    2020-03-11       7   2.02  2.02 0.114    1.79  2.01  2.13  2.18
+#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-03-05    2020-03-06       1   2.23  2.23 0.014</span><span style='text-decoration: underline;'>3</span><span>   2.21  2.22  2.24  2.26
+#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-03-05    2020-03-07       2   2.18  2.17 0.027</span><span style='text-decoration: underline;'>3</span><span>   2.10  2.18  2.19  2.20
+#&gt; </span><span style='color: #555555;'>10</span><span> 2020-03-05    2020-03-08       3   2.12  2.12 0.031</span><span style='text-decoration: underline;'>4</span><span>   2.07  2.11  2.15  2.17
 #&gt; </span><span style='color: #555555;'># … with 123 more rows</span><span>
 #&gt; 
 #&gt; $rt_scores
 #&gt; </span><span style='color: #555555;'># A tibble: 105 x 8</span><span>
-#&gt;    forecast_date date       horizon   dss    crps    logs  bias sharpness
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 2020-03-04    2020-03-05       1 -</span><span style='color: #BB0000;'>6.34</span><span> 0.013</span><span style='text-decoration: underline;'>4</span><span>  -</span><span style='color: #BB0000;'>2.61</span><span>     1     0.015</span><span style='text-decoration: underline;'>3</span><span> 
-#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-03-04    2020-03-06       2 -</span><span style='color: #BB0000;'>4.11</span><span> 0.027</span><span style='text-decoration: underline;'>9</span><span>  -</span><span style='color: #BB0000;'>0.039</span><span style='color: #BB0000;text-decoration: underline;'>9</span><span>   0.9   0.008</span><span style='text-decoration: underline;'>20</span><span>
-#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-03-04    2020-03-07       3 -</span><span style='color: #BB0000;'>4.56</span><span> 0.024</span><span style='text-decoration: underline;'>6</span><span>  -</span><span style='color: #BB0000;'>1.82</span><span>     1     0.020</span><span style='text-decoration: underline;'>6</span><span> 
-#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-03-04    2020-03-08       4 -</span><span style='color: #BB0000;'>6.30</span><span> 0.017</span><span style='text-decoration: underline;'>0</span><span>  -</span><span style='color: #BB0000;'>1.86</span><span>     0.8   0.023</span><span style='text-decoration: underline;'>2</span><span> 
-#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-03-04    2020-03-09       5 -</span><span style='color: #BB0000;'>7.00</span><span> 0.011</span><span style='text-decoration: underline;'>9</span><span>  -</span><span style='color: #BB0000;'>2.13</span><span>     0.8   0.011</span><span style='text-decoration: underline;'>7</span><span> 
-#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-03-04    2020-03-10       6 -</span><span style='color: #BB0000;'>7.32</span><span> 0.008</span><span style='text-decoration: underline;'>08</span><span> -</span><span style='color: #BB0000;'>2.40</span><span>     0.5   0.034</span><span style='text-decoration: underline;'>3</span><span> 
-#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-03-04    2020-03-11       7 -</span><span style='color: #BB0000;'>3.62</span><span> 0.032</span><span style='text-decoration: underline;'>1</span><span>  -</span><span style='color: #BB0000;'>1.49</span><span>     0     0.026</span><span style='text-decoration: underline;'>2</span><span> 
-#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-03-05    2020-03-06       1 -</span><span style='color: #BB0000;'>4.48</span><span> 0.018</span><span style='text-decoration: underline;'>3</span><span>  -</span><span style='color: #BB0000;'>1.93</span><span>     0.7   0.046</span><span style='text-decoration: underline;'>8</span><span> 
-#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-03-05    2020-03-07       2 -</span><span style='color: #BB0000;'>5.01</span><span> 0.011</span><span style='text-decoration: underline;'>4</span><span>  -</span><span style='color: #BB0000;'>2.33</span><span>     0.6   0.031</span><span style='text-decoration: underline;'>8</span><span> 
-#&gt; </span><span style='color: #555555;'>10</span><span> 2020-03-05    2020-03-08       3 -</span><span style='color: #BB0000;'>4.28</span><span> 0.029</span><span style='text-decoration: underline;'>3</span><span>  -</span><span style='color: #BB0000;'>1.20</span><span>     0.4   0.097</span><span style='text-decoration: underline;'>4</span><span> 
+#&gt;    forecast_date date       horizon    dss   crps   logs  bias sharpness
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> 2020-03-04    2020-03-05       1 -</span><span style='color: #BB0000;'>3.77</span><span>  0.047</span><span style='text-decoration: underline;'>3</span><span> -</span><span style='color: #BB0000;'>0.970</span><span>   0.9    0.043</span><span style='text-decoration: underline;'>2</span><span>
+#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-03-04    2020-03-06       2 -</span><span style='color: #BB0000;'>4.97</span><span>  0.030</span><span style='text-decoration: underline;'>6</span><span> -</span><span style='color: #BB0000;'>1.24</span><span>    0.7    0.085</span><span style='text-decoration: underline;'>6</span><span>
+#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-03-04    2020-03-07       3 -</span><span style='color: #BB0000;'>4.50</span><span>  0.028</span><span style='text-decoration: underline;'>8</span><span> -</span><span style='color: #BB0000;'>1.33</span><span>    0.7    0.089</span><span style='text-decoration: underline;'>8</span><span>
+#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-03-04    2020-03-08       4 -</span><span style='color: #BB0000;'>4.10</span><span>  0.043</span><span style='text-decoration: underline;'>1</span><span> -</span><span style='color: #BB0000;'>0.952</span><span>   0.7    0.133 
+#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-03-04    2020-03-09       5 -</span><span style='color: #BB0000;'>4.14</span><span>  0.040</span><span style='text-decoration: underline;'>0</span><span> -</span><span style='color: #BB0000;'>0.946</span><span>   0.7    0.126 
+#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-03-04    2020-03-10       6 -</span><span style='color: #BB0000;'>4.44</span><span>  0.024</span><span style='text-decoration: underline;'>9</span><span> -</span><span style='color: #BB0000;'>1.14</span><span>    0.4    0.092</span><span style='text-decoration: underline;'>8</span><span>
+#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-03-04    2020-03-11       7 -</span><span style='color: #BB0000;'>4.44</span><span>  0.023</span><span style='text-decoration: underline;'>9</span><span> -</span><span style='color: #BB0000;'>1.17</span><span>    0.6    0.112 
+#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-03-05    2020-03-06       1  0.887 0.034</span><span style='text-decoration: underline;'>4</span><span> -</span><span style='color: #BB0000;'>0.288</span><span>   1      0.013</span><span style='text-decoration: underline;'>2</span><span>
+#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-03-05    2020-03-07       2 -</span><span style='color: #BB0000;'>6.27</span><span>  0.022</span><span style='text-decoration: underline;'>9</span><span>  0.207   0.9    0.012</span><span style='text-decoration: underline;'>2</span><span>
+#&gt; </span><span style='color: #555555;'>10</span><span> 2020-03-05    2020-03-08       3 -</span><span style='color: #BB0000;'>6.80</span><span>  0.011</span><span style='text-decoration: underline;'>2</span><span> -</span><span style='color: #BB0000;'>2.24</span><span>    0.7    0.035</span><span style='text-decoration: underline;'>6</span><span>
 #&gt; </span><span style='color: #555555;'># … with 95 more rows</span><span>
 #&gt; 
 #&gt; $forecast_cases
 #&gt; </span><span style='color: #555555;'># A tibble: 105 x 10</span><span>
 #&gt;    forecast_date date       horizon median  mean    sd bottom lower upper   top
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 2020-03-04    2020-03-05       1   57.5  59.4  6.75     48    55    62    72
-#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-03-04    2020-03-06       2   70.5  68.7  9.45     53    67    76    82
-#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-03-04    2020-03-07       3   83.5  83.5  6.85     74    80    88    97
-#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-03-04    2020-03-08       4   91.5  88.4 11.3      68    86    95   101
-#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-03-04    2020-03-09       5   98.5  98.6 10.9      79    90   102   114
-#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-03-04    2020-03-10       6  120.  123.  16.7      93   112   125   151
-#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-03-04    2020-03-11       7  131   136   12.0     124   124   132   161
-#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-03-05    2020-03-06       1   74    72.2  7.21     63    74    84    84
-#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-03-05    2020-03-07       2   78    79.5  6.65     73    73    79    92
-#&gt; </span><span style='color: #555555;'>10</span><span> 2020-03-05    2020-03-08       3   97.5  96.8 10.3      82    96   104   118
+#&gt; </span><span style='color: #555555;'> 1</span><span> 2020-03-04    2020-03-05       1   63.5  65    7.56     58    58    64    83
+#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-03-04    2020-03-06       2   68    68.3  7.66     54    62    69    83
+#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-03-04    2020-03-07       3   83.5  79.4 11.1      61    83    91    91
+#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-03-04    2020-03-08       4   90    93.1 14.4      72    78    95   114
+#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-03-04    2020-03-09       5  108.  106.  12.2      76   107   117   118
+#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-03-04    2020-03-10       6  115   121.  18.8     102   102   118   160
+#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-03-04    2020-03-11       7  134   140.  12.6     123   123   134   157
+#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-03-05    2020-03-06       1   73    73    5.64     65    72    78    83
+#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-03-05    2020-03-07       2   76    78.4  7.11     71    71    77    90
+#&gt; </span><span style='color: #555555;'>10</span><span> 2020-03-05    2020-03-08       3   97    95.5  8.40     79    91   102   107
 #&gt; </span><span style='color: #555555;'># … with 95 more rows</span><span>
 #&gt; 
 #&gt; $case_scores
 #&gt; </span><span style='color: #555555;'># A tibble: 105 x 9</span><span>
 #&gt;    sample forecast_date date       horizon   dss  crps  logs  bias sharpness
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 1      2020-03-04    2020-03-05       1  4.03  2.68  3.18 0.3        5.19
-#&gt; </span><span style='color: #555555;'> 2</span><span> 1      2020-03-04    2020-03-06       2  4.62  2.67  3.34 0.4        8.15
-#&gt; </span><span style='color: #555555;'> 3</span><span> 1      2020-03-04    2020-03-07       3  4.22  2.69  3.20 0.100      6.67
-#&gt; </span><span style='color: #555555;'> 4</span><span> 1      2020-03-04    2020-03-08       4  6.35  7.86  3.77 0          7.41
-#&gt; </span><span style='color: #555555;'> 5</span><span> 1      2020-03-04    2020-03-09       5  7.51 11.6   4.23 0         11.9 
-#&gt; </span><span style='color: #555555;'> 6</span><span> 1      2020-03-04    2020-03-10       6  6.88 12.6   4.74 0.200     11.1 
-#&gt; </span><span style='color: #555555;'> 7</span><span> 1      2020-03-04    2020-03-11       7 12.3  24.9   5.49 0          9.64
-#&gt; </span><span style='color: #555555;'> 8</span><span> 1      2020-03-05    2020-03-06       1  3.86  2.2   3.20 0.6        8.90
-#&gt; </span><span style='color: #555555;'> 9</span><span> 1      2020-03-05    2020-03-07       2  5.50  5.83  3.69 0.100      6.67
-#&gt; </span><span style='color: #555555;'>10</span><span> 1      2020-03-05    2020-03-08       3  4.84  3.52  3.34 0.200      6.67
+#&gt; </span><span style='color: #555555;'> 1</span><span> 1      2020-03-04    2020-03-05       1  4.02  1.34  2.73 0.5        5.93
+#&gt; </span><span style='color: #555555;'> 2</span><span> 1      2020-03-04    2020-03-06       2  4.38  2.99  3.21 0.200      5.19
+#&gt; </span><span style='color: #555555;'> 3</span><span> 1      2020-03-04    2020-03-07       3  5.38  3.96  3.47 0.200     11.1 
+#&gt; </span><span style='color: #555555;'> 4</span><span> 1      2020-03-04    2020-03-08       4  5.65  7.03  4.09 0.3       13.3 
+#&gt; </span><span style='color: #555555;'> 5</span><span> 1      2020-03-04    2020-03-09       5  5.63  4.67  3.38 0.200      8.90
+#&gt; </span><span style='color: #555555;'> 6</span><span> 1      2020-03-04    2020-03-10       6  7.05 14.2   4.65 0.100     17.8 
+#&gt; </span><span style='color: #555555;'> 7</span><span> 1      2020-03-04    2020-03-11       7 10.2  21.0   5.04 0          9.64
+#&gt; </span><span style='color: #555555;'> 8</span><span> 1      2020-03-05    2020-03-06       1  3.35  1.38  2.85 0.5        6.67
+#&gt; </span><span style='color: #555555;'> 9</span><span> 1      2020-03-05    2020-03-07       2  5.84  6.52  3.70 0.200      5.93
+#&gt; </span><span style='color: #555555;'>10</span><span> 1      2020-03-05    2020-03-08       3  4.82  3.11  3.28 0.100      8.15
 #&gt; </span><span style='color: #555555;'># … with 95 more rows</span><span>
-#&gt; 
-#&gt; $raw_rt_forecast
-#&gt; </span><span style='color: #555555;'># A tibble: 1,330 x 6</span><span>
-#&gt;    obs_sample forecast_date sample date          rt horizon
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 1          2020-03-04         1 2020-03-05  2.29       1
-#&gt; </span><span style='color: #555555;'> 2</span><span> 1          2020-03-04         2 2020-03-05  2.32       1
-#&gt; </span><span style='color: #555555;'> 3</span><span> 1          2020-03-04         3 2020-03-05  2.29       1
-#&gt; </span><span style='color: #555555;'> 4</span><span> 1          2020-03-04         4 2020-03-05  2.28       1
-#&gt; </span><span style='color: #555555;'> 5</span><span> 1          2020-03-04         5 2020-03-05  2.30       1
-#&gt; </span><span style='color: #555555;'> 6</span><span> 1          2020-03-04         6 2020-03-05  2.28       1
-#&gt; </span><span style='color: #555555;'> 7</span><span> 1          2020-03-04         7 2020-03-05  2.27       1
-#&gt; </span><span style='color: #555555;'> 8</span><span> 1          2020-03-04         8 2020-03-05  2.27       1
-#&gt; </span><span style='color: #555555;'> 9</span><span> 1          2020-03-04         9 2020-03-05  2.31       1
-#&gt; </span><span style='color: #555555;'>10</span><span> 1          2020-03-04        10 2020-03-05  2.28       1
-#&gt; </span><span style='color: #555555;'># … with 1,320 more rows</span><span>
-#&gt; 
-#&gt; $raw_case_forecast
-#&gt; </span><span style='color: #555555;'># A tibble: 1,050 x 6</span><span>
-#&gt;    obs_sample forecast_date sample date       cases horizon
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 1          2020-03-04         1 2020-03-05    65       1
-#&gt; </span><span style='color: #555555;'> 2</span><span> 1          2020-03-04         1 2020-03-06    75       2
-#&gt; </span><span style='color: #555555;'> 3</span><span> 1          2020-03-04         1 2020-03-07    83       3
-#&gt; </span><span style='color: #555555;'> 4</span><span> 1          2020-03-04         1 2020-03-08   101       4
-#&gt; </span><span style='color: #555555;'> 5</span><span> 1          2020-03-04         1 2020-03-09   102       5
-#&gt; </span><span style='color: #555555;'> 6</span><span> 1          2020-03-04         1 2020-03-10   146       6
-#&gt; </span><span style='color: #555555;'> 7</span><span> 1          2020-03-04         1 2020-03-11   130       7
-#&gt; </span><span style='color: #555555;'> 8</span><span> 1          2020-03-04         2 2020-03-05    48       1
-#&gt; </span><span style='color: #555555;'> 9</span><span> 1          2020-03-04         2 2020-03-06    76       2
-#&gt; </span><span style='color: #555555;'>10</span><span> 1          2020-03-04         2 2020-03-07    74       3
-#&gt; </span><span style='color: #555555;'># … with 1,040 more rows</span><span>
 #&gt; </div><div class='input'>
 
 <span class='co'>## Samples of observed data</span>
@@ -303,103 +287,72 @@ iteratively evaluating the forecast.</p></td>
 <span class='co'>## Evaluate a model across samples</span>
 <span class='fu'>evaluate_model</span>(<span class='no'>sampled_obs</span>,
                <span class='no'>sampled_cases</span>,
-               <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)},
+               <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>) {<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
+                                <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)}, <span class='no'>...</span>)},
                <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>,
                <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_serial_interval.html'>example_serial_interval</a></span>)</div><div class='output co'>#&gt; $forecast_rts
 #&gt; </span><span style='color: #555555;'># A tibble: 133 x 10</span><span>
 #&gt;    forecast_date date       horizon median  mean     sd bottom lower upper   top
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 2020-03-04    2020-03-05       1   2.30  2.31 0.054</span><span style='text-decoration: underline;'>4</span><span>   2.26  2.26  2.30  2.42
-#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-03-04    2020-03-06       2   2.24  2.28 0.121    2.17  2.22  2.26  2.58
-#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-03-04    2020-03-07       3   2.21  2.24 0.120    2.11  2.16  2.23  2.40
-#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-03-04    2020-03-08       4   2.15  2.19 0.143    2.04  2.07  2.18  2.43
-#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-03-04    2020-03-09       5   2.10  2.16 0.176    1.98  2.06  2.14  2.59
-#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-03-04    2020-03-10       6   2.07  2.11 0.192    1.88  2.03  2.15  2.33
-#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-03-04    2020-03-11       7   2.03  2.08 0.225    1.81  1.92  2.05  2.43
-#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-03-05    2020-03-06       1   2.21  2.21 0.023</span><span style='text-decoration: underline;'>1</span><span>   2.18  2.19  2.21  2.25
-#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-03-05    2020-03-07       2   2.17  2.17 0.040</span><span style='text-decoration: underline;'>6</span><span>   2.13  2.13  2.18  2.25
-#&gt; </span><span style='color: #555555;'>10</span><span> 2020-03-05    2020-03-08       3   2.12  2.12 0.064</span><span style='text-decoration: underline;'>2</span><span>   2.05  2.11  2.15  2.25
+#&gt; </span><span style='color: #555555;'> 1</span><span> 2020-03-04    2020-03-05       1   2.29  2.29 0.040</span><span style='text-decoration: underline;'>7</span><span>   2.24  2.26  2.30  2.34
+#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-03-04    2020-03-06       2   2.24  2.25 0.048</span><span style='text-decoration: underline;'>3</span><span>   2.15  2.23  2.27  2.32
+#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-03-04    2020-03-07       3   2.19  2.19 0.069</span><span style='text-decoration: underline;'>2</span><span>   2.11  2.15  2.20  2.33
+#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-03-04    2020-03-08       4   2.15  2.14 0.081</span><span style='text-decoration: underline;'>3</span><span>   2.06  2.12  2.19  2.28
+#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-03-04    2020-03-09       5   2.10  2.09 0.111    1.97  2.07  2.15  2.27
+#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-03-04    2020-03-10       6   2.05  2.04 0.125    1.90  2.03  2.12  2.21
+#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-03-04    2020-03-11       7   2.02  1.99 0.154    1.85  1.96  2.04  2.22
+#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-03-05    2020-03-06       1   2.23  2.22 0.043</span><span style='text-decoration: underline;'>8</span><span>   2.15  2.21  2.25  2.28
+#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-03-05    2020-03-07       2   2.17  2.17 0.048</span><span style='text-decoration: underline;'>8</span><span>   2.11  2.14  2.18  2.25
+#&gt; </span><span style='color: #555555;'>10</span><span> 2020-03-05    2020-03-08       3   2.11  2.11 0.078</span><span style='text-decoration: underline;'>8</span><span>   2.03  2.09  2.16  2.28
 #&gt; </span><span style='color: #555555;'># … with 123 more rows</span><span>
 #&gt; 
 #&gt; $rt_scores
 #&gt; </span><span style='color: #555555;'># A tibble: 210 x 9</span><span>
 #&gt;    sample forecast_date date       horizon   dss    crps   logs  bias sharpness
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 1      2020-03-04    2020-03-05       1 -</span><span style='color: #BB0000;'>6.95</span><span> 0.011</span><span style='text-decoration: underline;'>3</span><span>  -</span><span style='color: #BB0000;'>2.47</span><span>  0.9      0.018</span><span style='text-decoration: underline;'>2</span><span>
-#&gt; </span><span style='color: #555555;'> 2</span><span> 1      2020-03-04    2020-03-06       2 -</span><span style='color: #BB0000;'>3.99</span><span> 0.030</span><span style='text-decoration: underline;'>4</span><span>  -</span><span style='color: #BB0000;'>1.53</span><span>  0.9      0.022</span><span style='text-decoration: underline;'>4</span><span>
-#&gt; </span><span style='color: #555555;'> 3</span><span> 1      2020-03-04    2020-03-07       3 -</span><span style='color: #BB0000;'>5.63</span><span> 0.028</span><span style='text-decoration: underline;'>3</span><span>  -</span><span style='color: #BB0000;'>1.34</span><span>  0.8      0.036</span><span style='text-decoration: underline;'>6</span><span>
-#&gt; </span><span style='color: #555555;'> 4</span><span> 1      2020-03-04    2020-03-08       4 -</span><span style='color: #BB0000;'>5.88</span><span> 0.026</span><span style='text-decoration: underline;'>0</span><span>  -</span><span style='color: #BB0000;'>0.702</span><span> 0.8      0.026</span><span style='text-decoration: underline;'>0</span><span>
-#&gt; </span><span style='color: #555555;'> 5</span><span> 1      2020-03-04    2020-03-09       5 -</span><span style='color: #BB0000;'>5.78</span><span> 0.021</span><span style='text-decoration: underline;'>9</span><span>  -</span><span style='color: #BB0000;'>1.60</span><span>  0.8      0.040</span><span style='text-decoration: underline;'>3</span><span>
-#&gt; </span><span style='color: #555555;'> 6</span><span> 1      2020-03-04    2020-03-10       6 -</span><span style='color: #BB0000;'>6.01</span><span> 0.011</span><span style='text-decoration: underline;'>5</span><span>  -</span><span style='color: #BB0000;'>2.14</span><span>  0.8      0.049</span><span style='text-decoration: underline;'>2</span><span>
-#&gt; </span><span style='color: #555555;'> 7</span><span> 1      2020-03-04    2020-03-11       7 -</span><span style='color: #BB0000;'>5.37</span><span> 0.017</span><span style='text-decoration: underline;'>9</span><span>  -</span><span style='color: #BB0000;'>1.86</span><span>  0.200    0.050</span><span style='text-decoration: underline;'>0</span><span>
-#&gt; </span><span style='color: #555555;'> 8</span><span> 1      2020-03-05    2020-03-06       1 -</span><span style='color: #BB0000;'>6.53</span><span> 0.009</span><span style='text-decoration: underline;'>02</span><span> -</span><span style='color: #BB0000;'>2.81</span><span>  0.9      0.011</span><span style='text-decoration: underline;'>8</span><span>
-#&gt; </span><span style='color: #555555;'> 9</span><span> 1      2020-03-05    2020-03-07       2 -</span><span style='color: #BB0000;'>5.59</span><span> 0.019</span><span style='text-decoration: underline;'>1</span><span>  -</span><span style='color: #BB0000;'>1.73</span><span>  0.6      0.063</span><span style='text-decoration: underline;'>0</span><span>
-#&gt; </span><span style='color: #555555;'>10</span><span> 1      2020-03-05    2020-03-08       3 -</span><span style='color: #BB0000;'>5.17</span><span> 0.020</span><span style='text-decoration: underline;'>3</span><span>  -</span><span style='color: #BB0000;'>1.53</span><span>  0.7      0.043</span><span style='text-decoration: underline;'>5</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> 1      2020-03-04    2020-03-05       1 -</span><span style='color: #BB0000;'>7.04</span><span> 0.005</span><span style='text-decoration: underline;'>95</span><span> -</span><span style='color: #BB0000;'>2.71</span><span>    0.6    0.018</span><span style='text-decoration: underline;'>4</span><span>
+#&gt; </span><span style='color: #555555;'> 2</span><span> 1      2020-03-04    2020-03-06       2 -</span><span style='color: #BB0000;'>6.26</span><span> 0.019</span><span style='text-decoration: underline;'>2</span><span>  -</span><span style='color: #BB0000;'>1.71</span><span>    0.7    0.020</span><span style='text-decoration: underline;'>9</span><span>
+#&gt; </span><span style='color: #555555;'> 3</span><span> 1      2020-03-04    2020-03-07       3 -</span><span style='color: #BB0000;'>5.65</span><span> 0.013</span><span style='text-decoration: underline;'>9</span><span>  -</span><span style='color: #BB0000;'>2.08</span><span>    0.8    0.030</span><span style='text-decoration: underline;'>6</span><span>
+#&gt; </span><span style='color: #555555;'> 4</span><span> 1      2020-03-04    2020-03-08       4 -</span><span style='color: #BB0000;'>5.13</span><span> 0.012</span><span style='text-decoration: underline;'>5</span><span>  -</span><span style='color: #BB0000;'>2.06</span><span>    0.6    0.044</span><span style='text-decoration: underline;'>3</span><span>
+#&gt; </span><span style='color: #555555;'> 5</span><span> 1      2020-03-04    2020-03-09       5 -</span><span style='color: #BB0000;'>4.32</span><span> 0.017</span><span style='text-decoration: underline;'>6</span><span>  -</span><span style='color: #BB0000;'>1.71</span><span>    0.5    0.059</span><span style='text-decoration: underline;'>6</span><span>
+#&gt; </span><span style='color: #555555;'> 6</span><span> 1      2020-03-04    2020-03-10       6 -</span><span style='color: #BB0000;'>3.84</span><span> 0.023</span><span style='text-decoration: underline;'>0</span><span>  -</span><span style='color: #BB0000;'>1.67</span><span>    0.3    0.057</span><span style='text-decoration: underline;'>7</span><span>
+#&gt; </span><span style='color: #555555;'> 7</span><span> 1      2020-03-04    2020-03-11       7 -</span><span style='color: #BB0000;'>3.22</span><span> 0.044</span><span style='text-decoration: underline;'>8</span><span>  -</span><span style='color: #BB0000;'>1.25</span><span>    0.3    0.081</span><span style='text-decoration: underline;'>6</span><span>
+#&gt; </span><span style='color: #555555;'> 8</span><span> 1      2020-03-05    2020-03-06       1 -</span><span style='color: #BB0000;'>5.00</span><span> 0.034</span><span style='text-decoration: underline;'>9</span><span>  -</span><span style='color: #BB0000;'>0.660</span><span>   0.9    0.030</span><span style='text-decoration: underline;'>8</span><span>
+#&gt; </span><span style='color: #555555;'> 9</span><span> 1      2020-03-05    2020-03-07       2 -</span><span style='color: #BB0000;'>5.51</span><span> 0.022</span><span style='text-decoration: underline;'>7</span><span>  -</span><span style='color: #BB0000;'>1.73</span><span>    0.7    0.052</span><span style='text-decoration: underline;'>8</span><span>
+#&gt; </span><span style='color: #555555;'>10</span><span> 1      2020-03-05    2020-03-08       3 -</span><span style='color: #BB0000;'>5.02</span><span> 0.019</span><span style='text-decoration: underline;'>7</span><span>  -</span><span style='color: #BB0000;'>1.75</span><span>    0.7    0.051</span><span style='text-decoration: underline;'>4</span><span>
 #&gt; </span><span style='color: #555555;'># … with 200 more rows</span><span>
 #&gt; 
 #&gt; $forecast_cases
 #&gt; </span><span style='color: #555555;'># A tibble: 105 x 10</span><span>
 #&gt;    forecast_date date       horizon median  mean    sd bottom lower upper   top
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 2020-03-04    2020-03-05       1   60.5  61.4  6.06     51    58    65    68
-#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-03-04    2020-03-06       2   76    75.4 11.1      58    70    79    91
-#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-03-04    2020-03-07       3   82.5  82.8  8.81     65    81    89    96
-#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-03-04    2020-03-08       4   94    95.0 14.9      74    74    95   120
-#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-03-04    2020-03-09       5  108.  114   16.8      87   104   121   144
-#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-03-04    2020-03-10       6  120.  123.  13.3     109   109   123   152
-#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-03-04    2020-03-11       7  148.  148.  28.8     105   137   163   190
-#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-03-05    2020-03-06       1   69.5  70.1  7.21     59    60    70    82
-#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-03-05    2020-03-07       2   81    80.2  9.57     70    72    82   103
-#&gt; </span><span style='color: #555555;'>10</span><span> 2020-03-05    2020-03-08       3   95.5  94.1  9.70     81    94   104   113
+#&gt; </span><span style='color: #555555;'> 1</span><span> 2020-03-04    2020-03-05       1   60    61.2  8.38     49    52    61    74
+#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-03-04    2020-03-06       2   71.5  68.8  7.15     60    71    79    79
+#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-03-04    2020-03-07       3   82    83    9.07     72    78    90   100
+#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-03-04    2020-03-08       4   93    93.6 10.6      73    87    96   107
+#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-03-04    2020-03-09       5  103   102.  10.7      80    94   106   113
+#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-03-04    2020-03-10       6  118   117.  15.7      98   112   133   138
+#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-03-04    2020-03-11       7  145   141.  19.4     121   134   150   186
+#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-03-05    2020-03-06       1   66.5  68.0  8.76     56    58    68    81
+#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-03-05    2020-03-07       2   77.5  77.8  6.92     70    73    80    92
+#&gt; </span><span style='color: #555555;'>10</span><span> 2020-03-05    2020-03-08       3   91    91.8 12.0      73    78    95   109
 #&gt; </span><span style='color: #555555;'># … with 95 more rows</span><span>
 #&gt; 
 #&gt; $case_scores
 #&gt; </span><span style='color: #555555;'># A tibble: 210 x 9</span><span>
 #&gt;    sample forecast_date date       horizon   dss  crps  logs  bias sharpness
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 1      2020-03-04    2020-03-05       1  3.86  2.06  3.01 0.4        8.15
-#&gt; </span><span style='color: #555555;'> 2</span><span> 1      2020-03-04    2020-03-06       2  4.92  3.17  3.22 0.7        8.15
-#&gt; </span><span style='color: #555555;'> 3</span><span> 1      2020-03-04    2020-03-07       3  5.22  4.14  3.33 0.100      9.64
-#&gt; </span><span style='color: #555555;'> 4</span><span> 1      2020-03-04    2020-03-08       4  5.86  7.6   4.14 0.4       17.8 
-#&gt; </span><span style='color: #555555;'> 5</span><span> 1      2020-03-04    2020-03-09       5  5.56  5.48  4.09 0.3        8.90
-#&gt; </span><span style='color: #555555;'> 6</span><span> 1      2020-03-04    2020-03-10       6 10.5  18.1   5.70 0          9.64
-#&gt; </span><span style='color: #555555;'> 7</span><span> 1      2020-03-04    2020-03-11       7  9.36 23.6   5.20 0         20.8 
-#&gt; </span><span style='color: #555555;'> 8</span><span> 1      2020-03-05    2020-03-06       1  3.98  2.1   3.24 0.4        7.41
-#&gt; </span><span style='color: #555555;'> 9</span><span> 1      2020-03-05    2020-03-07       2  5.31  5.21  3.65 0.200     12.6 
-#&gt; </span><span style='color: #555555;'>10</span><span> 1      2020-03-05    2020-03-08       3  4.65  3.42  3.31 0.200      9.64
+#&gt; </span><span style='color: #555555;'> 1</span><span> 1      2020-03-04    2020-03-05       1  4.37  3.46  3.47 0.3        5.19
+#&gt; </span><span style='color: #555555;'> 2</span><span> 1      2020-03-04    2020-03-06       2  3.70  1.81  2.93 0.3        8.15
+#&gt; </span><span style='color: #555555;'> 3</span><span> 1      2020-03-04    2020-03-07       3  4.13  2.49  3.11 0.200      6.67
+#&gt; </span><span style='color: #555555;'> 4</span><span> 1      2020-03-04    2020-03-08       4  6.02  7.56  4.76 0.100      4.45
+#&gt; </span><span style='color: #555555;'> 5</span><span> 1      2020-03-04    2020-03-09       5  7.80 10.2   4.31 0          8.15
+#&gt; </span><span style='color: #555555;'> 6</span><span> 1      2020-03-04    2020-03-10       6  8.38 18.1   4.68 0         17.8 
+#&gt; </span><span style='color: #555555;'> 7</span><span> 1      2020-03-04    2020-03-11       7  9.54 24.4   6.89 0         13.3 
+#&gt; </span><span style='color: #555555;'> 8</span><span> 1      2020-03-05    2020-03-06       1  4.72  3.8   3.26 0.200      8.15
+#&gt; </span><span style='color: #555555;'> 9</span><span> 1      2020-03-05    2020-03-07       2  5.26  5.21  3.62 0.100      5.19
+#&gt; </span><span style='color: #555555;'>10</span><span> 1      2020-03-05    2020-03-08       3  5.32  4.64  3.66 0.200     11.1 
 #&gt; </span><span style='color: #555555;'># … with 200 more rows</span><span>
-#&gt; 
-#&gt; $raw_rt_forecast
-#&gt; </span><span style='color: #555555;'># A tibble: 2,660 x 6</span><span>
-#&gt;    obs_sample forecast_date sample date          rt horizon
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 1          2020-03-04         1 2020-03-05  2.30       1
-#&gt; </span><span style='color: #555555;'> 2</span><span> 1          2020-03-04         2 2020-03-05  2.29       1
-#&gt; </span><span style='color: #555555;'> 3</span><span> 1          2020-03-04         3 2020-03-05  2.33       1
-#&gt; </span><span style='color: #555555;'> 4</span><span> 1          2020-03-04         4 2020-03-05  2.29       1
-#&gt; </span><span style='color: #555555;'> 5</span><span> 1          2020-03-04         5 2020-03-05  2.27       1
-#&gt; </span><span style='color: #555555;'> 6</span><span> 1          2020-03-04         6 2020-03-05  2.30       1
-#&gt; </span><span style='color: #555555;'> 7</span><span> 1          2020-03-04         7 2020-03-05  2.25       1
-#&gt; </span><span style='color: #555555;'> 8</span><span> 1          2020-03-04         8 2020-03-05  2.27       1
-#&gt; </span><span style='color: #555555;'> 9</span><span> 1          2020-03-04         9 2020-03-05  2.27       1
-#&gt; </span><span style='color: #555555;'>10</span><span> 1          2020-03-04        10 2020-03-05  2.29       1
-#&gt; </span><span style='color: #555555;'># … with 2,650 more rows</span><span>
-#&gt; 
-#&gt; $raw_case_forecast
-#&gt; </span><span style='color: #555555;'># A tibble: 2,100 x 6</span><span>
-#&gt;    obs_sample forecast_date sample date       cases horizon
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 1          2020-03-04         1 2020-03-05    59       1
-#&gt; </span><span style='color: #555555;'> 2</span><span> 1          2020-03-04         1 2020-03-06    89       2
-#&gt; </span><span style='color: #555555;'> 3</span><span> 1          2020-03-04         1 2020-03-07    78       3
-#&gt; </span><span style='color: #555555;'> 4</span><span> 1          2020-03-04         1 2020-03-08    80       4
-#&gt; </span><span style='color: #555555;'> 5</span><span> 1          2020-03-04         1 2020-03-09   117       5
-#&gt; </span><span style='color: #555555;'> 6</span><span> 1          2020-03-04         1 2020-03-10   120       6
-#&gt; </span><span style='color: #555555;'> 7</span><span> 1          2020-03-04         1 2020-03-11   110       7
-#&gt; </span><span style='color: #555555;'> 8</span><span> 1          2020-03-04         2 2020-03-05    65       1
-#&gt; </span><span style='color: #555555;'> 9</span><span> 1          2020-03-04         2 2020-03-06    71       2
-#&gt; </span><span style='color: #555555;'>10</span><span> 1          2020-03-04         2 2020-03-07    82       3
-#&gt; </span><span style='color: #555555;'># … with 2,090 more rows</span><span>
 #&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

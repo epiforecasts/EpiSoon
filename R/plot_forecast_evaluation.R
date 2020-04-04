@@ -19,7 +19,8 @@
 #' ## Evaluate a model
 #' forecast_eval <- evaluate_model(EpiSoon::example_obs_rts,
 #'                                 EpiSoon::example_obs_cases,
-#'                                 model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+#'                                 model = function(...) {EpiSoon::bsts_model(model =
+#'                                 function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
 #'                                 serial_interval = EpiSoon::example_serial_interval,
 #'                                 horizon = 7, samples = 10)
 #'
@@ -40,7 +41,7 @@ plot_forecast_evaluation <- function(forecasts = NULL,
 
 
   forecasts <- forecasts %>%
-    dplyr::filter(horizon == horizon_to_plot)
+    dplyr::filter(horizon %in% horizon_to_plot)
 
   plot <- plot_forecast(forecasts,
                 observations,

@@ -14,7 +14,8 @@ evaluate_model(
   bound_rt = TRUE,
   min_points = 3,
   serial_interval = NULL,
-  rdist = NULL
+  rdist = NULL,
+  return_raw = FALSE
 )
 }
 \arguments{
@@ -26,15 +27,14 @@ should be denoted using a numeric \code{sample} variable.}
 scoring. Should contain a \code{date} and \code{cases} column. If multiple samples are included this
 should be denoted using a numeric \code{sample} variable.}
 
-\item{model}{An uninitialised \code{bsts} model}
+\item{model}{A model object in the format of \code{bsts_model} or \code{fable_model}. See the corresponding
+help files for details.}
 
-\item{horizon}{Numeric, the time horizon over which to predict}
+\item{horizon}{Numeric, the time horizon over which to predict.}
 
-\item{samples}{Numeric, the number of samples to from the posterior of the model
-fit. Note that twice this number of MCMC steps will be taken with half used as burn in.}
+\item{samples}{Numeric, number of samples to take.}
 
-\item{timeout}{Numeric, the number of seconds to allow before terminating model fitting. Defaults to
-30 seconds.}
+\item{timeout}{Numeric, timeout of model fitting in seconds. Defaults to 30 seconds.}
 
 \item{bound_rt}{Logical, defaults to \code{TRUE}. Should Rt values be bounded to be greater than or
 equal to 0.}
@@ -48,6 +48,8 @@ See \code{EpiNow::covid_serial_interval} for an example of the format.}
 \item{rdist}{A function to be used to sample the number of cases. Must take two
 arguments with the first specfying the number of samples and the second the mean. Defaults
 to \code{rpois} if not supplied}
+
+\item{return_raw}{Logical, should raw cases and rt forecasts be returned. Defaults to \code{FALSE}.}
 }
 \value{
 
@@ -59,7 +61,8 @@ Evaluate a Model for Forecasting Rts
 ## Evaluate a model based on a single sample of input cases
 evaluate_model(EpiSoon::example_obs_rts,
                EpiSoon::example_obs_cases,
-               model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+               model = function(...) {EpiSoon::bsts_model(model =
+                                function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
                horizon = 7, samples = 10,
                serial_interval = example_serial_interval)
 
@@ -79,7 +82,8 @@ sampled_cases <- EpiSoon::example_obs_cases \%>\%
 ## Evaluate a model across samples
 evaluate_model(sampled_obs,
                sampled_cases,
-               model = function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)},
+               model = function(...) {EpiSoon::bsts_model(model =
+                                function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
                horizon = 7, samples = 10,
                serial_interval = EpiSoon::example_serial_interval)
 }

@@ -40,11 +40,14 @@ Imports:
     scoringutils,
     scoringRules,
     bsts,
+    fabletools,
+    tsibble,
     purrr,
     furrr,
     magrittr,
     dplyr,
     tidyr,
+    rlang,
     tibble,
     lubridate,
     ggplot2,
@@ -55,5 +58,8 @@ Remotes:
   epiforecasts/scoringutils
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    fable,
+    feasts,
+    future.apply
 VignetteBuilder: knitr

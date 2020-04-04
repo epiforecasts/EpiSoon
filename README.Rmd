@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 
 # EpiSoon
 
-[![Travis-CI Build Status](https://travis-ci.org/epiforecasts/EpiSoon.svg?branch=master)](https://travis-ci.org/epiforecasts/EpiSoon)
+[![Build Status](https://travis-ci.com/epiforecasts/EpiSoon.svg?branch=master)](https://travis-ci.com/epiforecasts/EpiSoon)
 
 *Warning: This package is a work in progress and is currently developed solely with the COVID-19 outbreak in mind. Breaking changes may occur and the authors cannot guarantee support.*
 
@@ -30,11 +30,12 @@ remotes::install_github("epiforecasts/EpiSoon", dependencies = TRUE)
 ## Quick start
 
 
-* Load packages (`bsts` for models, `ggplot2` for plotting, and `cowplot` for theming)
+* Load packages (`bsts` and `fable` for models, `ggplot2` for plotting, and `cowplot` for theming)
 
 ```{r, message = FALSE}
 library(EpiSoon)
 library(bsts)
+library(fable)
 library(future)
 library(cowplot)
 library(dplyr)
@@ -54,13 +55,17 @@ obs_cases <- EpiSoon::example_obs_cases %>%
    dplyr::mutate(timeseries = "Region 2"))
 ```
 
-* Define the list of `bsts` models to be compared.
+* Define the list of models to be compared.
 
 ```{r}
 models <- list("AR 3" =
-                  function(ss, y){bsts::AddAr(ss, y = y, lags = 3)},
+                function(...) {EpiSoon::bsts_model(model =
+                     function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)},
                "Semi-local linear trend" =
-                  function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)})
+                function(...) {EpiSoon::bsts_model(model =
+                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
+               "ARIMA" = 
+                    function(...){EpiSoon::fable_model(model = fable::ARIMA(y ~ time), ...)})
 ```
 
 * Compare models across timeseries (change the `future::plan` to do this in parallel).
@@ -69,9 +74,9 @@ models <- list("AR 3" =
 future::plan("sequential")
 
 ## Compare models
-forecasts <- compare_timeseries(obs_rts, obs_cases, models,
-                                   horizon = 7, samples = 10,
-                                   serial_interval = EpiSoon::example_serial_interval)
+forecasts <- EpiSoon::compare_timeseries(obs_rts, obs_cases, models,
+                                         horizon = 7, samples = 10,
+                                         serial_interval = EpiSoon::example_serial_interval)
 
 forecasts
 ```
@@ -79,7 +84,7 @@ forecasts
 * Plot an evaluation of Rt forecasts using iterative fitting.
 
 ```{r, fig.width = 7, fig.height = 7, dpi = 320, out.width = "60%"}
-plot_forecast_evaluation(forecasts$forecast_rts, obs_rts, c(7)) +
+EpiSoon::plot_forecast_evaluation(forecasts$forecast_rts, obs_rts, c(7)) +
    ggplot2::facet_grid(model ~ timeseries) +
    cowplot::panel_border()
 ```
@@ -88,7 +93,7 @@ plot_forecast_evaluation(forecasts$forecast_rts, obs_rts, c(7)) +
 
 
 ```{r, fig.width = 7, fig.height = 7, dpi = 320, out.width = "60%"}
-plot_forecast_evaluation(forecasts$forecast_cases, obs_cases, c(7)) +
+EpiSoon::plot_forecast_evaluation(forecasts$forecast_cases, obs_cases, c(7)) +
    ggplot2::facet_grid(model ~ timeseries, scales = "free") +
    cowplot::panel_border()
 ```
@@ -96,7 +101,7 @@ plot_forecast_evaluation(forecasts$forecast_cases, obs_cases, c(7)) +
 * Summarise the forecasts by model scored against observed cases
 
 ```{r}
-summarise_scores(forecasts$case_scores)
+EpiSoon::summarise_scores(forecasts$case_scores)
 ```
 
 
