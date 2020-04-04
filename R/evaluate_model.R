@@ -109,13 +109,20 @@ evaluate_model <- function(obs_rts = NULL,
                 ~ dplyr::filter(.x, date <= max(.y$date)))
 
   ## Score the forecasts
+  safe_score_forecast <- purrr::safely(score_forecast)
+
   scored_forecasts <-
     purrr::map2_dfr(samples, obs_rts,
                     function(sample, obs) {
-                      dplyr::group_split(sample, forecast_date) %>%
+                      scores <- dplyr::group_split(sample, forecast_date) %>%
                         setNames(unique(sample$forecast_date)) %>%
-                        purrr::map_dfr(~ dplyr::select(., -forecast_date) %>%
-                                         score_forecast(obs), .id = "forecast_date")
+                        purrr::map(~ dplyr::select(., -forecast_date) %>%
+                                         safe_score_forecast(obs) %>%
+                                     .$result)
+
+                      scores <- purrr::compact(scores)
+                      scores <- dplyr::bind_rows(scores, .id = "forecast_date")
+                      return(scores)
                     }, .id = "sample")
 
   if (length(unique(scored_forecasts$sample)) == 1) {
@@ -153,16 +160,22 @@ evaluate_model <- function(obs_rts = NULL,
     purrr::map2(obs_cases,
                 ~ dplyr::filter(.x, date <= max(.y$date)))
 
-  ## Score for each forecast
-  score_cases <-
+  ## Score cases for each forecast
+  safe_score_case_forecast <- purrr::safely(score_case_forecast)
+
+  scored_cases <-
     purrr::map2_dfr(case_predictions, obs_cases,
                     function(sample, obs) {
-                      dplyr::group_split(sample, forecast_date) %>%
+                      scores <- dplyr::group_split(sample, forecast_date) %>%
                         setNames(unique(sample$forecast_date)) %>%
-                        purrr::map_dfr(~ dplyr::select(., -forecast_date) %>%
-                                         score_case_forecast(obs), .id = "forecast_date")
-                    }, .id = "sample")
+                        purrr::map(~ dplyr::select(., -forecast_date) %>%
+                                     safe_score_case_forecast(obs) %>%
+                                     .$result)
 
+                      scores <- purrr::compact(scores)
+                      scores <- dplyr::bind_rows(scores, .id = "forecast_date")
+                      return(scores)
+                    }, .id = "sample")
 
   ## Return output
   out <- list(summarised_forecasts, scored_forecasts,
