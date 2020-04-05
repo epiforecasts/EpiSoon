@@ -32,7 +32,7 @@ forecast_rt <- function(rts, model = model,
 
   ## Forecast and return samples
   samples <- R.utils::withTimeout(
-    model(y = y, samples = samples, horizon = horizon),
+    model(y = y, samples = 1, horizon = horizon),
     timeout = timeout, onTimeout = "error"
   )
 
