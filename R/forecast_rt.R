@@ -38,8 +38,9 @@ forecast_rt <- function(rts, model = model,
 
   colnames(samples) <- max(rts$date) + lubridate::days(1:horizon)
 
-  samples <- samples %>%
-    dplyr::mutate(sample = 1:dplyr::n()) %>%
+  samples <-
+    dplyr::mutate(samples,
+                  sample = 1:dplyr::n()) %>%
     tidyr::gather(key = "date", value = "rt", -sample) %>%
     dplyr::mutate(date = as.Date(date)) %>%
     dplyr::group_by(sample) %>%

@@ -155,16 +155,16 @@
            <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){
            <span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.ar.html'>AddAr</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>lags</span> <span class='kw'>=</span> <span class='fl'>2</span>)},
            <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='output co'>#&gt;          V1       V2       V3       V4       V5       V6       V7
-#&gt; 1  1.939753 1.886331 1.830687 1.813617 1.773919 1.748181 1.664778
-#&gt; 2  1.950571 1.914041 1.856184 1.815465 1.775030 1.741579 1.694284
-#&gt; 3  1.928800 1.939337 1.828777 1.751670 1.779120 1.686248 1.661204
-#&gt; 4  1.923604 1.895852 1.874197 1.799498 1.786664 1.737384 1.672588
-#&gt; 5  1.946035 1.960296 1.865433 1.830409 1.756605 1.738047 1.737828
-#&gt; 6  1.957777 1.908921 1.865521 1.811248 1.786993 1.753433 1.703787
-#&gt; 7  1.950992 1.895699 1.857558 1.810138 1.767719 1.719569 1.688735
-#&gt; 8  1.958121 1.909698 1.869564 1.819371 1.773408 1.719430 1.667307
-#&gt; 9  1.959800 1.906915 1.881088 1.832100 1.786182 1.727494 1.666008
-#&gt; 10 1.957397 1.926289 1.894480 1.783016 1.765466 1.733608 1.692860</div><div class='input'>
+#&gt; 1  1.983669 1.971379 1.893918 1.870797 1.837993 1.800201 1.757153
+#&gt; 2  1.948504 1.915992 1.872373 1.835201 1.790616 1.764088 1.722888
+#&gt; 3  1.981814 1.934360 1.907798 1.905117 1.834605 1.820816 1.709095
+#&gt; 4  1.960517 1.956234 1.892771 1.801039 1.818031 1.731848 1.713912
+#&gt; 5  1.997002 1.887626 1.880177 1.880690 1.760385 1.761905 1.671968
+#&gt; 6  1.977240 1.945690 1.901682 1.848769 1.809471 1.757277 1.701676
+#&gt; 7  1.986279 1.936262 1.874737 1.841740 1.812274 1.772094 1.742139
+#&gt; 8  1.953754 1.945269 1.866314 1.817463 1.792404 1.743903 1.724690
+#&gt; 9  2.007009 1.916194 1.905829 1.845620 1.780748 1.805407 1.729190
+#&gt; 10 1.966041 1.908862 1.835205 1.799692 1.737200 1.666413 1.655792</div><div class='input'>
 <span class='co'>## Used for forecasting</span>
  <span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
                     <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>){<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
@@ -173,16 +173,16 @@
                     <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 70 x 4</span><span>
 #&gt;    sample date          rt horizon
 #&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>      1 2020-03-11  1.96       1
-#&gt; </span><span style='color: #555555;'> 2</span><span>      2 2020-03-11  1.98       1
-#&gt; </span><span style='color: #555555;'> 3</span><span>      3 2020-03-11  1.97       1
-#&gt; </span><span style='color: #555555;'> 4</span><span>      4 2020-03-11  1.98       1
-#&gt; </span><span style='color: #555555;'> 5</span><span>      5 2020-03-11  1.96       1
-#&gt; </span><span style='color: #555555;'> 6</span><span>      6 2020-03-11  1.97       1
-#&gt; </span><span style='color: #555555;'> 7</span><span>      7 2020-03-11  1.94       1
-#&gt; </span><span style='color: #555555;'> 8</span><span>      8 2020-03-11  1.96       1
-#&gt; </span><span style='color: #555555;'> 9</span><span>      9 2020-03-11  1.96       1
-#&gt; </span><span style='color: #555555;'>10</span><span>     10 2020-03-11  1.94       1
+#&gt; </span><span style='color: #555555;'> 1</span><span>      1 2020-03-11  1.97       1
+#&gt; </span><span style='color: #555555;'> 2</span><span>      2 2020-03-11  1.96       1
+#&gt; </span><span style='color: #555555;'> 3</span><span>      3 2020-03-11  1.99       1
+#&gt; </span><span style='color: #555555;'> 4</span><span>      4 2020-03-11  1.96       1
+#&gt; </span><span style='color: #555555;'> 5</span><span>      5 2020-03-11  1.99       1
+#&gt; </span><span style='color: #555555;'> 6</span><span>      6 2020-03-11  1.98       1
+#&gt; </span><span style='color: #555555;'> 7</span><span>      7 2020-03-11  1.95       1
+#&gt; </span><span style='color: #555555;'> 8</span><span>      8 2020-03-11  1.97       1
+#&gt; </span><span style='color: #555555;'> 9</span><span>      9 2020-03-11  1.99       1
+#&gt; </span><span style='color: #555555;'>10</span><span>     10 2020-03-11  1.97       1
 #&gt; </span><span style='color: #555555;'># … with 60 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

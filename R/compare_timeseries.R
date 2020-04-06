@@ -111,7 +111,7 @@ compare_timeseries <- function(obs_rts = NULL,
                                   )[[1]]}),
       .progress = TRUE) %>%
       dplyr::select(timeseries, model = model_name, eval) %>%
-      dplyr::arrange(timeseries, mdoel)
+      dplyr::arrange(timeseries, model)
 
   ## Output
   out_names <- c("forecast_rts", "rt_scores", "forecast_cases", "case_scores")

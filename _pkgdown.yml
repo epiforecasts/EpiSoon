@@ -38,6 +38,11 @@ reference:
       - forecast_cases
       - iterative_rt_forecast
       - iterative_case_forecast
+  - title: Model Wrappers
+    desc: Functions that allow models from other packages to be used.
+    contents:
+      - bsts_model
+      - fable_model
   - title: Predicting cases from reproduction numbers
     desc: Functions to for mapping reproduction number estimates to forecast cases
     contents:

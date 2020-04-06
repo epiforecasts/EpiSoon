@@ -36,8 +36,8 @@ forecast_cases <- function(cases = NULL, fit_samples = NULL,
   if(is.null(serial_interval)) {
     stop("serial_interval is missing. See EpiSoon::example_serial_interval for the required format.")
   }
-  predictions <- fit_samples %>%
-    dplyr::group_split(sample) %>%
+  predictions <-
+    dplyr::group_split(fit_samples, sample) %>%
     purrr::map_dfr(~ predict_cases(
           cases = cases,
           rts = .,

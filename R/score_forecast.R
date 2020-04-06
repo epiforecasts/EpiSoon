@@ -25,14 +25,14 @@
 #' score_forecast(samples, EpiSoon::example_obs_rts)
 score_forecast <- function(fit_samples, observations) {
 
-  observations <- observations %>%
-    dplyr::filter(
+  observations <-
+    dplyr::filter(observations,
       date >= min(fit_samples$date),
       date <= max(fit_samples$date)
     )
 
-  fit_samples <- fit_samples %>%
-    dplyr::filter(
+  fit_samples <-
+    dplyr::filter(fit_samples,
       date >= min(observations$date),
       date <= max(observations$date)
     )
@@ -40,8 +40,8 @@ score_forecast <- function(fit_samples, observations) {
 
   obs <- observations$rt
 
-  samples_matrix <- fit_samples %>%
-    tidyr::spread(key = "sample", value = "rt") %>%
+  samples_matrix <-
+    tidyr::spread(fit_samples, key = "sample", value = "rt") %>%
     dplyr::select(-horizon, -date) %>%
     as.matrix
 

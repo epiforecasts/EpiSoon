@@ -161,7 +161,7 @@ to <code>rpois</code> if not supplied</p></td>
 <span class='co'>## Iterative Rt forecast</span>
 <span class='no'>it_forecast</span> <span class='kw'>&lt;-</span>
   <span class='fu'><a href='iterative_rt_forecast.html'>iterative_rt_forecast</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>,
-                        <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>) {<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
+                        <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>){<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
                     <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)}, <span class='no'>...</span>)},
                         <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
@@ -173,15 +173,15 @@ to <code>rpois</code> if not supplied</p></td>
 #&gt;    forecast_date sample date       cases horizon
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
 #&gt; </span><span style='color: #555555;'> 1</span><span> 2020-03-04         1 2020-03-05    48       1
-#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-03-04         1 2020-03-06    62       2
-#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-03-04         1 2020-03-07    83       3
-#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-03-04         1 2020-03-08    64       4
-#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-03-04         1 2020-03-09   110       5
-#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-03-04         1 2020-03-10   125       6
-#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-03-04         1 2020-03-11   119       7
-#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-03-04         2 2020-03-05    65       1
-#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-03-04         2 2020-03-06    76       2
-#&gt; </span><span style='color: #555555;'>10</span><span> 2020-03-04         2 2020-03-07    83       3
+#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-03-04         1 2020-03-06    58       2
+#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-03-04         1 2020-03-07    81       3
+#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-03-04         1 2020-03-08    69       4
+#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-03-04         1 2020-03-09    85       5
+#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-03-04         1 2020-03-10   112       6
+#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-03-04         1 2020-03-11   101       7
+#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-03-04         2 2020-03-05    60       1
+#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-03-04         2 2020-03-06    59       2
+#&gt; </span><span style='color: #555555;'>10</span><span> 2020-03-04         2 2020-03-07    84       3
 #&gt; </span><span style='color: #555555;'># … with 1,320 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

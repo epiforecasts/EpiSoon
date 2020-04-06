@@ -22,11 +22,10 @@
 #' ## Score the model fit (with observations during the time horizon of the forecast)
 #' score_case_forecast(pred_cases, EpiSoon::example_obs_cases)
 score_case_forecast <- function(pred_cases, obs_cases) {
-  pred_cases <- pred_cases %>%
-    dplyr::rename(rt = cases)
 
-  obs_cases <- obs_cases %>%
-    dplyr::rename(rt = cases)
+  pred_cases <-  dplyr::rename(pred_cases, rt = cases)
+
+  obs_cases <- dplyr::rename( obs_cases, rt = cases)
 
   scores <- EpiSoon::score_forecast(pred_cases, obs_cases)
 
