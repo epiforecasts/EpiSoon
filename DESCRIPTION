@@ -53,7 +53,8 @@ Imports:
     ggplot2,
     cowplot,
     HDInterval,
-    R.utils
+    R.utils,
+    data.table
 Remotes:
   epiforecasts/scoringutils
 Suggests: 

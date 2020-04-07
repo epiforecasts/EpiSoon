@@ -21,5 +21,5 @@ Draw from the Serial Interval Probability Distribution
 \examples{
 
 ## Draw
-draw_from_si_prob(c(1, 4, 6), EpiSoon::example_serial_interval)
+draw_from_si_prob(c(1, 2, 4, 10), EpiSoon::example_serial_interval)
 }
