@@ -74,7 +74,7 @@ obs_cases <- EpiSoon::example_obs_cases \%>\%
 
 ## List of forecasting bsts models wrapped in functions.
 models <- list("AR 3" =
-                    function(...) {EpiSoon::bsts_model(model =
+                    function(...){EpiSoon::bsts_model(model =
                     function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)},
                "Semi-local linear trend" =
                function(...) {EpiSoon::bsts_model(model =

@@ -27,8 +27,8 @@ predict_current_cases <- function(
     rdist <- rpois
   }
 
-  predictions <- rts %>%
-    dplyr::mutate(
+  predictions <-
+    dplyr::mutate(rts,
       infectiousness =
         purrr::map_dbl(date,
                        function(rt_date) {

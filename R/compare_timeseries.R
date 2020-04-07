@@ -11,7 +11,7 @@
 #' @return A list of dataframes as produced by `evaluate model` but with an additional model column.
 #' @export
 #' @importFrom purrr transpose map
-#' @importFrom dplyr group_split select mutate
+#' @importFrom dplyr group_split select mutate sample_frac arrange
 #' @importFrom furrr future_pmap
 #' @importFrom tidyr expand_grid unnest
 #' @importFrom tibble tibble
@@ -83,7 +83,9 @@ compare_timeseries <- function(obs_rts = NULL,
   ## Make a tibble of all data and model combinations
   combinations <- tidyr::expand_grid(data = list(data_tibble), models = models) %>%
     tidyr::unnest("data") %>%
-    dplyr::mutate(model_name = names(models))
+    dplyr::mutate(model_name = names(models)) %>%
+    ## Randomised order to load balance across cores
+    dplyr::sample_frac(size = 1, replace = FALSE)
 
   ## Safe model evaluation
   safe_eval <- purrr::safely(evaluate_model)
@@ -108,7 +110,8 @@ compare_timeseries <- function(obs_rts = NULL,
                                     return_raw = return_raw
                                   )[[1]]}),
       .progress = TRUE) %>%
-      dplyr::select(timeseries, model = model_name, eval)
+      dplyr::select(timeseries, model = model_name, eval) %>%
+      dplyr::arrange(timeseries, model)
 
   ## Output
   out_names <- c("forecast_rts", "rt_scores", "forecast_cases", "case_scores")

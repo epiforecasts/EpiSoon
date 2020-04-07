@@ -42,6 +42,7 @@ forecast <- fabletools::forecast(model, h = horizon, times = samples)
 if (samples == 1) {
   ## If only using a single sample use central estimate
  samples <- t(data.frame(forecast$y))
+ samples <- data.frame(samples)
 }else{
   ## Pull out distributions
   dist <- forecast$.distribution
