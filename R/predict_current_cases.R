@@ -12,7 +12,6 @@
 #' @importFrom purrr map_dbl
 #' @examples
 #'
-#'
 #' predict_current_cases(cases = EpiSoon::example_obs_cases,
 #'                       rts = EpiSoon::example_obs_rts,
 #'                       serial_interval = EpiSoon::example_serial_interval)
@@ -27,14 +26,28 @@ predict_current_cases <- function(
     rdist <- rpois
   }
 
+  ## Get first and last date
+  first_rt_date <- min(rts$date, na.rm = TRUE)
+  final_rt_date <- max(rts$date, na.rm = TRUE)
+
+  ## Get early cases
+  early_cases <- dplyr::filter(cases, date <= first_rt_date)$cases
+
+  ## Get following cases
+  subsequent_cases <- dplyr::filter(cases,
+                                    date > first_rt_date,
+                                    date <= final_rt_date)$cases
+
+  ## Build an iterative list of cases
+  cases <- purrr::map(1:length(subsequent_cases), ~ c(early_cases, subsequent_cases[1:.]))
+  cases <- c(list(early_cases), cases)
+
+
   predictions <-
     dplyr::mutate(rts,
       infectiousness =
-        purrr::map_dbl(date,
-                       function(rt_date) {
-                         filt_cases <- dplyr::filter(cases, date <= rt_date)
-                         cases_vect <- filt_cases$cases
-
+        purrr::map_dbl(cases,
+                       function(cases_vect) {
                          inf <- sum(cases_vect * EpiSoon::draw_from_si_prob(
                                                           length(cases_vect):1,
                                                           serial_interval

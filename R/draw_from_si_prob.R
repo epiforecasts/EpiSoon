@@ -10,19 +10,15 @@
 #' @examples
 #'
 #' ## Draw
-#' draw_from_si_prob(c(1, 4, 6), EpiSoon::example_serial_interval)
+#' draw_from_si_prob(c(1, 2, 4, 10), EpiSoon::example_serial_interval)
 draw_from_si_prob <- function(days_ago = NULL,
                          serial_interval = NULL) {
 
 
-  draws <- purrr::map_dbl(days_ago, function(day) {
-    if (day > length(serial_interval)) {
-      draw <- 0
-    }else{
-      draw <- serial_interval[day]
-    }
-    return(draw)
-  })
+  var_length <- length(serial_interval)
+
+  draws <- ifelse(days_ago > var_length, 0, days_ago)
+  draws <- ifelse(draws == 0, draws, serial_interval[draws])
 
 
   return(draws)
