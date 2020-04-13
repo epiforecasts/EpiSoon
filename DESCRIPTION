@@ -62,5 +62,6 @@ Suggests:
     rmarkdown,
     fable,
     feasts,
-    future.apply
+    future.apply,
+    testthat
 VignetteBuilder: knitr
