@@ -32,7 +32,9 @@ Predict cases for Rts based on observed data
 }
 \examples{
 
-predict_current_cases(cases = EpiSoon::example_obs_cases,
+purrr::map_dfr(1:100, ~ predict_current_cases(cases = EpiSoon::example_obs_cases,
                       rts = EpiSoon::example_obs_rts,
-                      serial_interval = EpiSoon::example_serial_interval)
+                      serial_interval = EpiSoon::example_serial_interval)) \%>\%
+                      dplyr::group_by(date) \%>\%
+                      dplyr::summarise(cases = mean(cases))
 }

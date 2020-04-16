@@ -40,14 +40,16 @@ Predict cases for a single Rt sample forecasts
 }
 \examples{
 
-forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
+forecast <- forecast_rt(EpiSoon::example_obs_rts[1:12, ],
                         model = function(...) {EpiSoon::bsts_model(model =
                                 function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
                         horizon = 7, samples = 1)
 
 
-predict_cases(cases = EpiSoon::example_obs_cases,
+purrr::map_dfr(1:100, ~ predict_cases(cases = EpiSoon::example_obs_cases,
               rts = forecast,
               forecast_date = as.Date("2020-03-10"),
-              serial_interval = example_serial_interval)
+              serial_interval = example_serial_interval)) \%>\%
+              dplyr::group_by(date) \%>\%
+              dplyr::summarise(cases = mean(cases))
 }
