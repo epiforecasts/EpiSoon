@@ -51,7 +51,7 @@ predict_current_cases <- function(
         purrr::map_dbl(cases,
                        function(cases_vect) {
                          inf <- sum(cases_vect * EpiSoon::draw_from_si_prob(
-                                                          length(cases_vect):1,
+                                                          (length(cases_vect) - 1):0,
                                                           serial_interval
                                                           ))
 
