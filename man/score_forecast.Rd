@@ -4,7 +4,7 @@
 \alias{score_forecast}
 \title{Score a Model Fit}
 \usage{
-score_forecast(fit_samples, observations)
+score_forecast(fit_samples, observations, scores = "all")
 }
 \arguments{
 \item{fit_samples}{A dataframe as produced by \code{EpiSoon::forecast}.}

@@ -11,7 +11,7 @@
 #' @importFrom tidyr spread
 #' @importFrom tibble tibble
 #' @importFrom scoringRules dss_sample crps_sample logs_sample
-#' @importFrom scoringutils bias sharpness
+#' @importFrom scoringutils bias sharpness pit
 #' @inheritParams summarise_forecast
 #' @examples
 #'
@@ -23,7 +23,7 @@
 #'
 #' ## Score the model fit (with observations during the time horizon of the forecast)
 #' score_forecast(samples, EpiSoon::example_obs_rts)
-score_forecast <- function(fit_samples, observations) {
+score_forecast <- function(fit_samples, observations, scores = "all") {
 
   observations <-
     dplyr::filter(observations,
@@ -54,7 +54,10 @@ score_forecast <- function(fit_samples, observations) {
     bias = suppressWarnings(
       scoringutils::bias(obs, samples_matrix)
       ),
-    sharpness = scoringutils::sharpness(samples_matrix)
+    sharpness = scoringutils::sharpness(samples_matrix),
+    calibration = suppressWarnings(
+      scoringutils::pit(obs, samples_matrix)$calibration
+    )
   )
 
 

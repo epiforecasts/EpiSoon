@@ -15,6 +15,9 @@ draw_from_si_prob <- function(days_ago = NULL,
                          serial_interval = NULL) {
 
 
+  ##Add zeroth day to days ago
+  days_ago <- days_ago + 1
+
   var_length <- length(serial_interval)
   if (max(days_ago, na.rm = TRUE) > var_length) {
     serial_interval <- c(serial_interval, rep(0, max(days_ago) - var_length))
