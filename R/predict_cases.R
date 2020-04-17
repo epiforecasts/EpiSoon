@@ -65,7 +65,7 @@ predict_cases <- function(cases = NULL,
       index = 1:dplyr::n(),
       ## Calculate infectiousness from onserved data
       infectiousness = purrr::map_dbl(index,
-                                 ~ sum(cases$cases * draw_from_si_prob((nrow(cases) + .):.,
+                                 ~ sum(cases$cases * draw_from_si_prob((nrow(cases) + . - 1):.,
                                                            serial_interval))),
       cases = rdist(1, rt[1] * infectiousness[1]))
 
