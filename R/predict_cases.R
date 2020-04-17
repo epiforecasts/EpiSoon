@@ -16,7 +16,7 @@
 #' @importFrom purrr map_dbl
 #' @examples
 #'
-#' forecast <- forecast_rt(EpiSoon::example_obs_rts[1:12, ],
+#' forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 #'                         model = function(...) {EpiSoon::bsts_model(model =
 #'                                 function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
 #'                         horizon = 7, samples = 1)
@@ -65,7 +65,7 @@ predict_cases <- function(cases = NULL,
       index = 1:dplyr::n(),
       ## Calculate infectiousness from onserved data
       infectiousness = purrr::map_dbl(index,
-                                 ~ sum(cases$cases * draw_from_si_prob((nrow(cases) + . - 1):.,
+                                 ~ sum(cases$cases * draw_from_si_prob((nrow(cases) + .):.,
                                                            serial_interval))),
       cases = rdist(1, rt[1] * infectiousness[1]))
 
