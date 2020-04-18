@@ -16,7 +16,7 @@
 #' @importFrom purrr map_dbl
 #' @examples
 #'
-#' forecast <- forecast_rt(EpiSoon::example_obs_rts[1:12, ],
+#' forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 #'                         model = function(...) {EpiSoon::bsts_model(model =
 #'                                 function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
 #'                         horizon = 7, samples = 1)

@@ -4,12 +4,15 @@
 \alias{score_forecast}
 \title{Score a Model Fit}
 \usage{
-score_forecast(fit_samples, observations)
+score_forecast(fit_samples, observations, scores = "all")
 }
 \arguments{
 \item{fit_samples}{A dataframe as produced by \code{EpiSoon::forecast}.}
 
 \item{observations}{A dataframe of observations against which to score. Should contain a \code{date} and \code{rt} column.}
+
+\item{scores}{Character vector defaulting to "all". Select which scores to return, default is all scores but
+any subset can be returned.}
 }
 \value{
 A dataframe containing the following scores per forecast timepoint: dss, crps,
@@ -28,4 +31,10 @@ samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 
 ## Score the model fit (with observations during the time horizon of the forecast)
 score_forecast(samples, EpiSoon::example_obs_rts)
+
+## Return just CRPS, bias and sharpness
+score_forecast(samples, EpiSoon::example_obs_rts, scores = c("crps", "sharpness", "bias"))
+
+## Return just the CRPS
+score_forecast(samples, EpiSoon::example_obs_rts, scores = "crps")
 }
