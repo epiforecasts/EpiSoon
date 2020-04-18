@@ -28,4 +28,7 @@ samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 
 ## Score the model fit (with observations during the time horizon of the forecast)
 score_forecast(samples, EpiSoon::example_obs_rts)
+
+## Return just CRPS, Bias and sharpness
+score_forecast(samples, EpiSoon::example_obs_rts, scores = c("crps", "sharpness", "bias"))
 }

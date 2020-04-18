@@ -7,7 +7,7 @@
 #' logs, bias, and sharpness as well as the forecast date and time horizon.
 #' @export
 #'
-#' @importFrom dplyr filter select
+#' @importFrom dplyr filter select select_if
 #' @importFrom tidyr spread
 #' @importFrom tibble tibble
 #' @importFrom scoringRules dss_sample crps_sample logs_sample
@@ -23,6 +23,9 @@
 #'
 #' ## Score the model fit (with observations during the time horizon of the forecast)
 #' score_forecast(samples, EpiSoon::example_obs_rts)
+#'
+#' ## Return just CRPS, Bias and sharpness
+#' score_forecast(samples, EpiSoon::example_obs_rts, scores = c("crps", "sharpness", "bias"))
 score_forecast <- function(fit_samples, observations, scores = "all") {
 
   observations <-
@@ -45,20 +48,43 @@ score_forecast <- function(fit_samples, observations, scores = "all") {
     dplyr::select(-horizon, -date) %>%
     as.matrix
 
+  data_length <- length(observations$date)
+
   scores <- tibble::tibble(
     date = observations$date,
-    horizon = 1:length(observations$date),
-    dss = scoringRules::dss_sample(y = obs, dat = samples_matrix),
-    crps = scoringRules::crps_sample(y = obs, dat = samples_matrix),
-    logs = scoringRules::logs_sample(y = obs, dat = samples_matrix),
-    bias = suppressWarnings(
-      scoringutils::bias(obs, samples_matrix)
-      ),
-    sharpness = scoringutils::sharpness(samples_matrix),
-    calibration = suppressWarnings(
-      scoringutils::pit(obs, samples_matrix)$calibration
-    )
-  )
+    horizon = 1:data_length,
+    dss = if(any(c("all", "dss") %in% scores)) {
+      scoringRules::dss_sample(y = obs, dat = samples_matrix)
+      }else{
+        NA
+        },
+    crps = if(any(c("all", "crps") %in% scores)) {
+      scoringRules::crps_sample(y = obs, dat = samples_matrix)
+    }else{
+      NA
+    },
+    logs = if(any(c("all", "logs") %in% scores)) {
+      scoringRules::logs_sample(y = obs, dat = samples_matrix)
+    }else{
+      NA
+    },
+    bias = if(any(c("all", "bias") %in% scores)) {
+      suppressWarnings(scoringutils::bias(obs, samples_matrix))
+    }else{
+      NA
+    },
+    sharpness = if(any(c("all", "sharpness") %in% scores)) {
+      suppressWarnings(scoringutils::bias(obs, samples_matrix))
+    }else{
+      NA
+    },
+    calibration = if(any(c("all", "calibration") %in% scores)) {
+      suppressWarnings(scoringutils::pit(obs, samples_matrix)$calibration)
+    }else{
+      NA
+    })
+
+  scores <- dplyr::select_if(scores, ~ any(!is.na(.)))
 
 
   return(scores)
