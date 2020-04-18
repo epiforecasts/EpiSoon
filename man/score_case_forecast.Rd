@@ -4,13 +4,16 @@
 \alias{score_case_forecast}
 \title{Score a case forecast}
 \usage{
-score_case_forecast(pred_cases, obs_cases)
+score_case_forecast(pred_cases, obs_cases, scores = "all")
 }
 \arguments{
 \item{pred_cases}{Dataframe of predicted cases with the following variables: \code{sample}, \code{date},
 \code{cases} and forecast horizon. As produced by \code{forecast_cases}.}
 
 \item{obs_cases}{Dataframe of observed cases with the following variables: \code{date} and \code{cases}.}
+
+\item{scores}{Character vector defaulting to "all". Select which scores to return, default is all scores but
+any subset can be returned.}
 }
 \value{
 A dataframe containing the following scores per forecast timepoint: dss, crps,
@@ -31,4 +34,8 @@ pred_cases <- forecast_cases(EpiSoon::example_obs_cases,
 
 ## Score the model fit (with observations during the time horizon of the forecast)
 score_case_forecast(pred_cases, EpiSoon::example_obs_cases)
+
+
+## Score the model fit (with observations during the time horizon of the forecast)
+score_case_forecast(pred_cases, EpiSoon::example_obs_cases, scores = c("crps", "sharpness", "bias"))
 }
