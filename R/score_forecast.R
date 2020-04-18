@@ -2,7 +2,8 @@
 #' Score a Model Fit
 #'
 #' @param observations A dataframe of observations against which to score. Should contain a `date` and `rt` column.
-#'
+#' @param scores Character vector defaulting to "all". Select which scores to return, default is all scores but
+#' any subset can be returned.
 #' @return A dataframe containing the following scores per forecast timepoint: dss, crps,
 #' logs, bias, and sharpness as well as the forecast date and time horizon.
 #' @export
@@ -24,8 +25,11 @@
 #' ## Score the model fit (with observations during the time horizon of the forecast)
 #' score_forecast(samples, EpiSoon::example_obs_rts)
 #'
-#' ## Return just CRPS, Bias and sharpness
+#' ## Return just CRPS, bias and sharpness
 #' score_forecast(samples, EpiSoon::example_obs_rts, scores = c("crps", "sharpness", "bias"))
+#'
+#' ## Return just the CRPS
+#' score_forecast(samples, EpiSoon::example_obs_rts, scores = "crps")
 score_forecast <- function(fit_samples, observations, scores = "all") {
 
   observations <-
