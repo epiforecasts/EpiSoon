@@ -58,7 +58,8 @@ summarise_scores <- function(scores, variables = NULL, sel_scores = NULL) {
   }
 
   summarised_scores <- scores %>%
-    tidyr::gather(key = "score", value = "value", dss, crps, logs, bias, sharpness)
+    tidyr::gather(key = "score", value = "value", dss, crps, logs, bias,
+                  sharpness, calibration, median, iqr, ci)
 
 
   if (!is.null(sel_scores)) {
