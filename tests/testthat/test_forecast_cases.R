@@ -23,11 +23,11 @@ test_that("forecast_cases() output is of expected format", {
 		fit_samples = forecast,
 		serial_interval = EpiSoon::example_serial_interval
 	)
-	
+
 	expect_s3_class(out, c("tbl_df", "tbl", "data.frame"))
 	expect_named(out, c("sample", "date", "cases", "horizon"))
 	expect_equal(nrow(forecast), nrow(out))
-	
+
 	forecast <- forecast[ order(forecast$sample, forecast$date) ,]
 	expect_identical(
 		forecast[, c("sample","date","horizon") ],
@@ -36,12 +36,12 @@ test_that("forecast_cases() output is of expected format", {
 })
 
 test_that("forecast_cases() handles missing arguments as expected", {
-	
+
 	expect_error(
 		forecast_cases(),
 		"is missing"
 	)
-	
+
 	expect_error(
 		forecast_cases(
 			fit_samples = forecast,
@@ -49,7 +49,7 @@ test_that("forecast_cases() handles missing arguments as expected", {
 		),
 		"cases"
 	)
-	
+
 	expect_error(
 		forecast_cases(
 			cases = EpiSoon::example_obs_cases,
@@ -57,7 +57,7 @@ test_that("forecast_cases() handles missing arguments as expected", {
 		),
 		"fit_samples"
 	)
-	
+
 	expect_error(
 		forecast_cases(
 			cases = EpiSoon::example_obs_cases,
@@ -65,7 +65,7 @@ test_that("forecast_cases() handles missing arguments as expected", {
 		),
 		"serial_interval"
 	)
-	
+
 	expect_identical(
 		{
 			set.seed(42)
@@ -84,7 +84,7 @@ test_that("forecast_cases() handles missing arguments as expected", {
 			)
 		}
 	)
-	
+
 	expect_identical(
 		{
 			set.seed(42)
@@ -103,11 +103,11 @@ test_that("forecast_cases() handles missing arguments as expected", {
 			)
 		}
 	)
-	
+
 })
 
 test_that("forecast_cases() can handle custom sampling functions", {
-	
+
 	expect <- function(FUN) {
 		expect_silent(
 			forecast_cases(
@@ -118,16 +118,16 @@ test_that("forecast_cases() can handle custom sampling functions", {
 			)
 		)
 	}
-	
+
 	expect(rpois)
 	expect(rnorm)
 	expect(function(n,mean) { sample(-5:5+mean, n, replace=TRUE) })
-	
+
 })
 
 # To be clarified <https://github.com/epiforecasts/EpiSoon/issues/42>
-test_that("forecast_cases() handles properly 'horizon'"), {
-	
+test_that("forecast_cases() handles properly 'horizon'", {
+
 	expect_false(
 		identical(
 			{
@@ -149,7 +149,7 @@ test_that("forecast_cases() handles properly 'horizon'"), {
 			}
 		)
 	)
-	
+
 	expect_error(
 		forecast_cases(
 			EpiSoon::example_obs_cases,
@@ -158,6 +158,6 @@ test_that("forecast_cases() handles properly 'horizon'"), {
 			horizon = 10
 		)
 	)
-	
-}
+
+})
 
