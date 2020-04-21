@@ -30,6 +30,8 @@ test_that("Inputs with unequal lengths return error", {
   )
 })
 
+context("Test of the function 'evaluate_model'.... testing outputs")
+
 test_that("Outputs have proper lenghts and names", {
   out <- evaluate_model(sampled_obs,
                         sampled_cases,
