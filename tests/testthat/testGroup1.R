@@ -59,7 +59,7 @@ predictedCases <- predict_cases(cases = EpiSoon::example_obs_cases,
                                 forecast_date = as.Date("2020-03-10"),
                                 serial_interval = example_serial_interval) # Manque Episoon::
 
-expectedTable <- as_tibble(
+expectedTable <- tibble::as_tibble(
   data.frame(
     date = as.Date(c("2020-03-11", "2020-03-12", "2020-03-13", "2020-03-14",
                      "2020-03-15", "2020-03-16", "2020-03-17")),
