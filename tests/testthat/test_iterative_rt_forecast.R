@@ -18,7 +18,7 @@ run_test <- iterative_rt_forecast(rts_test,
                       min_points = min_points_test)
 
 test_that("Output has proper length, names, class", {
-  expect_type(run_test, "list")
+  expect_s3_class(run_test, c("tbl_df", "tbl", "data.frame"))
   expect_named(run_test)
   expect_equal(nrow(run_test), (nrow(rts_test)-min_points_test)*horizon_test*samples_test)
   expect_length(run_test, 5)

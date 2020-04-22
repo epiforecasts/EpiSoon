@@ -14,7 +14,7 @@ run_test <- forecast_rt(rts = rts_test,
             bound_rt = TRUE,
             timeout = 30)
 test_that("Output has proper length, names, class", {
-  expect_type(run_test, "list")
+  expect_s3_class(run_test, c("tbl_df", "tbl", "data.frame"))
   expect_named(run_test)
   expect_equal(nrow(run_test), horizon_test*samples_test)
   expect_length(run_test, 4)
