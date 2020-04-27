@@ -23,11 +23,3 @@ test_that("Output has proper length, names, class", {
                            "sharpness"))
 })
 
-
-## Suggestions:
-##
-## Check that there is overlap in the dates between the observations and fit_samples
-##    arguments, check that observations indeed includes date and rt columns,
-##    seq_len instead of 1:length(observations$date)
-
-

@@ -30,14 +30,3 @@ test_that("bound_rt = TRUE has appropriate bounding behavior", {
 test_that("Earliest forecast date is `min_points`+1 days after the first rts input date", {
   expect_equal(min(rts_test$date)+min_points_test+1, min(run_test$date))
 })
-
-## Suggestions:
-##
-##   add checks on inputs: timeout >= 0, samples >= 1 and integer, horizon >= 1 and integer,
-##   min_points is >= 1 and integer, error is thrown if nrow(rts) <= min_points,
-##   model input is either bsts_model or fable_model (or at least has arguments of y, samples, and horizon),
-##   rts is indeed a data frame with the appropriate variables (rt, being numeric, and date, being a date),
-##   bound_rt is logical
-##
-##   Change the name of the samples object that is created in the function so as not to conflict with the
-##   samples argument

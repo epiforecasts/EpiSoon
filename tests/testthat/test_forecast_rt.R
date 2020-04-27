@@ -38,13 +38,3 @@ test_that("Outputs returns error for inappropriately specified model", {
                            bound_rt = TRUE,
                            timeout = 30))
 })
-
-## Suggestions:
-##
-##   add checks on inputs: timeout >= 0, samples >= 1 and integer, horizon >= 1 and integer,
-##   model input is either bsts_model or fable_model (or at least has arguments of y, samples, and horizon),
-##   rts is indeed a data frame with the appropriate variables (rt, being numeric, and date, being a date),
-##   bound_rt is logical
-##
-##   Change the name of the samples object that is created in the function so as not to conflict with the
-##   samples argument

@@ -27,9 +27,3 @@ test_that("Output has proper length, names, class", {
   expect_named(run_test, c("date", "horizon", "dss", "crps", "logs", "bias",
                            "sharpness"))
 })
-
-## Suggestions:
-##
-## Check that there is overlap in the dates between the pred_cases and obs_cases
-##    arguments, check that observations indeed includes date and cases columns
-
