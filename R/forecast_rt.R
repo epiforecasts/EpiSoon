@@ -25,7 +25,7 @@
 #'             horizon = 7, samples = 10)
 forecast_rt <- function(rts, model = model,
                       horizon = 7, samples = 1000,
-                      bound_rt = TRUE, timeout = 30) {
+                      bound_rt = TRUE, timeout = 100) {
 
   ## Set up for model fitting
   y <- rts$rt

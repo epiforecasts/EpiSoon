@@ -4,7 +4,9 @@
 \name{example_serial_interval}
 \alias{example_serial_interval}
 \title{Example Serial Interval}
-\format{A vector giviing the probability for each day}
+\format{
+A vector giviing the probability for each day
+}
 \usage{
 example_serial_interval
 }
