@@ -11,18 +11,22 @@
 #' @return A dataframe of predictions (with columns representing the time horizon and rows representing samples).
 #' @export
 #' @importFrom brms bf gp
+#' @importFrom data.table `:=`
 #' @examples
 #'
 #' ## Used on its own
+#' library(brms)
 #'brms_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
-#'           model = bf(y ~ gp(time)),
-#'           samples = 10, horizon = 7, ...)
+#'           model = brms::bf(y ~ gp(time)),
+#'           samples = 10, horizon = 7, n_iter = 40, n_chains = 1)
 #'
 #' ## Used for forecasting
+#' ## Note that the timeout parameter has been increased to allow
+#' ## for the time for the code to be compiled
 #' forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 #'             model = function(...){
-#'               brms_model(model = bf(y ~ gp(time)), ...)},
-#'                    horizon = 7, samples = 10)
+#'               brms_model(model = brms::bf(y ~ gp(time)), n_iter = 40, n_chains = 1, ...)},
+#'                    horizon = 7, samples = 10, timeout = 300)
 
 brms_model <- function(y = NULL, samples = NULL,
                        horizon = NULL, model = NULL, n_cores = 1,

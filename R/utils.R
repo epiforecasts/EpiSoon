@@ -1,0 +1,31 @@
+#' @importFrom stats median quantile rpois rt sd setNames
+
+globalVariables(
+  c("timeseries",
+    "bottom",
+    "cases",
+    "calibration",
+    "ci",
+    "crps",
+    "dss",
+    "forecast_date",
+    "hdi_50",
+    "hdi_90",
+    "horizon",
+    "index",
+    "infectiousness",
+    "iqr",
+    "logs",
+    "lower",
+    "model_name",
+    "obs_sample",
+    "row_id",
+    "score",
+    "time",
+    "top",
+    "upper",
+    "time",
+    "rts",
+    "value",
+    "y")
+)
