@@ -18,9 +18,10 @@ predictedCurrentCases <- predict_current_cases(
 # )
 
 test_that("The expected Rts based on observed data predict cases are obtained", {
-  expect_true(is.data.frame(predictedCurrentCases))
+  expect_s3_class(predictedCurrentCases, "data.frame")
   expect_named(predictedCurrentCases,
                c("rt", "date", "infectiousness", "cases"))
+  expect_length(predictedCurrentCases$date, nrow(EpiSoon::example_obs_rts))
   # expect_equal(predictedCurrentCases$rt, expectedCurrentCases$rt)
   # expect_equal(predictedCurrentCases$date, expectedCurrentCases$date)
   # expect_equal(predictedCurrentCases$infectiousness,

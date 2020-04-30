@@ -26,4 +26,5 @@ test_that("Output has proper length, names, class", {
   expect_equal(nrow(run_test), length(unique(pred_cases$date)))
   expect_named(run_test, c("date", "horizon", "dss", "crps", "logs", "bias",
                            "sharpness", "calibration", "median", "iqr", "ci"))
+  expect_equal(nrow(run_test), 7)
 })

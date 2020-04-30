@@ -17,7 +17,6 @@ forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ], model = function(...){
     }, ...)
   }, horizon = 7, samples = 1)
 
-
 predictedCases <- predict_cases(
   cases = EpiSoon::example_obs_cases,
   rts = forecast,
@@ -34,8 +33,9 @@ predictedCases <- predict_cases(
 # )
 
 test_that("The expected Rt sample forecasts predict cases are obtained", {
-  expect_true(is.data.frame(predictedCases))
+  expect_s3_class(predictedCases, "data.frame")
   expect_named(predictedCases, c("date", "cases"))
+  expect_length(predictedCases$date, 7) # must be equal to horizon x length(forecast_date)
   # expect_equal(predictedCases$date, expectedTable$date)
   # expect_gte(cor(predictedCases$cases, expectedTable$cases), .9)
 })
