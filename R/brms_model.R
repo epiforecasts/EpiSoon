@@ -15,7 +15,6 @@
 #' @param ... additional arguments passed to `brms` (e.g. priors or family)
 #' @return A dataframe of predictions (with columns representing the time horizon and rows representing samples).
 #' @export
-#' @importFrom brms bf gp
 #' @importFrom data.table `:=`
 #' @examples \dontrun{
 #'
