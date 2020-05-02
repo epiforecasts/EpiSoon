@@ -17,7 +17,7 @@
 #' @export
 #' @importFrom brms bf gp
 #' @importFrom data.table `:=`
-#' @examples
+#' @examples \dontrun{
 #'
 #' ## Used on its own
 #' ## Note: More iterations and chains should be used
@@ -35,6 +35,7 @@
 #'             model = function(...){
 #'               brms_model(model = brms::bf(y ~ gp(time)), n_iter = 40, n_chains = 1, ...)},
 #'                    horizon = 7, samples = 10, timeout = 300)
+#'}
 
 brms_model <- function(y = NULL, samples = NULL,
                        horizon = NULL, model = NULL, n_cores = 1,
