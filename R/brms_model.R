@@ -1,15 +1,18 @@
 #' brms model wrapper
 #'
-#' Allows users to specify a model using the `[brms::bf()]`  wrapper from `[brms]`
+#' Allows users to specify a model using the [brms::bf()]  wrapper from `brms`
+#' Note that `brms` and `tidybayes` must both be installed for this
+#' model wrapper to be functional.
 #'
 #' @param y Numeric vector of time points to forecast
 #' @param samples Numeric, number of samples to take.
-#' @param model A `[brms]` model wrapped in the `[brms::bf()]` function
+#' @param model A [brms] model wrapped in the [brms::bf()] function
 #' @param horizon Numeric, the time horizon over which to predict.
-#' @param n_cores Numeric, the number of cores to use
-#' @param n_chains Numeric, the number of chains to use
-#' @param n_iter Numeric, the number of iterations in the sampler to use
-#' @param ... additional arguments passed to `[brms]` (e.g. priors or family)
+#' @param n_cores Numeric, the number of cores to use, default of 1
+#' @param n_chains Numeric, the number of chains to use, default of 4
+#' @param n_iter Numeric, the number of iterations in the sampler to use,
+#'     default of 4000
+#' @param ... additional arguments passed to `brms` (e.g. priors or family)
 #' @return A dataframe of predictions (with columns representing the time horizon and rows representing samples).
 #' @export
 #' @importFrom brms bf gp
@@ -37,14 +40,17 @@ brms_model <- function(y = NULL, samples = NULL,
                        horizon = NULL, model = NULL, n_cores = 1,
                        n_chains = 4, n_iter = 2000, ...) {
 
+  check_suggests("brms")
+
+  check_suggests("tidybayes")
 
   ## Make input numeric into correct tsibble format
   timeseries <- tsibble::tsibble(y = y, time = 1:length(y), index = time)
 
   ## Fit the model
-  fit <- brms::brm(model, data = timeseries,
+  fit <- brms::brm(formula = model, data = timeseries,
                             chains = n_chains, iter = n_iter,
-                            cores = n_cores)
+                            cores = n_cores, ...)
 
   # Create Prediction Data Frame
   dat_new <- data.frame(time = (length(y)+1):(length(y)+horizon))

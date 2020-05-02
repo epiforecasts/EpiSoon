@@ -54,9 +54,7 @@ Imports:
     cowplot,
     HDInterval,
     R.utils,
-    data.table,
-    brms,
-    tidybayes
+    data.table
 Remotes:
   epiforecasts/scoringutils
 Suggests: 
@@ -64,5 +62,7 @@ Suggests:
     rmarkdown,
     fable,
     feasts,
-    future.apply
+    future.apply,
+    brms,
+    tidybayes
 VignetteBuilder: knitr

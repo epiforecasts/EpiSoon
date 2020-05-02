@@ -13,7 +13,7 @@ bsts_model(y = NULL, samples = NULL, horizon = NULL, model = NULL)
 
 \item{horizon}{Numeric, the time horizon over which to predict.}
 
-\item{model}{A \verb{[bsts]} model object wrapped in a function with an \code{ss} and \code{y} argument.}
+\item{model}{A \code{bsts} model object wrapped in a function with an \code{ss} and \code{y} argument.}
 }
 \value{
 A dataframe of predictions (with columns representing the time horizon and rows representing samples).

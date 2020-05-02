@@ -233,71 +233,71 @@ to <code>rpois</code> if not supplied</p></td>
                                   <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_serial_interval.html'>example_serial_interval</a></span>)
 
 <span class='no'>evaluations</span></div><div class='output co'>#&gt; $forecast_rts
-#&gt; <span style='color: #555555;'># A tibble: 777 x 12</span><span>
+#&gt; <span style='color: #555555;'># A tibble: 763 x 12</span><span>
 #&gt;    timeseries model forecast_date date       horizon median  mean     sd bottom
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Region 1   AR 3  2020-03-04    2020-03-05       1   2.27  2.26 0.010</span><span style='text-decoration: underline;'>4</span><span>   2.25
-#&gt; </span><span style='color: #555555;'> 2</span><span> Region 1   AR 3  2020-03-04    2020-03-06       2   2.20  2.19 0.018</span><span style='text-decoration: underline;'>9</span><span>   2.16
-#&gt; </span><span style='color: #555555;'> 3</span><span> Region 1   AR 3  2020-03-04    2020-03-07       3   2.13  2.12 0.017</span><span style='text-decoration: underline;'>4</span><span>   2.08
-#&gt; </span><span style='color: #555555;'> 4</span><span> Region 1   AR 3  2020-03-04    2020-03-08       4   2.07  2.06 0.017</span><span style='text-decoration: underline;'>1</span><span>   2.03
-#&gt; </span><span style='color: #555555;'> 5</span><span> Region 1   AR 3  2020-03-04    2020-03-09       5   2.00  2.01 0.010</span><span style='text-decoration: underline;'>5</span><span>   1.99
-#&gt; </span><span style='color: #555555;'> 6</span><span> Region 1   AR 3  2020-03-04    2020-03-10       6   1.94  1.94 0.022</span><span style='text-decoration: underline;'>4</span><span>   1.88
-#&gt; </span><span style='color: #555555;'> 7</span><span> Region 1   AR 3  2020-03-04    2020-03-11       7   1.89  1.89 0.013</span><span style='text-decoration: underline;'>5</span><span>   1.87
-#&gt; </span><span style='color: #555555;'> 8</span><span> Region 1   AR 3  2020-03-05    2020-03-06       1   2.20  2.19 0.070</span><span style='text-decoration: underline;'>5</span><span>   2.05
-#&gt; </span><span style='color: #555555;'> 9</span><span> Region 1   AR 3  2020-03-05    2020-03-07       2   2.14  2.14 0.071</span><span style='text-decoration: underline;'>0</span><span>   2.06
-#&gt; </span><span style='color: #555555;'>10</span><span> Region 1   AR 3  2020-03-05    2020-03-08       3   2.07  2.07 0.091</span><span style='text-decoration: underline;'>5</span><span>   1.91
-#&gt; </span><span style='color: #555555;'># … with 767 more rows, and 3 more variables: lower </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, upper </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Region 1   AR 3  2020-03-05    2020-03-06       1   2.17  2.18 0.175    2.00
+#&gt; </span><span style='color: #555555;'> 2</span><span> Region 1   AR 3  2020-03-05    2020-03-07       2   2.14  2.08 0.184    1.80
+#&gt; </span><span style='color: #555555;'> 3</span><span> Region 1   AR 3  2020-03-05    2020-03-08       3   1.91  1.92 0.219    1.64
+#&gt; </span><span style='color: #555555;'> 4</span><span> Region 1   AR 3  2020-03-05    2020-03-09       4   1.85  1.86 0.290    1.46
+#&gt; </span><span style='color: #555555;'> 5</span><span> Region 1   AR 3  2020-03-05    2020-03-10       5   1.69  1.77 0.352    1.31
+#&gt; </span><span style='color: #555555;'> 6</span><span> Region 1   AR 3  2020-03-05    2020-03-11       6   1.61  1.66 0.324    1.20
+#&gt; </span><span style='color: #555555;'> 7</span><span> Region 1   AR 3  2020-03-05    2020-03-12       7   1.54  1.59 0.346    1.20
+#&gt; </span><span style='color: #555555;'> 8</span><span> Region 1   AR 3  2020-03-06    2020-03-07       1   2.13  2.13 0.023</span><span style='text-decoration: underline;'>3</span><span>   2.10
+#&gt; </span><span style='color: #555555;'> 9</span><span> Region 1   AR 3  2020-03-06    2020-03-08       2   2.06  2.07 0.033</span><span style='text-decoration: underline;'>0</span><span>   2.04
+#&gt; </span><span style='color: #555555;'>10</span><span> Region 1   AR 3  2020-03-06    2020-03-09       3   2.01  2.00 0.022</span><span style='text-decoration: underline;'>6</span><span>   1.97
+#&gt; </span><span style='color: #555555;'># … with 753 more rows, and 3 more variables: lower </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, upper </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   top </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; 
 #&gt; $rt_scores
-#&gt; </span><span style='color: #555555;'># A tibble: 609 x 14</span><span>
-#&gt;    timeseries model forecast_date date       horizon   dss    crps    logs
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Region 1   AR 3  2020-03-04    2020-03-05       1 -</span><span style='color: #BB0000;'>9.20</span><span> 0.002</span><span style='text-decoration: underline;'>46</span><span>  -</span><span style='color: #BB0000;'>3.49</span><span> 
-#&gt; </span><span style='color: #555555;'> 2</span><span> Region 1   AR 3  2020-03-04    2020-03-06       2 -</span><span style='color: #BB0000;'>8.04</span><span> 0.005</span><span style='text-decoration: underline;'>05</span><span>  -</span><span style='color: #BB0000;'>2.95</span><span> 
-#&gt; </span><span style='color: #555555;'> 3</span><span> Region 1   AR 3  2020-03-04    2020-03-07       3 -</span><span style='color: #BB0000;'>6.26</span><span> 0.014</span><span style='text-decoration: underline;'>5</span><span>   -</span><span style='color: #BB0000;'>2.51</span><span> 
-#&gt; </span><span style='color: #555555;'> 4</span><span> Region 1   AR 3  2020-03-04    2020-03-08       4 -</span><span style='color: #BB0000;'>1.87</span><span> 0.032</span><span style='text-decoration: underline;'>0</span><span>   -</span><span style='color: #BB0000;'>0.320</span><span>
-#&gt; </span><span style='color: #555555;'> 5</span><span> Region 1   AR 3  2020-03-04    2020-03-09       5 20.2  0.048</span><span style='text-decoration: underline;'>4</span><span>   12.4  
-#&gt; </span><span style='color: #555555;'> 6</span><span> Region 1   AR 3  2020-03-04    2020-03-10       6  9.78 0.078</span><span style='text-decoration: underline;'>9</span><span>   40.3  
-#&gt; </span><span style='color: #555555;'> 7</span><span> Region 1   AR 3  2020-03-04    2020-03-11       7 86.9  0.118   112.   
-#&gt; </span><span style='color: #555555;'> 8</span><span> Region 1   AR 3  2020-03-05    2020-03-06       1 -</span><span style='color: #BB0000;'>5.41</span><span> 0.015</span><span style='text-decoration: underline;'>0</span><span>   -</span><span style='color: #BB0000;'>1.79</span><span> 
-#&gt; </span><span style='color: #555555;'> 9</span><span> Region 1   AR 3  2020-03-05    2020-03-07       2 -</span><span style='color: #BB0000;'>5.39</span><span> 0.012</span><span style='text-decoration: underline;'>2</span><span>   -</span><span style='color: #BB0000;'>2.06</span><span> 
-#&gt; </span><span style='color: #555555;'>10</span><span> Region 1   AR 3  2020-03-05    2020-03-08       3 -</span><span style='color: #BB0000;'>4.73</span><span> 0.024</span><span style='text-decoration: underline;'>2</span><span>   -</span><span style='color: #BB0000;'>1.63</span><span> 
-#&gt; </span><span style='color: #555555;'># … with 599 more rows, and 6 more variables: bias </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, sharpness </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'># A tibble: 597 x 14</span><span>
+#&gt;    timeseries model forecast_date date       horizon    dss   crps     logs
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Region 1   AR 3  2020-03-05    2020-03-06       1 -</span><span style='color: #BB0000;'>3.58</span><span>  0.032</span><span style='text-decoration: underline;'>1</span><span> -</span><span style='color: #BB0000;'>1.14</span><span>   
+#&gt; </span><span style='color: #555555;'> 2</span><span> Region 1   AR 3  2020-03-05    2020-03-07       2 -</span><span style='color: #BB0000;'>3.33</span><span>  0.055</span><span style='text-decoration: underline;'>7</span><span> -</span><span style='color: #BB0000;'>0.539</span><span>  
+#&gt; </span><span style='color: #555555;'> 3</span><span> Region 1   AR 3  2020-03-05    2020-03-08       3 -</span><span style='color: #BB0000;'>2.39</span><span>  0.110  -</span><span style='color: #BB0000;'>0.183</span><span>  
+#&gt; </span><span style='color: #555555;'> 4</span><span> Region 1   AR 3  2020-03-05    2020-03-09       4 -</span><span style='color: #BB0000;'>2.03</span><span>  0.119   0.007</span><span style='text-decoration: underline;'>76</span><span>
+#&gt; </span><span style='color: #555555;'> 5</span><span> Region 1   AR 3  2020-03-05    2020-03-10       5 -</span><span style='color: #BB0000;'>1.58</span><span>  0.164   0.305  
+#&gt; </span><span style='color: #555555;'> 6</span><span> Region 1   AR 3  2020-03-05    2020-03-11       6 -</span><span style='color: #BB0000;'>1.02</span><span>  0.196   0.220  
+#&gt; </span><span style='color: #555555;'> 7</span><span> Region 1   AR 3  2020-03-05    2020-03-12       7 -</span><span style='color: #BB0000;'>0.677</span><span> 0.277   0.608  
+#&gt; </span><span style='color: #555555;'> 8</span><span> Region 1   AR 3  2020-03-06    2020-03-07       1 -</span><span style='color: #BB0000;'>7.04</span><span>  0.013</span><span style='text-decoration: underline;'>5</span><span> -</span><span style='color: #BB0000;'>1.78</span><span>   
+#&gt; </span><span style='color: #555555;'> 9</span><span> Region 1   AR 3  2020-03-06    2020-03-08       2 -</span><span style='color: #BB0000;'>6.01</span><span>  0.021</span><span style='text-decoration: underline;'>5</span><span> -</span><span style='color: #BB0000;'>1.78</span><span>   
+#&gt; </span><span style='color: #555555;'>10</span><span> Region 1   AR 3  2020-03-06    2020-03-09       3 -</span><span style='color: #BB0000;'>1.23</span><span>  0.042</span><span style='text-decoration: underline;'>4</span><span> -</span><span style='color: #BB0000;'>0.729</span><span>  
+#&gt; </span><span style='color: #555555;'># … with 587 more rows, and 6 more variables: bias </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, sharpness </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   calibration </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, median </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, iqr </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, ci </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; 
 #&gt; $forecast_cases
-#&gt; </span><span style='color: #555555;'># A tibble: 609 x 12</span><span>
+#&gt; </span><span style='color: #555555;'># A tibble: 597 x 12</span><span>
 #&gt;    timeseries model forecast_date date       horizon median  mean    sd bottom
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Region 1   AR 3  2020-03-04    2020-03-05       1   70    70.8  8.90     57
-#&gt; </span><span style='color: #555555;'> 2</span><span> Region 1   AR 3  2020-03-04    2020-03-06       2   83.5  85.2  9.32     73
-#&gt; </span><span style='color: #555555;'> 3</span><span> Region 1   AR 3  2020-03-04    2020-03-07       3   93    93.5 12.2      78
-#&gt; </span><span style='color: #555555;'> 4</span><span> Region 1   AR 3  2020-03-04    2020-03-08       4  113   114.  13.0      98
-#&gt; </span><span style='color: #555555;'> 5</span><span> Region 1   AR 3  2020-03-04    2020-03-09       5  132.  132.  15.7     103
-#&gt; </span><span style='color: #555555;'> 6</span><span> Region 1   AR 3  2020-03-04    2020-03-10       6  147   152.  21.8     124
-#&gt; </span><span style='color: #555555;'> 7</span><span> Region 1   AR 3  2020-03-04    2020-03-11       7  170.  171.  18.4     142
-#&gt; </span><span style='color: #555555;'> 8</span><span> Region 1   AR 3  2020-03-05    2020-03-06       1   83    82.9  9.48     65
-#&gt; </span><span style='color: #555555;'> 9</span><span> Region 1   AR 3  2020-03-05    2020-03-07       2   92    95.2  9.86     83
-#&gt; </span><span style='color: #555555;'>10</span><span> Region 1   AR 3  2020-03-05    2020-03-08       3  108.  111.  13.9      90
-#&gt; </span><span style='color: #555555;'># … with 599 more rows, and 3 more variables: lower </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, upper </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Region 1   AR 3  2020-03-05    2020-03-06       1    82   82.9 17.6      58
+#&gt; </span><span style='color: #555555;'> 2</span><span> Region 1   AR 3  2020-03-05    2020-03-07       2    89   90.8 13.0      78
+#&gt; </span><span style='color: #555555;'> 3</span><span> Region 1   AR 3  2020-03-05    2020-03-08       3    91  101.  27.9      78
+#&gt; </span><span style='color: #555555;'> 4</span><span> Region 1   AR 3  2020-03-05    2020-03-09       4   118  119.  32.9      65
+#&gt; </span><span style='color: #555555;'> 5</span><span> Region 1   AR 3  2020-03-05    2020-03-10       5   142. 136.  41.2      80
+#&gt; </span><span style='color: #555555;'> 6</span><span> Region 1   AR 3  2020-03-05    2020-03-11       6   148. 154.  58.2      92
+#&gt; </span><span style='color: #555555;'> 7</span><span> Region 1   AR 3  2020-03-05    2020-03-12       7   172  170.  72.0      83
+#&gt; </span><span style='color: #555555;'> 8</span><span> Region 1   AR 3  2020-03-06    2020-03-07       1    91   91.6  5.93     83
+#&gt; </span><span style='color: #555555;'> 9</span><span> Region 1   AR 3  2020-03-06    2020-03-08       2   108. 109.   9.17     96
+#&gt; </span><span style='color: #555555;'>10</span><span> Region 1   AR 3  2020-03-06    2020-03-09       3   132  129.  11.9     112
+#&gt; </span><span style='color: #555555;'># … with 587 more rows, and 3 more variables: lower </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, upper </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   top </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; 
 #&gt; $case_scores
-#&gt; </span><span style='color: #555555;'># A tibble: 609 x 15</span><span>
+#&gt; </span><span style='color: #555555;'># A tibble: 597 x 15</span><span>
 #&gt;    timeseries model sample forecast_date date       horizon   dss  crps  logs
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Region 1   AR 3  1      2020-03-04    2020-03-05       1  5.12  4.84  3.51
-#&gt; </span><span style='color: #555555;'> 2</span><span> Region 1   AR 3  1      2020-03-04    2020-03-06       2  6.26  7.24  3.73
-#&gt; </span><span style='color: #555555;'> 3</span><span> Region 1   AR 3  1      2020-03-04    2020-03-07       3  5.12  4.85  3.81
-#&gt; </span><span style='color: #555555;'> 4</span><span> Region 1   AR 3  1      2020-03-04    2020-03-08       4  6.02  6.33  3.80
-#&gt; </span><span style='color: #555555;'> 5</span><span> Region 1   AR 3  1      2020-03-04    2020-03-09       5  6.50 11.4   5.81
-#&gt; </span><span style='color: #555555;'> 6</span><span> Region 1   AR 3  1      2020-03-04    2020-03-10       6  6.34  5.67  3.95
-#&gt; </span><span style='color: #555555;'> 7</span><span> Region 1   AR 3  1      2020-03-04    2020-03-11       7  5.76  3.49  3.39
-#&gt; </span><span style='color: #555555;'> 8</span><span> Region 1   AR 3  1      2020-03-05    2020-03-06       1  5.60  6.71  4.12
-#&gt; </span><span style='color: #555555;'> 9</span><span> Region 1   AR 3  1      2020-03-05    2020-03-07       2  5.06  3.06  3.33
-#&gt; </span><span style='color: #555555;'>10</span><span> Region 1   AR 3  1      2020-03-05    2020-03-08       3  5.61  5.27  3.78
-#&gt; </span><span style='color: #555555;'># … with 599 more rows, and 6 more variables: bias </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, sharpness </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> Region 1   AR 3  1      2020-03-05    2020-03-06       1  5.98  5.05  3.77
+#&gt; </span><span style='color: #555555;'> 2</span><span> Region 1   AR 3  1      2020-03-05    2020-03-07       2  5.08  3.62  3.67
+#&gt; </span><span style='color: #555555;'> 3</span><span> Region 1   AR 3  1      2020-03-05    2020-03-08       3  6.55  6.18  4.07
+#&gt; </span><span style='color: #555555;'> 4</span><span> Region 1   AR 3  1      2020-03-05    2020-03-09       4  6.89  8.47  4.67
+#&gt; </span><span style='color: #555555;'> 5</span><span> Region 1   AR 3  1      2020-03-05    2020-03-10       5  7.35  9.85  4.83
+#&gt; </span><span style='color: #555555;'> 6</span><span> Region 1   AR 3  1      2020-03-05    2020-03-11       6  8.08 16.6   5.21
+#&gt; </span><span style='color: #555555;'> 7</span><span> Region 1   AR 3  1      2020-03-05    2020-03-12       7  8.57 20.2   5.40
+#&gt; </span><span style='color: #555555;'> 8</span><span> Region 1   AR 3  1      2020-03-06    2020-03-07       1  3.86  2.22  2.91
+#&gt; </span><span style='color: #555555;'> 9</span><span> Region 1   AR 3  1      2020-03-06    2020-03-08       2  4.99  3.75  3.41
+#&gt; </span><span style='color: #555555;'>10</span><span> Region 1   AR 3  1      2020-03-06    2020-03-09       3  6.22  7.64  3.89
+#&gt; </span><span style='color: #555555;'># … with 587 more rows, and 6 more variables: bias </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, sharpness </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   calibration </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, median </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, iqr </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, ci </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
 #&gt; </div><div class='input'>
 <span class='co'>## Example evaluation plot for comparing forecasts</span>
