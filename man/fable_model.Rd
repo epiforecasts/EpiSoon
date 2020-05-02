@@ -21,8 +21,9 @@ A dataframe of predictions (with columns representing the
 time horizon and rows representing samples).
 }
 \description{
-Provides an interface for models from the \code{fable} package. Note the \link[feasts:ARIMA]{feasts::ARIMA} model
-requires the \code{feast} package. If \code{future} is being used \code{fable} will require \code{future.apply} in
+Provides an interface for models from the \code{fable} package.
+Note the \code{feasts::ARIMA} model requires the \code{feast} package. If \code{future}
+is being used \code{fable} will require \code{future.apply} in
 order to not silently fail.
 }
 \examples{

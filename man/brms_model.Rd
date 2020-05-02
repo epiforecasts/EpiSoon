@@ -22,7 +22,7 @@ brms_model(
 
 \item{horizon}{Numeric, the time horizon over which to predict.}
 
-\item{model}{A \link{brms} model wrapped in the \code{\link[brms:bf]{brms::bf()}} function}
+\item{model}{A \code{brms} model wrapped in the \code{\link[brms:bf]{brms::bf()}} function}
 
 \item{n_cores}{Numeric, the number of cores to use, default of 1}
 
