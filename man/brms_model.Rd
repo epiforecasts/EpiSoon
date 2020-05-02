@@ -42,6 +42,7 @@ Note that \code{brms} and \code{tidybayes} must both be installed for this
 model wrapper to be functional.
 }
 \examples{
+\dontrun{
 
 ## Used on its own
 ## Note: More iterations and chains should be used
@@ -59,4 +60,5 @@ forecast_rt(EpiSoon::example_obs_rts[1:10, ],
             model = function(...){
               brms_model(model = brms::bf(y ~ gp(time)), n_iter = 40, n_chains = 1, ...)},
                    horizon = 7, samples = 10, timeout = 300)
+}
 }
