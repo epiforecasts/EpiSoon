@@ -2,7 +2,7 @@
 #'
 #' @param y Numeric vector of time points to forecast
 #' @param samples Numeric, number of samples to take.
-#' @param model A `bsts` model object wrapped in a function with an `ss` and `y` argument.
+#' @param model A `[bsts]` model object wrapped in a function with an `ss` and `y` argument.
 #' @param horizon Numeric, the time horizon over which to predict.
 #' @return A dataframe of predictions (with columns representing the time horizon and rows representing samples).
 #' @export

@@ -13,16 +13,16 @@ fable_model(y = NULL, samples = NULL, horizon = NULL, model = NULL)
 
 \item{horizon}{Numeric, the time horizon over which to predict.}
 
-\item{model}{A \code{fable} model object. For  models that use a formula interface time
-can be accessed using \code{time}.}
+\item{model}{A \verb{[fable]} model object. For  models that use a formula interface time
+can be accessed using \verb{[time]}.}
 }
 \value{
 A dataframe of predictions (with columns representing the
 time horizon and rows representing samples).
 }
 \description{
-Provides an interface for models from the \code{fable} package. Not the \code{ARIMA} model
-requires the \code{feast} package. If \code{future} is being used \code{fable} will require \code{future.apply} in
+Provides an interface for models from the \verb{[fable]} package. Note the \verb{[feast::ARIMA]} model
+requires the \verb{[feast]} package. If \verb{[future]} is being used \verb{[fable]} will require \verb{[future.apply]} in
 order to not silently fail.
 }
 \examples{

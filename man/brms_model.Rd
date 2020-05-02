@@ -22,7 +22,7 @@ brms_model(
 
 \item{horizon}{Numeric, the time horizon over which to predict.}
 
-\item{model}{A \code{brms} model wrapped in the \code{bf} function}
+\item{model}{A \verb{[brms]} model wrapped in the \verb{[brms::bf()]} function}
 
 \item{n_cores}{Numeric, the number of cores to use}
 
@@ -30,25 +30,28 @@ brms_model(
 
 \item{n_iter}{Numeric, the number of iterations in the sampler to use}
 
-\item{...}{additional arguments passed to \code{brms} (e.g. priors or family)}
+\item{...}{additional arguments passed to \verb{[brms]} (e.g. priors or family)}
 }
 \value{
 A dataframe of predictions (with columns representing the time horizon and rows representing samples).
 }
 \description{
-brms model wrapper
+Allows users to specify a model using the \verb{[brms::bf()]}  wrapper from \verb{[brms]}
 }
 \examples{
 
 ## Used on its own
+## Note: More iterations and chains should be used
 library(brms)
 brms_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
           model = brms::bf(y ~ gp(time)),
-          samples = 10, horizon = 7, n_iter = 40, n_chains = 1)
+          samples = 10, horizon = 7, n_iter = 40, n_chains = 1, refresh =0)
 
 ## Used for forecasting
 ## Note that the timeout parameter has been increased to allow
 ## for the time for the code to be compiled
+## Note: More iterations and chains should be used
+
 forecast_rt(EpiSoon::example_obs_rts[1:10, ],
             model = function(...){
               brms_model(model = brms::bf(y ~ gp(time)), n_iter = 40, n_chains = 1, ...)},

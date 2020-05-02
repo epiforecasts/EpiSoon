@@ -1,12 +1,12 @@
 #' Fable model wrapper
 #'
 #'
-#' @description Provides an interface for models from the `fable` package. Not the `ARIMA` model
-#' requires the `feast` package. If `future` is being used `fable` will require `future.apply` in
+#' @description Provides an interface for models from the `[fable]` package. Note the `[feast::ARIMA]` model
+#' requires the `[feast]` package. If `[future]` is being used `[fable]` will require `[future.apply]` in
 #' order to not silently fail.
 #'
-#' @param model A `fable` model object. For  models that use a formula interface time
-#' can be accessed using `time`.
+#' @param model A `[fable]` model object. For  models that use a formula interface time
+#' can be accessed using `[time]`.
 #' @inheritParams bsts_model
 #' @return A dataframe of predictions (with columns representing the
 #'  time horizon and rows representing samples).

@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -37,7 +41,6 @@
 
 <meta property="og:title" content="BSTS model wrapper — bsts_model" />
 <meta property="og:description" content="BSTS model wrapper" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -55,7 +58,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -151,48 +154,44 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'>## Used on its own</span>
-<span class='fu'>bsts_model</span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ]$<span class='no'>rt</span>,
+<span class='fu'>bsts_model</span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ]$<span class='no'>rt</span>,
            <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){
            <span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.ar.html'>AddAr</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>lags</span> <span class='kw'>=</span> <span class='fl'>2</span>)},
            <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='output co'>#&gt;          V1       V2       V3       V4       V5       V6       V7
-#&gt; 1  1.951983 1.927621 1.859351 1.824842 1.796661 1.752534 1.727137
-#&gt; 2  1.976946 1.938100 1.885275 1.852560 1.786946 1.773276 1.732649
-#&gt; 3  1.972205 1.933979 1.897191 1.861654 1.808863 1.769373 1.720212
-#&gt; 4  1.997190 1.950622 1.909382 1.841561 1.787498 1.762993 1.701430
-#&gt; 5  1.948410 1.896821 1.893182 1.863876 1.822257 1.757125 1.720435
-#&gt; 6  1.956401 1.944012 1.870877 1.816769 1.804193 1.759640 1.698775
-#&gt; 7  1.976885 1.956254 1.867496 1.856127 1.795709 1.781530 1.717397
-#&gt; 8  1.957400 1.950729 1.861402 1.822747 1.801348 1.752744 1.692113
-#&gt; 9  1.985600 1.913480 1.892919 1.858024 1.777898 1.731686 1.696440
-#&gt; 10 1.975289 1.925502 1.892138 1.828573 1.793011 1.740232 1.709282</div><div class='input'>
+#&gt; 1  1.978836 1.912334 1.855109 1.768865 1.753945 1.707922 1.686209
+#&gt; 2  1.927865 1.950344 1.859923 1.777695 1.741134 1.721496 1.667161
+#&gt; 3  1.962695 1.889590 1.838024 1.815644 1.757994 1.721021 1.691455
+#&gt; 4  1.981115 1.894634 1.849228 1.779481 1.745365 1.675597 1.680467
+#&gt; 5  1.930705 1.921930 1.843386 1.803190 1.784410 1.706881 1.657857
+#&gt; 6  1.930400 1.887915 1.810533 1.769233 1.759128 1.689534 1.668091
+#&gt; 7  1.962564 1.858163 1.857333 1.798905 1.720588 1.718295 1.669056
+#&gt; 8  1.933069 1.861758 1.857774 1.746918 1.765273 1.725499 1.715009
+#&gt; 9  1.971430 1.882372 1.861836 1.811739 1.763136 1.724746 1.660507
+#&gt; 10 1.907581 1.895718 1.856984 1.795226 1.721012 1.689042 1.651312</div><div class='input'>
 <span class='co'>## Used for forecasting</span>
- <span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
-                    <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>){<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
+ <span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
+                    <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>){<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'>bsts_model</span>(<span class='kw'>model</span> <span class='kw'>=</span>
                       <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){
                         <span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.ar.html'>AddAr</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>lags</span> <span class='kw'>=</span> <span class='fl'>3</span>)}, <span class='no'>...</span>)},
                     <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 70 x 4</span><span>
 #&gt;    sample date          rt horizon
 #&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>      1 2020-03-11  2.05       1
-#&gt; </span><span style='color: #555555;'> 2</span><span>      2 2020-03-11  2.00       1
-#&gt; </span><span style='color: #555555;'> 3</span><span>      3 2020-03-11  2.02       1
-#&gt; </span><span style='color: #555555;'> 4</span><span>      4 2020-03-11  2.01       1
-#&gt; </span><span style='color: #555555;'> 5</span><span>      5 2020-03-11  1.93       1
-#&gt; </span><span style='color: #555555;'> 6</span><span>      6 2020-03-11  2.00       1
-#&gt; </span><span style='color: #555555;'> 7</span><span>      7 2020-03-11  1.95       1
-#&gt; </span><span style='color: #555555;'> 8</span><span>      8 2020-03-11  2.01       1
+#&gt; </span><span style='color: #555555;'> 1</span><span>      1 2020-03-11  1.94       1
+#&gt; </span><span style='color: #555555;'> 2</span><span>      2 2020-03-11  1.98       1
+#&gt; </span><span style='color: #555555;'> 3</span><span>      3 2020-03-11  1.98       1
+#&gt; </span><span style='color: #555555;'> 4</span><span>      4 2020-03-11  1.95       1
+#&gt; </span><span style='color: #555555;'> 5</span><span>      5 2020-03-11  1.97       1
+#&gt; </span><span style='color: #555555;'> 6</span><span>      6 2020-03-11  1.93       1
+#&gt; </span><span style='color: #555555;'> 7</span><span>      7 2020-03-11  1.91       1
+#&gt; </span><span style='color: #555555;'> 8</span><span>      8 2020-03-11  2.03       1
 #&gt; </span><span style='color: #555555;'> 9</span><span>      9 2020-03-11  1.97       1
-#&gt; </span><span style='color: #555555;'>10</span><span>     10 2020-03-11  1.96       1
+#&gt; </span><span style='color: #555555;'>10</span><span>     10 2020-03-11  1.93       1
 #&gt; </span><span style='color: #555555;'># … with 60 more rows</span><span></div></span></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -203,7 +202,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
