@@ -14,7 +14,7 @@
 #' @importFrom tsibble tsibble
 #' @importFrom fabletools model forecast
 #' @importFrom purrr map
-#' @importFrom dplyr bind_rows
+#' @importFrom dplyr bind_cols
 #' @examples
 #' ## Used on its own
 #' fable_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
