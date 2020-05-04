@@ -34,7 +34,7 @@
 #'   "Drift" = function(...){EpiSoon::fable_model(model = fable::RW(y ~ drift()), ...)}
 #' )
 #'
-#' # make forecst
+#' # make forecst on its own
 #' forecast <- crps_ensemble(y = y,
 #'                           models = models,
 #'                           samples = 10,
@@ -42,7 +42,7 @@
 #'                           weighting_period = 5)
 #'
 #'
-#'
+#' # together with forecast_rt
 #' forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 #'            model = function(...){
 #'              crps_ensemble(y = y,
