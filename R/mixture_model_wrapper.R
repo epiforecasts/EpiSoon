@@ -42,6 +42,17 @@
 #'                           weighting_period = 5)
 #'
 #'
+#'
+#' forecast_rt(EpiSoon::example_obs_rts[1:10, ],
+#'            model = function(...){
+#'              crps_ensemble(y = y,
+#'                            models = models,
+#'                            samples = 10,
+#'                            horizon = 7,
+#'                            weighting_period = 5)
+#'                          })
+#'
+#'
 
 
 crps_ensemble <- function(y = NULL,
