@@ -14,9 +14,10 @@
 #' models. Draws from the individual model predictive samples are then used
 #' to generate a mixture model with the weights obtained in the previous step.
 #'
-#' The weights are computed using \code{\link[stackr]{stack_crps}} to minimise
-#' CRPS.
-#' \code{\link[stackr]{mixture_from_sample}} is used to draw samples from the
+#' The weights are computed using \code{\link[stackr]{stack_crps}} from
+#' the package `stackr` to minimise CRPS. The function
+#' \code{\link[stackr]{mixture_from_sample}} from the same package is used
+#' to draw samples from the
 #' individual models to form the mixture models.
 #'
 #' @param models A list of models. Models must be analogous to the form
@@ -28,8 +29,6 @@
 #' @return A dataframe of predictions (with columns representing the
 #'  time horizon and rows representing samples).
 #' @export
-#' @importFrom tsibble tsibble
-#' @importFrom fabletools model forecast
 #' @importFrom purrr map_dfr
 #' @importFrom dplyr bind_rows n ungroup mutate rename group_by filter
 #' @importFrom tidyr pivot_longer pivot_wider
