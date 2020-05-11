@@ -88,11 +88,16 @@
 
 crps_ensemble <- function(y = NULL,
                           models = NULL,
-                          weighting_period = 5,
-                          ...) {
+                          samples = NULL,
+                          horizon = NULL,
+                          weighting_period = 5) {
 
 
   #### Error Handling
+  # check if y is there
+  if(is.null(y)) stop("parameter y is missing")
+
+
   # check if stackr is installed
   if (!suppressWarnings(require("stackr", quietly = TRUE) == TRUE)) {
     stop("package stackr must be installed. You can install it using devtools::install_github('nikosbosse/stackr')")
