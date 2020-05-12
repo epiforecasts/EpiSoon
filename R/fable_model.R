@@ -7,6 +7,9 @@
 #'
 #' @param model A `fable` model object. For  models that use a formula interface time
 #' can be accessed using `time`.
+#' @param bias_correction logical. If TRUE, bias will be corrected based on
+#' the fitted values. This is only a temporary solution and will be replaced
+#' as soon as possible.
 #' @inheritParams bsts_model
 #' @return A dataframe of predictions (with columns representing the
 #'  time horizon and rows representing samples).
@@ -19,15 +22,20 @@
 #' ## Used on its own
 #' fable_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
 #'            model = fable::ARIMA(y ~ time),
-#'            samples = 10, horizon = 7)
+#'            samples = 10, horizon = 7,
+#'            bias_correction = TRUE)
 #'
 #'
 #'forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 #'            model = function(...){
-#'            fable_model(model = fable::ARIMA(y ~ time), ...)},
+#'            fable_model(model = fable::ARIMA(y ~ time),
+#'                        bias_correction = TRUE,
+#'                        ...)},
 #'            horizon = 7, samples = 10)
+
 fable_model <- function(y = NULL, samples = NULL,
-                       horizon = NULL, model = NULL) {
+                       horizon = NULL, model = NULL,
+                       bias_correction = FALSE) {
 
 
 ## Make input numeric into correct tsibble format
@@ -39,23 +47,31 @@ model <- fabletools::model(timeseries, model)
 ## Fit and forecast model
 forecast <- fabletools::forecast(model, h = horizon, times = samples)
 
+if (bias_correction == TRUE) {
+  bias_correction <- mean(residuals(model)$.resid,
+                          na.rm = T)
+
+} else {
+  bias_correction <- 0
+}
+
 if (samples == 1) {
   ## If only using a single sample use central estimate
  samples <- t(data.frame(forecast$y))
  samples <- data.frame(samples)
-}else{
+} else {
   ## Pull out distributions
   dist <- forecast$.distribution
 
   ## If samples are present pull out
   if (length(dist[[1]]) == 2) {
-    samples <- purrr::map(dist, ~ .[[1]][[1]])
-  }else {
+    samples <- purrr::map(dist, ~ .[[1]][[1]]) - bias_correction
+  } else {
   ## If dist is present sample from it
     samples <-  purrr::map(dist,
-                            ~ rnorm(samples,
-                                    mean = .$mean,
-                                    sd = .$sd))
+                           ~ rnorm(samples - bias_correction,
+                                   mean = .$mean,
+                                   sd = .$sd))
   }
 
   ## Bind samples together
