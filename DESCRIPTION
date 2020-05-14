@@ -38,7 +38,12 @@ Authors@R: c(
            role = c("aut")),
     person("Sebastian", "Funk", 
             email = "sebastian.funk@lshtm.ac.uk", 
-            role = c("aut")))
+            role = c("aut")),
+    person(given = "Michael",
+           family = "DeWitt",
+           role = c("ctb"),
+           email = "me.dewitt.jr@gmail.com",
+           comment = c(ORCID = "0000-0001-8940-1967")))
 Description: To forecast the time-varying reproduction number and using this to forecast reported case counts. Includes
              tools to evaluate a range of models across samples and time series using proper scoring rules.
 License: MIT + file LICENSE
