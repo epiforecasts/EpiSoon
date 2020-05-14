@@ -43,6 +43,7 @@ reference:
     contents:
       - bsts_model
       - fable_model
+      - brms_model
   - title: Predicting cases from reproduction numbers
     desc: Functions to for mapping reproduction number estimates to forecast cases
     contents:

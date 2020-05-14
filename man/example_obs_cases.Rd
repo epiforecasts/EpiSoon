@@ -4,7 +4,9 @@
 \name{example_obs_cases}
 \alias{example_obs_cases}
 \title{Example Observed Cases}
-\format{A data frame containing cases reported on each date.}
+\format{
+A data frame containing cases reported on each date.
+}
 \usage{
 example_obs_cases
 }

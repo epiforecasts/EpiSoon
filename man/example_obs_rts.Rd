@@ -4,7 +4,9 @@
 \name{example_obs_rts}
 \alias{example_obs_rts}
 \title{Example Observed Rts}
-\format{A data frame containing Rts estimated for each date.}
+\format{
+A data frame containing Rts estimated for each date.
+}
 \usage{
 example_obs_rts
 }

@@ -8,3 +8,4 @@
 ^.cache$
 ^inst/pkg-structure$
 ^_pkgdown.yml$
+^\.github$

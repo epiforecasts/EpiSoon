@@ -10,7 +10,7 @@ forecast_rt(
   horizon = 7,
   samples = 1000,
   bound_rt = TRUE,
-  timeout = 30
+  timeout = 100
 )
 }
 \arguments{
