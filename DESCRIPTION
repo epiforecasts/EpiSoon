@@ -76,6 +76,6 @@ Suggests:
     feasts,
     future.apply,
     brms,
-    tidybayes
+    tidybayes,
     testthat
 VignetteBuilder: knitr
