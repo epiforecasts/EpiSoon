@@ -24,6 +24,18 @@ Authors@R: c(
     person("Robin", "Thompson", 
            email = "robin.thompson@lshtm.ac.uk", 
            role = c("aut")), 
+    person("Aurelien", "Chateigner", 
+           email = "aurelien.chateigner@inrae.fr", 
+           role = c("aut")),
+    person("Sylvain", "Mareschal", 
+           email = "mareschal@ovsa.fr", 
+           role = c("aut")),
+    person("Andrea", "Rau", 
+           email = "andrea.rau@inrae.fr", 
+           role = c("aut")),
+    person("Nathalie", "Vialaneix", 
+           email = "nathalie.vialaneix@inrae.fr", 
+           role = c("aut")),
     person("Sebastian", "Funk", 
             email = "sebastian.funk@lshtm.ac.uk", 
             role = c("aut")))
@@ -65,4 +77,5 @@ Suggests:
     future.apply,
     brms,
     tidybayes
+    testthat
 VignetteBuilder: knitr
