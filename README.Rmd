@@ -16,10 +16,7 @@ knitr::opts_chunk$set(
 [![R build status](https://github.com/epiforecasts/EpiSoon/workflows/R-CMD-check/badge.svg)](https://github.com/epiforecasts/EpiSoon)
 [![Build Status](https://travis-ci.com/epiforecasts/EpiSoon.svg?branch=master)](https://travis-ci.com/epiforecasts/EpiSoon)
 
-
-*Warning: This package is a work in progress and is currently developed solely with the COVID-19 outbreak in mind. Breaking changes may occur and the authors cannot guarantee support.*
-
-**Aim:** To forecast the time-varying reproduction number and using this to forecast reported case counts. 
+**Aim:** To forecast the time-varying reproduction number and use this to forecast reported case counts. 
 
 ## Installation
 
