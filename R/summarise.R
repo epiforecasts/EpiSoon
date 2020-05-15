@@ -1,3 +1,84 @@
+#' Summarise Forecast Rts
+#'
+#' @param fit_samples A dataframe as produced by `EpiSoon::forecast`.
+#'
+#' @return A summarised dataframe.
+#' @export
+#'
+#' @importFrom dplyr group_by summarise mutate select
+#' @importFrom purrr map_dbl
+#' @importFrom HDInterval hdi
+#' @examples
+#'
+#'
+#' samples <- forecast_rt(example_obs_rts,
+#'                        model = function(...) {EpiSoon::bsts_model(model =
+#'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
+#'                        horizon = 7, samples = 10)
+#'
+#'
+#' summarise_forecast(samples)
+summarise_forecast <- function(fit_samples) {
+
+  summarised_fit <- fit_samples %>%
+    dplyr::group_by(date, horizon) %>%
+    dplyr::summarise(
+      hdi_90 = list(HDInterval::hdi(rt, credMass = 0.9)),
+      hdi_50 = list(HDInterval::hdi(rt, credMass = 0.5)),
+      median =  median(rt, na.rm = TRUE),
+      mean = mean(rt, na.rm = TRUE),
+      sd = sd(rt, na.rm = TRUE)
+    ) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(
+      bottom = purrr::map_dbl(hdi_90, ~ .[[1]]),
+      lower = purrr::map_dbl(hdi_50, ~ .[[1]]),
+      upper = purrr::map_dbl(hdi_50, ~ .[[2]]),
+      top = purrr::map_dbl(hdi_90, ~ .[[2]])
+    ) %>%
+    dplyr::select(-hdi_90, -hdi_50)
+
+
+
+
+  return(summarised_fit)
+}
+
+
+#' Summarise Forecast Cases
+#'
+#' @param pred_cases A dataframe as produced by `EpiSoon::forecast_cases`.
+#'
+#' @return A summarised dataframe.
+#' @export
+#'
+#' @importFrom dplyr group_by summarise mutate select
+#' @importFrom HDInterval hdi
+#' @examples
+#'
+#' ## Example forecast
+#' forecast <- forecast_rt(EpiSoon::example_obs_rts,
+#'                         model = function(...) {EpiSoon::bsts_model(model =
+#'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
+#'                         horizon = 7, samples = 10)
+#'
+#' ## Forecast cases
+#' case_forecast <- forecast_cases(EpiSoon::example_obs_cases,
+#'                                 forecast,
+#'                                 EpiSoon::example_serial_interval)
+#' ## Summarise case forecast
+#' summarise_case_forecast(case_forecast)
+summarise_case_forecast <- function(pred_cases) {
+
+
+  pred_cases <- pred_cases %>%
+    dplyr::rename(rt = cases)
+
+  sum_cases <- summarise_forecast(pred_cases)
+
+  return(sum_cases)
+}
+
 #' Summarise model forecasting scores
 #'
 #' @param scores A dataframe of model scores as produced by `score_model`
