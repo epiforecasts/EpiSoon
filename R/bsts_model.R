@@ -6,8 +6,9 @@
 #' @param horizon Numeric, the time horizon over which to predict.
 #' @return A dataframe of predictions (with columns representing the time horizon and rows representing samples).
 #' @export
-#' @importFrom bsts bsts predict.bsts
-#' @examples
+#' @examples \dontrun{
+#'
+#' library(bsts)
 #'
 #' ## Used on its own
 #' bsts_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
@@ -21,8 +22,12 @@
 #'                       function(ss, y){
 #'                         bsts::AddAr(ss, y = y, lags = 3)}, ...)},
 #'                     horizon = 7, samples = 10)
+#'}
 bsts_model <- function(y = NULL, samples = NULL,
                        horizon = NULL, model = NULL) {
+
+
+  check_suggests("bsts")
 
 
   model <- model(list(), y)
@@ -43,10 +48,5 @@ bsts_model <- function(y = NULL, samples = NULL,
   samples <- as.data.frame(prediction$distribution)
 
   return(samples)
-
-
-
-
-
 
 }
