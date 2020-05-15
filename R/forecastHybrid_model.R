@@ -30,7 +30,7 @@
 #'forecastHybrid_model(y = EpiSoon::example_obs_rts$rt,
 #'                     samples = 1, horizon = 7,
 #'                     model_params = list(cvHorizon = 7, windowSize = 7,
-#'                                   rolling = TRUE, models = "zta"))
+#'                                   rolling = TRUE, models = "zeta"))
 #'
 #'
 #' ## Used for forecasting
@@ -57,7 +57,8 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
   ## Fit the model
   fitted_model <- suppressMessages(
     suppressWarnings(
-      do.call(forecastHybrid::hybridModel, c(list(y = y), model_params))
+      do.call(forecastHybrid::hybridModel, c(list(y = y, parallel = FALSE,
+                                                  num.cores = 1), model_params))
       )
     )
 
