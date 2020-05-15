@@ -73,10 +73,12 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
     sample_from_model <- data.frame(t(as.data.frame(sample_from_model$mean)))
     rownames(sample_from_model) <- NULL
   }else{
+    mean <- as.numeric(prediction$mean)
     upper <- prediction$upper[, ncol(prediction$upper)]
     lower <-  prediction$lower[, ncol(prediction$lower)]
-    sample_from_model <- purrr::map2(lower, upper,
-                           ~ rnorm(samples, .x + (.y - .x) / 2,  (.y - .x) / 3.92))
+    sd <- (upper - lower) / 3.92
+    sample_from_model <- purrr::map2(mean, sd,
+                                     ~ rnorm(samples, mean = .x,  sd = .y))
 
     sample_from_model <- dplyr::bind_cols(sample_from_model)
   }
