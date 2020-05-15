@@ -31,10 +31,21 @@ globalVariables(
     "model")
 )
 
-check_suggests <- function(pkg_name){
+check_suggests <- function(pkg_name, dev_message = NULL){
   if (!requireNamespace(pkg_name, quietly = TRUE)) {
-    msg <- sprintf("This function requires `%s` to work. Please install it.\n", pkg_name)
-    stop(msg,
-         call. = FALSE)
+    msg <- sprintf("This function requires `%s` to work.",
+                   pkg_name)
+
+    if (!is.null(dev_message)) {
+      msg <- paste(msg, dev_message)
+    } else{
+      msg <- paste(msg, "Please install it.\n")
+    }
+    stop(msg, call. = FALSE)
   }
 }
+
+
+
+
+
