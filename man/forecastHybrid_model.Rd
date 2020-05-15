@@ -50,7 +50,7 @@ forecastHybrid_model(y = EpiSoon::example_obs_rts$rt,
 forecastHybrid_model(y = EpiSoon::example_obs_rts$rt,
                     samples = 1, horizon = 7,
                     model_params = list(cvHorizon = 7, windowSize = 7,
-                                  rolling = TRUE, models = "zta"))
+                                  rolling = TRUE, models = "zeta"))
 
 
 ## Used for forecasting
