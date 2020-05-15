@@ -57,7 +57,8 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
   ## Fit the model
   fitted_model <- suppressMessages(
     suppressWarnings(
-      do.call(forecastHybrid::hybridModel, c(list(y = y), model_params))
+      do.call(forecastHybrid::hybridModel, c(list(y = y, parallel = FALSE,
+                                                  num.cores = 1), model_params))
       )
     )
 

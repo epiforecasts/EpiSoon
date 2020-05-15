@@ -46,7 +46,7 @@ forecastHybrid_model(y = EpiSoon::example_obs_rts$rt,
 
 ## Used with non-default arguments
 ## Note that with the current sampling from maximal confidence intervals model
-## Weighting using cross-validation will only have an impact whhen 1 sample is used.
+## Weighting using cross-validation will only have an impact when 1 sample is used.
 forecastHybrid_model(y = EpiSoon::example_obs_rts$rt,
                     samples = 1, horizon = 7,
                     model_params = list(cvHorizon = 7, windowSize = 7,
