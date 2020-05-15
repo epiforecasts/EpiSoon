@@ -34,6 +34,8 @@
 #' @importFrom tidyr pivot_longer pivot_wider
 #' @examples
 #'
+#' \dontrun{
+#'
 #' y <- EpiSoon::example_obs_rts[1:10, ]$rt
 #' model = fable::ARIMA(y ~ time)
 #' samples = 10
@@ -53,11 +55,11 @@
 #' )
 #'
 #' # make forecst on its own
-#' forecast <- crps_ensemble(y = y,
-#'                           models = models,
-#'                           samples = 10,
-#'                           horizon = 7,
-#'                           weighting_period = 5)
+#' forecast <- stackr_mixture_model(y = y,
+#'                                  models = models,
+#'                                  samples = 10,
+#'                                  horizon = 7,
+#'                                  weighting_period = 5)
 #'
 #'
 #' # together with forecast_rt
@@ -72,7 +74,7 @@
 #' forecast_eval <- evaluate_model(EpiSoon::example_obs_rts,
 #'                EpiSoon::example_obs_cases,
 #'                model = function(...){
-#'                 crps_ensemble(models = models,
+#'                 stackr_mixture_model(models = models,
 #'                             weighting_period = 5,
 #'                             ...)},
 #'                horizon = 7, samples = 10,
@@ -83,9 +85,10 @@
 #'                          EpiSoon::example_obs_rts,
 #'                          horizon_to_plot = 7)
 #'
+#' }
 #'
 
-crps_ensemble <- function(y = NULL,
+stackr_mixture_model <- function(y = NULL,
                           models = NULL,
                           samples = NULL,
                           horizon = NULL,
