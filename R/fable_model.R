@@ -19,19 +19,31 @@
 #' @importFrom purrr map
 #' @importFrom dplyr bind_cols
 #' @examples
+#'
 #' ## Used on its own
+#' fable_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
+#'            model = fable::ARIMA(y ~ time),
+#'            samples = 10, horizon = 7)
+#'
 #' fable_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
 #'            model = fable::ARIMA(y ~ time),
 #'            samples = 10, horizon = 7,
 #'            bias_correction = TRUE)
 #'
 #'
-#'forecast_rt(EpiSoon::example_obs_rts[1:10, ],
+#' forecast_rt(EpiSoon::example_obs_rts[1:10, ],
+#'            model = function(...){
+#'            fable_model(model = fable::ARIMA(y ~ time),
+#'                        ...)},
+#'            horizon = 7, samples = 10)
+#'
+#' forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 #'            model = function(...){
 #'            fable_model(model = fable::ARIMA(y ~ time),
 #'                        bias_correction = TRUE,
 #'                        ...)},
 #'            horizon = 7, samples = 10)
+#'
 
 fable_model <- function(y = NULL, samples = NULL,
                         horizon = NULL, model = NULL,
@@ -47,9 +59,9 @@ fable_model <- function(y = NULL, samples = NULL,
   ## Fit and forecast model
   forecast <- fabletools::forecast(model, h = horizon, times = samples)
 
-  if (bias_correction == TRUE) {
+  if (bias_correction) {
     bias_correction <- mean(residuals(model)$.resid,
-                            na.rm = T)
+                            na.rm = TRUE)
 
   } else {
     bias_correction <- 0
@@ -69,8 +81,8 @@ fable_model <- function(y = NULL, samples = NULL,
     } else {
       ## If dist is present sample from it
       samples <-  purrr::map(dist,
-                             ~ rnorm(samples - bias_correction,
-                                     mean = .$mean,
+                             ~ rnorm(samples,
+                                     mean = .$mean - bias_correction,
                                      sd = .$sd))
     }
 
