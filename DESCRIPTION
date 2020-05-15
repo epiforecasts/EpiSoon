@@ -51,8 +51,6 @@ Depends:
 Imports: 
     scoringutils,
     scoringRules,
-    fabletools,
-    tsibble,
     purrr,
     furrr,
     magrittr,
@@ -71,6 +69,8 @@ Remotes:
 Suggests: 
     knitr,
     rmarkdown,
+    fabletools,
+    tsibble,
     fable,
     bsts,
     feasts,

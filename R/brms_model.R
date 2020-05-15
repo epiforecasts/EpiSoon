@@ -41,8 +41,8 @@ brms_model <- function(y = NULL, samples = NULL,
                        n_chains = 4, n_iter = 2000, ...) {
 
   check_suggests("brms")
-
   check_suggests("tidybayes")
+  check_suggests("tsibble")
 
   ## Make input numeric into correct tsibble format
   timeseries <- tsibble::tsibble(y = y, time = 1:length(y), index = time)
