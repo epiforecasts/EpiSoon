@@ -3,7 +3,7 @@ context("Test of the function 'compare_models'.... testing outputs")
 
 models <- list("AR 3" = function(...) {
   EpiSoon::bsts_model(model = function(ss, y){
-    bsts::AddAr(ss, y = y, lags = 3)
+    bsts::AddAr(ss, y = y, lags = 2)
   }, ...)},
               "Semi-local linear trend" = function(...) {
                 EpiSoon::bsts_model(model = function(ss, y){
@@ -11,13 +11,15 @@ models <- list("AR 3" = function(...) {
   }, ...)}
 )
 
+set.seed(1234)
+
 out <- compare_models(EpiSoon::example_obs_rts,
                       EpiSoon::example_obs_cases,
                       models,
                       horizon = 7, samples = 10,
                       serial_interval = EpiSoon::example_serial_interval)
 
-test_that("Outputs have proper lenghts and names", {
+test_that("Outputs have proper lengths and names", {
   expect_length(out, 4)
 
   expect_named(out, c("forecast_rts", "rt_scores", "forecast_cases", "case_scores"))

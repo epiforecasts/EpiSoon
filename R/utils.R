@@ -27,7 +27,8 @@ globalVariables(
     "time",
     "rts",
     "value",
-    "y")
+    "y",
+    "model")
 )
 
 check_suggests <- function(pkg_name){
