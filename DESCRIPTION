@@ -76,6 +76,7 @@ Suggests:
     rmarkdown,
     fabletools,
     tsibble,
+    forecastHybrid,
     fable,
     bsts,
     feasts,
