@@ -22,6 +22,9 @@ A dataframe of predictions (with columns representing the time horizon and rows 
 BSTS model wrapper
 }
 \examples{
+\dontrun{
+
+library(bsts)
 
 ## Used on its own
 bsts_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
@@ -35,4 +38,5 @@ bsts_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
                       function(ss, y){
                         bsts::AddAr(ss, y = y, lags = 3)}, ...)},
                     horizon = 7, samples = 10)
+}
 }

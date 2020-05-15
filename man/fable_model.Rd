@@ -21,11 +21,13 @@ A dataframe of predictions (with columns representing the
 time horizon and rows representing samples).
 }
 \description{
-Provides an interface for models from the \code{fable} package. Not the \code{ARIMA} model
-requires the \code{feast} package. If \code{future} is being used \code{fable} will require \code{future.apply} in
+Provides an interface for models from the \code{fable} package.
+Note the \code{feasts::ARIMA} model requires the \code{feast} package. If \code{future}
+is being used \code{fable} will require \code{future.apply} in
 order to not silently fail.
 }
 \examples{
+\dontrun{
 ## Used on its own
 fable_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
            model = fable::ARIMA(y ~ time),
@@ -36,4 +38,5 @@ forecast_rt(EpiSoon::example_obs_rts[1:10, ],
            model = function(...){
            fable_model(model = fable::ARIMA(y ~ time), ...)},
            horizon = 7, samples = 10)
+}
 }

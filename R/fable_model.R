@@ -1,8 +1,9 @@
 #' Fable model wrapper
 #'
 #'
-#' @description Provides an interface for models from the `fable` package. Not the `ARIMA` model
-#' requires the `feast` package. If `future` is being used `fable` will require `future.apply` in
+#' @description Provides an interface for models from the `fable` package.
+#' Note the `feasts::ARIMA` model requires the `feast` package. If `future`
+#' is being used `fable` will require `future.apply` in
 #' order to not silently fail.
 #'
 #' @param model A `fable` model object. For  models that use a formula interface time
@@ -11,11 +12,9 @@
 #' @return A dataframe of predictions (with columns representing the
 #'  time horizon and rows representing samples).
 #' @export
-#' @importFrom tsibble tsibble
-#' @importFrom fabletools model forecast
 #' @importFrom purrr map
 #' @importFrom dplyr bind_cols
-#' @examples
+#' @examples \dontrun{
 #' ## Used on its own
 #' fable_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
 #'            model = fable::ARIMA(y ~ time),
@@ -26,9 +25,15 @@
 #'            model = function(...){
 #'            fable_model(model = fable::ARIMA(y ~ time), ...)},
 #'            horizon = 7, samples = 10)
+#'}
 fable_model <- function(y = NULL, samples = NULL,
                        horizon = NULL, model = NULL) {
 
+check_suggests("tsibble")
+check_suggests("fable")
+check_suggests("fabletools")
+check_suggests("feasts")
+check_suggests("future.apply")
 
 ## Make input numeric into correct tsibble format
 timeseries <- tsibble::tsibble(y = y, time = 1:length(y), index = time)

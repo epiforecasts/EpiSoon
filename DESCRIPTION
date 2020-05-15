@@ -7,14 +7,14 @@ Authors@R: c(
            role = c("aut", "cre"),
            email = "contact@samabbott.co.uk",
            comment = c(ORCID = "0000-0001-8057-8037")),
-    person("Joel", "Hellewell",
-           email = "joel.hellewell@lshtm.ac.uk", 
-           role = c("aut"),
-           comment = c(ORCID = "0000-0003-2683-0849")),
     person(given = "Nikos",
            family = "Bosse",
            role = c("aut"),
            email = "nikosbosse@gmail.com"),
+    person("Joel", "Hellewell",
+           email = "joel.hellewell@lshtm.ac.uk", 
+           role = c("aut"),
+           comment = c(ORCID = "0000-0003-2683-0849")),
     person("Katharine", "Sherratt", 
            email = "katharine.sherratt@lshtm.ac.uk", 
            role = c("aut")),  
@@ -24,10 +24,27 @@ Authors@R: c(
     person("Robin", "Thompson", 
            email = "robin.thompson@lshtm.ac.uk", 
            role = c("aut")), 
+    person("Aurelien", "Chateigner", 
+           email = "aurelien.chateigner@inrae.fr", 
+           role = c("aut")),
+    person("Sylvain", "Mareschal", 
+           email = "mareschal@ovsa.fr", 
+           role = c("aut")),
+    person("Andrea", "Rau", 
+           email = "andrea.rau@inrae.fr", 
+           role = c("aut")),
+    person("Nathalie", "Vialaneix", 
+           email = "nathalie.vialaneix@inrae.fr", 
+           role = c("aut")),
+    person(given = "Michael",
+           family = "DeWitt",
+           role = c("aut"),
+           email = "me.dewitt.jr@gmail.com",
+           comment = c(ORCID = "0000-0001-8940-1967")),
     person("Sebastian", "Funk", 
             email = "sebastian.funk@lshtm.ac.uk", 
             role = c("aut")))
-Description: To forecast the time-varying reproduction number and using this to forecast reported case counts. Includes
+Description: To forecast the time-varying reproduction number and use this to forecast reported case counts. Includes
              tools to evaluate a range of models across samples and time series using proper scoring rules.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -39,9 +56,6 @@ Depends:
 Imports: 
     scoringutils,
     scoringRules,
-    bsts,
-    fabletools,
-    tsibble,
     purrr,
     furrr,
     magrittr,
@@ -60,8 +74,15 @@ Remotes:
 Suggests: 
     knitr,
     rmarkdown,
+    fabletools,
+    tsibble,
+    forecastHybrid,
     fable,
+    bsts,
     feasts,
     future.apply,
-    stackr
+    stackr,
+    brms,
+    tidybayes,
+    testthat
 VignetteBuilder: knitr
