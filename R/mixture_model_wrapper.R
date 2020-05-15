@@ -36,26 +36,15 @@
 #'
 #' \dontrun{
 #'
-#' y <- EpiSoon::example_obs_rts[1:10, ]$rt
-#' model = fable::ARIMA(y ~ time)
-#' samples = 10
-#' horizon = 7
-#' weighting_period = 5
-#'
 #' # make list with models
-#' baseline_ensemble <- function(...) {
-#' EpiSoon::fable_model(model = fabletools::combination_model(fable::ARIMA(y), fable::ETS(y), fable::NAIVE(y),
-#'                                                            fable::RW(y ~ drift()), cmbn_args = list(weights = "inv_var")), ...)
-#' }
 #' models <- list(
-#'   Mixfabl = baseline_ensemble,
 #'   "ARIMA" = function(...){EpiSoon::fable_model(model = fable::ARIMA(y), ...)},
 #'   "ETS" = function(...){EpiSoon::fable_model(model = fable::ETS(y), ...)},
 #'   "Drift" = function(...){EpiSoon::fable_model(model = fable::RW(y ~ drift()), ...)}
 #' )
 #'
 #' # make forecst on its own
-#' forecast <- stackr_mixture_model(y = y,
+#' forecast <- stackr_mixture_model(y = EpiSoon::example_obs_rts[1:10, ]$rt
 #'                                  models = models,
 #'                                  samples = 10,
 #'                                  horizon = 7,
@@ -64,22 +53,22 @@
 #'
 #' # together with forecast_rt
 #' fc_rt <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-#'             model = function(...){
-#'               crps_ensemble(models = models,
-#'                             weighting_period = 5,
-#'                             ...)},
-#'             samples = 10,
-#'             horizon = 7)
+#'                      model = function(...){
+#'                        stackr_mixture_model(models = models,
+#'                                             weighting_period = 5,
+#'                                             ...)},
+#'                      samples = 10,
+#'                      horizon = 7)
 #'
 #' forecast_eval <- evaluate_model(EpiSoon::example_obs_rts,
-#'                EpiSoon::example_obs_cases,
-#'                model = function(...){
-#'                 stackr_mixture_model(models = models,
-#'                             weighting_period = 5,
-#'                             ...)},
-#'                horizon = 7, samples = 10,
-#'                serial_interval = example_serial_interval,
-#'                min_points = 10)
+#'                                 EpiSoon::example_obs_cases,
+#'                                 model = function(...){
+#'                                   stackr_mixture_model(models = models,
+#'                                                        weighting_period = 5,
+#'                                                        ...)},
+#'                                 horizon = 7, samples = 10,
+#'                                 serial_interval = example_serial_interval,
+#'                                min_points = 10)
 #'
 #' plot_forecast_evaluation(forecast_eval$forecast_rts,
 #'                          EpiSoon::example_obs_rts,
@@ -89,10 +78,10 @@
 #'
 
 stackr_mixture_model <- function(y = NULL,
-                          models = NULL,
-                          samples = NULL,
-                          horizon = NULL,
-                          weighting_period = 5) {
+                                 models = NULL,
+                                 samples = NULL,
+                                 horizon = NULL,
+                                 weighting_period = 5) {
 
 
   #### Error Handling
@@ -135,7 +124,7 @@ stackr_mixture_model <- function(y = NULL,
                              dplyr::mutate(model = names(models)[i],
                                            geography = "Testland")
 
-         })
+                         })
 
   # obtain weights based on the training forecasts generated
   w <- stackr::stack_crps(fc_w)
