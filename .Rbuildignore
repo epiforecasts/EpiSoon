@@ -9,3 +9,5 @@
 ^inst/pkg-structure$
 ^_pkgdown.yml$
 ^\.github$
+^_pkgdown\.yml$
+^pkgdown$
