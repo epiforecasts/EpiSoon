@@ -85,7 +85,6 @@
 #'
 #'
 
-
 crps_ensemble <- function(y = NULL,
                           models = NULL,
                           samples = NULL,
@@ -99,12 +98,8 @@ crps_ensemble <- function(y = NULL,
 
 
   # check if stackr is installed
-
-  if (!requireNamespace(pkg_name, quietly = TRUE)) {
-    msg <- sprintf("This function requires `%s` to work. Please install it using devtools::install_github('nikosbosse/stackr').\n", pkg_name)
-    stop(msg,
-         call. = FALSE)
-  }
+  check_suggests("stackr",
+                 dev_message = "Install using devtools::install_github('nikosbosse/stackr')")
 
   if (length(y) <= weighting_period) {
     stop("not enough observations to do weighting. Adjust weighting_period")
