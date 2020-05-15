@@ -99,9 +99,13 @@ crps_ensemble <- function(y = NULL,
 
 
   # check if stackr is installed
-  if (!suppressWarnings(require("stackr", quietly = TRUE) == TRUE)) {
-    stop("package stackr must be installed. You can install it using devtools::install_github('nikosbosse/stackr')")
+
+  if (!requireNamespace(pkg_name, quietly = TRUE)) {
+    msg <- sprintf("This function requires `%s` to work. Please install it using devtools::install_github('nikosbosse/stackr').\n", pkg_name)
+    stop(msg,
+         call. = FALSE)
   }
+
   if (length(y) <= weighting_period) {
     stop("not enough observations to do weighting. Adjust weighting_period")
   }
@@ -166,7 +170,7 @@ crps_ensemble <- function(y = NULL,
   # make output compatible with what the other EpiSoon functions return
   mixed_samples <- mix %>%
     dplyr::select(-model, -geography) %>%
-    pivot_wider(values_from = y_pred, names_from = date) %>%
+    tidyr::pivot_wider(values_from = y_pred, names_from = date) %>%
     dplyr::select(-sample_nr)
 
   return(mixed_samples)
