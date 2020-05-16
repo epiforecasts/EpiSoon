@@ -321,6 +321,8 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
 #' @inheritParams bsts_model
 #' @param weighting_period The number of most recent timepoints to hold out to
 #' generate the weights for the mixture model
+#' @param verbose if TRUE, gives a message if number of observations is too
+#' small to do crps weighting
 #' @return A dataframe of predictions (with columns representing the
 #'  time horizon and rows representing samples).
 #' @export
