@@ -1,4 +1,4 @@
-#' @importFrom stats median quantile rpois rt sd setNames message
+#' @importFrom stats median quantile rpois rt sd setNames
 
 globalVariables(
   c("timeseries",
