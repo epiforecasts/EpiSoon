@@ -28,7 +28,10 @@ globalVariables(
     "rts",
     "value",
     "y",
-    "model")
+    "model",
+    "sample_nr",
+    "geography",
+    "y_pred")
 )
 
 check_suggests <- function(pkg_name, dev_message = NULL){
