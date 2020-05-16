@@ -71,6 +71,7 @@ Imports:
     data.table
 Remotes:
   epiforecasts/scoringutils
+  nikosbosse/stackr
 Suggests: 
     knitr,
     rmarkdown,
