@@ -70,7 +70,7 @@ Imports:
     R.utils,
     data.table
 Remotes:
-  epiforecasts/scoringutils
+  epiforecasts/scoringutils,
   nikosbosse/stackr
 Suggests: 
     knitr,
