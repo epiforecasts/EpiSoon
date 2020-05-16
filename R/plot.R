@@ -68,10 +68,10 @@ plot_forecast <- function(forecast = NULL,
     ggplot2::geom_ribbon(ggplot2::aes(ymin = bottom, ymax = top), alpha = 0.1) +
     ggplot2::geom_ribbon(ggplot2::aes(ymin = lower, ymax = upper), alpha = 0.2) +
     ggplot2::geom_point(data = observations,
-                       ggplot2::aes(y = y), size = 1.1,
-                       alpha = ifelse(rlang::has_name(observations, "sample"),
-                                      max(1 / max(observations$sample, na.rm = TRUE), 0.01),
-                                      0.7 )) +
+                        ggplot2::aes(y = y), size = 1.1,
+                        alpha = ifelse(rlang::has_name(observations, "sample"),
+                                       max(1 / max(observations$sample, na.rm = TRUE), 0.01),
+                                       0.7 )) +
     cowplot::theme_cowplot() +
     ggplot2::scale_x_date(date_breaks = "1 week", date_labels = "%b %d") +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90))
@@ -83,4 +83,68 @@ plot_forecast <- function(forecast = NULL,
   }
 
   return(plot)
-  }
+}
+
+
+
+#' Plot a Forecast
+#'
+#' @param forecasts A dataframe as produced by `forecast_rt`
+#' or `forecast_cases`
+#' @param horizon_to_plot Numeric vector, the forecast horizon to plot.
+#'
+#' @inheritParams plot_forecast
+#' @importFrom dplyr filter
+#' @importFrom ggplot2 ggplot aes geom_line geom_ribbon scale_x_date labs
+#' @importFrom cowplot theme_cowplot
+#' @return A `ggplot2` object
+#' @export
+#'
+#' @examples
+#'
+#'
+#' ## Evaluate a model
+#' forecast_eval <- evaluate_model(EpiSoon::example_obs_rts,
+#'                                 EpiSoon::example_obs_cases,
+#'                                 model = function(...) {EpiSoon::bsts_model(model =
+#'                                 function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
+#'                                 serial_interval = EpiSoon::example_serial_interval,
+#'                                 horizon = 7, samples = 10)
+#'
+#' ## Plot Rt forecast
+#' plot_forecast_evaluation(forecast_eval$forecast_rts,
+#'                          EpiSoon::example_obs_rts,
+#'                          horizon_to_plot = 7)
+#'
+#'
+#' ## Plot case forecast
+#' plot_forecast_evaluation(forecast_eval$forecast_cases,
+#'                          EpiSoon::example_obs_cases,
+#'                          horizon_to_plot = 7)
+#'
+plot_forecast_evaluation <- function(forecasts = NULL,
+                                     observations = NULL,
+                                     horizon_to_plot = 1) {
+
+
+  forecasts <- forecasts %>%
+    dplyr::filter(horizon %in% horizon_to_plot)
+
+  plot <- plot_forecast(forecasts,
+                        observations,
+                        obs_cutoff_at_forecast = FALSE)
+
+  return(plot)
+}
+
+
+#' Plot forecast scores
+#'
+#' @return A dataframe of summarised scores in a tidy format.
+#' @export
+#' @examples
+#'
+plot_scores <- function() {
+
+  ##  Some thought required here as to what the best - most general purpose scoring plot would be.
+}
