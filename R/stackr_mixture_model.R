@@ -139,7 +139,7 @@ stackr_mixture_model <- function(y = NULL,
 
                          # bring data in correct format so the stackr can generate
                          # the mixture
-                         as_tibble(out) %>%
+                         dplyr::as_tibble(out) %>%
                            dplyr::mutate(sample_nr = 1:dplyr::n()) %>%
                            tidyr::pivot_longer(names_to = "date",
                                                values_to = "y_pred",
