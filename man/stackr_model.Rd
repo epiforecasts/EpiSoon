@@ -26,6 +26,9 @@ stackr_model(
 
 \item{weighting_period}{The number of most recent timepoints to hold out to
 generate the weights for the mixture model}
+
+\item{verbose}{if TRUE, gives a message if number of observations is too
+small to do crps weighting}
 }
 \value{
 A dataframe of predictions (with columns representing the
