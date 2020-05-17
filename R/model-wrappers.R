@@ -392,7 +392,7 @@ stackr_model <- function(y = NULL,
   if (length(y) <= weighting_period) {
     num_models <- length(models)
     if (verbose) {
-      messsage("Not enough observations to do weighting, doing an ensemble with equal means.
+      message("Not enough observations to do weighting, doing an ensemble with equal means.
         Adjust weighting_period to change.")
     }
     enough_data <- FALSE
