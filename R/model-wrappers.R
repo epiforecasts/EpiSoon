@@ -335,7 +335,9 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
 #'
 #' plot_forecast_evaluation(evaluations$forecast_rts,
 #'                          EpiSoon::example_obs_rts,
-#'                          horizon_to_plot = 7)
+#'                          horizon_to_plot = 7) +
+#' ggplot2::facet_grid(~ model) +
+#' cowplot::panel_border()
 #'}
 #'
 
