@@ -290,3 +290,68 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
   return(sample_from_model)
 
 }
+
+
+
+
+#' forecast model wrapper
+#'
+#' Allows users to forecast using models from the `forecast`
+#' Note that `forecast` must be installed for this model wrapper to be functional.
+#' @param model A `forecast` model object.
+#' @inheritParams bsts_model
+#' @export
+#' @return A dataframe of predictions (with columns representing the
+#' time horizon and rows representing samples).
+#'
+#' @importFrom stats ts
+#' @importFrom purrr map
+#' @importFrom dplyr bind_rows
+#'
+#' @examples \dontrun{
+#'
+#' ## Used on its own
+#' forecast_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
+#'                model = forecast::auto.arima,
+#'                samples = 10, horizon = 7)
+#'
+#'
+#' forecast_rt(EpiSoon::example_obs_rts[1:10, ],
+#'             model = function(...){
+#'             forecast_model(model = forecast::ets, ...)},
+#'             horizon = 7, samples = 10)
+#'}
+#'
+
+forecast_model <- function(y = NULL, samples = NULL,
+                                 horizon = NULL, model = NULL) {
+
+  check_suggests("forecast")
+
+  # convert to timeseries object
+  timeseries <- stats::ts(y)
+
+  # fit and forecast
+  fit <- model(timeseries)
+  prediction <- forecast::forecast(fit, h = horizon)
+
+  ## Extract samples and tidy format
+  sample_from_model <- prediction
+
+  if (samples == 1) {
+    sample_from_model <- data.frame(t(as.data.frame(sample_from_model$mean)))
+    rownames(sample_from_model) <- NULL
+  }else{
+    mean <- as.numeric(prediction$mean)
+    upper <- prediction$upper[, ncol(prediction$upper)]
+    lower <-  prediction$lower[, ncol(prediction$lower)]
+    sd <- (upper - lower) / 3.92
+    sample_from_model <- purrr::map2(mean, sd,
+                                     ~ rnorm(samples, mean = .x,  sd = .y))
+
+    sample_from_model <- dplyr::bind_cols(sample_from_model)
+  }
+
+  return(sample_from_model)
+}
+
