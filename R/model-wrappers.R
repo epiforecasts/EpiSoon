@@ -201,7 +201,7 @@ fable_model <- function(y = NULL, samples = NULL,
   return(samples)
 }
 
-#' forecastHybrid model wrapper
+#' ForecastHybrid model wrapper
 #'
 #' Allows users to forecast using ensembles from the `forecastHybrid` package. Note that
 #' whilst weighted ensembles can be created this is not advised when samples > 1 as currently
@@ -294,9 +294,9 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
 
 
 
-#' forecast model wrapper
+#' Forecast model wrapper
 #'
-#' Allows users to forecast using models from the `forecast`
+#' Allows users to forecast using models from the `forecast` package.
 #' Note that `forecast` must be installed for this model wrapper to be functional.
 #' @param model A `forecast` model object.
 #' @inheritParams bsts_model
@@ -320,6 +320,22 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
 #'             model = function(...){
 #'             forecast_model(model = forecast::ets, ...)},
 #'             horizon = 7, samples = 10)
+#'
+#'
+#'
+#' models <- list("ARIMA" = function(...) {forecast_model(model = forecast::auto.arima, ...)},
+#'                "ETS" = function(...) {forecast_model(model = forecast::ets, ...)},
+#'                "TBATS" = function(...) {forecast_model(model = forecast::tbats, ...)})
+#'
+#' ## Compare models
+#' evaluations <- compare_models(EpiSoon::example_obs_rts,
+#'                               EpiSoon::example_obs_cases, models,
+#'                               horizon = 7, samples = 10,
+#'                               serial_interval = example_serial_interval)
+#'
+#' plot_forecast_evaluation(evaluations$forecast_rts,
+#'                          EpiSoon::example_obs_rts,
+#'                          horizon_to_plot = 7)
 #'}
 #'
 
