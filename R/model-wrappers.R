@@ -300,6 +300,7 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
 #' Note that `forecast` must be installed for this model wrapper to be functional.
 #' @param model A `forecast` model object.
 #' @inheritParams bsts_model
+#' @param ... pass further arguments to the forecast models
 #' @export
 #' @return A dataframe of predictions (with columns representing the
 #' time horizon and rows representing samples).

@@ -2,9 +2,9 @@
 % Please edit documentation in R/model-wrappers.R
 \name{forecast_model}
 \alias{forecast_model}
-\title{forecast model wrapper}
+\title{Forecast model wrapper}
 \usage{
-forecast_model(y = NULL, samples = NULL, horizon = NULL, model = NULL)
+forecast_model(y = NULL, samples = NULL, horizon = NULL, model = NULL, ...)
 }
 \arguments{
 \item{y}{Numeric vector of time points to forecast}
@@ -14,13 +14,15 @@ forecast_model(y = NULL, samples = NULL, horizon = NULL, model = NULL)
 \item{horizon}{Numeric, the time horizon over which to predict.}
 
 \item{model}{A \code{forecast} model object.}
+
+\item{...}{pass further arguments to the forecast models}
 }
 \value{
 A dataframe of predictions (with columns representing the
 time horizon and rows representing samples).
 }
 \description{
-Allows users to forecast using models from the \code{forecast}
+Allows users to forecast using models from the \code{forecast} package.
 Note that \code{forecast} must be installed for this model wrapper to be functional.
 }
 \examples{
@@ -36,6 +38,24 @@ forecast_rt(EpiSoon::example_obs_rts[1:10, ],
             model = function(...){
             forecast_model(model = forecast::ets, ...)},
             horizon = 7, samples = 10)
+
+
+
+models <- list("ARIMA" = function(...) {forecast_model(model = forecast::auto.arima, ...)},
+               "ETS" = function(...) {forecast_model(model = forecast::ets, ...)},
+               "TBATS" = function(...) {forecast_model(model = forecast::tbats, ...)})
+
+## Compare models
+evaluations <- compare_models(EpiSoon::example_obs_rts,
+                              EpiSoon::example_obs_cases, models,
+                              horizon = 7, samples = 10,
+                              serial_interval = example_serial_interval)
+
+plot_forecast_evaluation(evaluations$forecast_rts,
+                         EpiSoon::example_obs_rts,
+                         horizon_to_plot = 7) +
+ggplot2::facet_grid(~ model) +
+cowplot::panel_border()
 }
 
 }
