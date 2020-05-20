@@ -324,7 +324,7 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
 #'
 
 forecast_model <- function(y = NULL, samples = NULL,
-                                 horizon = NULL, model = NULL) {
+                           horizon = NULL, model = NULL) {
 
   check_suggests("forecast")
 
