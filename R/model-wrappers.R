@@ -397,7 +397,7 @@ forecast_model <- function(y = NULL, samples = NULL,
 #' to generate a mixture model with the weights obtained in the previous step.
 #'
 #' The weights are computed using \code{\link[stackr]{crps_weights}} from
-#' the package `stackr`to minimise CRPS. The function
+#' the package `stackr` to minimise CRPS. The function
 #' \code{\link[stackr]{mixture_from_samples}} from the same package is used
 #' to draw samples from the
 #' individual models to form the mixture models.
@@ -489,6 +489,7 @@ stackr_model <- function(y = NULL,
 
   make_forecast <- function(models,
                             y,
+                            y_obs = NULL,
                             samples,
                             horizon) {
 
@@ -499,16 +500,21 @@ stackr_model <- function(y = NULL,
                                                     horizon = horizon)
 
                                  # put data in correct format for stackr package
-                                 dplyr::as_tibble(out) %>%
+                                 out <- dplyr::as_tibble(out) %>%
                                    dplyr::mutate(sample_nr = 1:dplyr::n()) %>%
                                    tidyr::pivot_longer(names_to = "date",
                                                        values_to = "y_pred",
                                                        cols = -sample_nr) %>%
-                                   dplyr::group_by(sample_nr) %>%
-                                   dplyr::mutate(y_obs = y_weight) %>%
-                                   dplyr::ungroup() %>%
-                                   dplyr::mutate(model = names(models)[i],
-                                                 geography = "Testland")
+                                   dplyr::mutate(model = names(models)[i])
+
+                                 if(!is.null(y_obs)) {
+                                   out %>%
+                                     dplyr::group_by(sample_nr) %>%
+                                     dplyr::mutate("y_obs" = y_obs) %>%
+                                     dplyr::ungroup()
+                                 } else {
+                                   return(out)
+                                 }
                                })
     return(forecast)
   }
@@ -524,11 +530,12 @@ stackr_model <- function(y = NULL,
     #### fit models on train data and generate forecasts
     train_forecast <- make_forecast(models,
                                     y = y_train,
+                                    y_obs = y_weight,
                                     samples = samples,
                                     horizon = weighting_period)
 
     # obtain weights based on the training forecasts generated
-    w <- stackr::stack_crps(train_forecast)
+    w <- stackr::crps_weights(train_forecast)
 
   } else {
     # not enough data --> make ensemble with equal means
@@ -537,17 +544,16 @@ stackr_model <- function(y = NULL,
   }
 
   #### generate real forecasts and use weights to stack
-  forecasts <- make_forecast(models,
+  forecasts <- make_forecast(models = models,
                              y = y,
                              samples = samples,
-                             horizon = weighting_period)
+                             horizon = horizon)
 
   # generate mixture
-  mix <- stackr::mixture_from_sample(forecasts, weights = w)
+  mix <- stackr::mixture_from_samples(forecasts, weights = w)
 
   # make output compatible with what the other EpiSoon functions return
   mixed_samples <- mix %>%
-    dplyr::select(-model, -geography) %>%
     tidyr::pivot_wider(id_cols = sample_nr,
                        values_from = y_pred,
                        names_from = date) %>%
