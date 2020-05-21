@@ -51,9 +51,9 @@ create model weights in an ensemble based on CRPS. All models are then
 refitted for the entire timeseries and predictions are generated from these
 models. Draws from the individual model predictive samples are then used
 to generate a mixture model with the weights obtained in the previous step.
-The weights are computed using stack_crps from
+The weights are computed using crps_weights from
 the package stackr to minimise CRPS. The function
-mixture_from_sample from the same package is used
+mixture_from_samples from the same package is used
 to draw samples from the
 individual models to form the mixture models." />
 
@@ -147,9 +147,9 @@ create model weights in an ensemble based on CRPS. All models are then
 refitted for the entire timeseries and predictions are generated from these
 models. Draws from the individual model predictive samples are then used
 to generate a mixture model with the weights obtained in the previous step.</p>
-<p>The weights are computed using <code><a href='https://rdrr.io/pkg/stackr/man/stack_crps.html'>stack_crps</a></code> from
+<p>The weights are computed using <code><a href='https://rdrr.io/pkg/stackr/man/crps_weights.html'>crps_weights</a></code> from
 the package <code>stackr</code> to minimise CRPS. The function
-<code><a href='https://rdrr.io/pkg/stackr/man/mixture_from_sample.html'>mixture_from_sample</a></code> from the same package is used
+<code><a href='https://rdrr.io/pkg/stackr/man/mixture_from_samples.html'>mixture_from_samples</a></code> from the same package is used
 to draw samples from the
 individual models to form the mixture models.</p>
     </div>
