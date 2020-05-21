@@ -402,6 +402,7 @@ stackr_model <- function(y = NULL,
 
   make_forecast <- function(models,
                             y,
+                            y_obs = NULL,
                             samples,
                             horizon) {
 
@@ -412,15 +413,21 @@ stackr_model <- function(y = NULL,
                                                     horizon = horizon)
 
                                  # put data in correct format for stackr package
-                                 dplyr::as_tibble(out) %>%
+                                 out <- dplyr::as_tibble(out) %>%
                                    dplyr::mutate(sample_nr = 1:dplyr::n()) %>%
                                    tidyr::pivot_longer(names_to = "date",
                                                        values_to = "y_pred",
                                                        cols = -sample_nr) %>%
-                                   dplyr::group_by(sample_nr) %>%
-                                   dplyr::mutate(y_obs = y_weight) %>%
-                                   dplyr::ungroup() %>%
                                    dplyr::mutate(model = names(models)[i])
+
+                                 if(!is.null(y_obs)) {
+                                   out %>%
+                                     dplyr::group_by(sample_nr) %>%
+                                     dplyr::mutate("y_obs" = y_obs) %>%
+                                     dplyr::ungroup()
+                                 } else {
+                                   return(out)
+                                 }
                                })
     return(forecast)
   }
@@ -436,6 +443,7 @@ stackr_model <- function(y = NULL,
     #### fit models on train data and generate forecasts
     train_forecast <- make_forecast(models,
                                     y = y_train,
+                                    y_obs = y_weight,
                                     samples = samples,
                                     horizon = weighting_period)
 
@@ -449,10 +457,10 @@ stackr_model <- function(y = NULL,
   }
 
   #### generate real forecasts and use weights to stack
-  forecasts <- make_forecast(models,
+  forecasts <- make_forecast(models = models,
                              y = y,
                              samples = samples,
-                             horizon = weighting_period)
+                             horizon = horizon)
 
   # generate mixture
   mix <- stackr::mixture_from_samples(forecasts, weights = w)
