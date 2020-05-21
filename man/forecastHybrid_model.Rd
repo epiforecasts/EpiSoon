@@ -2,7 +2,7 @@
 % Please edit documentation in R/model-wrappers.R
 \name{forecastHybrid_model}
 \alias{forecastHybrid_model}
-\title{ForecastHybrid model wrapper}
+\title{forecastHybrid model wrapper}
 \usage{
 forecastHybrid_model(
   y = NULL,

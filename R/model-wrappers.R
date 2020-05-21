@@ -396,9 +396,9 @@ forecast_model <- function(y = NULL, samples = NULL,
 #' models. Draws from the individual model predictive samples are then used
 #' to generate a mixture model with the weights obtained in the previous step.
 #'
-#' The weights are computed using \code{\link[stackr]{stack_crps}} from
-#' the package `stackr` to minimise CRPS. The function
-#' \code{\link[stackr]{mixture_from_sample}} from the same package is used
+#' The weights are computed using \code{\link[stackr]{crps_weights}} from
+#' the package `stackr`to minimise CRPS. The function
+#' \code{\link[stackr]{mixture_from_samples}} from the same package is used
 #' to draw samples from the
 #' individual models to form the mixture models.
 #'
