@@ -309,9 +309,9 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
 #' models. Draws from the individual model predictive samples are then used
 #' to generate a mixture model with the weights obtained in the previous step.
 #'
-#' The weights are computed using \code{\link[stackr]{stack_crps}} from
+#' The weights are computed using \code{\link[stackr]{crps_weights}} from
 #' the package `stackr` to minimise CRPS. The function
-#' \code{\link[stackr]{mixture_from_sample}} from the same package is used
+#' \code{\link[stackr]{mixture_from_samples}} from the same package is used
 #' to draw samples from the
 #' individual models to form the mixture models.
 #'
@@ -441,7 +441,7 @@ stackr_model <- function(y = NULL,
                                     horizon = weighting_period)
 
     # obtain weights based on the training forecasts generated
-    w <- stackr::stack_crps(train_forecast)
+    w <- stackr::crps_weights(train_forecast)
 
   } else {
     # not enough data --> make ensemble with equal means
@@ -456,7 +456,7 @@ stackr_model <- function(y = NULL,
                              horizon = weighting_period)
 
   # generate mixture
-  mix <- stackr::mixture_from_sample(forecasts, weights = w)
+  mix <- stackr::mixture_from_samples(forecasts, weights = w)
 
   # make output compatible with what the other EpiSoon functions return
   mixed_samples <- mix %>%
