@@ -420,8 +420,7 @@ stackr_model <- function(y = NULL,
                                    dplyr::group_by(sample_nr) %>%
                                    dplyr::mutate(y_obs = y_weight) %>%
                                    dplyr::ungroup() %>%
-                                   dplyr::mutate(model = names(models)[i],
-                                                 geography = "Testland")
+                                   dplyr::mutate(model = names(models)[i])
                                })
     return(forecast)
   }
@@ -460,7 +459,6 @@ stackr_model <- function(y = NULL,
 
   # make output compatible with what the other EpiSoon functions return
   mixed_samples <- mix %>%
-    dplyr::select(-model, -geography) %>%
     tidyr::pivot_wider(id_cols = sample_nr,
                        values_from = y_pred,
                        names_from = date) %>%
