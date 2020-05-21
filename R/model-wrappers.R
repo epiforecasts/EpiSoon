@@ -201,7 +201,7 @@ fable_model <- function(y = NULL, samples = NULL,
   return(samples)
 }
 
-#' ForecastHybrid model wrapper
+#' forecastHybrid model wrapper
 #'
 #' Allows users to forecast using ensembles from the `forecastHybrid` package. Note that
 #' whilst weighted ensembles can be created this is not advised when samples > 1 as currently
@@ -315,13 +315,18 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
 #'                model = forecast::auto.arima,
 #'                samples = 10, horizon = 7)
 #'
-#'
+#' ## Used for forecasting
 #' forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 #'             model = function(...){
 #'             forecast_model(model = forecast::ets, ...)},
 #'             horizon = 7, samples = 10)
 #'
-#'
+#' # run with non-default arguments
+#' forecast_rt(EpiSoon::example_obs_rts[1:10, ],
+#'             model = function(...){
+#'             forecast_model(model = forecast::ets,
+#'             damped = TRUE, ...)},
+#'             horizon = 7, samples = 10)
 #'
 #' models <- list("ARIMA" = function(...) {forecast_model(model = forecast::auto.arima, ...)},
 #'                "ETS" = function(...) {forecast_model(model = forecast::ets, ...)},
@@ -351,7 +356,7 @@ forecast_model <- function(y = NULL, samples = NULL,
   timeseries <- stats::ts(y)
 
   # fit and forecast
-  fit <- model(timeseries)
+  fit <- model(timeseries, ...)
   prediction <- forecast::forecast(fit, h = horizon)
 
   ## Extract samples and tidy format
