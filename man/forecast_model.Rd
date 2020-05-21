@@ -2,7 +2,7 @@
 % Please edit documentation in R/model-wrappers.R
 \name{forecast_model}
 \alias{forecast_model}
-\title{Forecast model wrapper}
+\title{forecast Model Wrapper}
 \usage{
 forecast_model(y = NULL, samples = NULL, horizon = NULL, model = NULL, ...)
 }

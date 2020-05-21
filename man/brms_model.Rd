@@ -2,7 +2,7 @@
 % Please edit documentation in R/model-wrappers.R
 \name{brms_model}
 \alias{brms_model}
-\title{brms model wrapper}
+\title{brms Model Wrapper}
 \usage{
 brms_model(
   y = NULL,

@@ -1,4 +1,4 @@
-#' BSTS model wrapper
+#' bsts Model Wrapper
 #'
 #' @param y Numeric vector of time points to forecast
 #' @param samples Numeric, number of samples to take.
@@ -51,7 +51,7 @@ bsts_model <- function(y = NULL, samples = NULL,
 
 }
 
-#' brms model wrapper
+#' brms Model Wrapper
 #'
 #' Allows users to specify a model using the [brms::bf()]  wrapper from `brms`
 #' Note that `brms` and `tidybayes` must both be installed for this
@@ -128,7 +128,7 @@ brms_model <- function(y = NULL, samples = NULL,
 
 }
 
-#' Fable model wrapper
+#' fable Model Wrapper
 #'
 #'
 #' @description Provides an interface for models from the `fable` package.
@@ -201,7 +201,7 @@ fable_model <- function(y = NULL, samples = NULL,
   return(samples)
 }
 
-#' forecastHybrid model wrapper
+#' forecastHybrid Model Wrapper
 #'
 #' Allows users to forecast using ensembles from the `forecastHybrid` package. Note that
 #' whilst weighted ensembles can be created this is not advised when samples > 1 as currently
@@ -293,7 +293,7 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
 
 
 
-#' Forecast model wrapper
+#' forecast Model Wrapper
 #'
 #' Allows users to forecast using models from the `forecast` package.
 #' Note that `forecast` must be installed for this model wrapper to be functional.
@@ -380,7 +380,7 @@ forecast_model <- function(y = NULL, samples = NULL,
 }
 
 
-#' Stack models according to CRPS
+#' Stack Models According to CRPS
 #'
 #' @description
 #' Provides a wrapper for different EpiSoon model wrappers and generates

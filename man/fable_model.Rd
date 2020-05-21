@@ -2,7 +2,7 @@
 % Please edit documentation in R/model-wrappers.R
 \name{fable_model}
 \alias{fable_model}
-\title{Fable model wrapper}
+\title{fable Model Wrapper}
 \usage{
 fable_model(y = NULL, samples = NULL, horizon = NULL, model = NULL)
 }

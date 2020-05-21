@@ -2,7 +2,7 @@
 % Please edit documentation in R/model-wrappers.R
 \name{bsts_model}
 \alias{bsts_model}
-\title{BSTS model wrapper}
+\title{bsts Model Wrapper}
 \usage{
 bsts_model(y = NULL, samples = NULL, horizon = NULL, model = NULL)
 }
@@ -19,7 +19,7 @@ bsts_model(y = NULL, samples = NULL, horizon = NULL, model = NULL)
 A dataframe of predictions (with columns representing the time horizon and rows representing samples).
 }
 \description{
-BSTS model wrapper
+bsts Model Wrapper
 }
 \examples{
 \dontrun{
