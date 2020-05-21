@@ -48,9 +48,9 @@ refitted for the entire timeseries and predictions are generated from these
 models. Draws from the individual model predictive samples are then used
 to generate a mixture model with the weights obtained in the previous step.
 
-The weights are computed using \code{\link[stackr]{stack_crps}} from
+The weights are computed using \code{\link[stackr]{crps_weights}} from
 the package \code{stackr} to minimise CRPS. The function
-\code{\link[stackr]{mixture_from_sample}} from the same package is used
+\code{\link[stackr]{mixture_from_samples}} from the same package is used
 to draw samples from the
 individual models to form the mixture models.
 }
