@@ -85,3 +85,55 @@ iterative_case_forecast <- function(it_fit_samples = NULL, cases = NULL,
   return(predictions)
 
 }
+
+
+
+
+#' Iteratively Forecast Cases Directly
+#'
+#' @param min_points Numeric, defaults to 3. The minimum number of time points at which to begin
+#' iteratively evaluating the forecast.
+#' @return
+#' @export
+#' @inheritParams forecast_cases_firect
+#'
+#' @importFrom purrr map_dfr safely
+#' @importFrom dplyr filter
+#' @examples
+#'
+#'
+#' iterative_case_forecast_direct(EpiSoon::example_obs_cases,
+#'                                model = function(...) {EpiSoon::bsts_model(model =
+#'                                   function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
+#'                                horizon = 7, samples = 10, min_points = 4)
+#'
+
+iterative_case_forecast_direct <- function(cases,
+                                           model = NULL,
+                                           horizon = 7,
+                                           samples = 1000,
+                                           timeout = 30,
+                                           bound_cases = TRUE,
+                                           min_points = 3) {
+
+  safe_fit <- purrr::safely(forecast_cases_direct)
+
+  ## Dates to iterate over - remove first three to allow enough data for modelling
+  dates <- cases$date[-c(1:min_points)]
+  names(dates) <- cases$date[-c(1:min_points)]
+
+  ## Iteratively fit
+  samples <- purrr::map_dfr(dates, ~ safe_fit(dplyr::filter(cases, date <= .),
+                                              model = model,
+                                              samples = samples,
+                                              horizon = horizon,
+                                              bound_cases = bound_cases,
+                                              timeout = timeout)[[1]],
+                            .id = "forecast_date")
+
+
+
+  return(samples)
+}
+
+
