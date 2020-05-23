@@ -145,12 +145,24 @@ score_forecast <- function(fit_samples, observations, scores = "all") {
 #' pred_cases <- forecast_cases(EpiSoon::example_obs_cases,
 #'                              samples, EpiSoon::example_serial_interval)
 #'
+#' ## predict cases directly and score
+#' pred_cases_direct <- forecast_cases_direct(EpiSoon::example_obs_cases[1:10, ],
+#'                                           model = function(...){
+#'                                               EpiSoon::bsts_model(model = function(ss, y){
+#'                                               bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
+#'                                           },
+#'                                           horizon = 7, samples = 10)
+#'
 #' ## Score the model fit (with observations during the time horizon of the forecast)
 #' score_case_forecast(pred_cases, EpiSoon::example_obs_cases)
 #'
+#' ## with direct case forecast
+#' score_case_forecast(pred_cases_direct, EpiSoon::example_obs_cases)
 #'
 #' ## Score the model fit (with observations during the time horizon of the forecast)
 #' score_case_forecast(pred_cases, EpiSoon::example_obs_cases, scores = c("crps", "sharpness", "bias"))
+#'
+
 score_case_forecast <- function(pred_cases, obs_cases, scores = "all") {
 
   pred_cases <-  dplyr::rename(pred_cases, rt = cases)
