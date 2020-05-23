@@ -66,8 +66,20 @@ summarise_forecast <- function(fit_samples) {
 #' case_forecast <- forecast_cases(EpiSoon::example_obs_cases,
 #'                                 forecast,
 #'                                 EpiSoon::example_serial_interval)
+#'
+#' ## for direct case forecast
+#' case_forecast_direct <- forecast_cases_direct(EpiSoon::example_obs_cases[1:10, ],
+#'                       model = function(...){
+#'                         EpiSoon::bsts_model(model = function(ss, y){
+#'                         bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
+#'                       },
+#'                       horizon = 7, samples = 10)
+#'
 #' ## Summarise case forecast
 #' summarise_case_forecast(case_forecast)
+#' summarise_case_forecast(case_forecast_direct)
+#'
+
 summarise_case_forecast <- function(pred_cases) {
 
 
