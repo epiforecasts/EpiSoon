@@ -2,7 +2,7 @@
 % Please edit documentation in R/model-wrappers.R
 \name{stackr_model}
 \alias{stackr_model}
-\title{Stack models according to CRPS}
+\title{Stack Models According to CRPS}
 \usage{
 stackr_model(
   y = NULL,

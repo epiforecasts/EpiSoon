@@ -1,4 +1,4 @@
-#' BSTS model wrapper
+#' bsts Model Wrapper
 #'
 #' @param y Numeric vector of time points to forecast
 #' @param samples Numeric, number of samples to take.
@@ -51,7 +51,7 @@ bsts_model <- function(y = NULL, samples = NULL,
 
 }
 
-#' brms model wrapper
+#' brms Model Wrapper
 #'
 #' Allows users to specify a model using the [brms::bf()]  wrapper from `brms`
 #' Note that `brms` and `tidybayes` must both be installed for this
@@ -128,7 +128,7 @@ brms_model <- function(y = NULL, samples = NULL,
 
 }
 
-#' Fable model wrapper
+#' fable Model Wrapper
 #'
 #'
 #' @description Provides an interface for models from the `fable` package.
@@ -201,7 +201,7 @@ fable_model <- function(y = NULL, samples = NULL,
   return(samples)
 }
 
-#' forecastHybrid model wrapper
+#' forecastHybrid Model Wrapper
 #'
 #' Allows users to forecast using ensembles from the `forecastHybrid` package. Note that
 #' whilst weighted ensembles can be created this is not advised when samples > 1 as currently
@@ -293,7 +293,94 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
 
 
 
-#' Stack models according to CRPS
+#' forecast Model Wrapper
+#'
+#' Allows users to forecast using models from the `forecast` package.
+#' Note that `forecast` must be installed for this model wrapper to be functional.
+#' @param model A `forecast` model object.
+#' @inheritParams bsts_model
+#' @param ... pass further arguments to the forecast models
+#' @export
+#' @return A dataframe of predictions (with columns representing the
+#' time horizon and rows representing samples).
+#'
+#' @importFrom stats ts
+#' @importFrom purrr map
+#' @importFrom dplyr bind_rows
+#'
+#' @examples \dontrun{
+#'
+#' ## Used on its own
+#' forecast_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
+#'                model = forecast::auto.arima,
+#'                samples = 10, horizon = 7)
+#'
+#' ## Used for forecasting
+#' forecast_rt(EpiSoon::example_obs_rts[1:10, ],
+#'             model = function(...){
+#'             forecast_model(model = forecast::ets, ...)},
+#'             horizon = 7, samples = 10)
+#'
+#' # run with non-default arguments
+#' forecast_rt(EpiSoon::example_obs_rts[1:10, ],
+#'             model = function(...){
+#'             forecast_model(model = forecast::ets,
+#'             damped = TRUE, ...)},
+#'             horizon = 7, samples = 10)
+#'
+#' models <- list("ARIMA" = function(...) {forecast_model(model = forecast::auto.arima, ...)},
+#'                "ETS" = function(...) {forecast_model(model = forecast::ets, ...)},
+#'                "TBATS" = function(...) {forecast_model(model = forecast::tbats, ...)})
+#'
+#' ## Compare models
+#' evaluations <- compare_models(EpiSoon::example_obs_rts,
+#'                               EpiSoon::example_obs_cases, models,
+#'                               horizon = 7, samples = 10,
+#'                               serial_interval = example_serial_interval)
+#'
+#' plot_forecast_evaluation(evaluations$forecast_rts,
+#'                          EpiSoon::example_obs_rts,
+#'                          horizon_to_plot = 7) +
+#' ggplot2::facet_grid(~ model) +
+#' cowplot::panel_border()
+#'}
+#'
+
+forecast_model <- function(y = NULL, samples = NULL,
+                           horizon = NULL, model = NULL,
+                           ...) {
+
+  check_suggests("forecast")
+
+  # convert to timeseries object
+  timeseries <- stats::ts(y)
+
+  # fit and forecast
+  fit <- model(timeseries, ...)
+  prediction <- forecast::forecast(fit, h = horizon)
+
+  ## Extract samples and tidy format
+  sample_from_model <- prediction
+
+  if (samples == 1) {
+    sample_from_model <- data.frame(t(as.data.frame(sample_from_model$mean)))
+    rownames(sample_from_model) <- NULL
+  }else{
+    mean <- as.numeric(prediction$mean)
+    upper <- prediction$upper[, ncol(prediction$upper)]
+    lower <-  prediction$lower[, ncol(prediction$lower)]
+    sd <- (upper - lower) / 3.92
+    sample_from_model <- purrr::map2(mean, sd,
+                                     ~ rnorm(samples, mean = .x,  sd = .y))
+
+    sample_from_model <- dplyr::bind_cols(sample_from_model)
+  }
+
+  return(sample_from_model)
+}
+
+
+#' Stack Models According to CRPS
 #'
 #' @description
 #' Provides a wrapper for different EpiSoon model wrappers and generates
@@ -474,6 +561,5 @@ stackr_model <- function(y = NULL,
 
   return(mixed_samples)
 }
-
 
 
