@@ -266,7 +266,7 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
   )
 
   ## Predict using the model
-  prediction <- do.call(forecastHybrid:::forecast.hybridModel,
+  prediction <- do.call(forecast,
                         c(list(object = fitted_model, h = horizon),
                           forecast_params))
 

@@ -69,8 +69,9 @@ Imports:
     HDInterval,
     R.utils,
     data.table
+Additional_repositories: 
+  https://epiforecasts.io/drat/
 Remotes:
-  epiforecasts/scoringutils,
   nikosbosse/stackr
 Suggests: 
     knitr,
