@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Iteratively forecast using a BSTS model — iterative_rt_forecast • EpiSoon</title>
+<title>Iteratively Forecast — iterative_rt_forecast • EpiSoon</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Iteratively forecast using a BSTS model — iterative_rt_forecast" />
-<meta property="og:description" content="Iteratively forecast using a BSTS model" />
+<meta property="og:title" content="Iteratively Forecast — iterative_rt_forecast" />
+<meta property="og:description" content="Iteratively Forecast" />
 
 
 
@@ -115,13 +115,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Iteratively forecast using a BSTS model</h1>
+    <h1>Iteratively Forecast</h1>
     
     <div class="hidden name"><code>iterative_rt_forecast.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Iteratively forecast using a BSTS model</p>
+    <p>Iteratively Forecast</p>
     </div>
 
     <pre class="usage"><span class='fu'>iterative_rt_forecast</span>(
@@ -179,24 +179,12 @@ iteratively evaluating the forecast.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'>iterative_rt_forecast</span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>,
                       <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>) {<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
                     <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)}, <span class='no'>...</span>)},
-                      <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>min_points</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1,260 x 5</span><span>
-#&gt;    forecast_date sample date          rt horizon
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 2020-03-05         1 2020-03-06  2.20       1
-#&gt; </span><span style='color: #555555;'> 2</span><span> 2020-03-05         2 2020-03-06  2.21       1
-#&gt; </span><span style='color: #555555;'> 3</span><span> 2020-03-05         3 2020-03-06  2.21       1
-#&gt; </span><span style='color: #555555;'> 4</span><span> 2020-03-05         4 2020-03-06  2.12       1
-#&gt; </span><span style='color: #555555;'> 5</span><span> 2020-03-05         5 2020-03-06  2.26       1
-#&gt; </span><span style='color: #555555;'> 6</span><span> 2020-03-05         6 2020-03-06  2.21       1
-#&gt; </span><span style='color: #555555;'> 7</span><span> 2020-03-05         7 2020-03-06  2.26       1
-#&gt; </span><span style='color: #555555;'> 8</span><span> 2020-03-05         8 2020-03-06  2.25       1
-#&gt; </span><span style='color: #555555;'> 9</span><span> 2020-03-05         9 2020-03-06  2.24       1
-#&gt; </span><span style='color: #555555;'>10</span><span> 2020-03-05        10 2020-03-06  2.30       1
-#&gt; </span><span style='color: #555555;'># … with 1,250 more rows</span><span></div></span></pre>
+                      <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>min_points</span> <span class='kw'>=</span> <span class='fl'>4</span>) <span class='kw'>-&gt;</span> <span class='no'>tmp</span>
+                      }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

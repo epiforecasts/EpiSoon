@@ -163,7 +163,7 @@ up to the date of the forecast.</p></td>
     <p>A <code>ggplot2</code> object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## Forecast an Rt sample</span>
 <span class='no'>samples</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
                      <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>) {<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
@@ -174,14 +174,16 @@ up to the date of the forecast.</p></td>
 <span class='no'>summarised_forecast</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='summarise_forecast.html'>summarise_forecast</a></span>(<span class='no'>samples</span>)
 
 <span class='co'>## Plot forecast_cases</span>
-<span class='fu'>plot_forecast</span>(<span class='no'>summarised_forecast</span>, <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>)</div><div class='img'><img src='plot_forecast-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_forecast</span>(<span class='no'>summarised_forecast</span>, <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>)
+
 <span class='co'>## Forecast a case sample</span>
 <span class='no'>pred_cases</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='forecast_cases.html'>forecast_cases</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_cases.html'>example_obs_cases</a></span>, <span class='no'>samples</span>,
                             <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_serial_interval.html'>example_serial_interval</a></span>)
 
 <span class='no'>summarised_case_forecast</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='summarise_case_forecast.html'>summarise_case_forecast</a></span>(<span class='no'>pred_cases</span>)
 
-<span class='fu'>plot_forecast</span>(<span class='no'>summarised_case_forecast</span>, <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_cases.html'>example_obs_cases</a></span>)</div><div class='img'><img src='plot_forecast-2.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>plot_forecast</span>(<span class='no'>summarised_case_forecast</span>, <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_cases.html'>example_obs_cases</a></span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

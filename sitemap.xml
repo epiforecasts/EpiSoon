@@ -40,6 +40,9 @@
     <loc>epiforecasts.io/EpiSoon//reference/forecast_cases.html</loc>
   </url>
   <url>
+    <loc>epiforecasts.io/EpiSoon//reference/forecast_cases_directly.html</loc>
+  </url>
+  <url>
     <loc>epiforecasts.io/EpiSoon//reference/forecast_model.html</loc>
   </url>
   <url>
@@ -47,6 +50,9 @@
   </url>
   <url>
     <loc>epiforecasts.io/EpiSoon//reference/iterative_case_forecast.html</loc>
+  </url>
+  <url>
+    <loc>epiforecasts.io/EpiSoon//reference/iterative_direct_case_forecast.html</loc>
   </url>
   <url>
     <loc>epiforecasts.io/EpiSoon//reference/iterative_rt_forecast.html</loc>

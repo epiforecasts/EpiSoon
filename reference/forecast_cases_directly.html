@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Score a Model Fit — score_forecast • EpiSoon</title>
+<title>Forecasts Cases Directly — forecast_cases_directly • EpiSoon</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Score a Model Fit — score_forecast" />
-<meta property="og:description" content="Score a Model Fit" />
+<meta property="og:title" content="Forecasts Cases Directly — forecast_cases_directly" />
+<meta property="og:description" content="Forecasts Cases Directly" />
 
 
 
@@ -115,56 +115,67 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Score a Model Fit</h1>
+    <h1>Forecasts Cases Directly</h1>
     
-    <div class="hidden name"><code>score_forecast.Rd</code></div>
+    <div class="hidden name"><code>forecast_cases_directly.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Score a Model Fit</p>
+    <p>Forecasts Cases Directly</p>
     </div>
 
-    <pre class="usage"><span class='fu'>score_forecast</span>(<span class='no'>fit_samples</span>, <span class='no'>observations</span>, <span class='kw'>scores</span> <span class='kw'>=</span> <span class='st'>"all"</span>)</pre>
+    <pre class="usage"><span class='fu'>forecast_cases_directly</span>(
+  <span class='kw'>cases</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>model</span>,
+  <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>,
+  <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>bound_rt</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>100</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>fit_samples</th>
-      <td><p>A dataframe as produced by <code>EpiSoon::forecast</code>.</p></td>
+      <th>cases</th>
+      <td><p>A dataframe containing <code>date</code> and <code>cases</code> variables</p></td>
     </tr>
     <tr>
-      <th>observations</th>
-      <td><p>A dataframe of observations against which to score. Should contain a <code>date</code> and <code>rt</code> column.</p></td>
+      <th>model</th>
+      <td><p>A model object in the format of <code>bsts_model</code> or <code>fable_model</code>. See the corresponding
+help files for details.</p></td>
     </tr>
     <tr>
-      <th>scores</th>
-      <td><p>Character vector defaulting to "all". Select which scores to return, default is all scores but
-any subset can be returned.</p></td>
+      <th>horizon</th>
+      <td><p>Numeric, the time horizon over which to predict.</p></td>
+    </tr>
+    <tr>
+      <th>samples</th>
+      <td><p>Numeric, number of samples to take.</p></td>
+    </tr>
+    <tr>
+      <th>bound_rt</th>
+      <td><p>Logical, defaults to <code>TRUE</code>. Should Rt values be bounded to be greater than or
+equal to 0.</p></td>
+    </tr>
+    <tr>
+      <th>timeout</th>
+      <td><p>Numeric, timeout of model fitting in seconds. Defaults to 30 seconds.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataframe containing the following scores per forecast timepoint: dss, crps,
-logs, bias, and sharpness as well as the forecast date and time horizon.</p>
+    <p>Forecast cases over a future forecast horizon</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'>## Fit a model (using a subset of observations)</span>
-<span class='no'>samples</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
-                     <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>) {<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
-                    <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)}, <span class='no'>...</span>)},
-                     <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)
-
-<span class='co'>## Score the model fit (with observations during the time horizon of the forecast)</span>
-<span class='fu'>score_forecast</span>(<span class='no'>samples</span>, <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>)
-
-<span class='co'>## Return just CRPS, bias and sharpness</span>
-<span class='fu'>score_forecast</span>(<span class='no'>samples</span>, <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>, <span class='kw'>scores</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"crps"</span>, <span class='st'>"sharpness"</span>, <span class='st'>"bias"</span>))
-
-<span class='co'>## Return just the CRPS</span>
-<span class='fu'>score_forecast</span>(<span class='no'>samples</span>, <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>, <span class='kw'>scores</span> <span class='kw'>=</span> <span class='st'>"crps"</span>)
+<span class='fu'>forecast_cases_directly</span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_cases.html'>example_obs_cases</a></span>,
+                <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>){
+                        <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){
+                        <span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/auto.ar.html'>AddAutoAr</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>lags</span> <span class='kw'>=</span> <span class='fl'>10</span>)}, <span class='no'>...</span>)
+                        },
+                        <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
