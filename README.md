@@ -3,6 +3,7 @@
 
 [![R build
 status](https://github.com/epiforecasts/EpiSoon/workflows/R-CMD-check/badge.svg)](https://github.com/epiforecasts/EpiSoon)
+![Docker Pulls](https://img.shields.io/docker/pulls/seabbs/episoon)
 [![DOI](https://zenodo.org/badge/248311916.svg)](https://zenodo.org/badge/latestdoi/248311916)
 
 **Aim:** To forecast the time-varying reproduction number and use this
