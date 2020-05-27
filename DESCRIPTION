@@ -79,6 +79,7 @@ Suggests:
     fabletools,
     tsibble,
     forecastHybrid,
+    forecast,
     fable,
     bsts,
     feasts,
