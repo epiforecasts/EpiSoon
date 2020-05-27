@@ -13,10 +13,10 @@ knitr::opts_chunk$set(
 # EpiSoon
 
 [![R build status](https://github.com/epiforecasts/EpiSoon/workflows/R-CMD-check/badge.svg)](https://github.com/epiforecasts/EpiSoon)
+[![Docker Pulls](https://img.shields.io/docker/pulls/seabbs/episoon)](https://hub.docker.com/repository/docker/seabbs/episoon)
 [![DOI](https://zenodo.org/badge/248311916.svg)](https://zenodo.org/badge/latestdoi/248311916)
 
-
-**Aim:** To forecast the time-varying reproduction number and use this to forecast reported case counts. 
+This package provides tooling to forecast the time-varying reproduction number and use this to forecast reported case counts via a branching process. It supports a range of time series modelling packages including `bsts`, `forecast`, and `fable`. It also supports ensembles via `stackr` and `forecastHyrbid`. Forecasts can be assessed by iteractively fitting and then using proper scoring rules (via `scoringutils` and `scoringRules`) to compare to both observed case counts and estimated reproduction numbers. Whilst `EpiSoon` is primarily developed to be used in tandem with `EpiNow` it can also be used as a standalone package. 
 
 ## Installation
 
@@ -112,6 +112,9 @@ EpiSoon::plot_forecast_evaluation(forecasts$forecast_cases, obs_cases, c(7)) +
 EpiSoon::summarise_scores(forecasts$case_scores)
 ```
 
+## Contributing
+
+File an issue [here](https://github.com/epiforecasts/EpiSoon/issues) if you have identified an issue with the package. Please note that due to operational constraints priority will be given to users informing government policy or offering methodological insights. We welcome all contributions, in particular those that improve the approach or the robustness of the code base.
 
 ## Docker
 
