@@ -12,9 +12,9 @@ knitr::opts_chunk$set(
 
 # EpiSoon
 
-[![DOI](https://zenodo.org/badge/248311916.svg)](https://zenodo.org/badge/latestdoi/248311916)
 [![R build status](https://github.com/epiforecasts/EpiSoon/workflows/R-CMD-check/badge.svg)](https://github.com/epiforecasts/EpiSoon)
-[![Build Status](https://travis-ci.com/epiforecasts/EpiSoon.svg?branch=master)](https://travis-ci.com/epiforecasts/EpiSoon)
+[![DOI](https://zenodo.org/badge/248311916.svg)](https://zenodo.org/badge/latestdoi/248311916)
+
 
 **Aim:** To forecast the time-varying reproduction number and use this to forecast reported case counts. 
 
