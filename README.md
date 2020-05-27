@@ -24,7 +24,7 @@ Install the stable version of the package using
 
 ``` r
 install.packages("drat")
-drat::add("epiforecasts")
+drat:::add("epiforecasts")
 install.packages("EpiSoon")
 ```
 
@@ -105,35 +105,35 @@ forecasts <- EpiSoon::compare_timeseries(obs_rts, obs_cases, models,
 forecasts
 #> $forecast_rts
 #> # A tibble: 532 x 12
-#>    timeseries model forecast_date date       horizon median  mean    sd bottom
-#>    <chr>      <chr> <chr>         <date>       <int>  <dbl> <dbl> <dbl>  <dbl>
-#>  1 Region 1   AR 3  2020-03-04    2020-03-05       1 0      0.548 0.966      0
-#>  2 Region 1   AR 3  2020-03-04    2020-03-06       2 0.0701 1.53  2.10       0
-#>  3 Region 1   AR 3  2020-03-04    2020-03-07       3 0      0.830 1.54       0
-#>  4 Region 1   AR 3  2020-03-04    2020-03-08       4 0.283  1.23  1.73       0
-#>  5 Region 1   AR 3  2020-03-04    2020-03-09       5 0      0.874 1.58       0
-#>  6 Region 1   AR 3  2020-03-04    2020-03-10       6 0      0.492 0.913      0
-#>  7 Region 1   AR 3  2020-03-04    2020-03-11       7 0.822  2.39  3.51       0
-#>  8 Region 1   AR 3  2020-03-05    2020-03-06       1 0.149  0.547 0.956      0
-#>  9 Region 1   AR 3  2020-03-05    2020-03-07       2 0.835  2.22  3.45       0
-#> 10 Region 1   AR 3  2020-03-05    2020-03-08       3 0      0.475 0.788      0
+#>    timeseries model forecast_date date       horizon median   mean    sd bottom
+#>    <chr>      <chr> <chr>         <date>       <int>  <dbl>  <dbl> <dbl>  <dbl>
+#>  1 Region 1   AR 3  2020-03-04    2020-03-05       1  1.24  2.35   3.49       0
+#>  2 Region 1   AR 3  2020-03-04    2020-03-06       2  1.75  2.09   2.77       0
+#>  3 Region 1   AR 3  2020-03-04    2020-03-07       3  0     1.96   4.07       0
+#>  4 Region 1   AR 3  2020-03-04    2020-03-08       4  0     1.30   2.49       0
+#>  5 Region 1   AR 3  2020-03-04    2020-03-09       5  0     0.564  1.07       0
+#>  6 Region 1   AR 3  2020-03-04    2020-03-10       6  0.832 1.60   2.23       0
+#>  7 Region 1   AR 3  2020-03-04    2020-03-11       7  1.45  1.49   1.45       0
+#>  8 Region 1   AR 3  2020-03-05    2020-03-06       1  0     0.0907 0.287      0
+#>  9 Region 1   AR 3  2020-03-05    2020-03-07       2  0     0.591  0.970      0
+#> 10 Region 1   AR 3  2020-03-05    2020-03-08       3  0     0.710  1.66       0
 #> # … with 522 more rows, and 3 more variables: lower <dbl>, upper <dbl>,
 #> #   top <dbl>
 #> 
 #> $rt_scores
 #> # A tibble: 420 x 14
-#>    timeseries model forecast_date date       horizon   dss  crps  logs   bias
-#>    <chr>      <chr> <chr>         <date>       <int> <dbl> <dbl> <dbl>  <dbl>
-#>  1 Region 1   AR 3  2020-03-04    2020-03-05       1  3.34 1.41   2.62 -0.8  
-#>  2 Region 1   AR 3  2020-03-04    2020-03-06       2  1.49 0.943  2.20 -0.400
-#>  3 Region 1   AR 3  2020-03-04    2020-03-07       3  1.57 1.17   2.23 -0.6  
-#>  4 Region 1   AR 3  2020-03-04    2020-03-08       4  1.28 0.906  2.26 -0.6  
-#>  5 Region 1   AR 3  2020-03-04    2020-03-09       5  1.43 1.17   3.92 -0.6  
-#>  6 Region 1   AR 3  2020-03-04    2020-03-10       6  2.86 1.31   3.80 -0.8  
-#>  7 Region 1   AR 3  2020-03-04    2020-03-11       7  2.42 0.779  1.97 -0.200
-#>  8 Region 1   AR 3  2020-03-05    2020-03-06       1  3.10 1.43   6.29 -0.8  
-#>  9 Region 1   AR 3  2020-03-05    2020-03-07       2  2.37 0.804  2.00 -0.200
-#> 10 Region 1   AR 3  2020-03-05    2020-03-08       3  4.17 1.28   1.46 -1    
+#>    timeseries model forecast_date date       horizon    dss  crps   logs   bias
+#>    <chr>      <chr> <chr>         <date>       <int>  <dbl> <dbl>  <dbl>  <dbl>
+#>  1 Region 1   AR 3  2020-03-04    2020-03-05       1  2.39  0.766   1.98 -0.200
+#>  2 Region 1   AR 3  2020-03-04    2020-03-06       2  1.93  0.509   1.64 -0.200
+#>  3 Region 1   AR 3  2020-03-04    2020-03-07       3  2.70  1.37    6.40 -0.6  
+#>  4 Region 1   AR 3  2020-03-04    2020-03-08       4  1.83  1.26    4.87 -0.6  
+#>  5 Region 1   AR 3  2020-03-04    2020-03-09       5  2.19  1.30    3.78 -0.8  
+#>  6 Region 1   AR 3  2020-03-04    2020-03-10       6  1.54  0.719   1.93 -0.6  
+#>  7 Region 1   AR 3  2020-03-04    2020-03-11       7  0.780 0.463   1.52 -0.400
+#>  8 Region 1   AR 3  2020-03-05    2020-03-06       1 57.0   2.02  Inf    -1    
+#>  9 Region 1   AR 3  2020-03-05    2020-03-07       2  2.69  1.20    1.74 -0.6  
+#> 10 Region 1   AR 3  2020-03-05    2020-03-08       3  1.69  1.42   16.0  -0.8  
 #> # … with 410 more rows, and 5 more variables: sharpness <dbl>,
 #> #   calibration <dbl>, median <dbl>, iqr <dbl>, ci <dbl>
 #> 
@@ -141,33 +141,33 @@ forecasts
 #> # A tibble: 420 x 12
 #>    timeseries model forecast_date date       horizon median  mean    sd bottom
 #>    <chr>      <chr> <chr>         <date>       <int>  <dbl> <dbl> <dbl>  <dbl>
-#>  1 Region 1   AR 3  2020-03-04    2020-03-05       1    0    17.3  32.0      0
-#>  2 Region 1   AR 3  2020-03-04    2020-03-06       2    1.5  55.6  77.4      0
-#>  3 Region 1   AR 3  2020-03-04    2020-03-07       3    0    33.4  62.4      0
-#>  4 Region 1   AR 3  2020-03-04    2020-03-08       4    7    61.6  93.4      0
-#>  5 Region 1   AR 3  2020-03-04    2020-03-09       5    0    26.9  49.5      0
-#>  6 Region 1   AR 3  2020-03-04    2020-03-10       6    0    25.4  48.6      0
-#>  7 Region 1   AR 3  2020-03-04    2020-03-11       7   12.5  86.9 150.       0
-#>  8 Region 1   AR 3  2020-03-05    2020-03-06       1    3.5  17.7  32.3      0
-#>  9 Region 1   AR 3  2020-03-05    2020-03-07       2   43    93.7 142.       0
-#> 10 Region 1   AR 3  2020-03-05    2020-03-08       3    0    16    27.1      0
+#>  1 Region 1   AR 3  2020-03-04    2020-03-05       1   37.5  70.3 104.       0
+#>  2 Region 1   AR 3  2020-03-04    2020-03-06       2   61    77.7  98.1      0
+#>  3 Region 1   AR 3  2020-03-04    2020-03-07       3    0   168.  421.       0
+#>  4 Region 1   AR 3  2020-03-04    2020-03-08       4    0    89.4 228.       0
+#>  5 Region 1   AR 3  2020-03-04    2020-03-09       5    0    17.9  35.7      0
+#>  6 Region 1   AR 3  2020-03-04    2020-03-10       6   27   248   609.       0
+#>  7 Region 1   AR 3  2020-03-04    2020-03-11       7   39   136.  177.       0
+#>  8 Region 1   AR 3  2020-03-05    2020-03-06       1    0     4    12.6      0
+#>  9 Region 1   AR 3  2020-03-05    2020-03-07       2    0    24.2  40.0      0
+#> 10 Region 1   AR 3  2020-03-05    2020-03-08       3    0    26.7  69.1      0
 #> # … with 410 more rows, and 3 more variables: lower <dbl>, upper <dbl>,
 #> #   top <dbl>
 #> 
 #> $case_scores
 #> # A tibble: 420 x 15
-#>    timeseries model sample forecast_date date       horizon   dss  crps  logs
-#>    <chr>      <chr> <chr>  <chr>         <date>       <int> <dbl> <dbl> <dbl>
-#>  1 Region 1   AR 3  1      2020-03-04    2020-03-05       1  9.09  39.0  6.68
-#>  2 Region 1   AR 3  1      2020-03-04    2020-03-06       2  8.65  32.3  5.74
-#>  3 Region 1   AR 3  1      2020-03-04    2020-03-07       3  9.01  48.7  5.94
-#>  4 Region 1   AR 3  1      2020-03-04    2020-03-08       4  9.18  48.8  6.29
-#>  5 Region 1   AR 3  1      2020-03-04    2020-03-09       5 11.3   72.1  6.18
-#>  6 Region 1   AR 3  1      2020-03-04    2020-03-10       6 14.0   98    6.13
-#>  7 Region 1   AR 3  1      2020-03-04    2020-03-11       7 10.2   93.1  8.60
-#>  8 Region 1   AR 3  1      2020-03-05    2020-03-06       1 10.1   48.4  9.74
-#>  9 Region 1   AR 3  1      2020-03-05    2020-03-07       2  9.80  32.1  5.68
-#> 10 Region 1   AR 3  1      2020-03-05    2020-03-08       3 17.7   74.1 11.6 
+#>    timeseries model sample forecast_date date       horizon   dss  crps   logs
+#>    <chr>      <chr> <chr>  <chr>         <date>       <int> <dbl> <dbl>  <dbl>
+#>  1 Region 1   AR 3  1      2020-03-04    2020-03-05       1  9.18  21.9   5.34
+#>  2 Region 1   AR 3  1      2020-03-04    2020-03-06       2  9.07  19.5   5.32
+#>  3 Region 1   AR 3  1      2020-03-04    2020-03-07       3 12.0   68.1  18.2 
+#>  4 Region 1   AR 3  1      2020-03-04    2020-03-08       4 10.8   64.1   6.21
+#>  5 Region 1   AR 3  1      2020-03-04    2020-03-09       5 15.4   83.8   5.81
+#>  6 Region 1   AR 3  1      2020-03-04    2020-03-10       6 12.8   88.7   7.54
+#>  7 Region 1   AR 3  1      2020-03-04    2020-03-11       7 10.3   79.0   6.58
+#>  8 Region 1   AR 3  1      2020-03-05    2020-03-06       1 38.0   65.4 Inf   
+#>  9 Region 1   AR 3  1      2020-03-05    2020-03-07       2 10.1   49.8   5.56
+#> 10 Region 1   AR 3  1      2020-03-05    2020-03-08       3  9.69  76.0 284.  
 #> # … with 410 more rows, and 6 more variables: bias <dbl>, sharpness <dbl>,
 #> #   calibration <dbl>, median <dbl>, iqr <dbl>, ci <dbl>
 ```
@@ -207,24 +207,24 @@ EpiSoon::summarise_scores(forecasts$case_scores)
 #> # A tibble: 18 x 9
 #>    score  model   bottom    lower   median      mean    upper      top        sd
 #>    <chr>  <chr>    <dbl>    <dbl>    <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
-#>  1 bias   AR 3  -1.00e+0 -8.00e-1 -8.00e-1   -0.662  -6.00e-1    0        0.263 
-#>  2 bias   Semi… -1.00e+0  3.00e-1  8.00e-1    0.561   1.00e+0    1        0.548 
-#>  3 calib… AR 3   8.57e-5  8.57e-5  8.57e-5    0.0240  3.68e-3    0.222    0.0860
-#>  4 calib… Semi…  8.57e-5  8.57e-5  8.57e-5    0.0202  2.00e-4    0.340    0.0639
-#>  5 ci     AR 3   1.51e+2  3.35e+2  5.95e+2 1382.      1.12e+3 9342.    2232.    
-#>  6 ci     Semi…  2.59e+1  5.15e+1  1.41e+2 1162.      2.07e+3 5469.    1795.    
-#>  7 crps   AR 3   3.21e+1  8.91e+1  1.40e+2  152.      1.84e+2  416.      93.7   
-#>  8 crps   Semi…  2.79e+0  6.46e+0  1.67e+1   44.7     7.90e+1  177.      54.3   
-#>  9 dss    AR 3   9.01e+0  1.07e+1  1.18e+1   14.8     1.33e+1   53.4     11.2   
-#> 10 dss    Semi…  4.66e+0  6.03e+0  7.88e+0   14.8     1.57e+1   54.6     18.8   
-#> 11 iqr    AR 3   1.16e+2  3.54e+2  6.03e+2  681.      8.63e+2 1894.     467.    
-#> 12 iqr    Semi…  1.19e+1  2.81e+1  7.75e+1  191.      3.38e+2  716.     228.    
-#> 13 logs   AR 3   5.70e+0  6.60e+0  7.23e+0  Inf       9.86e+0  Inf      Inf     
-#> 14 logs   Semi…  3.27e+0  4.07e+0  4.82e+0   12.2     8.38e+0   71.4     30.2   
-#> 15 median AR 3   6.72e+1  2.60e+2  4.16e+2  463.      5.92e+2 1176.     272.    
-#> 16 median Semi…  2.00e+0  1.70e+1  5.00e+1  108.      1.86e+2  386.     124.    
-#> 17 sharp… AR 3   0.       0.       1.85e+1   64.6     8.52e+1  348.     108.    
-#> 18 sharp… Semi…  5.36e+0  1.26e+1  1.85e+1   24.5     3.02e+1   76.4     18.4
+#>  1 bias   AR 3  -1.00e+0 -8.00e-1 -8.00e-1   -0.69   -6.00e-1   -0.200    0.249 
+#>  2 bias   Semi… -1.00e+0  2.00e-1  6.00e-1    0.492   1.00e+0    1        0.554 
+#>  3 calib… AR 3   8.57e-5  8.57e-5  8.57e-5    0.0215  1.33e-3    0.181    0.0814
+#>  4 calib… Semi…  8.57e-5  8.57e-5  8.57e-5    0.0615  5.52e-4    0.834    0.164 
+#>  5 ci     AR 3   1.34e+2  3.60e+2  6.31e+2 1421.      1.32e+3 7967.    2035.    
+#>  6 ci     Semi…  2.61e+1  4.98e+1  1.09e+2  947.      1.41e+3 5420.    1592.    
+#>  7 crps   AR 3   3.53e+1  8.94e+1  1.35e+2  152.      1.96e+2  362.      87.3   
+#>  8 crps   Semi…  3.44e+0  6.66e+0  1.53e+1   40.8     7.01e+1  161.      48.8   
+#>  9 dss    AR 3   9.13e+0  1.09e+1  1.19e+1   16.2     1.35e+1   53.9     20.1   
+#> 10 dss    Semi…  4.72e+0  6.13e+0  7.80e+0   13.2     1.40e+1   50.3     16.5   
+#> 11 iqr    AR 3   1.25e+2  3.57e+2  5.72e+2  677.      9.11e+2 1776.     440.    
+#> 12 iqr    Semi…  1.36e+1  2.92e+1  6.80e+1  178.      3.09e+2  675.     208.    
+#> 13 logs   AR 3   5.61e+0  6.64e+0  7.33e+0  Inf       1.17e+1  Inf      Inf     
+#> 14 logs   Semi…  3.37e+0  4.09e+0  4.80e+0  Inf       7.29e+0   47.6    Inf     
+#> 15 median AR 3   1.15e+2  2.66e+2  4.36e+2  472.      5.92e+2 1119.     262.    
+#> 16 median Semi…  2.00e+0  1.60e+1  4.75e+1  100.      1.70e+2  340.     112.    
+#> 17 sharp… AR 3   0.       0.       1.11e+1   58.5     7.01e+1  386.      99.6   
+#> 18 sharp… Semi…  6.67e+0  1.35e+1  2.15e+1   26.7     3.41e+1   76.8     18.7
 ```
 
 ## Contributing
