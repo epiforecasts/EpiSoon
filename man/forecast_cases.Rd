@@ -2,7 +2,7 @@
 % Please edit documentation in R/forecast.R
 \name{forecast_cases}
 \alias{forecast_cases}
-\title{Forecasts cases for a Rt forecasts}
+\title{Forecasts Cases for a Rt Forecasts}
 \usage{
 forecast_cases(
   cases = NULL,
@@ -35,9 +35,10 @@ to \code{rpois} if not supplied}
 Forecast cases for over a future forecast horizon
 }
 \description{
-Forecasts cases for a Rt forecasts
+Forecasts Cases for a Rt Forecasts
 }
 \examples{
+\dontrun{
 ## Rt forecast
 forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
                         model = function(...){
@@ -50,4 +51,5 @@ forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 forecast_cases(EpiSoon::example_obs_cases,
                fit_samples =  forecast,
                serial_interval = EpiSoon::example_serial_interval)
+               }
 }

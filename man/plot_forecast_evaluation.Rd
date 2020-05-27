@@ -31,7 +31,7 @@ Plot a Forecast
 }
 \examples{
 
-
+\dontrun{
 ## Evaluate a model
 forecast_eval <- evaluate_model(EpiSoon::example_obs_rts,
                                 EpiSoon::example_obs_cases,
@@ -50,5 +50,5 @@ plot_forecast_evaluation(forecast_eval$forecast_rts,
 plot_forecast_evaluation(forecast_eval$forecast_cases,
                          EpiSoon::example_obs_cases,
                          horizon_to_plot = 7)
-
+                         }
 }

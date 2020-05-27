@@ -16,7 +16,7 @@ A summarised dataframe.
 Summarise Forecast Cases
 }
 \examples{
-
+\dontrun{
 ## Example forecast
 forecast <- forecast_rt(EpiSoon::example_obs_rts,
                         model = function(...) {EpiSoon::bsts_model(model =
@@ -29,4 +29,5 @@ case_forecast <- forecast_cases(EpiSoon::example_obs_cases,
                                 EpiSoon::example_serial_interval)
 ## Summarise case forecast
 summarise_case_forecast(case_forecast)
+}
 }

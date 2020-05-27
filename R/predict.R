@@ -44,7 +44,7 @@ draw_from_si_prob <- function(days_ago = NULL,
 #' @return Forecast cases for over a future forecast horizon
 #' @export
 #' @importFrom lubridate days
-#' @importFrom dplyr filter mutate select
+#' @importFrom data.table setDT .N := copy
 #' @importFrom purrr map_dbl
 #' @examples
 #'
@@ -67,6 +67,9 @@ predict_cases <- function(cases = NULL,
                           horizon = NULL,
                           rdist = NULL) {
 
+   ## Make sure input is a data.table
+   rts <- data.table::setDT(rts)
+   cases <- data.table::setDT(cases)
 
   ## Set forecast data to maximum observed case date if not given
   if (is.null(forecast_date)) {
@@ -75,8 +78,7 @@ predict_cases <- function(cases = NULL,
 
   ## If horizon is supplied limit the rts to this date
   if (!is.null(horizon)) {
-    rts <- rts %>%
-      dplyr::filter(date <= (forecast_date + lubridate::days(horizon)))
+    rts <- rts[date <= (forecast_date + lubridate::days(horizon))]
   }
 
   ## If no sampler given assume poisson
@@ -85,21 +87,19 @@ predict_cases <- function(cases = NULL,
   }
 
   ## Filter cases based on forecast date
-  cases <- dplyr::filter(cases, date <= as.Date(forecast_date))
+  cases <- cases[date <= as.Date(forecast_date)]
 
   ## Filter rts based on forecast date
-  rts <- rts %>%
-    dplyr::filter(date > forecast_date)
+  rts <- rts[date > forecast_date]
 
   ## Initialise predictions for first time point.
-  predictions <- rts %>%
-    dplyr::mutate(
-      index = 1:dplyr::n(),
+  predictions <- data.table::copy(rts)[,
+      index := 1:.N,][,
       ## Calculate infectiousness from onserved data
-      infectiousness = purrr::map_dbl(index,
+      infectiousness := purrr::map_dbl(index,
                                       ~ sum(cases$cases * draw_from_si_prob((nrow(cases) + . - 1):.,
-                                                                            serial_interval))),
-      cases = rdist(1, rt[1] * infectiousness[1]))
+                                                                            serial_interval)))][,
+      cases := rdist(1, rt[1] * infectiousness[1])]
 
   if (nrow(rts) > 1) {
     for(i in 2:nrow(rts)) {
@@ -116,9 +116,7 @@ predict_cases <- function(cases = NULL,
 
 
   ## Select return variables
-  predictions <- dplyr::select(predictions,
-                               date, cases)
-
+  predictions <- predictions[, .(date, cases)]
 
   return(predictions)
 }
@@ -134,7 +132,7 @@ predict_cases <- function(cases = NULL,
 #' @inheritParams draw_from_si_prob
 #' @return Forecast cases for the current timestep
 #' @export
-#' @importFrom dplyr filter mutate select
+#' @importFrom data.table setDT := copy
 #' @importFrom purrr map_dbl
 #' @examples
 #'
@@ -149,6 +147,10 @@ predict_current_cases <- function(
   serial_interval = NULL,
   rdist = NULL) {
 
+
+  cases <- data.table::setDT(cases)
+  rts <- data.table::setDT(rts)
+
   ## Set sampling dist
   if (is.null(rdist)) {
     rdist <- rpois
@@ -159,32 +161,26 @@ predict_current_cases <- function(
   final_rt_date <- max(rts$date, na.rm = TRUE)
 
   ## Get early cases
-  early_cases <- dplyr::filter(cases, date <= first_rt_date)$cases
+  early_cases <- cases[date <= first_rt_date]$cases
 
   ## Get following cases
-  subsequent_cases <- dplyr::filter(cases,
-                                    date > first_rt_date,
-                                    date <= final_rt_date)$cases
+  subsequent_cases <- cases[date > first_rt_date & date <= final_rt_date]$cases
 
   ## Build an iterative list of cases
   cases <- purrr::map(1:length(subsequent_cases), ~ c(early_cases, subsequent_cases[1:.]))
   cases <- c(list(early_cases), cases)
 
 
-  predictions <-
-    dplyr::mutate(rts,
-                  infectiousness =
+  predictions <- data.table::copy(rts)[,
+                  infectiousness :=
                     purrr::map_dbl(cases,
                                    function(cases_vect) {
                                      inf <- sum(cases_vect * EpiSoon::draw_from_si_prob(
                                        (length(cases_vect) - 1):0,
-                                       serial_interval
-                                     ))
-
+                                       serial_interval))
                                      return(inf)
-                                   }),
-                  cases = purrr::map2_dbl(rt, infectiousness, ~ rdist(1, .x * .y))
-    )
+                                   })][,
+                  cases := purrr::map2_dbl(rt, infectiousness, ~ rdist(1, .x * .y))]
 
   return(predictions)
 

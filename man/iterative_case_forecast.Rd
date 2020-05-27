@@ -2,7 +2,7 @@
 % Please edit documentation in R/iterative.R
 \name{iterative_case_forecast}
 \alias{iterative_case_forecast}
-\title{Iteratively forecast cases using a iterative Rt forecasts}
+\title{Iteratively Forecast Cases Using an Iterative Rt Forecast}
 \usage{
 iterative_case_forecast(
   it_fit_samples = NULL,
@@ -27,10 +27,10 @@ to \code{rpois} if not supplied}
 A dataframe of iterative case forecasts
 }
 \description{
-Iteratively forecast cases using a iterative Rt forecasts
+Iteratively Forecast Cases Using an Iterative Rt Forecast
 }
 \examples{
-
+\dontrun{
 ## Iterative Rt forecast
 it_forecast <-
   iterative_rt_forecast(EpiSoon::example_obs_rts,
@@ -43,4 +43,5 @@ it_forecast <-
 iterative_case_forecast(it_fit_samples = it_forecast,
                          cases = EpiSoon::example_obs_cases,
                          serial_interval = EpiSoon::example_serial_interval)
+}
 }

@@ -21,7 +21,7 @@ A dataframe of summarised scores in a tidy format.
 Summarise model forecasting scores
 }
 \examples{
-
+\dontrun{
 ## Example cases
 cases <- EpiSoon::example_obs_cases \%>\%
     dplyr::mutate(timeseries = "Region 1") \%>\%
@@ -60,4 +60,5 @@ summarise_scores(evaluations$rt_scores, "horizon", sel_scores = "crps")
 
 ## Instead summarise across region and summarise case scores
 summarise_scores(evaluations$case_scores, "timeseries", sel_scores = "logs")
+}
 }

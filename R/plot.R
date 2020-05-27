@@ -17,7 +17,7 @@
 #' @export
 #'
 #' @examples
-#'
+#'\dontrun{
 #' ## Forecast an Rt sample
 #' samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 #'                      model = function(...) {EpiSoon::bsts_model(model =
@@ -37,6 +37,7 @@
 #' summarised_case_forecast <- summarise_case_forecast(pred_cases)
 #'
 #' plot_forecast(summarised_case_forecast, EpiSoon::example_obs_cases)
+#' }
 plot_forecast <- function(forecast = NULL,
                           observations = NULL,
                           horizon_cutoff = NULL,
@@ -102,7 +103,7 @@ plot_forecast <- function(forecast = NULL,
 #'
 #' @examples
 #'
-#'
+#'\dontrun{
 #' ## Evaluate a model
 #' forecast_eval <- evaluate_model(EpiSoon::example_obs_rts,
 #'                                 EpiSoon::example_obs_cases,
@@ -121,7 +122,7 @@ plot_forecast <- function(forecast = NULL,
 #' plot_forecast_evaluation(forecast_eval$forecast_cases,
 #'                          EpiSoon::example_obs_cases,
 #'                          horizon_to_plot = 7)
-#'
+#'                          }
 plot_forecast_evaluation <- function(forecasts = NULL,
                                      observations = NULL,
                                      horizon_to_plot = 1) {

@@ -60,7 +60,7 @@ A list of dataframes as produced by \verb{evaluate model} but with an additional
 Compare forecasting models
 }
 \examples{
-
+\dontrun{
 ## List of forecasting bsts models wrapped in functions.
 models <- list("AR 3" =
                     function(...) {EpiSoon::bsts_model(model =
@@ -90,4 +90,5 @@ plot_forecast_evaluation(evaluations$forecast_cases,
                          EpiSoon::example_obs_cases, c(1, 3, 7)) +
   ggplot2::facet_wrap(model ~ horizon, scales = "free") +
   cowplot::panel_border()
+  }
 }

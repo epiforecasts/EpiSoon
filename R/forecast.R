@@ -9,7 +9,7 @@
 #' @param timeout Numeric, timeout of model fitting in seconds. Defaults to 30 seconds.
 #' @return A dataframe of samples containing the following variables:
 #'  `sample`, `date`, `rt`, and `horizon`.
-#'@inheritParams bsts_model
+#' @inheritParams bsts_model
 #' @importFrom lubridate days
 #' @importFrom dplyr mutate n group_by ungroup
 #' @importFrom tidyr gather
@@ -17,13 +17,15 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 #'             model = function(...){
 #'             EpiSoon::bsts_model(model = function(ss, y){
 #'             bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
 #'             },
 #'             horizon = 7, samples = 10)
-forecast_rt <- function(rts, model = model,
+#'             }
+forecast_rt <- function(rts, model,
                         horizon = 7, samples = 1000,
                         bound_rt = TRUE, timeout = 100) {
 
@@ -51,7 +53,7 @@ forecast_rt <- function(rts, model = model,
   return(samples)
 }
 
-#' Forecasts cases for a Rt forecasts
+#' Forecasts Cases for a Rt Forecasts
 #'
 #' @param cases A dataframe containing `date` and `cases` variables
 #' @param forecast_date A character string date (format "yyyy-mm-dd") indicating
@@ -68,7 +70,7 @@ forecast_rt <- function(rts, model = model,
 #' @importFrom dplyr mutate group_split
 #' @importFrom purrr map_dfr
 #' @importFrom lubridate days
-#' @examples
+#' @examples \dontrun{
 #' ## Rt forecast
 #' forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 #'                         model = function(...){
@@ -81,6 +83,7 @@ forecast_rt <- function(rts, model = model,
 #' forecast_cases(EpiSoon::example_obs_cases,
 #'                fit_samples =  forecast,
 #'                serial_interval = EpiSoon::example_serial_interval)
+#'                }
 forecast_cases <- function(cases = NULL, fit_samples = NULL,
                            serial_interval = NULL, forecast_date = NULL,
                            horizon = NULL, rdist = NULL
@@ -105,4 +108,35 @@ forecast_cases <- function(cases = NULL, fit_samples = NULL,
   return(predictions)
 }
 
+
+#' Forecasts Cases Directly
+#'
+#' @param cases A dataframe containing `date` and `cases` variables
+#' @inheritParams forecast_rt
+#' @return Forecast cases over a future forecast horizon
+#' @export
+#' @examples
+#'\dontrun{
+#' forecast_cases_directly(EpiSoon::example_obs_cases,
+#'                 model = function(...){
+#'                         EpiSoon::bsts_model(model = function(ss, y){
+#'                         bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
+#'                         },
+#'                         horizon = 7, samples = 10)
+#'}
+forecast_cases_directly <- function(cases = NULL, model,
+                           horizon = 7, samples = 1000,
+                           bound_rt = TRUE, timeout = 100){
+
+  cases$rt <- cases$cases
+
+  samples <- EpiSoon::forecast_rt(rts = cases, model = model,
+                                  horizon = horizon, samples = samples,
+                                  bound_rt = bound_rt, timeout = timeout)
+
+  samples$cases <- samples$rt
+  samples$rt <- NULL
+
+  return(samples)
+}
 

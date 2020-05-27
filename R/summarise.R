@@ -10,7 +10,7 @@
 #' @importFrom HDInterval hdi
 #' @examples
 #'
-#'
+#'\dontrun{
 #' samples <- forecast_rt(example_obs_rts,
 #'                        model = function(...) {EpiSoon::bsts_model(model =
 #'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
@@ -18,6 +18,7 @@
 #'
 #'
 #' summarise_forecast(samples)
+#' }
 summarise_forecast <- function(fit_samples) {
 
   summarised_fit <- fit_samples %>%
@@ -55,7 +56,7 @@ summarise_forecast <- function(fit_samples) {
 #' @importFrom dplyr group_by summarise mutate select
 #' @importFrom HDInterval hdi
 #' @examples
-#'
+#'\dontrun{
 #' ## Example forecast
 #' forecast <- forecast_rt(EpiSoon::example_obs_rts,
 #'                         model = function(...) {EpiSoon::bsts_model(model =
@@ -68,6 +69,7 @@ summarise_forecast <- function(fit_samples) {
 #'                                 EpiSoon::example_serial_interval)
 #' ## Summarise case forecast
 #' summarise_case_forecast(case_forecast)
+#' }
 summarise_case_forecast <- function(pred_cases) {
 
 
@@ -90,7 +92,7 @@ summarise_case_forecast <- function(pred_cases) {
 #' @importFrom tidyr gather
 #' @importFrom dplyr group_by summarise ungroup
 #' @examples
-#'
+#'\dontrun{
 #' ## Example cases
 #' cases <- EpiSoon::example_obs_cases %>%
 #'     dplyr::mutate(timeseries = "Region 1") %>%
@@ -129,6 +131,7 @@ summarise_case_forecast <- function(pred_cases) {
 #'
 #' ## Instead summarise across region and summarise case scores
 #' summarise_scores(evaluations$case_scores, "timeseries", sel_scores = "logs")
+#' }
 summarise_scores <- function(scores, variables = NULL, sel_scores = NULL) {
 
 

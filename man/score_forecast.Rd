@@ -22,7 +22,7 @@ logs, bias, and sharpness as well as the forecast date and time horizon.
 Score a Model Fit
 }
 \examples{
-
+\dontrun{
 ## Fit a model (using a subset of observations)
 samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
                      model = function(...) {EpiSoon::bsts_model(model =
@@ -37,4 +37,5 @@ score_forecast(samples, EpiSoon::example_obs_rts, scores = c("crps", "sharpness"
 
 ## Return just the CRPS
 score_forecast(samples, EpiSoon::example_obs_rts, scores = "crps")
+}
 }

@@ -23,6 +23,7 @@ logs, bias, and sharpness as well as the forecast date and time horizon.
 Score a case forecast
 }
 \examples{
+\dontrun{
 ## Fit a model (using a subset of observations)
 samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
                      model = function(...) {EpiSoon::bsts_model(model =
@@ -38,4 +39,5 @@ score_case_forecast(pred_cases, EpiSoon::example_obs_cases)
 
 ## Score the model fit (with observations during the time horizon of the forecast)
 score_case_forecast(pred_cases, EpiSoon::example_obs_cases, scores = c("crps", "sharpness", "bias"))
+}
 }

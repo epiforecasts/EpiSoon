@@ -17,6 +17,7 @@
 #' @importFrom purrr map_dfr map2 map2_dfr
 #' @importFrom rlang has_name
 #' @examples
+#' \dontrun{
 #' ## Evaluate a model based on a single sample of input cases
 #' evaluate_model(EpiSoon::example_obs_rts,
 #'                EpiSoon::example_obs_cases,
@@ -45,6 +46,7 @@
 #'                                 function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
 #'                horizon = 7, samples = 10,
 #'                serial_interval = EpiSoon::example_serial_interval)
+#'                }
 evaluate_model <- function(obs_rts = NULL,
                            obs_cases = NULL,
                            model = NULL,
@@ -205,7 +207,7 @@ evaluate_model <- function(obs_rts = NULL,
 #' @importFrom furrr future_map
 #' @importFrom dplyr bind_rows
 #' @examples
-#'
+#'\dontrun{
 #' ## List of forecasting bsts models wrapped in functions.
 #' models <- list("AR 3" =
 #'                     function(...) {EpiSoon::bsts_model(model =
@@ -235,6 +237,7 @@ evaluate_model <- function(obs_rts = NULL,
 #'                          EpiSoon::example_obs_cases, c(1, 3, 7)) +
 #'   ggplot2::facet_wrap(model ~ horizon, scales = "free") +
 #'   cowplot::panel_border()
+#'   }
 compare_models <- function(obs_rts = NULL,
                            obs_cases = NULL,
                            models = NULL,
@@ -290,7 +293,7 @@ compare_models <- function(obs_rts = NULL,
 #' @importFrom tidyr expand_grid unnest
 #' @importFrom tibble tibble
 #' @examples
-#'
+#'\dontrun{
 #' ## Example data
 #' obs_rts <- EpiSoon::example_obs_rts %>%
 #'     dplyr::mutate(timeseries = "Region 1") %>%
@@ -331,6 +334,7 @@ compare_models <- function(obs_rts = NULL,
 #'                          obs_cases, c(7)) +
 #'   ggplot2::facet_grid(model ~ timeseries, scales = "free") +
 #'   cowplot::panel_border()
+#'   }
 
 
 compare_timeseries <- function(obs_rts = NULL,

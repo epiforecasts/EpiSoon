@@ -34,7 +34,7 @@ A \code{ggplot2} object
 Plot a Forecast
 }
 \examples{
-
+\dontrun{
 ## Forecast an Rt sample
 samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
                      model = function(...) {EpiSoon::bsts_model(model =
@@ -54,4 +54,5 @@ pred_cases <- forecast_cases(EpiSoon::example_obs_cases, samples,
 summarised_case_forecast <- summarise_case_forecast(pred_cases)
 
 plot_forecast(summarised_case_forecast, EpiSoon::example_obs_cases)
+}
 }

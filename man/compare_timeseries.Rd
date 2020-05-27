@@ -60,7 +60,7 @@ A list of dataframes as produced by \verb{evaluate model} but with an additional
 Compare timeseries and forecast models
 }
 \examples{
-
+\dontrun{
 ## Example data
 obs_rts <- EpiSoon::example_obs_rts \%>\%
     dplyr::mutate(timeseries = "Region 1") \%>\%
@@ -101,4 +101,5 @@ plot_forecast_evaluation(evaluations$forecast_cases,
                          obs_cases, c(7)) +
   ggplot2::facet_grid(model ~ timeseries, scales = "free") +
   cowplot::panel_border()
+  }
 }

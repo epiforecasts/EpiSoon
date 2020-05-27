@@ -58,6 +58,7 @@ to \code{rpois} if not supplied}
 Evaluate a Model for Forecasting Rts
 }
 \examples{
+\dontrun{
 ## Evaluate a model based on a single sample of input cases
 evaluate_model(EpiSoon::example_obs_rts,
                EpiSoon::example_obs_cases,
@@ -86,4 +87,5 @@ evaluate_model(sampled_obs,
                                 function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
                horizon = 7, samples = 10,
                serial_interval = EpiSoon::example_serial_interval)
+               }
 }

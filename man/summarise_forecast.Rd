@@ -17,7 +17,7 @@ Summarise Forecast Rts
 }
 \examples{
 
-
+\dontrun{
 samples <- forecast_rt(example_obs_rts,
                        model = function(...) {EpiSoon::bsts_model(model =
                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
@@ -25,4 +25,5 @@ samples <- forecast_rt(example_obs_rts,
 
 
 summarise_forecast(samples)
+}
 }

@@ -15,7 +15,7 @@
 #' @importFrom scoringutils bias sharpness pit interval_score
 #' @inheritParams summarise_forecast
 #' @examples
-#'
+#' \dontrun{
 #' ## Fit a model (using a subset of observations)
 #' samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 #'                      model = function(...) {EpiSoon::bsts_model(model =
@@ -30,6 +30,7 @@
 #'
 #' ## Return just the CRPS
 #' score_forecast(samples, EpiSoon::example_obs_rts, scores = "crps")
+#' }
 score_forecast <- function(fit_samples, observations, scores = "all") {
 
   observations <-
@@ -136,6 +137,7 @@ score_forecast <- function(fit_samples, observations, scores = "all") {
 #' @inheritParams score_forecast
 #' @importFrom dplyr rename
 #' @examples
+#' \dontrun{
 #' ## Fit a model (using a subset of observations)
 #' samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 #'                      model = function(...) {EpiSoon::bsts_model(model =
@@ -151,6 +153,7 @@ score_forecast <- function(fit_samples, observations, scores = "all") {
 #'
 #' ## Score the model fit (with observations during the time horizon of the forecast)
 #' score_case_forecast(pred_cases, EpiSoon::example_obs_cases, scores = c("crps", "sharpness", "bias"))
+#' }
 score_case_forecast <- function(pred_cases, obs_cases, scores = "all") {
 
   pred_cases <-  dplyr::rename(pred_cases, rt = cases)

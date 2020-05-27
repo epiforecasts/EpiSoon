@@ -255,7 +255,7 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
 
 
   check_suggests("forecastHybrid")
-
+  check_suggests("forecast")
 
   ## Fit the model
   fitted_model <- suppressMessages(
@@ -266,7 +266,7 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
   )
 
   ## Predict using the model
-  prediction <- do.call(forecast,
+  prediction <- do.call(forecast::forecast,
                         c(list(object = fitted_model, h = horizon),
                           forecast_params))
 
