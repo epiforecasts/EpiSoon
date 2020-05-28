@@ -7,7 +7,7 @@ development:
   mode: release
 
 navbar:
-  type: inverse
+  type: inverse 
   left:
     - text: "Home"
       href: index.html
