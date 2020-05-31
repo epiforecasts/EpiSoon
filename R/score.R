@@ -96,7 +96,7 @@ score_forecast <- function(fit_samples, observations, scores = "all") {
       NA
     },
     calibration = if(any(c("all", "calibration") %in% scores)) {
-      suppressWarnings(scoringutils::pit(obs, samples_matrix)$calibration)
+      suppressWarnings(scoringutils::pit(obs, samples_matrix)$p_value)
     }else{
       NA
     },
