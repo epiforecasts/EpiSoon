@@ -455,6 +455,7 @@ make_horizon_score_plot <- function(df, label = NULL) {
 
   score_plot <- df %>%
     dplyr::filter(!score %in% "Bias") %>%
+    dplyr::filter(mean > 0, median > 0, lower > 0, upper > 0) %>%
     plot_internal(label = label) +
     ggplot2::scale_y_log10()
 
