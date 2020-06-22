@@ -78,7 +78,8 @@ predict_cases <- function(cases = NULL,
 
   ## If horizon is supplied limit the rts to this date
   if (!is.null(horizon)) {
-    rts <- rts[date <= (forecast_date + lubridate::days(horizon))]
+    max_days <- lubridate::days(horizon)
+    rts <- rts[date <= (forecast_date + max_days)]
   }
 
   ## If no sampler given assume poisson
