@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Iteratively forecast directly on cases — iterative_direct_case_forecast • EpiSoon</title>
+<title>Summary plots to compare timeseries and forecast models — plot_compare_timeseries • EpiSoon</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Iteratively forecast directly on cases — iterative_direct_case_forecast" />
-<meta property="og:description" content="Iteratively forecast directly on cases" />
+<meta property="og:title" content="Summary plots to compare timeseries and forecast models — plot_compare_timeseries" />
+<meta property="og:description" content="Summary plots to compare timeseries and forecast models" />
 
 
 
@@ -115,75 +115,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Iteratively forecast directly on cases</h1>
+    <h1>Summary plots to compare timeseries and forecast models</h1>
     
-    <div class="hidden name"><code>iterative_direct_case_forecast.Rd</code></div>
+    <div class="hidden name"><code>plot_compare_timeseries.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Iteratively forecast directly on cases</p>
+    <p>Summary plots to compare timeseries and forecast models</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/iterative_direct_case_forecast.html'>iterative_direct_case_forecast</a></span>(
-  <span class='kw'>cases</span>,
-  model = <span class='kw'>NULL</span>,
-  horizon = <span class='fl'>7</span>,
-  samples = <span class='fl'>1000</span>,
-  timeout = <span class='fl'>30</span>,
-  bound_rt = <span class='fl'>TRUE</span>,
-  min_points = <span class='fl'>3</span>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/plot_compare_timeseries.html'>plot_compare_timeseries</a></span>(
+  <span class='kw'>compare_timeseries_output</span>,
+  type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"summary_score"</span>, <span class='st'>"horizon_score"</span>, <span class='st'>"region_score"</span>),
+  score = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Bias"</span>, <span class='st'>"CRPS"</span>, <span class='st'>"Sharpness"</span>, <span class='st'>"Calibration"</span>, <span class='st'>"Median"</span>, <span class='st'>"IQR"</span>, <span class='st'>"CI"</span>)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>cases</th>
-      <td><p>A dataframe containing <code>date</code> and <code>cases</code> variables</p></td>
+      <th>compare_timeseries_output</th>
+      <td><p>A named list of dataframes produced by
+<code>compare_timeseries</code></p></td>
     </tr>
     <tr>
-      <th>model</th>
-      <td><p>A model object in the format of <code>bsts_model</code> or <code>fable_model</code>. See the corresponding
-help files for details.</p></td>
+      <th>type</th>
+      <td><p>Type(s) of summary plot to be produced for Rt and case
+observations for each model in n <code>compare_timeseries_output</code>.
+<code>"summary_score"</code> provides a plot of model fit scores for
+the 0-7 and 8-14 day horizons. If desired, a subset of scores can be
+specified using the <code>score</code> argument. <code>"horizon_score"</code>
+provides a plot of scores (CRPS, Calibration, Sharpness, Median, IQR,
+CI, Bias) across horizons. <code>"region_score"</code> provides a plot of
+scores (CRPS, Calibration, Sharpness, Bias, Median, IQR) by region for
+the 0-7 and 8-14 day horizons.</p></td>
     </tr>
     <tr>
-      <th>horizon</th>
-      <td><p>Numeric, the time horizon over which to predict.</p></td>
-    </tr>
-    <tr>
-      <th>samples</th>
-      <td><p>Numeric, number of samples to take.</p></td>
-    </tr>
-    <tr>
-      <th>timeout</th>
-      <td><p>Numeric, timeout of model fitting in seconds. Defaults to 30 seconds.</p></td>
-    </tr>
-    <tr>
-      <th>bound_rt</th>
-      <td><p>Logical, defaults to <code>TRUE</code>. Should Rt values be bounded to be greater than or
-equal to 0.</p></td>
-    </tr>
-    <tr>
-      <th>min_points</th>
-      <td><p>Numeric, defaults to 3. The minimum number of time points at which to begin
-iteratively evaluating the forecast.</p></td>
+      <th>score</th>
+      <td><p>(Optional) One or more of
+<code><a href='https://rdrr.io/r/base/c.html'>c("Bias","CRPS","Sharpness","Calibration","Median","IQR","CI")</a></code> when
+<code>type="summary_score"</code> is used.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-
+    <p>A named list of <code>ggplot2</code> objects</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/iterative_direct_case_forecast.html'>iterative_direct_case_forecast</a></span>(<span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>,
-                       model = <span class='fu'>function</span>(<span class='kw'>...</span>) {<span class='kw'>EpiSoon</span>::<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(model =
-                       <span class='fu'>function</span>(<span class='kw'>ss</span>, <span class='kw'>y</span>){<span class='kw'>bsts</span>::<span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='kw'>ss</span>, y = <span class='kw'>y</span>)}, <span class='kw'>...</span>)},
-                        horizon = <span class='fl'>7</span>, samples = <span class='fl'>10</span>, min_points = <span class='fl'>4</span>)
-}</div></pre>
+    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

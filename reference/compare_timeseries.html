@@ -124,18 +124,18 @@
     <p>Compare timeseries and forecast models</p>
     </div>
 
-    <pre class="usage"><span class='fu'>compare_timeseries</span>(
-  <span class='kw'>obs_rts</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>obs_cases</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>models</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>,
-  <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>bound_rt</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>min_points</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>30</span>,
-  <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>rdist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>return_raw</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/compare_timeseries.html'>compare_timeseries</a></span>(
+  obs_rts = <span class='kw'>NULL</span>,
+  obs_cases = <span class='kw'>NULL</span>,
+  models = <span class='kw'>NULL</span>,
+  horizon = <span class='fl'>7</span>,
+  samples = <span class='fl'>1000</span>,
+  bound_rt = <span class='fl'>TRUE</span>,
+  min_points = <span class='fl'>3</span>,
+  timeout = <span class='fl'>30</span>,
+  serial_interval = <span class='kw'>NULL</span>,
+  rdist = <span class='kw'>NULL</span>,
+  return_raw = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -204,47 +204,47 @@ to <code>rpois</code> if not supplied</p></td>
     <p>A list of dataframes as produced by <code>evaluate model</code> but with an additional model column.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## Example data</span>
-<span class='no'>obs_rts</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span> <span class='kw'>%&gt;%</span>
-    <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>timeseries</span> <span class='kw'>=</span> <span class='st'>"Region 1"</span>) <span class='kw'>%&gt;%</span>
-    <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span> <span class='kw'>%&gt;%</span>
-    <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>timeseries</span> <span class='kw'>=</span> <span class='st'>"Region 2"</span>))
+<span class='kw'>obs_rts</span> <span class='op'>&lt;-</span> <span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span> <span class='op'>%&gt;%</span>
+    <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(timeseries = <span class='st'>"Region 1"</span>) <span class='op'>%&gt;%</span>
+    <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(<span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span> <span class='op'>%&gt;%</span>
+    <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(timeseries = <span class='st'>"Region 2"</span>))
 
-<span class='no'>obs_cases</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_cases.html'>example_obs_cases</a></span> <span class='kw'>%&gt;%</span>
-    <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>timeseries</span> <span class='kw'>=</span> <span class='st'>"Region 1"</span>) <span class='kw'>%&gt;%</span>
-    <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_cases.html'>example_obs_cases</a></span> <span class='kw'>%&gt;%</span>
-    <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='kw'>timeseries</span> <span class='kw'>=</span> <span class='st'>"Region 2"</span>))
+<span class='kw'>obs_cases</span> <span class='op'>&lt;-</span> <span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span> <span class='op'>%&gt;%</span>
+    <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(timeseries = <span class='st'>"Region 1"</span>) <span class='op'>%&gt;%</span>
+    <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(<span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span> <span class='op'>%&gt;%</span>
+    <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(timeseries = <span class='st'>"Region 2"</span>))
 
 <span class='co'>## List of forecasting bsts models wrapped in functions.</span>
-<span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='st'>"AR 3"</span> <span class='kw'>=</span>
-                    <span class='kw'>function</span>(<span class='no'>...</span>){<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
-                    <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.ar.html'>AddAr</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>lags</span> <span class='kw'>=</span> <span class='fl'>3</span>)}, <span class='no'>...</span>)},
-               <span class='st'>"Semi-local linear trend"</span> <span class='kw'>=</span>
-               <span class='kw'>function</span>(<span class='no'>...</span>) {<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
-                    <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)}, <span class='no'>...</span>)},
-               <span class='st'>"ARIMA"</span> <span class='kw'>=</span>
-                    <span class='kw'>function</span>(<span class='no'>...</span>){<span class='fu'><a href='fable_model.html'>fable_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span> <span class='kw pkg'>fable</span><span class='kw ns'>::</span><span class='fu'><a href='https://fable.tidyverts.org/reference/ARIMA.html'>ARIMA</a></span>(<span class='no'>y</span> ~ <span class='no'>time</span>), <span class='no'>...</span>)})
+<span class='kw'>models</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='st'>"AR 3"</span> =
+                    <span class='fu'>function</span>(<span class='kw'>...</span>){<span class='kw'>EpiSoon</span>::<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(model =
+                    <span class='fu'>function</span>(<span class='kw'>ss</span>, <span class='kw'>y</span>){<span class='kw'>bsts</span>::<span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.ar.html'>AddAr</a></span>(<span class='kw'>ss</span>, y = <span class='kw'>y</span>, lags = <span class='fl'>3</span>)}, <span class='kw'>...</span>)},
+               <span class='st'>"Semi-local linear trend"</span> =
+               <span class='fu'>function</span>(<span class='kw'>...</span>) {<span class='kw'>EpiSoon</span>::<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(model =
+                    <span class='fu'>function</span>(<span class='kw'>ss</span>, <span class='kw'>y</span>){<span class='kw'>bsts</span>::<span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='kw'>ss</span>, y = <span class='kw'>y</span>)}, <span class='kw'>...</span>)},
+               <span class='st'>"ARIMA"</span> =
+                    <span class='fu'>function</span>(<span class='kw'>...</span>){<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/fable_model.html'>fable_model</a></span>(model = <span class='kw'>fable</span>::<span class='fu'><a href='https://fable.tidyverts.org/reference/ARIMA.html'>ARIMA</a></span>(<span class='kw'>y</span> <span class='op'>~</span> <span class='kw'>time</span>), <span class='kw'>...</span>)})
 
 
 <span class='co'>## Compare models</span>
-<span class='no'>evaluations</span> <span class='kw'>&lt;-</span> <span class='fu'>compare_timeseries</span>(<span class='no'>obs_rts</span>, <span class='no'>obs_cases</span>, <span class='no'>models</span>,
-                                  <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-                                  <span class='kw'>serial_interval</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_serial_interval.html'>example_serial_interval</a></span>)
+<span class='kw'>evaluations</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/compare_timeseries.html'>compare_timeseries</a></span>(<span class='kw'>obs_rts</span>, <span class='kw'>obs_cases</span>, <span class='kw'>models</span>,
+                                  horizon = <span class='fl'>7</span>, samples = <span class='fl'>10</span>,
+                                  serial_interval = <span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_serial_interval.html'>example_serial_interval</a></span>)
 
-<span class='no'>evaluations</span>
+<span class='kw'>evaluations</span>
 
 <span class='co'>## Example evaluation plot for comparing forecasts</span>
 <span class='co'>## with actuals for a range of models and timeseries.</span>
-<span class='fu'><a href='plot_forecast_evaluation.html'>plot_forecast_evaluation</a></span>(<span class='no'>evaluations</span>$<span class='no'>forecast_rts</span>, <span class='no'>obs_rts</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>7</span>)) +
-  <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span>(<span class='no'>model</span> ~ <span class='no'>timeseries</span>) +
-  <span class='kw pkg'>cowplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/cowplot/man/panel_border.html'>panel_border</a></span>()
+<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/plot_forecast_evaluation.html'>plot_forecast_evaluation</a></span>(<span class='kw'>evaluations</span><span class='op'>$</span><span class='kw'>forecast_rts</span>, <span class='kw'>obs_rts</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>7</span>)) <span class='op'>+</span>
+  <span class='kw'>ggplot2</span>::<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span>(<span class='kw'>model</span> <span class='op'>~</span> <span class='kw'>timeseries</span>) <span class='op'>+</span>
+  <span class='kw'>cowplot</span>::<span class='fu'><a href='https://rdrr.io/pkg/cowplot/man/panel_border.html'>panel_border</a></span>()
 
 <span class='co'>## Hack to plot observed cases vs predicted</span>
-<span class='fu'><a href='plot_forecast_evaluation.html'>plot_forecast_evaluation</a></span>(<span class='no'>evaluations</span>$<span class='no'>forecast_cases</span>,
-                         <span class='no'>obs_cases</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>7</span>)) +
-  <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span>(<span class='no'>model</span> ~ <span class='no'>timeseries</span>, <span class='kw'>scales</span> <span class='kw'>=</span> <span class='st'>"free"</span>) +
-  <span class='kw pkg'>cowplot</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/cowplot/man/panel_border.html'>panel_border</a></span>()
+<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/plot_forecast_evaluation.html'>plot_forecast_evaluation</a></span>(<span class='kw'>evaluations</span><span class='op'>$</span><span class='kw'>forecast_cases</span>,
+                         <span class='kw'>obs_cases</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>7</span>)) <span class='op'>+</span>
+  <span class='kw'>ggplot2</span>::<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span>(<span class='kw'>model</span> <span class='op'>~</span> <span class='kw'>timeseries</span>, scales = <span class='st'>"free"</span>) <span class='op'>+</span>
+  <span class='kw'>cowplot</span>::<span class='fu'><a href='https://rdrr.io/pkg/cowplot/man/panel_border.html'>panel_border</a></span>()
   }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
