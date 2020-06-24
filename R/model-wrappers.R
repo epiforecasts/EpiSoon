@@ -195,7 +195,7 @@ fable_model <- function(y = NULL, samples = NULL,
 
     ## Bind samples together
     names(samples) <- 1:length(samples)
-    samples <- dplyr::bind_cols(samples)
+    samples <- suppressMessages(dplyr::bind_cols(samples))
   }
 
   return(samples)
@@ -284,7 +284,7 @@ forecastHybrid_model <- function(y = NULL, samples = NULL,
     sample_from_model <- purrr::map2(mean, sd,
                                      ~ rnorm(samples, mean = .x,  sd = .y))
 
-    sample_from_model <- dplyr::bind_cols(sample_from_model)
+    sample_from_model <- suppressMessages(dplyr::bind_cols(sample_from_model))
   }
 
   return(sample_from_model)
@@ -373,7 +373,7 @@ forecast_model <- function(y = NULL, samples = NULL,
     sample_from_model <- purrr::map2(mean, sd,
                                      ~ rnorm(samples, mean = .x,  sd = .y))
 
-    sample_from_model <- dplyr::bind_cols(sample_from_model)
+    sample_from_model <- suppressMessages(dplyr::bind_cols(sample_from_model))
   }
 
   return(sample_from_model)
