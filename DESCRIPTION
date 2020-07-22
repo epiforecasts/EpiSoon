@@ -63,12 +63,12 @@ Imports:
     tidyr,
     rlang,
     tibble,
+    data.table,
     lubridate,
     ggplot2,
     cowplot,
     HDInterval,
-    R.utils,
-    data.table
+    R.utils
 Additional_repositories: 
   https://epiforecasts.io/drat/
 Suggests: 
