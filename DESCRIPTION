@@ -71,8 +71,6 @@ Imports:
     data.table
 Additional_repositories: 
   https://epiforecasts.io/drat/
-Remotes:
-  nikosbosse/stackr
 Suggests: 
     knitr,
     rmarkdown,
