@@ -51,9 +51,6 @@ to \code{rpois} if not supplied}
 
 \item{return_raw}{Logical, should raw cases and rt forecasts be returned. Defaults to \code{FALSE}.}
 }
-\value{
-
-}
 \description{
 Evaluate a Model for Forecasting Rts
 }

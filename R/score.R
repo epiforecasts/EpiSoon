@@ -11,8 +11,7 @@
 #' @importFrom dplyr filter select select_if
 #' @importFrom tidyr spread
 #' @importFrom tibble tibble
-#' @importFrom scoringRules dss_sample crps_sample logs_sample
-#' @importFrom scoringutils bias sharpness pit interval_score
+#' @importFrom scoringutils score
 #' @inheritParams summarise_forecast
 #' @examples
 #' \dontrun{
@@ -38,87 +37,22 @@ score_forecast <- function(fit_samples, observations, scores = "all") {
                   date >= min(fit_samples$date),
                   date <= max(fit_samples$date)
     )
+  observations <-
+    dplyr::rename(observations, true_value = rt)
 
   fit_samples <-
     dplyr::filter(fit_samples,
                   date >= min(observations$date),
                   date <= max(observations$date)
     )
+  fit_samples <-
+    dplyr::rename(fit_samples, prediction = rt)
 
+  combined <-
+    dplyr::inner_join(observations, fit_samples, by = "date", multiple = "all")
 
-  obs <- observations$rt
-
-  samples_matrix <-
-    tidyr::spread(fit_samples, key = "sample", value = "rt") %>%
-    dplyr::select(-horizon, -date) %>%
-    as.matrix
-
-  data_length <- length(observations$date)
-
-  ##Define interval_score
-  interval_score <- function(lower, upper, range) {
-    suppressMessages(
-      suppressWarnings(scoringutils::interval_score(true_values = obs,
-                                                    lower =  apply(samples_matrix, 1,
-                                                                   quantile, probs = lower),
-                                                    upper = apply(samples_matrix, 1,
-                                                                  quantile, probs = upper),
-                                                    interval_range = range))
-    )
-  }
-
-  scores <- tibble::tibble(
-    date = observations$date,
-    horizon = 1:data_length,
-    dss = if(any(c("all", "dss") %in% scores)) {
-      scoringRules::dss_sample(y = obs, dat = samples_matrix)
-    }else{
-      NA
-    },
-    crps = if(any(c("all", "crps") %in% scores)) {
-      scoringRules::crps_sample(y = obs, dat = samples_matrix)
-    }else{
-      NA
-    },
-    logs = if(any(c("all", "logs") %in% scores)) {
-      scoringRules::logs_sample(y = obs, dat = samples_matrix)
-    }else{
-      NA
-    },
-    bias = if(any(c("all", "bias") %in% scores)) {
-      suppressWarnings(scoringutils::bias(obs, samples_matrix))
-    }else{
-      NA
-    },
-    sharpness = if(any(c("all", "sharpness") %in% scores)) {
-      suppressWarnings(scoringutils::sharpness(samples_matrix))
-    }else{
-      NA
-    },
-    calibration = if(any(c("all", "calibration") %in% scores)) {
-      suppressWarnings(scoringutils::pit(obs, samples_matrix)$p_value)
-    }else{
-      NA
-    },
-    median = if(any(c("all", "median") %in% scores)) {
-      interval_score(0.5, 0.5, 0)
-    }else{
-      NA
-    },
-    iqr = if(any(c("all", "iqr") %in% scores)) {
-      interval_score(0.25, 0.75, 50)
-    }else{
-      NA
-    },
-    ci = if(any(c("all", "ci") %in% scores)) {
-      interval_score(0.025, 0.975, 95)
-    }else{
-      NA
-    }
-  )
-
+  scores <- scoringutils::score(combined)
   scores <- dplyr::select_if(scores, ~ any(!is.na(.)))
-
 
   return(scores)
 }

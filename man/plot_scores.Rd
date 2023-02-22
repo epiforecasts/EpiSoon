@@ -12,6 +12,3 @@ A dataframe of summarised scores in a tidy format.
 \description{
 Plot forecast scores
 }
-\examples{
-
-}
