@@ -70,7 +70,9 @@ Imports:
     HDInterval,
     R.utils
 Additional_repositories: 
-  https://epiforecasts.io/drat/
+    https://epiforecasts.io/drat/
+Remotes:
+    nikosbosse/stackr
 Suggests: 
     knitr,
     rmarkdown,
