@@ -87,5 +87,6 @@ Suggests:
     stackr,
     brms,
     tidybayes,
-    testthat
+    testthat,
+    covr
 VignetteBuilder: knitr
