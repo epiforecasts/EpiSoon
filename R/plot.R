@@ -191,7 +191,7 @@ plot_scores <- function() {
 #' @return A named list of `ggplot2` objects
 #' @export
 #' @importFrom dplyr mutate bind_rows filter group_by ungroup recode_factor
-#' across
+#' pick
 #' @importFrom cowplot plot_grid theme_cowplot panel_border
 #' @importFrom purrr map_dfr
 #' @importFrom lubridate days
