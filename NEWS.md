@@ -1,7 +1,13 @@
+# EpiSoon 0.3.1
+
+* Updated all GitHub Actions
+* Updated `tidyverse` code usage to account for depreciation.
+* Updated `pkgdown` site to use `pkgdown` 2.0.0.
+
 # EpiSoon 0.3.0
 
 * Reviewed and updated all tooling and examples
-* Added documentation 
+* Added documentation
 * Bugs squashed.
 
 # EpiSoon 0.2.0

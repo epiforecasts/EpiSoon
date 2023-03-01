@@ -1,7 +1,7 @@
 Package: EpiSoon
 Type: Package
 Title: Forecast Cases Using Reproduction Numbers
-Version: 0.3.0
+Version: 0.3.0.1000
 Authors@R: c(
     person(given = "Sam Abbott",
            role = c("aut", "cre"),
