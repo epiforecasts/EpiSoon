@@ -79,14 +79,14 @@ test_that("Summary over variables has proper lengths and names", {
 ## Instead summarise across region and summarise case scores
 test_that("Specific score summary has proper lengths and names", {
   ## one score
-  summary_logs <- summarise_scores(out$case_scores, sel_scores = "logs")
+  summary_crps <- summarise_scores(out$case_scores, sel_scores = "crps")
 
   # summary for all scores are obtained for every horizon and every model
-  expect_equal(nrow(summary_logs), length(models))
+  expect_equal(nrow(summary_crps), length(models))
 
   ## more than one score
   summary_scores <- summarise_scores(out$case_scores,
-                                     sel_scores = c("logs", "dss"))
+                                     sel_scores = c("crps", "dss"))
 
   # summary for all scores are obtained for every horizon and every model
   expect_equal(nrow(summary_scores), length(models) * 2)

@@ -51,6 +51,11 @@ to \code{rpois} if not supplied}
 
 \item{return_raw}{Logical, should raw cases and rt forecasts be returned. Defaults to \code{FALSE}.}
 }
+\value{
+a list of tibbles containing the predicted Rt values (\code{forecast_rts}),
+their scores (\code{rt_scores}), as well as predicted cases (\code{forecast_cases}) and
+their scores (\code{case_scores}).
+}
 \description{
 Evaluate a Model for Forecasting Rts
 }
