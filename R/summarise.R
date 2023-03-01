@@ -90,7 +90,7 @@ summarise_case_forecast <- function(pred_cases) {
 #' @return A dataframe of summarised scores in a tidy format.
 #' @export
 #' @importFrom tidyr gather
-#' @importFrom dplyr group_by summarise ungroup
+#' @importFrom dplyr group_by_at summarise ungroup
 #' @examples
 #'\dontrun{
 #' ## Example cases
@@ -142,8 +142,7 @@ summarise_scores <- function(scores, variables = NULL, sel_scores = NULL) {
   }
 
   summarised_scores <- scores %>%
-    tidyr::gather(key = "score", value = "value", mad, bias, dss, crps,
-                  ae_median, se_mean)
+    tidyr::gather(key = "score", value = "value", mad:se_mean)
 
 
   if (!is.null(sel_scores)) {
@@ -153,7 +152,7 @@ summarise_scores <- function(scores, variables = NULL, sel_scores = NULL) {
   }
 
   summarised_scores <- summarised_scores %>%
-    dplyr::group_by(.dots = c(variables, default_groups)) %>%
+    dplyr::group_by_at(c(variables, default_groups)) %>%
     dplyr::summarise(
       bottom = quantile(value, 0.025, na.rm = TRUE),
       lower =  quantile(value, 0.25, na.rm = TRUE),

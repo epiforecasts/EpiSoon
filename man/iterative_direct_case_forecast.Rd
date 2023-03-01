@@ -32,6 +32,9 @@ equal to 0.}
 \item{min_points}{Numeric, defaults to 3. The minimum number of time points at which to begin
 iteratively evaluating the forecast.}
 }
+\value{
+A tibble of iterative forecasts
+}
 \description{
 Iteratively forecast directly on cases
 }

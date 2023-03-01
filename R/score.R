@@ -51,6 +51,10 @@ score_forecast <- function(fit_samples, observations, scores = "all") {
   combined <-
     dplyr::inner_join(observations, fit_samples, by = "date", multiple = "all")
 
+  if (!("model" %in% names(combined))) {
+    combined$model <- NA_character_
+  }
+
   scores <- scoringutils::score(combined)
   scores <- dplyr::select_if(scores, ~ any(!is.na(.)))
 

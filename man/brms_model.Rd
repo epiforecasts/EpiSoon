@@ -22,7 +22,7 @@ brms_model(
 
 \item{horizon}{Numeric, the time horizon over which to predict.}
 
-\item{model}{A \code{brms} model wrapped in the \code{\link[brms:bf]{brms::bf()}} function}
+\item{model}{A \code{brms} model wrapped in the \code{brms::bf()} function}
 
 \item{n_cores}{Numeric, the number of cores to use, default of 1}
 
@@ -37,7 +37,7 @@ default of 4000}
 A dataframe of predictions (with columns representing the time horizon and rows representing samples).
 }
 \description{
-Allows users to specify a model using the \code{\link[brms:bf]{brms::bf()}}  wrapper from \code{brms}
+Allows users to specify a model using the \code{brms::bf()}  wrapper from \code{brms}
 Note that \code{brms} and \code{tidybayes} must both be installed for this
 model wrapper to be functional.
 }

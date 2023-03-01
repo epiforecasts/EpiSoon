@@ -24,7 +24,7 @@ test_that("Output has proper length, names, class", {
   expect_s3_class(run_test, c("tbl_df", "tbl", "data.frame"))
   expect_named(run_test)
   expect_equal(nrow(run_test), length(unique(pred_cases$date)))
-  expect_named(run_test, c("date", "horizon", "dss", "crps", "logs", "bias",
-                           "sharpness", "calibration", "median", "iqr", "ci"))
+  expect_named(run_test, c("date", "horizon", "mad", "bias", "dss",
+                           "crps", "ae_median", "se_mean"))
   expect_equal(nrow(run_test), 7)
 })

@@ -2,7 +2,7 @@
 #'
 #' @param min_points Numeric, defaults to 3. The minimum number of time points at which to begin
 #' iteratively evaluating the forecast.
-#' @return
+#' @return A tibble of iterative forecasts
 #' @export
 #' @inheritParams forecast_rt
 #'
@@ -90,7 +90,7 @@ iterative_case_forecast <- function(it_fit_samples = NULL, cases = NULL,
 
 #' Iteratively forecast directly on cases
 #'
-#' @return
+#' @return A tibble of iterative forecasts
 #' @export
 #' @inheritParams forecast_cases_directly
 #' @inheritParams iterative_rt_forecast

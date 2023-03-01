@@ -11,7 +11,9 @@
 #' @inheritParams score_forecast
 #' @inheritParams iterative_rt_forecast
 #' @inheritParams iterative_case_forecast
-#' @return
+#' @return a list of tibbles containing the predicted Rt values (`forecast_rts`),
+#' their scores (`rt_scores`), as well as predicted cases (`forecast_cases`) and
+#' their scores (`case_scores`).
 #' @export
 #' @importFrom dplyr slice group_split filter
 #' @importFrom purrr map_dfr map2 map2_dfr
@@ -62,7 +64,7 @@ evaluate_model <- function(obs_rts = NULL,
   ## Split obs_rt into a list if present
   if (rlang::has_name(obs_rts, "sample")) {
     obs_rts <- obs_rts %>%
-      dplyr::group_split(sample)
+      dplyr::group_split(sample, .keep = FALSE)
   }else{
     obs_rts <- list(obs_rts)
   }
@@ -204,7 +206,7 @@ evaluate_model <- function(obs_rts = NULL,
 #' @return A list of dataframes as produced by `evaluate model` but with an additional model column.
 #' @export
 #' @importFrom purrr transpose safely
-#' @importFrom furrr future_map
+#' @importFrom furrr future_map furrr_options
 #' @importFrom dplyr bind_rows
 #' @examples
 #'\dontrun{
@@ -265,11 +267,11 @@ compare_models <- function(obs_rts = NULL,
                   min_points = min_points,
                   rdist = rdist,
                   return_raw = return_raw)[[1]],
-      .progress = TRUE
+      .progress = TRUE,
+      .options = furrr::furrr_options(seed = TRUE)
     ) %>%
     purrr::transpose() %>%
     purrr::map(~ dplyr::bind_rows(., .id = "model"))
-
 
   return(evaluations)
 
@@ -289,7 +291,7 @@ compare_models <- function(obs_rts = NULL,
 #' @export
 #' @importFrom purrr transpose map
 #' @importFrom dplyr group_split select mutate sample_frac arrange
-#' @importFrom furrr future_pmap
+#' @importFrom furrr future_pmap furrr_options
 #' @importFrom tidyr expand_grid unnest
 #' @importFrom tibble tibble
 #' @examples
@@ -353,9 +355,9 @@ compare_timeseries <- function(obs_rts = NULL,
   data_tibble <- tibble::tibble(
     timeseries = unique(obs_cases$timeseries),
     rts = obs_rts %>%
-      dplyr::group_split(timeseries),
+      dplyr::group_split(timeseries, .keep = FALSE),
     cases = obs_cases %>%
-      dplyr::group_split(timeseries)
+      dplyr::group_split(timeseries, .keep = FALSE)
   )
 
   ## Make a tibble of all data and model combinations
@@ -386,7 +388,8 @@ compare_timeseries <- function(obs_rts = NULL,
                                     min_points = min_points,
                                     rdist = rdist,
                                     return_raw = return_raw
-                                  )[[1]]}),
+                                  )[[1]]},
+                                .options = furrr::furrr_options(seed = TRUE)),
       .progress = TRUE) %>%
     dplyr::select(timeseries, model = model_name, eval) %>%
     dplyr::arrange(timeseries, model)

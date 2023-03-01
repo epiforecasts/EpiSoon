@@ -53,13 +53,13 @@ bsts_model <- function(y = NULL, samples = NULL,
 
 #' brms Model Wrapper
 #'
-#' Allows users to specify a model using the [brms::bf()]  wrapper from `brms`
+#' Allows users to specify a model using the \code{brms::bf()}  wrapper from `brms`
 #' Note that `brms` and `tidybayes` must both be installed for this
 #' model wrapper to be functional.
 #'
 #' @param y Numeric vector of time points to forecast
 #' @param samples Numeric, number of samples to take.
-#' @param model A `brms` model wrapped in the [brms::bf()] function
+#' @param model A `brms` model wrapped in the \code{brms::bf()} function
 #' @param horizon Numeric, the time horizon over which to predict.
 #' @param n_cores Numeric, the number of cores to use, default of 1
 #' @param n_chains Numeric, the number of chains to use, default of 4
