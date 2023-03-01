@@ -17,9 +17,16 @@
 #' \dontrun{
 #' ## Fit a model (using a subset of observations)
 #' samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-#'                      model = function(...) {EpiSoon::bsts_model(model =
-#'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-#'                      horizon = 7, samples = 10)
+#'   model = function(...) {
+#'     EpiSoon::bsts_model(
+#'       model =
+#'         function(ss, y) {
+#'           bsts::AddSemilocalLinearTrend(ss, y = y)
+#'         }, ...
+#'     )
+#'   },
+#'   horizon = 7, samples = 10
+#' )
 #'
 #' ## Score the model fit (with observations during the time horizon of the forecast)
 #' score_forecast(samples, EpiSoon::example_obs_rts)
@@ -31,19 +38,20 @@
 #' score_forecast(samples, EpiSoon::example_obs_rts, scores = "crps")
 #' }
 score_forecast <- function(fit_samples, observations, scores = "all") {
-
   observations <-
-    dplyr::filter(observations,
-                  date >= min(fit_samples$date),
-                  date <= max(fit_samples$date)
+    dplyr::filter(
+      observations,
+      date >= min(fit_samples$date),
+      date <= max(fit_samples$date)
     )
   observations <-
     dplyr::rename(observations, true_value = rt)
 
   fit_samples <-
-    dplyr::filter(fit_samples,
-                  date >= min(observations$date),
-                  date <= max(observations$date)
+    dplyr::filter(
+      fit_samples,
+      date >= min(observations$date),
+      date <= max(observations$date)
     )
   fit_samples <-
     dplyr::rename(fit_samples, prediction = rt)
@@ -78,12 +86,21 @@ score_forecast <- function(fit_samples, observations, scores = "all") {
 #' \dontrun{
 #' ## Fit a model (using a subset of observations)
 #' samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-#'                      model = function(...) {EpiSoon::bsts_model(model =
-#'                      function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-#'                      horizon = 7, samples = 10)
+#'   model = function(...) {
+#'     EpiSoon::bsts_model(
+#'       model =
+#'         function(ss, y) {
+#'           bsts::AddSemilocalLinearTrend(ss, y = y)
+#'         }, ...
+#'     )
+#'   },
+#'   horizon = 7, samples = 10
+#' )
 #'
-#' pred_cases <- forecast_cases(EpiSoon::example_obs_cases,
-#'                              samples, EpiSoon::example_serial_interval)
+#' pred_cases <- forecast_cases(
+#'   EpiSoon::example_obs_cases,
+#'   samples, EpiSoon::example_serial_interval
+#' )
 #'
 #' ## Score the model fit (with observations during the time horizon of the forecast)
 #' score_case_forecast(pred_cases, EpiSoon::example_obs_cases)
@@ -93,14 +110,13 @@ score_forecast <- function(fit_samples, observations, scores = "all") {
 #' score_case_forecast(pred_cases, EpiSoon::example_obs_cases, scores = c("crps", "sharpness", "bias"))
 #' }
 score_case_forecast <- function(pred_cases, obs_cases, scores = "all") {
-
-  pred_cases <-  dplyr::rename(pred_cases, rt = cases)
+  pred_cases <- dplyr::rename(pred_cases, rt = cases)
 
   obs_cases <- dplyr::rename(obs_cases, rt = cases)
 
   scores <- EpiSoon::score_forecast(pred_cases, obs_cases,
-                                    scores = scores)
+    scores = scores
+  )
 
   return(scores)
 }
-

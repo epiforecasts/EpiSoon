@@ -19,16 +19,17 @@
 #' @examples
 #' \dontrun{
 #' forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-#'             model = function(...){
-#'             EpiSoon::bsts_model(model = function(ss, y){
-#'             bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
-#'             },
-#'             horizon = 7, samples = 10)
-#'             }
+#'   model = function(...) {
+#'     EpiSoon::bsts_model(model = function(ss, y) {
+#'       bsts::AddAutoAr(ss, y = y, lags = 10)
+#'     }, ...)
+#'   },
+#'   horizon = 7, samples = 10
+#' )
+#' }
 forecast_rt <- function(rts, model,
                         horizon = 7, samples = 1000,
                         bound_rt = TRUE, timeout = 100) {
-
   ## Set up for model fitting
   y <- rts$rt
 
@@ -42,12 +43,15 @@ forecast_rt <- function(rts, model,
 
   samples <-
     dplyr::mutate(samples,
-                  sample = 1:dplyr::n()) %>%
+      sample = 1:dplyr::n()
+    ) %>%
     tidyr::gather(key = "date", value = "rt", -sample) %>%
     dplyr::mutate(date = as.Date(date)) %>%
     dplyr::group_by(sample) %>%
-    dplyr::mutate(horizon = 1:dplyr::n(),
-                  rt = ifelse(rt < 0 & bound_rt, 0, rt)) %>%
+    dplyr::mutate(
+      horizon = 1:dplyr::n(),
+      rt = ifelse(rt < 0 & bound_rt, 0, rt)
+    ) %>%
     dplyr::ungroup()
 
   return(samples)
@@ -73,23 +77,24 @@ forecast_rt <- function(rts, model,
 #' @examples \dontrun{
 #' ## Rt forecast
 #' forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-#'                         model = function(...){
-#'                         EpiSoon::bsts_model(model = function(ss, y){
-#'                         bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
-#'                         },
-#'                         horizon = 7, samples = 10)
+#'   model = function(...) {
+#'     EpiSoon::bsts_model(model = function(ss, y) {
+#'       bsts::AddAutoAr(ss, y = y, lags = 10)
+#'     }, ...)
+#'   },
+#'   horizon = 7, samples = 10
+#' )
 #'
 #'
 #' forecast_cases(EpiSoon::example_obs_cases,
-#'                fit_samples =  forecast,
-#'                serial_interval = EpiSoon::example_serial_interval)
-#'                }
+#'   fit_samples = forecast,
+#'   serial_interval = EpiSoon::example_serial_interval
+#' )
+#' }
 forecast_cases <- function(cases = NULL, fit_samples = NULL,
                            serial_interval = NULL, forecast_date = NULL,
-                           horizon = NULL, rdist = NULL
-){
-
-  if(is.null(serial_interval)) {
+                           horizon = NULL, rdist = NULL) {
+  if (is.null(serial_interval)) {
     stop("serial_interval is missing. See EpiSoon::example_serial_interval for the required format.")
   }
   predictions <-
@@ -100,8 +105,9 @@ forecast_cases <- function(cases = NULL, fit_samples = NULL,
       serial_interval = serial_interval,
       forecast_date = min(.$date, na.rm = TRUE) - lubridate::days(1),
       horizon = horizon,
-      rdist = rdist) %>%
-        dplyr::mutate(horizon = 1:dplyr::n()), .id = "sample") %>%
+      rdist = rdist
+    ) %>%
+      dplyr::mutate(horizon = 1:dplyr::n()), .id = "sample") %>%
     dplyr::mutate(sample = as.numeric(sample))
 
 
@@ -116,27 +122,29 @@ forecast_cases <- function(cases = NULL, fit_samples = NULL,
 #' @return Forecast cases over a future forecast horizon
 #' @export
 #' @examples
-#'\dontrun{
+#' \dontrun{
 #' forecast_cases_directly(EpiSoon::example_obs_cases,
-#'                 model = function(...){
-#'                         EpiSoon::bsts_model(model = function(ss, y){
-#'                         bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
-#'                         },
-#'                         horizon = 7, samples = 10)
-#'}
+#'   model = function(...) {
+#'     EpiSoon::bsts_model(model = function(ss, y) {
+#'       bsts::AddAutoAr(ss, y = y, lags = 10)
+#'     }, ...)
+#'   },
+#'   horizon = 7, samples = 10
+#' )
+#' }
 forecast_cases_directly <- function(cases = NULL, model,
-                           horizon = 7, samples = 1000,
-                           bound_rt = TRUE, timeout = 100){
-
+                                    horizon = 7, samples = 1000,
+                                    bound_rt = TRUE, timeout = 100) {
   cases$rt <- cases$cases
 
-  samples <- EpiSoon::forecast_rt(rts = cases, model = model,
-                                  horizon = horizon, samples = samples,
-                                  bound_rt = bound_rt, timeout = timeout)
+  samples <- EpiSoon::forecast_rt(
+    rts = cases, model = model,
+    horizon = horizon, samples = samples,
+    bound_rt = bound_rt, timeout = timeout
+  )
 
   samples$cases <- samples$rt
   samples$rt <- NULL
 
   return(samples)
 }
-

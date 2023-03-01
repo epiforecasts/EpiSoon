@@ -9,24 +9,29 @@
 #' @importFrom purrr map_dbl
 #' @importFrom HDInterval hdi
 #' @examples
-#'
-#'\dontrun{
+#' \dontrun{
 #' samples <- forecast_rt(example_obs_rts,
-#'                        model = function(...) {EpiSoon::bsts_model(model =
-#'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-#'                        horizon = 7, samples = 10)
+#'   model = function(...) {
+#'     EpiSoon::bsts_model(
+#'       model =
+#'         function(ss, y) {
+#'           bsts::AddSemilocalLinearTrend(ss, y = y)
+#'         }, ...
+#'     )
+#'   },
+#'   horizon = 7, samples = 10
+#' )
 #'
 #'
 #' summarise_forecast(samples)
 #' }
 summarise_forecast <- function(fit_samples) {
-
   summarised_fit <- fit_samples %>%
     dplyr::group_by(date, horizon) %>%
     dplyr::summarise(
       hdi_90 = list(HDInterval::hdi(rt, credMass = 0.9)),
       hdi_50 = list(HDInterval::hdi(rt, credMass = 0.5)),
-      median =  median(rt, na.rm = TRUE),
+      median = median(rt, na.rm = TRUE),
       mean = mean(rt, na.rm = TRUE),
       sd = sd(rt, na.rm = TRUE)
     ) %>%
@@ -56,23 +61,30 @@ summarise_forecast <- function(fit_samples) {
 #' @importFrom dplyr group_by summarise mutate select
 #' @importFrom HDInterval hdi
 #' @examples
-#'\dontrun{
+#' \dontrun{
 #' ## Example forecast
 #' forecast <- forecast_rt(EpiSoon::example_obs_rts,
-#'                         model = function(...) {EpiSoon::bsts_model(model =
-#'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-#'                         horizon = 7, samples = 10)
+#'   model = function(...) {
+#'     EpiSoon::bsts_model(
+#'       model =
+#'         function(ss, y) {
+#'           bsts::AddSemilocalLinearTrend(ss, y = y)
+#'         }, ...
+#'     )
+#'   },
+#'   horizon = 7, samples = 10
+#' )
 #'
 #' ## Forecast cases
-#' case_forecast <- forecast_cases(EpiSoon::example_obs_cases,
-#'                                 forecast,
-#'                                 EpiSoon::example_serial_interval)
+#' case_forecast <- forecast_cases(
+#'   EpiSoon::example_obs_cases,
+#'   forecast,
+#'   EpiSoon::example_serial_interval
+#' )
 #' ## Summarise case forecast
 #' summarise_case_forecast(case_forecast)
 #' }
 summarise_case_forecast <- function(pred_cases) {
-
-
   pred_cases <- pred_cases %>%
     dplyr::rename(rt = cases)
 
@@ -92,33 +104,48 @@ summarise_case_forecast <- function(pred_cases) {
 #' @importFrom tidyr gather
 #' @importFrom dplyr group_by_at summarise ungroup
 #' @examples
-#'\dontrun{
+#' \dontrun{
 #' ## Example cases
 #' cases <- EpiSoon::example_obs_cases %>%
-#'     dplyr::mutate(timeseries = "Region 1") %>%
-#'     dplyr::bind_rows(EpiSoon::example_obs_cases %>%
+#'   dplyr::mutate(timeseries = "Region 1") %>%
+#'   dplyr::bind_rows(EpiSoon::example_obs_cases %>%
 #'     dplyr::mutate(timeseries = "Region 2"))
 #'
 #'
 #' ## Example Rts
 #' rts <- EpiSoon::example_obs_rts %>%
-#'     dplyr::mutate(timeseries = "Region 1") %>%
-#'     dplyr::bind_rows(EpiSoon::example_obs_rts %>%
+#'   dplyr::mutate(timeseries = "Region 1") %>%
+#'   dplyr::bind_rows(EpiSoon::example_obs_rts %>%
 #'     dplyr::mutate(timeseries = "Region 2"))
 #'
 #' ## List of forecasting bsts models wrapped in functions.
-#' models <- list("AR 3" =
-#'                     function(...) {EpiSoon::bsts_model(model =
-#'                     function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)},
-#'                "Semi-local linear trend" =
-#'                function(...) {EpiSoon::bsts_model(model =
-#'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)})
+#' models <- list(
+#'   "AR 3" =
+#'     function(...) {
+#'       EpiSoon::bsts_model(
+#'         model =
+#'           function(ss, y) {
+#'             bsts::AddAr(ss, y = y, lags = 3)
+#'           }, ...
+#'       )
+#'     },
+#'   "Semi-local linear trend" =
+#'     function(...) {
+#'       EpiSoon::bsts_model(
+#'         model =
+#'           function(ss, y) {
+#'             bsts::AddSemilocalLinearTrend(ss, y = y)
+#'           }, ...
+#'       )
+#'     }
+#' )
 #'
 #'
 #' ## Compare models
 #' evaluations <- compare_timeseries(rts, cases, models,
-#'                                   horizon = 7, samples = 10,
-#'                                   serial_interval = example_serial_interval)
+#'   horizon = 7, samples = 10,
+#'   serial_interval = example_serial_interval
+#' )
 #'
 #'
 #'
@@ -133,8 +160,6 @@ summarise_case_forecast <- function(pred_cases) {
 #' summarise_scores(evaluations$case_scores, "timeseries", sel_scores = "logs")
 #' }
 summarise_scores <- function(scores, variables = NULL, sel_scores = NULL) {
-
-
   default_groups <- "score"
 
   if (!is.null(scores[["model"]])) {
@@ -148,15 +173,14 @@ summarise_scores <- function(scores, variables = NULL, sel_scores = NULL) {
   if (!is.null(sel_scores)) {
     summarised_scores <- summarised_scores %>%
       dplyr::filter(score %in% sel_scores)
-
   }
 
   summarised_scores <- summarised_scores %>%
     dplyr::group_by_at(c(variables, default_groups)) %>%
     dplyr::summarise(
       bottom = quantile(value, 0.025, na.rm = TRUE),
-      lower =  quantile(value, 0.25, na.rm = TRUE),
-      median =  median(value, na.rm = TRUE),
+      lower = quantile(value, 0.25, na.rm = TRUE),
+      median = median(value, na.rm = TRUE),
       mean = mean(value, na.rm = TRUE),
       upper = quantile(value, 0.75, na.rm = TRUE),
       top = quantile(value, 0.975, na.rm = TRUE),

@@ -8,13 +8,19 @@
 #'
 #' @importFrom purrr map_dfr safely
 #' @examples
-#'
-#'\dontrun{
+#' \dontrun{
 #' iterative_rt_forecast(EpiSoon::example_obs_rts,
-#'                       model = function(...) {EpiSoon::bsts_model(model =
-#'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-#'                       horizon = 7, samples = 10, min_points = 4) -> tmp
-#'                       }
+#'   model = function(...) {
+#'     EpiSoon::bsts_model(
+#'       model =
+#'         function(ss, y) {
+#'           bsts::AddSemilocalLinearTrend(ss, y = y)
+#'         }, ...
+#'     )
+#'   },
+#'   horizon = 7, samples = 10, min_points = 4
+#' ) -> tmp
+#' }
 iterative_rt_forecast <- function(rts,
                                   model = NULL,
                                   horizon = 7,
@@ -22,7 +28,6 @@ iterative_rt_forecast <- function(rts,
                                   timeout = 30,
                                   bound_rt = TRUE,
                                   min_points = 3) {
-
   safe_fit <- purrr::safely(forecast_rt)
 
   ## Dates to iterate over - remove first three to allow enough data for modelling
@@ -30,13 +35,15 @@ iterative_rt_forecast <- function(rts,
   names(dates) <- rts$date[-c(1:min_points)]
 
   ## Iteratively fit
-  samples <- purrr::map_dfr(dates, ~ safe_fit(rts[rts$date <= .,],
-                                              model = model,
-                                              samples = samples,
-                                              horizon = horizon,
-                                              bound_rt = bound_rt,
-                                              timeout = timeout)[[1]],
-                            .id = "forecast_date")
+  samples <- purrr::map_dfr(dates, ~ safe_fit(rts[rts$date <= ., ],
+    model = model,
+    samples = samples,
+    horizon = horizon,
+    bound_rt = bound_rt,
+    timeout = timeout
+  )[[1]],
+  .id = "forecast_date"
+  )
 
 
 
@@ -59,23 +66,31 @@ iterative_rt_forecast <- function(rts,
 #' ## Iterative Rt forecast
 #' it_forecast <-
 #'   iterative_rt_forecast(EpiSoon::example_obs_rts,
-#'                         model = function(...){EpiSoon::bsts_model(model =
-#'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-#'                         horizon = 7, samples = 10)
+#'     model = function(...) {
+#'       EpiSoon::bsts_model(
+#'         model =
+#'           function(ss, y) {
+#'             bsts::AddSemilocalLinearTrend(ss, y = y)
+#'           }, ...
+#'       )
+#'     },
+#'     horizon = 7, samples = 10
+#'   )
 #'
 #'
 #' ## Iterative case forecast
-#' iterative_case_forecast(it_fit_samples = it_forecast,
-#'                          cases = EpiSoon::example_obs_cases,
-#'                          serial_interval = EpiSoon::example_serial_interval)
-#'}
+#' iterative_case_forecast(
+#'   it_fit_samples = it_forecast,
+#'   cases = EpiSoon::example_obs_cases,
+#'   serial_interval = EpiSoon::example_serial_interval
+#' )
+#' }
 iterative_case_forecast <- function(it_fit_samples = NULL, cases = NULL,
                                     serial_interval, rdist = NULL) {
-
   predictions <- it_fit_samples %>%
     dplyr::group_split(forecast_date) %>%
     setNames(unique(it_fit_samples$forecast_date)) %>%
-    purrr::map_dfr( ~ forecast_cases(
+    purrr::map_dfr(~ forecast_cases(
       cases,
       fit_samples = dplyr::select(., -forecast_date),
       rdist = rdist,
@@ -84,7 +99,6 @@ iterative_case_forecast <- function(it_fit_samples = NULL, cases = NULL,
     ), .id = "forecast_date")
 
   return(predictions)
-
 }
 
 
@@ -96,12 +110,18 @@ iterative_case_forecast <- function(it_fit_samples = NULL, cases = NULL,
 #' @inheritParams iterative_rt_forecast
 #'
 #' @examples
-#'
 #' \dontrun{
 #' iterative_direct_case_forecast(EpiSoon::example_obs_cases,
-#'                        model = function(...) {EpiSoon::bsts_model(model =
-#'                        function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-#'                         horizon = 7, samples = 10, min_points = 4)
+#'   model = function(...) {
+#'     EpiSoon::bsts_model(
+#'       model =
+#'         function(ss, y) {
+#'           bsts::AddSemilocalLinearTrend(ss, y = y)
+#'         }, ...
+#'     )
+#'   },
+#'   horizon = 7, samples = 10, min_points = 4
+#' )
 #' }
 iterative_direct_case_forecast <- function(cases,
                                            model = NULL,
@@ -110,7 +130,6 @@ iterative_direct_case_forecast <- function(cases,
                                            timeout = 30,
                                            bound_rt = TRUE,
                                            min_points = 3) {
-
   cases$rt <- cases$cases
   cases$cases <- NULL
 
@@ -129,5 +148,3 @@ iterative_direct_case_forecast <- function(cases,
 
   return(samples)
 }
-
-
