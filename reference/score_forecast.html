@@ -124,7 +124,7 @@
     <p>Score a Model Fit</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/score_forecast.html'>score_forecast</a></span>(<span class='kw'>fit_samples</span>, <span class='kw'>observations</span>, scores = <span class='st'>"all"</span>)</pre>
+    <pre class="usage"><span class='fu'>score_forecast</span>(<span class='no'>fit_samples</span>, <span class='no'>observations</span>, <span class='kw'>scores</span> <span class='kw'>=</span> <span class='st'>"all"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,22 +150,47 @@ any subset can be returned.</p></td>
 logs, bias, and sharpness as well as the forecast date and time horizon.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'>
 <span class='co'>## Fit a model (using a subset of observations)</span>
-<span class='kw'>samples</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/forecast_rt.html'>forecast_rt</a></span>(<span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, ],
-                     model = <span class='fu'>function</span>(<span class='kw'>...</span>) {<span class='kw'>EpiSoon</span>::<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(model =
-                    <span class='fu'>function</span>(<span class='kw'>ss</span>, <span class='kw'>y</span>){<span class='kw'>bsts</span>::<span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='kw'>ss</span>, y = <span class='kw'>y</span>)}, <span class='kw'>...</span>)},
-                     horizon = <span class='fl'>7</span>, samples = <span class='fl'>10</span>)
+<span class='no'>samples</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
+                     <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>) {<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
+                    <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)}, <span class='no'>...</span>)},
+                     <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
 <span class='co'>## Score the model fit (with observations during the time horizon of the forecast)</span>
-<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/score_forecast.html'>score_forecast</a></span>(<span class='kw'>samples</span>, <span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>)
-
+<span class='fu'>score_forecast</span>(<span class='no'>samples</span>, <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 7 x 11</span><span>
+#&gt;   date       horizon    dss   crps   logs   bias sharpness calibration median
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 2020-03-11       1  7.31  0.035</span><span style='text-decoration: underline;'>1</span><span>  5.61  -</span><span style='color: #BB0000;'>1</span><span>        0.014</span><span style='text-decoration: underline;'>6</span><span>   0.000</span><span style='text-decoration: underline;'>085</span><span>7 0.078</span><span style='text-decoration: underline;'>6</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> 2020-03-12       2 -</span><span style='color: #BB0000;'>2.43</span><span>  0.045</span><span style='text-decoration: underline;'>6</span><span> -</span><span style='color: #BB0000;'>1.12</span><span>  -</span><span style='color: #BB0000;'>1</span><span>        0.033</span><span style='text-decoration: underline;'>2</span><span>   0.000</span><span style='text-decoration: underline;'>085</span><span>7 0.136 
+#&gt; </span><span style='color: #555555;'>3</span><span> 2020-03-13       3 -</span><span style='color: #BB0000;'>0.438</span><span> 0.053</span><span style='text-decoration: underline;'>9</span><span> -</span><span style='color: #BB0000;'>0.151</span><span> -</span><span style='color: #BB0000;'>1</span><span>        0.032</span><span style='text-decoration: underline;'>4</span><span>   0.000</span><span style='text-decoration: underline;'>085</span><span>7 0.142 
+#&gt; </span><span style='color: #555555;'>4</span><span> 2020-03-14       4  4.56  0.091</span><span style='text-decoration: underline;'>2</span><span>  4.59  -</span><span style='color: #BB0000;'>1</span><span>        0.026</span><span style='text-decoration: underline;'>1</span><span>   0.000</span><span style='text-decoration: underline;'>085</span><span>7 0.207 
+#&gt; </span><span style='color: #555555;'>5</span><span> 2020-03-15       5  4.00  0.093</span><span style='text-decoration: underline;'>5</span><span>  7.88  -</span><span style='color: #BB0000;'>1</span><span>        0.020</span><span style='text-decoration: underline;'>0</span><span>   0.000</span><span style='text-decoration: underline;'>085</span><span>7 0.216 
+#&gt; </span><span style='color: #555555;'>6</span><span> 2020-03-16       6 -</span><span style='color: #BB0000;'>4.64</span><span>  0.037</span><span style='text-decoration: underline;'>5</span><span> -</span><span style='color: #BB0000;'>1.34</span><span>  -</span><span style='color: #BB0000;'>0.6</span><span>      0.049</span><span style='text-decoration: underline;'>8</span><span>   0.000</span><span style='text-decoration: underline;'>085</span><span>7 0.130 
+#&gt; </span><span style='color: #555555;'>7</span><span> 2020-03-17       7 -</span><span style='color: #BB0000;'>5.19</span><span>  0.017</span><span style='text-decoration: underline;'>5</span><span> -</span><span style='color: #BB0000;'>1.61</span><span>  -</span><span style='color: #BB0000;'>0.200</span><span>    0.071</span><span style='text-decoration: underline;'>7</span><span>   0.000</span><span style='text-decoration: underline;'>085</span><span>7 0.028</span><span style='text-decoration: underline;'>0</span><span>
+#&gt; </span><span style='color: #555555;'># … with 2 more variables: iqr </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, ci </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
 <span class='co'>## Return just CRPS, bias and sharpness</span>
-<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/score_forecast.html'>score_forecast</a></span>(<span class='kw'>samples</span>, <span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>, scores = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"crps"</span>, <span class='st'>"sharpness"</span>, <span class='st'>"bias"</span>))
-
+<span class='fu'>score_forecast</span>(<span class='no'>samples</span>, <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>, <span class='kw'>scores</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"crps"</span>, <span class='st'>"sharpness"</span>, <span class='st'>"bias"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 7 x 5</span><span>
+#&gt;   date       horizon   crps   bias sharpness
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 2020-03-11       1 0.035</span><span style='text-decoration: underline;'>1</span><span> -</span><span style='color: #BB0000;'>1</span><span>        0.014</span><span style='text-decoration: underline;'>6</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> 2020-03-12       2 0.045</span><span style='text-decoration: underline;'>6</span><span> -</span><span style='color: #BB0000;'>1</span><span>        0.033</span><span style='text-decoration: underline;'>2</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> 2020-03-13       3 0.053</span><span style='text-decoration: underline;'>9</span><span> -</span><span style='color: #BB0000;'>1</span><span>        0.032</span><span style='text-decoration: underline;'>4</span><span>
+#&gt; </span><span style='color: #555555;'>4</span><span> 2020-03-14       4 0.091</span><span style='text-decoration: underline;'>2</span><span> -</span><span style='color: #BB0000;'>1</span><span>        0.026</span><span style='text-decoration: underline;'>1</span><span>
+#&gt; </span><span style='color: #555555;'>5</span><span> 2020-03-15       5 0.093</span><span style='text-decoration: underline;'>5</span><span> -</span><span style='color: #BB0000;'>1</span><span>        0.020</span><span style='text-decoration: underline;'>0</span><span>
+#&gt; </span><span style='color: #555555;'>6</span><span> 2020-03-16       6 0.037</span><span style='text-decoration: underline;'>5</span><span> -</span><span style='color: #BB0000;'>0.6</span><span>      0.049</span><span style='text-decoration: underline;'>8</span><span>
+#&gt; </span><span style='color: #555555;'>7</span><span> 2020-03-17       7 0.017</span><span style='text-decoration: underline;'>5</span><span> -</span><span style='color: #BB0000;'>0.200</span><span>    0.071</span><span style='text-decoration: underline;'>7</span><span></div><div class='input'>
 <span class='co'>## Return just the CRPS</span>
-<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/score_forecast.html'>score_forecast</a></span>(<span class='kw'>samples</span>, <span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>, scores = <span class='st'>"crps"</span>)
-}</div></pre>
+<span class='fu'>score_forecast</span>(<span class='no'>samples</span>, <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>, <span class='kw'>scores</span> <span class='kw'>=</span> <span class='st'>"crps"</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 7 x 3</span><span>
+#&gt;   date       horizon   crps
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 2020-03-11       1 0.035</span><span style='text-decoration: underline;'>1</span><span>
+#&gt; </span><span style='color: #555555;'>2</span><span> 2020-03-12       2 0.045</span><span style='text-decoration: underline;'>6</span><span>
+#&gt; </span><span style='color: #555555;'>3</span><span> 2020-03-13       3 0.053</span><span style='text-decoration: underline;'>9</span><span>
+#&gt; </span><span style='color: #555555;'>4</span><span> 2020-03-14       4 0.091</span><span style='text-decoration: underline;'>2</span><span>
+#&gt; </span><span style='color: #555555;'>5</span><span> 2020-03-15       5 0.093</span><span style='text-decoration: underline;'>5</span><span>
+#&gt; </span><span style='color: #555555;'>6</span><span> 2020-03-16       6 0.037</span><span style='text-decoration: underline;'>5</span><span>
+#&gt; </span><span style='color: #555555;'>7</span><span> 2020-03-17       7 0.017</span><span style='text-decoration: underline;'>5</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -177,11 +202,11 @@ logs, bias, and sharpness as well as the forecast date and time horizon.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Sam Abbott, Nikos Bosse, Joel Hellewell, Katharine Sherratt, James Munday, Robin Thompson, Aurelien Chateigner, Sylvain Mareschal, Andrea Rau, Nathalie Vialaneix, Michael DeWitt, Sebastian Funk.</p>
+  <p>Developed by Sam Abbott, Joel Hellewell, Nikos Bosse, Katharine Sherratt, James Munday, Robin Thompson, Sebastian Funk.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

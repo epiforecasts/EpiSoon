@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>fable Model Wrapper — fable_model • EpiSoon</title>
+<title>Fable model wrapper — fable_model • EpiSoon</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,9 @@
 
 
 
-<meta property="og:title" content="fable Model Wrapper — fable_model" />
-<meta property="og:description" content="Provides an interface for models from the fable package.
-Note the feasts::ARIMA model requires the feast package. If future
-is being used fable will require future.apply in
+<meta property="og:title" content="Fable model wrapper — fable_model" />
+<meta property="og:description" content="Provides an interface for models from the fable package. Note the feast::ARIMA model
+requires the feast package. If future is being used fable will require future.apply in
 order to not silently fail." />
 
 
@@ -118,19 +117,18 @@ order to not silently fail." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>fable Model Wrapper</h1>
+    <h1>Fable model wrapper</h1>
     
     <div class="hidden name"><code>fable_model.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Provides an interface for models from the <code>fable</code> package.
-Note the <code>feasts::ARIMA</code> model requires the <code>feast</code> package. If <code>future</code>
-is being used <code>fable</code> will require <code>future.apply</code> in
+    <p>Provides an interface for models from the fable package. Note the feast::ARIMA model
+requires the feast package. If future is being used fable will require future.apply in
 order to not silently fail.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/fable_model.html'>fable_model</a></span>(y = <span class='kw'>NULL</span>, samples = <span class='kw'>NULL</span>, horizon = <span class='kw'>NULL</span>, model = <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>fable_model</span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -149,8 +147,8 @@ order to not silently fail.</p>
     </tr>
     <tr>
       <th>model</th>
-      <td><p>A <code>fable</code> model object. For  models that use a formula interface time
-can be accessed using <code>time</code>.</p></td>
+      <td><p>A fable model object. For  models that use a formula interface time
+can be accessed using <a href='https://rdrr.io/r/stats/time.html'>time</a>.</p></td>
     </tr>
     </table>
 
@@ -160,18 +158,40 @@ can be accessed using <code>time</code>.</p></td>
 time horizon and rows representing samples).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'>## Used on its own</span>
-<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/fable_model.html'>fable_model</a></span>(y = <span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, ]<span class='op'>$</span><span class='kw'>rt</span>,
-           model = <span class='kw'>fable</span>::<span class='fu'><a href='https://fable.tidyverts.org/reference/ARIMA.html'>ARIMA</a></span>(<span class='kw'>y</span> <span class='op'>~</span> <span class='kw'>time</span>),
-           samples = <span class='fl'>10</span>, horizon = <span class='fl'>7</span>)
+    <pre class="examples"><div class='input'><span class='co'>## Used on its own</span>
+<span class='fu'>fable_model</span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ]$<span class='no'>rt</span>,
+           <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw pkg'>fable</span><span class='kw ns'>::</span><span class='fu'><a href='https://fable.tidyverts.org/reference/ARIMA.html'>ARIMA</a></span>(<span class='no'>y</span> ~ <span class='no'>time</span>),
+           <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10 x 7</span><span>
+#&gt;      `1`   `2`   `3`   `4`   `5`   `6`   `7`
+#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>  1.91  1.90  1.84  1.77  1.73  1.65  1.62
+#&gt; </span><span style='color: #555555;'> 2</span><span>  1.94  1.88  1.82  1.78  1.73  1.66  1.62
+#&gt; </span><span style='color: #555555;'> 3</span><span>  1.96  1.91  1.83  1.79  1.74  1.67  1.61
+#&gt; </span><span style='color: #555555;'> 4</span><span>  1.93  1.87  1.85  1.79  1.74  1.66  1.60
+#&gt; </span><span style='color: #555555;'> 5</span><span>  1.93  1.89  1.84  1.79  1.73  1.66  1.65
+#&gt; </span><span style='color: #555555;'> 6</span><span>  1.94  1.90  1.85  1.75  1.74  1.67  1.63
+#&gt; </span><span style='color: #555555;'> 7</span><span>  1.95  1.92  1.85  1.77  1.76  1.69  1.62
+#&gt; </span><span style='color: #555555;'> 8</span><span>  1.94  1.92  1.85  1.80  1.73  1.70  1.59
+#&gt; </span><span style='color: #555555;'> 9</span><span>  1.93  1.89  1.83  1.79  1.72  1.66  1.64
+#&gt; </span><span style='color: #555555;'>10</span><span>  1.97  1.88  1.85  1.79  1.78  1.69  1.61</div><div class='input'>
 
-
-<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/forecast_rt.html'>forecast_rt</a></span>(<span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, ],
-           model = <span class='fu'>function</span>(<span class='kw'>...</span>){
-           <span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/fable_model.html'>fable_model</a></span>(model = <span class='kw'>fable</span>::<span class='fu'><a href='https://fable.tidyverts.org/reference/ARIMA.html'>ARIMA</a></span>(<span class='kw'>y</span> <span class='op'>~</span> <span class='kw'>time</span>), <span class='kw'>...</span>)},
-           horizon = <span class='fl'>7</span>, samples = <span class='fl'>10</span>)
-}</div></pre>
+<span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
+           <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>){
+           <span class='fu'>fable_model</span>(<span class='kw'>model</span> <span class='kw'>=</span> <span class='kw pkg'>fable</span><span class='kw ns'>::</span><span class='fu'><a href='https://fable.tidyverts.org/reference/ARIMA.html'>ARIMA</a></span>(<span class='no'>y</span> ~ <span class='no'>time</span>), <span class='no'>...</span>)},
+           <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 70 x 4</span><span>
+#&gt;    sample date          rt horizon
+#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>      1 2020-03-11  1.97       1
+#&gt; </span><span style='color: #555555;'> 2</span><span>      2 2020-03-11  1.91       1
+#&gt; </span><span style='color: #555555;'> 3</span><span>      3 2020-03-11  1.97       1
+#&gt; </span><span style='color: #555555;'> 4</span><span>      4 2020-03-11  1.95       1
+#&gt; </span><span style='color: #555555;'> 5</span><span>      5 2020-03-11  1.93       1
+#&gt; </span><span style='color: #555555;'> 6</span><span>      6 2020-03-11  1.98       1
+#&gt; </span><span style='color: #555555;'> 7</span><span>      7 2020-03-11  1.93       1
+#&gt; </span><span style='color: #555555;'> 8</span><span>      8 2020-03-11  1.96       1
+#&gt; </span><span style='color: #555555;'> 9</span><span>      9 2020-03-11  1.94       1
+#&gt; </span><span style='color: #555555;'>10</span><span>     10 2020-03-11  1.95       1
+#&gt; </span><span style='color: #555555;'># … with 60 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -183,11 +203,11 @@ time horizon and rows representing samples).</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Sam Abbott, Nikos Bosse, Joel Hellewell, Katharine Sherratt, James Munday, Robin Thompson, Aurelien Chateigner, Sylvain Mareschal, Andrea Rau, Nathalie Vialaneix, Michael DeWitt, Sebastian Funk.</p>
+  <p>Developed by Sam Abbott, Joel Hellewell, Nikos Bosse, Katharine Sherratt, James Munday, Robin Thompson, Sebastian Funk.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

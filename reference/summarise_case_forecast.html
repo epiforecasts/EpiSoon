@@ -124,14 +124,14 @@
     <p>Summarise Forecast Cases</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/summarise_case_forecast.html'>summarise_case_forecast</a></span>(<span class='kw'>pred_cases</span>)</pre>
+    <pre class="usage"><span class='fu'>summarise_case_forecast</span>(<span class='no'>pred_cases</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>pred_cases</th>
-      <td><p>A dataframe as produced by <code><a href='https://rdrr.io/pkg/EpiSoon/man/forecast_cases.html'>EpiSoon::forecast_cases</a></code>.</p></td>
+      <td><p>A dataframe as produced by <code><a href='forecast_cases.html'>EpiSoon::forecast_cases</a></code>.</p></td>
     </tr>
     </table>
 
@@ -140,20 +140,28 @@
     <p>A summarised dataframe.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'>
 <span class='co'>## Example forecast</span>
-<span class='kw'>forecast</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/forecast_rt.html'>forecast_rt</a></span>(<span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>,
-                        model = <span class='fu'>function</span>(<span class='kw'>...</span>) {<span class='kw'>EpiSoon</span>::<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(model =
-                    <span class='fu'>function</span>(<span class='kw'>ss</span>, <span class='kw'>y</span>){<span class='kw'>bsts</span>::<span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='kw'>ss</span>, y = <span class='kw'>y</span>)}, <span class='kw'>...</span>)},
-                        horizon = <span class='fl'>7</span>, samples = <span class='fl'>10</span>)
+<span class='no'>forecast</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>,
+                        <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>) {<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
+                    <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)}, <span class='no'>...</span>)},
+                        <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
 <span class='co'>## Forecast cases</span>
-<span class='kw'>case_forecast</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/forecast_cases.html'>forecast_cases</a></span>(<span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>,
-                                <span class='kw'>forecast</span>,
-                                <span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_serial_interval.html'>example_serial_interval</a></span>)
+<span class='no'>case_forecast</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='forecast_cases.html'>forecast_cases</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_cases.html'>example_obs_cases</a></span>,
+                                <span class='no'>forecast</span>,
+                                <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_serial_interval.html'>example_serial_interval</a></span>)
 <span class='co'>## Summarise case forecast</span>
-<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/summarise_case_forecast.html'>summarise_case_forecast</a></span>(<span class='kw'>case_forecast</span>)
-}</div></pre>
+<span class='fu'>summarise_case_forecast</span>(<span class='no'>case_forecast</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 7 x 9</span><span>
+#&gt;   date       horizon median  mean    sd bottom lower upper   top
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 2020-03-23       1   636.  631.  19.8    602   636   663   663
+#&gt; </span><span style='color: #555555;'>2</span><span> 2020-03-24       2   594.  598.  32.3    545   576   617   647
+#&gt; </span><span style='color: #555555;'>3</span><span> 2020-03-25       3   664.  667.  35.2    601   636   684   717
+#&gt; </span><span style='color: #555555;'>4</span><span> 2020-03-26       4   706.  713.  51.7    609   682   741   789
+#&gt; </span><span style='color: #555555;'>5</span><span> 2020-03-27       5   745   731.  70.9    592   668   758   829
+#&gt; </span><span style='color: #555555;'>6</span><span> 2020-03-28       6   776.  772.  83.6    629   738   820   892
+#&gt; </span><span style='color: #555555;'>7</span><span> 2020-03-29       7   798.  782. 118.     585   733   850   966</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -165,11 +173,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Sam Abbott, Nikos Bosse, Joel Hellewell, Katharine Sherratt, James Munday, Robin Thompson, Aurelien Chateigner, Sylvain Mareschal, Andrea Rau, Nathalie Vialaneix, Michael DeWitt, Sebastian Funk.</p>
+  <p>Developed by Sam Abbott, Joel Hellewell, Nikos Bosse, Katharine Sherratt, James Munday, Robin Thompson, Sebastian Funk.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

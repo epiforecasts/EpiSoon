@@ -124,7 +124,7 @@
     <p>Score a case forecast</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/score_case_forecast.html'>score_case_forecast</a></span>(<span class='kw'>pred_cases</span>, <span class='kw'>obs_cases</span>, scores = <span class='st'>"all"</span>)</pre>
+    <pre class="usage"><span class='fu'>score_case_forecast</span>(<span class='no'>pred_cases</span>, <span class='no'>obs_cases</span>, <span class='kw'>scores</span> <span class='kw'>=</span> <span class='st'>"all"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -151,23 +151,39 @@ any subset can be returned.</p></td>
 logs, bias, and sharpness as well as the forecast date and time horizon.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'>## Fit a model (using a subset of observations)</span>
-<span class='kw'>samples</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/forecast_rt.html'>forecast_rt</a></span>(<span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, ],
-                     model = <span class='fu'>function</span>(<span class='kw'>...</span>) {<span class='kw'>EpiSoon</span>::<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(model =
-                     <span class='fu'>function</span>(<span class='kw'>ss</span>, <span class='kw'>y</span>){<span class='kw'>bsts</span>::<span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='kw'>ss</span>, y = <span class='kw'>y</span>)}, <span class='kw'>...</span>)},
-                     horizon = <span class='fl'>7</span>, samples = <span class='fl'>10</span>)
+    <pre class="examples"><div class='input'><span class='co'>## Fit a model (using a subset of observations)</span>
+<span class='no'>samples</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
+                     <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>) {<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'><a href='bsts_model.html'>bsts_model</a></span>(<span class='kw'>model</span> <span class='kw'>=</span>
+                     <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){<span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html'>AddSemilocalLinearTrend</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)}, <span class='no'>...</span>)},
+                     <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
-<span class='kw'>pred_cases</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/forecast_cases.html'>forecast_cases</a></span>(<span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>,
-                             <span class='kw'>samples</span>, <span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_serial_interval.html'>example_serial_interval</a></span>)
-
-<span class='co'>## Score the model fit (with observations during the time horizon of the forecast)</span>
-<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/score_case_forecast.html'>score_case_forecast</a></span>(<span class='kw'>pred_cases</span>, <span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>)
-
+<span class='no'>pred_cases</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='forecast_cases.html'>forecast_cases</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_cases.html'>example_obs_cases</a></span>,
+                             <span class='no'>samples</span>, <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_serial_interval.html'>example_serial_interval</a></span>)
 
 <span class='co'>## Score the model fit (with observations during the time horizon of the forecast)</span>
-<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/score_case_forecast.html'>score_case_forecast</a></span>(<span class='kw'>pred_cases</span>, <span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_cases.html'>example_obs_cases</a></span>, scores = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"crps"</span>, <span class='st'>"sharpness"</span>, <span class='st'>"bias"</span>))
-}</div></pre>
+<span class='fu'>score_case_forecast</span>(<span class='no'>pred_cases</span>, <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_cases.html'>example_obs_cases</a></span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 7 x 11</span><span>
+#&gt;   date       horizon   dss  crps  logs   bias sharpness calibration median   iqr
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 2020-03-11       1  5.36  4.82  3.75 -</span><span style='color: #BB0000;'>0.6</span><span>        6.67       0.604     16  17.5
+#&gt; </span><span style='color: #555555;'>2</span><span> 2020-03-12       2  6.00  5.74  4.08 -</span><span style='color: #BB0000;'>0.200</span><span>     19.3        0.604     17  18.8
+#&gt; </span><span style='color: #555555;'>3</span><span> 2020-03-13       3  5.49  6.45  4.18  0.200     13.3        0.604     23  24.5
+#&gt; </span><span style='color: #555555;'>4</span><span> 2020-03-14       4  7.01  8.7   4.66  0         38.5        0.604      5  46  
+#&gt; </span><span style='color: #555555;'>5</span><span> 2020-03-15       5  6.34  6.22  4.14  0.200     18.5        0.604     18  25.5
+#&gt; </span><span style='color: #555555;'>6</span><span> 2020-03-16       6  9.50 30.3   5.15  0.8       20.0        0.604     97 157  
+#&gt; </span><span style='color: #555555;'>7</span><span> 2020-03-17       7  9.03 29.8   5.20  0.8       62.3        0.604    101 134. 
+#&gt; </span><span style='color: #555555;'># … with 1 more variable: ci </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
+
+<span class='co'>## Score the model fit (with observations during the time horizon of the forecast)</span>
+<span class='fu'>score_case_forecast</span>(<span class='no'>pred_cases</span>, <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_cases.html'>example_obs_cases</a></span>, <span class='kw'>scores</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"crps"</span>, <span class='st'>"sharpness"</span>, <span class='st'>"bias"</span>))</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 7 x 5</span><span>
+#&gt;   date       horizon  crps   bias sharpness
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 2020-03-11       1  4.82 -</span><span style='color: #BB0000;'>0.6</span><span>        6.67
+#&gt; </span><span style='color: #555555;'>2</span><span> 2020-03-12       2  5.74 -</span><span style='color: #BB0000;'>0.200</span><span>     19.3 
+#&gt; </span><span style='color: #555555;'>3</span><span> 2020-03-13       3  6.45  0.200     13.3 
+#&gt; </span><span style='color: #555555;'>4</span><span> 2020-03-14       4  8.7   0         38.5 
+#&gt; </span><span style='color: #555555;'>5</span><span> 2020-03-15       5  6.22  0.200     18.5 
+#&gt; </span><span style='color: #555555;'>6</span><span> 2020-03-16       6 30.3   0.8       20.0 
+#&gt; </span><span style='color: #555555;'>7</span><span> 2020-03-17       7 29.8   0.8       62.3 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -179,11 +195,11 @@ logs, bias, and sharpness as well as the forecast date and time horizon.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Sam Abbott, Nikos Bosse, Joel Hellewell, Katharine Sherratt, James Munday, Robin Thompson, Aurelien Chateigner, Sylvain Mareschal, Andrea Rau, Nathalie Vialaneix, Michael DeWitt, Sebastian Funk.</p>
+  <p>Developed by Sam Abbott, Joel Hellewell, Nikos Bosse, Katharine Sherratt, James Munday, Robin Thompson, Sebastian Funk.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

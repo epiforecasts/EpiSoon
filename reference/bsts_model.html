@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>bsts Model Wrapper — bsts_model • EpiSoon</title>
+<title>BSTS model wrapper — bsts_model • EpiSoon</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="bsts Model Wrapper — bsts_model" />
-<meta property="og:description" content="bsts Model Wrapper" />
+<meta property="og:title" content="BSTS model wrapper — bsts_model" />
+<meta property="og:description" content="BSTS model wrapper" />
 
 
 
@@ -115,16 +115,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>bsts Model Wrapper</h1>
+    <h1>BSTS model wrapper</h1>
     
     <div class="hidden name"><code>bsts_model.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>bsts Model Wrapper</p>
+    <p>BSTS model wrapper</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(y = <span class='kw'>NULL</span>, samples = <span class='kw'>NULL</span>, horizon = <span class='kw'>NULL</span>, model = <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>bsts_model</span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,7 +143,7 @@
     </tr>
     <tr>
       <th>model</th>
-      <td><p>A <code>bsts</code> model object wrapped in a function with an <code>ss</code> and <code>y</code> argument.</p></td>
+      <td><p>A bsts model object wrapped in a function with an <code>ss</code> and <code>y</code> argument.</p></td>
     </tr>
     </table>
 
@@ -152,23 +152,41 @@
     <p>A dataframe of predictions (with columns representing the time horizon and rows representing samples).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'>bsts</span>)
-
+    <pre class="examples"><div class='input'>
 <span class='co'>## Used on its own</span>
-<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(y = <span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, ]<span class='op'>$</span><span class='kw'>rt</span>,
-           model = <span class='fu'>function</span>(<span class='kw'>ss</span>, <span class='kw'>y</span>){
-           <span class='kw'>bsts</span>::<span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.ar.html'>AddAr</a></span>(<span class='kw'>ss</span>, y = <span class='kw'>y</span>, lags = <span class='fl'>2</span>)},
-           samples = <span class='fl'>10</span>, horizon = <span class='fl'>7</span>)
-
+<span class='fu'>bsts_model</span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ]$<span class='no'>rt</span>,
+           <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){
+           <span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.ar.html'>AddAr</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>lags</span> <span class='kw'>=</span> <span class='fl'>2</span>)},
+           <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='output co'>#&gt;          V1       V2       V3       V4       V5       V6       V7
+#&gt; 1  1.933681 1.928554 1.895725 1.846962 1.791825 1.762360 1.747083
+#&gt; 2  1.988685 1.961577 1.872185 1.879720 1.821465 1.796819 1.744046
+#&gt; 3  2.016006 2.013709 1.879014 1.862686 1.849190 1.772471 1.726909
+#&gt; 4  2.044706 1.976155 1.908760 1.898604 1.825116 1.774184 1.728538
+#&gt; 5  1.954057 1.905914 1.870497 1.807350 1.718097 1.661426 1.643545
+#&gt; 6  2.003725 2.001839 1.978112 1.903020 1.822584 1.713783 1.715498
+#&gt; 7  1.957487 1.917077 1.876877 1.797466 1.760074 1.732670 1.716968
+#&gt; 8  1.961751 1.918517 1.857424 1.797666 1.757377 1.670791 1.661141
+#&gt; 9  1.936072 1.891218 1.801171 1.786314 1.666906 1.619057 1.584264
+#&gt; 10 1.963464 1.905796 1.863801 1.811909 1.783622 1.720893 1.650292</div><div class='input'>
 <span class='co'>## Used for forecasting</span>
- <span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/forecast_rt.html'>forecast_rt</a></span>(<span class='kw'>EpiSoon</span>::<span class='kw'><a href='https://rdrr.io/pkg/EpiSoon/man/example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, ],
-                    model = <span class='fu'>function</span>(<span class='kw'>...</span>){<span class='kw'>EpiSoon</span>::<span class='fu'><a href='https://rdrr.io/pkg/EpiSoon/man/bsts_model.html'>bsts_model</a></span>(model =
-                      <span class='fu'>function</span>(<span class='kw'>ss</span>, <span class='kw'>y</span>){
-                        <span class='kw'>bsts</span>::<span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.ar.html'>AddAr</a></span>(<span class='kw'>ss</span>, y = <span class='kw'>y</span>, lags = <span class='fl'>3</span>)}, <span class='kw'>...</span>)},
-                    horizon = <span class='fl'>7</span>, samples = <span class='fl'>10</span>)
-}</div></pre>
+ <span class='fu'><a href='forecast_rt.html'>forecast_rt</a></span>(<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='no'><a href='example_obs_rts.html'>example_obs_rts</a></span>[<span class='fl'>1</span>:<span class='fl'>10</span>, ],
+                    <span class='kw'>model</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>...</span>){<span class='kw pkg'>EpiSoon</span><span class='kw ns'>::</span><span class='fu'>bsts_model</span>(<span class='kw'>model</span> <span class='kw'>=</span>
+                      <span class='kw'>function</span>(<span class='no'>ss</span>, <span class='no'>y</span>){
+                        <span class='kw pkg'>bsts</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/bsts/man/add.ar.html'>AddAr</a></span>(<span class='no'>ss</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>lags</span> <span class='kw'>=</span> <span class='fl'>3</span>)}, <span class='no'>...</span>)},
+                    <span class='kw'>horizon</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 70 x 4</span><span>
+#&gt;    sample date          rt horizon
+#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span>      1 2020-03-11  1.93       1
+#&gt; </span><span style='color: #555555;'> 2</span><span>      2 2020-03-11  1.93       1
+#&gt; </span><span style='color: #555555;'> 3</span><span>      3 2020-03-11  1.98       1
+#&gt; </span><span style='color: #555555;'> 4</span><span>      4 2020-03-11  1.96       1
+#&gt; </span><span style='color: #555555;'> 5</span><span>      5 2020-03-11  1.95       1
+#&gt; </span><span style='color: #555555;'> 6</span><span>      6 2020-03-11  1.99       1
+#&gt; </span><span style='color: #555555;'> 7</span><span>      7 2020-03-11  1.95       1
+#&gt; </span><span style='color: #555555;'> 8</span><span>      8 2020-03-11  1.95       1
+#&gt; </span><span style='color: #555555;'> 9</span><span>      9 2020-03-11  1.97       1
+#&gt; </span><span style='color: #555555;'>10</span><span>     10 2020-03-11  2.00       1
+#&gt; </span><span style='color: #555555;'># … with 60 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -180,11 +198,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Sam Abbott, Nikos Bosse, Joel Hellewell, Katharine Sherratt, James Munday, Robin Thompson, Aurelien Chateigner, Sylvain Mareschal, Andrea Rau, Nathalie Vialaneix, Michael DeWitt, Sebastian Funk.</p>
+  <p>Developed by Sam Abbott, Joel Hellewell, Nikos Bosse, Katharine Sherratt, James Munday, Robin Thompson, Sebastian Funk.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
