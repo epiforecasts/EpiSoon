@@ -69,22 +69,21 @@ Imports:
     cowplot,
     HDInterval,
     R.utils
-Additional_repositories: 
-    https://epiforecasts.io/drat/
 Remotes:
     nikosbosse/stackr
 Suggests: 
     knitr,
     rmarkdown,
+    fable,
     fabletools,
     tsibble,
     forecastHybrid,
     forecast,
     fable,
-    bsts,
     feasts,
     future.apply,
     stackr,
+    bsts,
     brms,
     tidybayes,
     testthat

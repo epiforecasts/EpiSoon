@@ -28,6 +28,7 @@ reference:
   - title: Forecast
     desc: Forecasting tools
     contents:
+      - forecast_model
       - forecast_rt
       - forecast_cases
       - forecast_cases_directly
@@ -63,6 +64,7 @@ reference:
     desc: Tools to plot forecasts
     contents:
       - plot_forecast
+      - plot_compare_timeseries
       - plot_forecast_evaluation
       - plot_scores
   - title: Example datasets
