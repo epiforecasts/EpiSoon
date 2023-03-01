@@ -6,8 +6,10 @@
 #' following variables:
 #' - either `rt` or `cases`
 #' - and `date`.
-#' @param horizon_cutoff Numeric, defaults to NULL. Forecast horizon to plot up to.
-#' @param obs_cutoff_at_forecast Logical defaults to `TRUE`. Should observations only be shown
+#' @param horizon_cutoff Numeric, defaults to NULL. Forecast horizon to plot up
+#' to.
+#' @param obs_cutoff_at_forecast Logical defaults to `TRUE`. Should
+#' observations only be shown
 #' up to the date of the forecast.
 #' @importFrom dplyr filter
 #' @importFrom ggplot2 ggplot aes geom_line geom_ribbon scale_x_date labs
@@ -74,7 +76,9 @@ plot_forecast <- function(forecast = NULL,
     ggplot2::geom_line(ggplot2::aes(y = bottom), alpha = 0.5) +
     ggplot2::geom_line(ggplot2::aes(y = top), alpha = 0.5) +
     ggplot2::geom_ribbon(ggplot2::aes(ymin = bottom, ymax = top), alpha = 0.1) +
-    ggplot2::geom_ribbon(ggplot2::aes(ymin = lower, ymax = upper), alpha = 0.2) +
+    ggplot2::geom_ribbon(
+      ggplot2::aes(ymin = lower, ymax = upper), alpha = 0.2
+    ) +
     ggplot2::geom_point(
       data = observations,
       ggplot2::aes(y = y), size = 1.1,
@@ -161,7 +165,8 @@ plot_forecast_evaluation <- function(forecasts = NULL,
 #' @return A dataframe of summarised scores in a tidy format.
 #' @export
 plot_scores <- function() {
-  ##  Some thought required here as to what the best - most general purpose scoring plot would be.
+  ##  Some thought required here as to what the best - most general purpose
+  ## scoring plot would be.
 }
 
 
@@ -185,7 +190,8 @@ plot_scores <- function() {
 #'
 #' @return A named list of `ggplot2` objects
 #' @export
-#' @importFrom dplyr mutate bind_rows filter group_by ungroup recode_factor across
+#' @importFrom dplyr mutate bind_rows filter group_by ungroup recode_factor
+#' across
 #' @importFrom cowplot plot_grid theme_cowplot panel_border
 #' @importFrom purrr map_dfr
 #' @importFrom lubridate days
@@ -333,12 +339,12 @@ plot_compare_timeseries <- function(compare_timeseries_output,
 
 adjust_score <- function(df, group_var) {
   df_update <- df %>%
-    dplyr::group_by(score, pick({{ group_var }})) %>%
+    dplyr::group_by(score, dplyr::pick({{ group_var }})) %>%
     dplyr::mutate(upper_min = 10 * min(upper)) %>%
     dplyr::ungroup() # %>%
   df_update <-
     df_update[which(df_update$upper <= df_update$upper_min |
-      df_update$score %in% c("bias")), ] %>%
+      df_update$score %in% "bias"), ] %>%
     dplyr::ungroup() %>%
     dplyr::filter(!score %in% c("log_score", "dss")) %>%
     dplyr::mutate(score = score %>%
@@ -367,12 +373,6 @@ summarise_scores_by_horizon <- function(scores) {
     dplyr::filter(horizon <= 14, horizon > 7) %>%
     EpiSoon::summarise_scores() %>%
     dplyr::mutate(horizon = "8 -- 14")
-
-  # score_14_plus <- scores %>%
-  #   dplyr::filter(horizon > 14) %>%
-  #   EpiSoon::summarise_scores() %>%
-  #   dplyr::mutate(horizon = "14+")
-  #
 
   scores <- score_7 %>%
     dplyr::bind_rows(score_14) %>%

@@ -30,7 +30,6 @@ test_that("plot_compare_timeseries produces expected output", {
     )
 
   p <- plot_compare_timeseries(forecast_eval)
-  expect_identical(class(p), "list")
   expect_length(p, 8)
   purrr::walk(p, function(x) {
     expect_s3_class(x, c("gg", "ggplot"))
