@@ -441,7 +441,7 @@ plot_internal <- function(df, label = NULL) {
       x = horizon, y = mean, col = model,
       group = model
     )) +
-    ggplot2::geom_line(size = 1.2, alpha = 0.6) +
+    ggplot2::geom_line(linewidth = 1.2, alpha = 0.6) +
     ggplot2::geom_point(size = 2) +
     ggplot2::geom_point(ggplot2::aes(y = median), shape = 2, size = 2) +
     ggplot2::geom_linerange(ggplot2::aes(ymin = lower, ymax = upper),
