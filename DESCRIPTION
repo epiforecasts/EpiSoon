@@ -1,7 +1,7 @@
 Package: EpiSoon
 Type: Package
 Title: Forecast Cases Using Reproduction Numbers
-Version: 0.3.0
+Version: 0.3.0.1000
 Authors@R: c(
     person(given = "Sam Abbott",
            role = c("aut", "cre"),
@@ -69,22 +69,21 @@ Imports:
     cowplot,
     HDInterval,
     R.utils
-Additional_repositories: 
-    https://epiforecasts.io/drat/
 Remotes:
     nikosbosse/stackr
 Suggests: 
     knitr,
     rmarkdown,
+    fable,
     fabletools,
     tsibble,
     forecastHybrid,
     forecast,
     fable,
-    bsts,
     feasts,
     future.apply,
     stackr,
+    bsts,
     brms,
     tidybayes,
     testthat

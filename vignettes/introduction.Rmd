@@ -2,7 +2,7 @@
 title: "Getting started"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{introduction}
+  %\VignetteIndexEntry{Getting started}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -45,9 +45,15 @@ EpiSoon::example_obs_rts
 
 * Fit a `bsts` model and produce a Rt forecast. Any appropriately wrapped model can be used (see `bsts_model` and `fable_model` for an examples).
 ```{r}
-rt_forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-                       model = function(...){EpiSoon::bsts_model(model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)},
-                       horizon = 21, samples = 10)
+rt_forecast <- forecast_rt(
+  EpiSoon::example_obs_rts[1:10, ],
+  model = function(...) {
+    EpiSoon::bsts_model(
+      model = function(ss, y) {
+        bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
+      },
+      horizon = 21, samples = 10
+)
 
 rt_forecast
 ```
@@ -97,8 +103,10 @@ EpiSoon::example_serial_interval
 * Forecast cases (using the case data on which the observed Rt estimates were based)
 
 ```{r}
-case_forecast <- forecast_cases(EpiSoon::example_obs_cases, rt_forecast,
-                                serial_interval = EpiSoon::example_serial_interval)
+case_forecast <- forecast_cases(
+  EpiSoon::example_obs_cases, rt_forecast,
+  serial_interval = EpiSoon::example_serial_interval
+)
 
 case_forecast
 ```
