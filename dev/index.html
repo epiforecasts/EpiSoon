@@ -68,17 +68,15 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="episoon">EpiSoon<a class="anchor" aria-label="anchor" href="#episoon"></a>
 </h1></div>
-<p><a href="https://github.com/epiforecasts/EpiSoon" class="external-link"><img src="https://github.com/epiforecasts/EpiSoon/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="https://hub.docker.com/repository/docker/seabbs/episoon" class="external-link"><img src="https://img.shields.io/docker/pulls/seabbs/episoon" alt="Docker Pulls"></a> <a href="https://zenodo.org/badge/latestdoi/248311916" class="external-link"><img src="https://zenodo.org/badge/248311916.svg" alt="DOI"></a></p>
-<p>This package provides tooling to forecast the time-varying reproduction number and use this to forecast reported case counts via a branching process. It supports a range of time series modelling packages including <code>bsts</code>, <code>forecast</code>, and <code>fable</code>. It also supports ensembles via <code>stackr</code> and <code>forecastHyrbid</code>. Forecasts can be assessed by iteractively fitting and then using proper scoring rules (via <code>scoringutils</code> and <code>scoringRules</code>) to compare to both observed case counts and estimated reproduction numbers. Whilst <code>EpiSoon</code> is primarily developed to be used in tandem with <code>EpiNow</code> it can also be used as a standalone package.</p>
+<p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-blue.svg" alt="Lifecycle: experimental"></a> <a href="https://github.com/epiforecasts/EpiSoon" class="external-link"><img src="https://github.com/epiforecasts/EpiSoon/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="https://app.codecov.io/gh/epiforecasts/EpiSoon?branch=master" class="external-link"><img src="https://codecov.io/gh/epiforecasts/EpiSoon/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://github.com/epiforecasts/EpiSoon/blob/main/LICENSE.md/" class="external-link"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT license"></a> <a href="https://github.com/epiforecasts/EpiSoon/graphs/contributors" class="external-link"><img src="https://img.shields.io/github/contributors/epiforecasts/EpiSoon" alt="GitHub contributors"></a> <a href="http://epiforecasts.r-universe.dev/ui/#package:EpiSoon" class="external-link"><img src="https://epiforecasts.r-universe.dev/badges/EpiSoon" alt="universe"></a> <a href="https://zenodo.org/badge/latestdoi/248311916" class="external-link"><img src="https://zenodo.org/badge/248311916.svg" alt="DOI"></a></p>
+<p>This package provides tooling to forecast the time-varying reproduction number and use this to forecast reported case counts via a branching process. It supports a range of time series modelling packages including <code>bsts</code>, <code>forecast</code>, and <code>fable</code>. It also supports ensembles via <code>stackr</code> and <code>forecastHyrbid</code>. Forecasts can be assessed by iteractively fitting and then using proper scoring rules (via <code>scoringutils</code> and <code>scoringRules</code>) to compare to both observed case counts and estimated reproduction numbers.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Install the stable version of the package using <a href="https://epiforecasts.io/drat/" class="external-link"><code>{drat}</code></a>:</p>
+<p>Install the stable development version of the package with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"drat"</span><span class="op">)</span></span>
-<span><span class="fu">drat</span><span class="fu">:::</span><span class="fu">add</span><span class="op">(</span><span class="st">"epiforecasts"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"EpiSoon"</span><span class="op">)</span></span></code></pre></div>
-<p>Install the development version of the package with:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"EpiSoon"</span>, repos <span class="op">=</span> <span class="st">"https://epiforecasts.r-universe.dev"</span><span class="op">)</span></span></code></pre></div>
+<p>Install the unstable development version of the package with (few users should need to do this):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"epiforecasts/EpiSoon"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -92,8 +90,6 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">EpiSoon</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">bsts</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://fable.tidyverts.org" class="external-link">fable</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in system("timedatectl", intern = TRUE): running command 'timedatectl'</span></span>
-<span><span class="co">#&gt; had status 1</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://future.futureverse.org" class="external-link">future</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/cowplot/" class="external-link">cowplot</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
@@ -102,26 +98,42 @@
 </ul>
 <!-- end list --><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">obs_rts</span> <span class="op">&lt;-</span> <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="reference/example_obs_rts.html">example_obs_rts</a></span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>timeseries <span class="op">=</span> <span class="st">"Region 1"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="reference/example_obs_rts.html">example_obs_rts</a></span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>timeseries <span class="op">=</span> <span class="st">"Region 2"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>timeseries <span class="op">=</span> <span class="st">"Region 1"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="reference/example_obs_rts.html">example_obs_rts</a></span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>timeseries <span class="op">=</span> <span class="st">"Region 2"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">obs_cases</span> <span class="op">&lt;-</span> <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="reference/example_obs_cases.html">example_obs_cases</a></span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>timeseries <span class="op">=</span> <span class="st">"Region 1"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="reference/example_obs_cases.html">example_obs_cases</a></span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
-<span>   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>timeseries <span class="op">=</span> <span class="st">"Region 2"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>timeseries <span class="op">=</span> <span class="st">"Region 1"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="reference/example_obs_cases.html">example_obs_cases</a></span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>timeseries <span class="op">=</span> <span class="st">"Region 2"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li>Define the list of models to be compared.</li>
 </ul>
 <!-- end list --><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">models</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"AR 3"</span> <span class="op">=</span></span>
-<span>                <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="reference/bsts_model.html">bsts_model</a></span><span class="op">(</span>model <span class="op">=</span></span>
-<span>                     <span class="kw">function</span><span class="op">(</span><span class="va">ss</span>, <span class="va">y</span><span class="op">)</span><span class="op">{</span><span class="fu">bsts</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsts/man/add.ar.html" class="external-link">AddAr</a></span><span class="op">(</span><span class="va">ss</span>, y <span class="op">=</span> <span class="va">y</span>, lags <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">}</span>, <span class="va">...</span><span class="op">)</span><span class="op">}</span>,</span>
-<span>               <span class="st">"Semi-local linear trend"</span> <span class="op">=</span></span>
-<span>                <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="reference/bsts_model.html">bsts_model</a></span><span class="op">(</span>model <span class="op">=</span></span>
-<span>                    <span class="kw">function</span><span class="op">(</span><span class="va">ss</span>, <span class="va">y</span><span class="op">)</span><span class="op">{</span><span class="fu">bsts</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html" class="external-link">AddSemilocalLinearTrend</a></span><span class="op">(</span><span class="va">ss</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">}</span>, <span class="va">...</span><span class="op">)</span><span class="op">}</span>,</span>
-<span>               <span class="st">"ARIMA"</span> <span class="op">=</span> </span>
-<span>                    <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span><span class="op">{</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="reference/fable_model.html">fable_model</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu">fable</span><span class="fu">::</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html" class="external-link">ARIMA</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">time</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">models</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="st">"AR 3"</span> <span class="op">=</span></span>
+<span>    <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="reference/bsts_model.html">bsts_model</a></span><span class="op">(</span></span>
+<span>        model <span class="op">=</span></span>
+<span>          <span class="kw">function</span><span class="op">(</span><span class="va">ss</span>, <span class="va">y</span><span class="op">)</span> <span class="op">{</span></span>
+<span>            <span class="fu">bsts</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsts/man/add.ar.html" class="external-link">AddAr</a></span><span class="op">(</span><span class="va">ss</span>, y <span class="op">=</span> <span class="va">y</span>, lags <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span>          <span class="op">}</span>, <span class="va">...</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">}</span>,</span>
+<span>  <span class="st">"Semi-local linear trend"</span> <span class="op">=</span></span>
+<span>    <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="reference/bsts_model.html">bsts_model</a></span><span class="op">(</span></span>
+<span>        model <span class="op">=</span></span>
+<span>          <span class="kw">function</span><span class="op">(</span><span class="va">ss</span>, <span class="va">y</span><span class="op">)</span> <span class="op">{</span></span>
+<span>            <span class="fu">bsts</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html" class="external-link">AddSemilocalLinearTrend</a></span><span class="op">(</span><span class="va">ss</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span></span>
+<span>          <span class="op">}</span>, <span class="va">...</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">}</span>,</span>
+<span>  <span class="st">"ARIMA"</span> <span class="op">=</span></span>
+<span>    <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="reference/fable_model.html">fable_model</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu">fable</span><span class="fu">::</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html" class="external-link">ARIMA</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">time</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
+<span>    <span class="op">}</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li>Compare models across timeseries (change the <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">future::plan</a></code> to do this in parallel).</li>
 </ul>
@@ -130,141 +142,125 @@
 <span></span>
 <span><span class="co">## Compare models</span></span>
 <span><span class="va">forecasts</span> <span class="op">&lt;-</span> <span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="reference/compare_timeseries.html">compare_timeseries</a></span><span class="op">(</span><span class="va">obs_rts</span>, <span class="va">obs_cases</span>, <span class="va">models</span>,</span>
-<span>                                         horizon <span class="op">=</span> <span class="fl">7</span>, samples <span class="op">=</span> <span class="fl">10</span>,</span>
-<span>                                         serial_interval <span class="op">=</span> <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="reference/example_serial_interval.html">example_serial_interval</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Unknown or uninitialised column: `sample`.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning: Unknown or uninitialised column: `sample`.</span></span>
+<span>  horizon <span class="op">=</span> <span class="fl">7</span>, samples <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  serial_interval <span class="op">=</span> <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="reference/example_serial_interval.html">example_serial_interval</a></span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: There were 40 warnings in `dplyr::mutate()`.</span></span>
+<span><span class="co">#&gt; The first warning was:</span></span>
+<span><span class="co">#&gt; ℹ In argument: `eval = furrr::future_pmap(...)`.</span></span>
+<span><span class="co">#&gt; Caused by warning:</span></span>
+<span><span class="co">#&gt; ! Unknown or uninitialised column: `.distribution`.</span></span>
+<span><span class="co">#&gt; ℹ Run `dplyr::last_dplyr_warnings()` to see the 39 remaining warnings.</span></span>
 <span></span>
 <span><span class="va">forecasts</span></span>
 <span><span class="co">#&gt; $forecast_rts</span></span>
-<span><span class="co">#&gt; # A tibble: 532 x 12</span></span>
-<span><span class="co">#&gt;    timeseries model forecast_date date       horizon median   mean    sd bottom</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;         &lt;date&gt;       &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1 Region 1   AR 3  2020-03-04    2020-03-05       1  1.24  2.35   3.49       0</span></span>
-<span><span class="co">#&gt;  2 Region 1   AR 3  2020-03-04    2020-03-06       2  1.75  2.09   2.77       0</span></span>
-<span><span class="co">#&gt;  3 Region 1   AR 3  2020-03-04    2020-03-07       3  0     1.96   4.07       0</span></span>
-<span><span class="co">#&gt;  4 Region 1   AR 3  2020-03-04    2020-03-08       4  0     1.30   2.49       0</span></span>
-<span><span class="co">#&gt;  5 Region 1   AR 3  2020-03-04    2020-03-09       5  0     0.564  1.07       0</span></span>
-<span><span class="co">#&gt;  6 Region 1   AR 3  2020-03-04    2020-03-10       6  0.832 1.60   2.23       0</span></span>
-<span><span class="co">#&gt;  7 Region 1   AR 3  2020-03-04    2020-03-11       7  1.45  1.49   1.45       0</span></span>
-<span><span class="co">#&gt;  8 Region 1   AR 3  2020-03-05    2020-03-06       1  0     0.0907 0.287      0</span></span>
-<span><span class="co">#&gt;  9 Region 1   AR 3  2020-03-05    2020-03-07       2  0     0.591  0.970      0</span></span>
-<span><span class="co">#&gt; 10 Region 1   AR 3  2020-03-05    2020-03-08       3  0     0.710  1.66       0</span></span>
-<span><span class="co">#&gt; # … with 522 more rows, and 3 more variables: lower &lt;dbl&gt;, upper &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   top &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; # A tibble: 511 × 12</span></span>
+<span><span class="co">#&gt;    timeseries model foreca…¹ date       horizon median  mean     sd bottom lower</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;    &lt;date&gt;       &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 Region 1   AR 3  2020-03… 2020-03-05       1   2.26  2.25 0.0504   2.17  2.25</span></span>
+<span><span class="co">#&gt;  2 Region 1   AR 3  2020-03… 2020-03-06       2   2.21  2.19 0.0729   2.09  2.19</span></span>
+<span><span class="co">#&gt;  3 Region 1   AR 3  2020-03… 2020-03-07       3   2.15  2.12 0.0957   1.95  2.13</span></span>
+<span><span class="co">#&gt;  4 Region 1   AR 3  2020-03… 2020-03-08       4   2.07  2.05 0.128    1.86  2.06</span></span>
+<span><span class="co">#&gt;  5 Region 1   AR 3  2020-03… 2020-03-09       5   2.00  1.98 0.165    1.69  2.00</span></span>
+<span><span class="co">#&gt;  6 Region 1   AR 3  2020-03… 2020-03-10       6   1.95  1.93 0.173    1.61  1.93</span></span>
+<span><span class="co">#&gt;  7 Region 1   AR 3  2020-03… 2020-03-11       7   1.90  1.86 0.199    1.52  1.86</span></span>
+<span><span class="co">#&gt;  8 Region 1   AR 3  2020-03… 2020-03-07       1   2.11  2.11 0.0389   2.02  2.10</span></span>
+<span><span class="co">#&gt;  9 Region 1   AR 3  2020-03… 2020-03-08       2   2.04  2.03 0.0449   1.94  2.02</span></span>
+<span><span class="co">#&gt; 10 Region 1   AR 3  2020-03… 2020-03-09       3   1.97  1.94 0.0713   1.80  1.96</span></span>
+<span><span class="co">#&gt; # … with 501 more rows, 2 more variables: upper &lt;dbl&gt;, top &lt;dbl&gt;, and</span></span>
+<span><span class="co">#&gt; #   abbreviated variable name ¹​forecast_date</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $rt_scores</span></span>
-<span><span class="co">#&gt; # A tibble: 420 x 14</span></span>
-<span><span class="co">#&gt;    timeseries model forecast_date date       horizon    dss  crps   logs   bias</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;         &lt;date&gt;       &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1 Region 1   AR 3  2020-03-04    2020-03-05       1  2.39  0.766   1.98 -0.200</span></span>
-<span><span class="co">#&gt;  2 Region 1   AR 3  2020-03-04    2020-03-06       2  1.93  0.509   1.64 -0.200</span></span>
-<span><span class="co">#&gt;  3 Region 1   AR 3  2020-03-04    2020-03-07       3  2.70  1.37    6.40 -0.6  </span></span>
-<span><span class="co">#&gt;  4 Region 1   AR 3  2020-03-04    2020-03-08       4  1.83  1.26    4.87 -0.6  </span></span>
-<span><span class="co">#&gt;  5 Region 1   AR 3  2020-03-04    2020-03-09       5  2.19  1.30    3.78 -0.8  </span></span>
-<span><span class="co">#&gt;  6 Region 1   AR 3  2020-03-04    2020-03-10       6  1.54  0.719   1.93 -0.6  </span></span>
-<span><span class="co">#&gt;  7 Region 1   AR 3  2020-03-04    2020-03-11       7  0.780 0.463   1.52 -0.400</span></span>
-<span><span class="co">#&gt;  8 Region 1   AR 3  2020-03-05    2020-03-06       1 57.0   2.02  Inf    -1    </span></span>
-<span><span class="co">#&gt;  9 Region 1   AR 3  2020-03-05    2020-03-07       2  2.69  1.20    1.74 -0.6  </span></span>
-<span><span class="co">#&gt; 10 Region 1   AR 3  2020-03-05    2020-03-08       3  1.69  1.42   16.0  -0.8  </span></span>
-<span><span class="co">#&gt; # … with 410 more rows, and 5 more variables: sharpness &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   calibration &lt;dbl&gt;, median &lt;dbl&gt;, iqr &lt;dbl&gt;, ci &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; # A tibble: 399 × 12</span></span>
+<span><span class="co">#&gt;    timeseries model forec…¹ date       horizon    mad  bias   dss   crps log_s…²</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;   &lt;date&gt;       &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 Region 1   AR 3  2020-0… 2020-03-05       1 0.0514  -0.2 -5.98 0.0110  -1.96 </span></span>
+<span><span class="co">#&gt;  2 Region 1   AR 3  2020-0… 2020-03-06       2 0.0630   0.4 -5.34 0.0176  -1.55 </span></span>
+<span><span class="co">#&gt;  3 Region 1   AR 3  2020-0… 2020-03-07       3 0.0879   0   -4.72 0.0232  -1.31 </span></span>
+<span><span class="co">#&gt;  4 Region 1   AR 3  2020-0… 2020-03-08       4 0.129   -0.2 -4.01 0.0345  -0.961</span></span>
+<span><span class="co">#&gt;  5 Region 1   AR 3  2020-0… 2020-03-09       5 0.165   -0.4 -3.44 0.0514  -0.764</span></span>
+<span><span class="co">#&gt;  6 Region 1   AR 3  2020-0… 2020-03-10       6 0.170   -0.4 -3.25 0.0578  -0.713</span></span>
+<span><span class="co">#&gt;  7 Region 1   AR 3  2020-0… 2020-03-11       7 0.186   -0.6 -2.67 0.0902  -0.483</span></span>
+<span><span class="co">#&gt;  8 Region 1   AR 3  2020-0… 2020-03-07       1 0.0283  -0.8 -5.53 0.0207  -2.05 </span></span>
+<span><span class="co">#&gt;  9 Region 1   AR 3  2020-0… 2020-03-08       2 0.0273  -1   -3.32 0.0506  -0.712</span></span>
+<span><span class="co">#&gt; 10 Region 1   AR 3  2020-0… 2020-03-09       3 0.0398  -1   -2.13 0.0864  -0.162</span></span>
+<span><span class="co">#&gt; # … with 389 more rows, 2 more variables: ae_median &lt;dbl&gt;, se_mean &lt;dbl&gt;, and</span></span>
+<span><span class="co">#&gt; #   abbreviated variable names ¹​forecast_date, ²​log_score</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $forecast_cases</span></span>
-<span><span class="co">#&gt; # A tibble: 420 x 12</span></span>
-<span><span class="co">#&gt;    timeseries model forecast_date date       horizon median  mean    sd bottom</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;         &lt;date&gt;       &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1 Region 1   AR 3  2020-03-04    2020-03-05       1   37.5  70.3 104.       0</span></span>
-<span><span class="co">#&gt;  2 Region 1   AR 3  2020-03-04    2020-03-06       2   61    77.7  98.1      0</span></span>
-<span><span class="co">#&gt;  3 Region 1   AR 3  2020-03-04    2020-03-07       3    0   168.  421.       0</span></span>
-<span><span class="co">#&gt;  4 Region 1   AR 3  2020-03-04    2020-03-08       4    0    89.4 228.       0</span></span>
-<span><span class="co">#&gt;  5 Region 1   AR 3  2020-03-04    2020-03-09       5    0    17.9  35.7      0</span></span>
-<span><span class="co">#&gt;  6 Region 1   AR 3  2020-03-04    2020-03-10       6   27   248   609.       0</span></span>
-<span><span class="co">#&gt;  7 Region 1   AR 3  2020-03-04    2020-03-11       7   39   136.  177.       0</span></span>
-<span><span class="co">#&gt;  8 Region 1   AR 3  2020-03-05    2020-03-06       1    0     4    12.6      0</span></span>
-<span><span class="co">#&gt;  9 Region 1   AR 3  2020-03-05    2020-03-07       2    0    24.2  40.0      0</span></span>
-<span><span class="co">#&gt; 10 Region 1   AR 3  2020-03-05    2020-03-08       3    0    26.7  69.1      0</span></span>
-<span><span class="co">#&gt; # … with 410 more rows, and 3 more variables: lower &lt;dbl&gt;, upper &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   top &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; # A tibble: 399 × 12</span></span>
+<span><span class="co">#&gt;    timeseries model forecas…¹ date       horizon median  mean    sd bottom lower</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;     &lt;date&gt;       &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 Region 1   AR 3  2020-03-… 2020-03-05       1   68.5  67.5  5.91     59    61</span></span>
+<span><span class="co">#&gt;  2 Region 1   AR 3  2020-03-… 2020-03-06       2   81.5  80.5 11.8      61    72</span></span>
+<span><span class="co">#&gt;  3 Region 1   AR 3  2020-03-… 2020-03-07       3   97    94.4 15.7      68    94</span></span>
+<span><span class="co">#&gt;  4 Region 1   AR 3  2020-03-… 2020-03-08       4  114   116.  13.9     102   102</span></span>
+<span><span class="co">#&gt;  5 Region 1   AR 3  2020-03-… 2020-03-09       5  139   131.  24.0      98   132</span></span>
+<span><span class="co">#&gt;  6 Region 1   AR 3  2020-03-… 2020-03-10       6  150.  156.  23.9     117   141</span></span>
+<span><span class="co">#&gt;  7 Region 1   AR 3  2020-03-… 2020-03-11       7  186.  182.  41.1     122   155</span></span>
+<span><span class="co">#&gt;  8 Region 1   AR 3  2020-03-… 2020-03-07       1   94.5  92.7  8.30     80    94</span></span>
+<span><span class="co">#&gt;  9 Region 1   AR 3  2020-03-… 2020-03-08       2  108   107.   6.34     95   104</span></span>
+<span><span class="co">#&gt; 10 Region 1   AR 3  2020-03-… 2020-03-09       3  122.  121.  13.8      94   115</span></span>
+<span><span class="co">#&gt; # … with 389 more rows, 2 more variables: upper &lt;dbl&gt;, top &lt;dbl&gt;, and</span></span>
+<span><span class="co">#&gt; #   abbreviated variable name ¹​forecast_date</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $case_scores</span></span>
-<span><span class="co">#&gt; # A tibble: 420 x 15</span></span>
-<span><span class="co">#&gt;    timeseries model sample forecast_date date       horizon   dss  crps   logs</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;         &lt;date&gt;       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1 Region 1   AR 3  1      2020-03-04    2020-03-05       1  9.18  21.9   5.34</span></span>
-<span><span class="co">#&gt;  2 Region 1   AR 3  1      2020-03-04    2020-03-06       2  9.07  19.5   5.32</span></span>
-<span><span class="co">#&gt;  3 Region 1   AR 3  1      2020-03-04    2020-03-07       3 12.0   68.1  18.2 </span></span>
-<span><span class="co">#&gt;  4 Region 1   AR 3  1      2020-03-04    2020-03-08       4 10.8   64.1   6.21</span></span>
-<span><span class="co">#&gt;  5 Region 1   AR 3  1      2020-03-04    2020-03-09       5 15.4   83.8   5.81</span></span>
-<span><span class="co">#&gt;  6 Region 1   AR 3  1      2020-03-04    2020-03-10       6 12.8   88.7   7.54</span></span>
-<span><span class="co">#&gt;  7 Region 1   AR 3  1      2020-03-04    2020-03-11       7 10.3   79.0   6.58</span></span>
-<span><span class="co">#&gt;  8 Region 1   AR 3  1      2020-03-05    2020-03-06       1 38.0   65.4 Inf   </span></span>
-<span><span class="co">#&gt;  9 Region 1   AR 3  1      2020-03-05    2020-03-07       2 10.1   49.8   5.56</span></span>
-<span><span class="co">#&gt; 10 Region 1   AR 3  1      2020-03-05    2020-03-08       3  9.69  76.0 284.  </span></span>
-<span><span class="co">#&gt; # … with 410 more rows, and 6 more variables: bias &lt;dbl&gt;, sharpness &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   calibration &lt;dbl&gt;, median &lt;dbl&gt;, iqr &lt;dbl&gt;, ci &lt;dbl&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 399 × 12</span></span>
+<span><span class="co">#&gt;    timeseries model sample forecast…¹ date       horizon   mad  bias   dss  crps</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;date&gt;       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 Region 1   AR 3  1      2020-03-04 2020-03-05       1  6.67   0.4  4.09  2.75</span></span>
+<span><span class="co">#&gt;  2 Region 1   AR 3  1      2020-03-04 2020-03-06       2 11.1    0.4  5.28  4.77</span></span>
+<span><span class="co">#&gt;  3 Region 1   AR 3  1      2020-03-04 2020-03-07       3 13.3    0.4  5.58  6.3 </span></span>
+<span><span class="co">#&gt;  4 Region 1   AR 3  1      2020-03-04 2020-03-08       4 14.1    0.6  6.30  6.85</span></span>
+<span><span class="co">#&gt;  5 Region 1   AR 3  1      2020-03-04 2020-03-09       5 29.7    0.2  6.70 11.1 </span></span>
+<span><span class="co">#&gt;  6 Region 1   AR 3  1      2020-03-04 2020-03-10       6 14.1    0.6  6.68  7.7 </span></span>
+<span><span class="co">#&gt;  7 Region 1   AR 3  1      2020-03-04 2020-03-11       7 42.3    0.2  7.47 13.1 </span></span>
+<span><span class="co">#&gt;  8 Region 1   AR 3  1      2020-03-06 2020-03-07       1  8.90   0.4  4.48  3.65</span></span>
+<span><span class="co">#&gt;  9 Region 1   AR 3  1      2020-03-06 2020-03-08       2  5.19   0.6  4.23  3.68</span></span>
+<span><span class="co">#&gt; 10 Region 1   AR 3  1      2020-03-06 2020-03-09       3 13.3    0.2  5.26  4.1 </span></span>
+<span><span class="co">#&gt; # … with 389 more rows, 2 more variables: ae_median &lt;dbl&gt;, se_mean &lt;dbl&gt;, and</span></span>
+<span><span class="co">#&gt; #   abbreviated variable name ¹​forecast_date</span></span></code></pre></div>
 <ul>
 <li>Plot an evaluation of Rt forecasts using iterative fitting.</li>
 </ul>
 <!-- end list --><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="reference/plot_forecast_evaluation.html">plot_forecast_evaluation</a></span><span class="op">(</span><span class="va">forecasts</span><span class="op">$</span><span class="va">forecast_rts</span>, <span class="va">obs_rts</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="va">model</span> <span class="op">~</span> <span class="va">timeseries</span><span class="op">)</span> <span class="op">+</span></span>
-<span>   <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/panel_border.html" class="external-link">panel_border</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/unnamed-chunk-6-1.png" width="60%"></p>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="va">model</span> <span class="op">~</span> <span class="va">timeseries</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/panel_border.html" class="external-link">panel_border</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/unnamed-chunk-8-1.png" width="60%"></p>
 <ul>
 <li>Plot an evaluation of case forecasts using iterative fitting</li>
 </ul>
 <!-- end list --><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="reference/plot_forecast_evaluation.html">plot_forecast_evaluation</a></span><span class="op">(</span><span class="va">forecasts</span><span class="op">$</span><span class="va">forecast_cases</span>, <span class="va">obs_cases</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="va">model</span> <span class="op">~</span> <span class="va">timeseries</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>   <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/panel_border.html" class="external-link">panel_border</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/unnamed-chunk-7-1.png" width="60%"></p>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="va">model</span> <span class="op">~</span> <span class="va">timeseries</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/panel_border.html" class="external-link">panel_border</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/unnamed-chunk-9-1.png" width="60%"></p>
 <ul>
 <li>Summarise the forecasts by model scored against observed cases</li>
 </ul>
 <!-- end list --><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="reference/summarise_scores.html">summarise_scores</a></span><span class="op">(</span><span class="va">forecasts</span><span class="op">$</span><span class="va">case_scores</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 18 x 9</span></span>
-<span><span class="co">#&gt;    score  model   bottom    lower   median      mean    upper      top        sd</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1 bias   AR 3  -1.00e+0 -8.00e-1 -8.00e-1   -0.69   -6.00e-1   -0.200    0.249 </span></span>
-<span><span class="co">#&gt;  2 bias   Semi… -1.00e+0  2.00e-1  6.00e-1    0.492   1.00e+0    1        0.554 </span></span>
-<span><span class="co">#&gt;  3 calib… AR 3   8.57e-5  8.57e-5  8.57e-5    0.0215  1.33e-3    0.181    0.0814</span></span>
-<span><span class="co">#&gt;  4 calib… Semi…  8.57e-5  8.57e-5  8.57e-5    0.0615  5.52e-4    0.834    0.164 </span></span>
-<span><span class="co">#&gt;  5 ci     AR 3   1.34e+2  3.60e+2  6.31e+2 1421.      1.32e+3 7967.    2035.    </span></span>
-<span><span class="co">#&gt;  6 ci     Semi…  2.61e+1  4.98e+1  1.09e+2  947.      1.41e+3 5420.    1592.    </span></span>
-<span><span class="co">#&gt;  7 crps   AR 3   3.53e+1  8.94e+1  1.35e+2  152.      1.96e+2  362.      87.3   </span></span>
-<span><span class="co">#&gt;  8 crps   Semi…  3.44e+0  6.66e+0  1.53e+1   40.8     7.01e+1  161.      48.8   </span></span>
-<span><span class="co">#&gt;  9 dss    AR 3   9.13e+0  1.09e+1  1.19e+1   16.2     1.35e+1   53.9     20.1   </span></span>
-<span><span class="co">#&gt; 10 dss    Semi…  4.72e+0  6.13e+0  7.80e+0   13.2     1.40e+1   50.3     16.5   </span></span>
-<span><span class="co">#&gt; 11 iqr    AR 3   1.25e+2  3.57e+2  5.72e+2  677.      9.11e+2 1776.     440.    </span></span>
-<span><span class="co">#&gt; 12 iqr    Semi…  1.36e+1  2.92e+1  6.80e+1  178.      3.09e+2  675.     208.    </span></span>
-<span><span class="co">#&gt; 13 logs   AR 3   5.61e+0  6.64e+0  7.33e+0  Inf       1.17e+1  Inf      Inf     </span></span>
-<span><span class="co">#&gt; 14 logs   Semi…  3.37e+0  4.09e+0  4.80e+0  Inf       7.29e+0   47.6    Inf     </span></span>
-<span><span class="co">#&gt; 15 median AR 3   1.15e+2  2.66e+2  4.36e+2  472.      5.92e+2 1119.     262.    </span></span>
-<span><span class="co">#&gt; 16 median Semi…  2.00e+0  1.60e+1  4.75e+1  100.      1.70e+2  340.     112.    </span></span>
-<span><span class="co">#&gt; 17 sharp… AR 3   0.       0.       1.11e+1   58.5     7.01e+1  386.      99.6   </span></span>
-<span><span class="co">#&gt; 18 sharp… Semi…  6.67e+0  1.35e+1  2.15e+1   26.7     3.41e+1   76.8     18.7</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 12 × 9</span></span>
+<span><span class="co">#&gt;    score     model             bottom lower median    mean  upper    top      sd</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;              &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 ae_median AR 3               0.85   9     24.5  5.69e+1   91   2.27e2 6.28e+1</span></span>
+<span><span class="co">#&gt;  2 ae_median Semi-local linea…  0.613  8.5   24.2  5.11e+1   92.4 1.88e2 5.86e+1</span></span>
+<span><span class="co">#&gt;  3 bias      AR 3              -1      0      0.6  4.47e-1    1   1   e0 6.13e-1</span></span>
+<span><span class="co">#&gt;  4 bias      Semi-local linea… -1      0.2    0.6  4.81e-1    1   1   e0 5.90e-1</span></span>
+<span><span class="co">#&gt;  5 crps      AR 3               2.94   6.57  17.8  4.69e+1   79.3 2.00e2 5.59e+1</span></span>
+<span><span class="co">#&gt;  6 crps      Semi-local linea…  2.80   6.82  15.6  4.18e+1   69.5 1.60e2 5.12e+1</span></span>
+<span><span class="co">#&gt;  7 dss       AR 3               4.53   6.09   8.33 1.29e+1   15.9 4.67e1 1.09e+1</span></span>
+<span><span class="co">#&gt;  8 dss       Semi-local linea…  4.56   6.20   7.74 1.28e+1   12.7 5.07e1 1.35e+1</span></span>
+<span><span class="co">#&gt;  9 mad       AR 3               7.93  13.3   21.5  2.61e+1   34.1 8.51e1 1.76e+1</span></span>
+<span><span class="co">#&gt; 10 mad       Semi-local linea…  6.10  12.8   19.3  2.46e+1   31.1 6.58e1 1.70e+1</span></span>
+<span><span class="co">#&gt; 11 se_mean   AR 3               1.15  81    784    7.29e+3 8855.  4.72e4 1.56e+4</span></span>
+<span><span class="co">#&gt; 12 se_mean   Semi-local linea…  0.524 79.2  595.   6.26e+3 8663.  4.16e4 1.31e+4</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
 </h2>
 <p>File an issue <a href="https://github.com/epiforecasts/EpiSoon/issues" class="external-link">here</a> if you have identified an issue with the package. Please note that due to operational constraints priority will be given to users informing government policy or offering methodological insights. We welcome all contributions, in particular those that improve the approach or the robustness of the code base.</p>
-</div>
-<div class="section level2">
-<h2 id="docker">Docker<a class="anchor" aria-label="anchor" href="#docker"></a>
-</h2>
-<p>This package was developed in a docker container based on the <code>rocker/geospatial</code> docker image.</p>
-<p>To build the docker image run (from the <code>EpiSoon</code> directory):</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> build . <span class="at">-t</span> episoon</span></code></pre></div>
-<p>To run the docker image run:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-d</span> <span class="at">-p</span> 8787:8787 <span class="at">--name</span> episoon <span class="at">-e</span> USER=episoon <span class="at">-e</span> PASSWORD=episoon episoon</span></code></pre></div>
-<p>The rstudio client can be found on port :8787 at your local machines ip. The default username:password is epinow:epinow, set the user with -e USER=username, and the password with - e PASSWORD=newpasswordhere. The default is to save the analysis files into the user directory.</p>
-<p>To mount a folder (from your current working directory - here assumed to be <code>tmp</code>) in the docker container to your local system use the following in the above docker run command (as given mounts the whole <code>episoon</code> directory to <code>tmp</code>).</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--mount</span> type=bind,source=<span class="va">$(</span><span class="bu">pwd</span><span class="va">)</span>/tmp,target=/home/EpiSoon</span></code></pre></div>
-<p>To access the command line run the following:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> exec <span class="at">-ti</span> episoon bash</span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">

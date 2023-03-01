@@ -100,11 +100,13 @@ equal to 0.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu">forecast_cases_directly</span><span class="op">(</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="example_obs_cases.html">example_obs_cases</a></span>,</span></span>
-<span class="r-in"><span>                model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>                        <span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="bsts_model.html">bsts_model</a></span><span class="op">(</span>model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">ss</span>, <span class="va">y</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>                        <span class="fu">bsts</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsts/man/auto.ar.html" class="external-link">AddAutoAr</a></span><span class="op">(</span><span class="va">ss</span>, y <span class="op">=</span> <span class="va">y</span>, lags <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">}</span>, <span class="va">...</span><span class="op">)</span></span></span>
-<span class="r-in"><span>                        <span class="op">}</span>,</span></span>
-<span class="r-in"><span>                        horizon <span class="op">=</span> <span class="fl">7</span>, samples <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="bsts_model.html">bsts_model</a></span><span class="op">(</span>model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">ss</span>, <span class="va">y</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="fu">bsts</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsts/man/auto.ar.html" class="external-link">AddAutoAr</a></span><span class="op">(</span><span class="va">ss</span>, y <span class="op">=</span> <span class="va">y</span>, lags <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">}</span>, <span class="va">...</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span>,</span></span>
+<span class="r-in"><span>  horizon <span class="op">=</span> <span class="fl">7</span>, samples <span class="op">=</span> <span class="fl">10</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>

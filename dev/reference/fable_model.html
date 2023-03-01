@@ -94,15 +94,19 @@ time horizon and rows representing samples).</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="co">## Used on its own</span></span></span>
-<span class="r-in"><span><span class="fu">fable_model</span><span class="op">(</span>y <span class="op">=</span> <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="example_obs_rts.html">example_obs_rts</a></span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span><span class="op">$</span><span class="va">rt</span>,</span></span>
-<span class="r-in"><span>           model <span class="op">=</span> <span class="fu">fable</span><span class="fu">::</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html" class="external-link">ARIMA</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">time</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>           samples <span class="op">=</span> <span class="fl">10</span>, horizon <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">fable_model</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  y <span class="op">=</span> <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="example_obs_rts.html">example_obs_rts</a></span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span><span class="op">$</span><span class="va">rt</span>,</span></span>
+<span class="r-in"><span>  model <span class="op">=</span> <span class="fu">fable</span><span class="fu">::</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html" class="external-link">ARIMA</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">time</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  samples <span class="op">=</span> <span class="fl">10</span>, horizon <span class="op">=</span> <span class="fl">7</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="forecast_rt.html">forecast_rt</a></span><span class="op">(</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="example_obs_rts.html">example_obs_rts</a></span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span>,</span></span>
-<span class="r-in"><span>           model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>           <span class="fu">fable_model</span><span class="op">(</span>model <span class="op">=</span> <span class="fu">fable</span><span class="fu">::</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html" class="external-link">ARIMA</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">time</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span><span class="op">}</span>,</span></span>
-<span class="r-in"><span>           horizon <span class="op">=</span> <span class="fl">7</span>, samples <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu">fable_model</span><span class="op">(</span>model <span class="op">=</span> <span class="fu">fable</span><span class="fu">::</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html" class="external-link">ARIMA</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">time</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span>,</span></span>
+<span class="r-in"><span>  horizon <span class="op">=</span> <span class="fl">7</span>, samples <span class="op">=</span> <span class="fl">10</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>

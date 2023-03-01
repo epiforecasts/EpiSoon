@@ -92,7 +92,52 @@ the 0-7 and 8-14 day horizons.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">obs_rts</span> <span class="op">&lt;-</span> <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="example_obs_rts.html">example_obs_rts</a></span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>timeseries <span class="op">=</span> <span class="st">"Region 1"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="example_obs_rts.html">example_obs_rts</a></span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>timeseries <span class="op">=</span> <span class="st">"Region 2"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">obs_cases</span> <span class="op">&lt;-</span> <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="example_obs_cases.html">example_obs_cases</a></span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>timeseries <span class="op">=</span> <span class="st">"Region 1"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="example_obs_cases.html">example_obs_cases</a></span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>timeseries <span class="op">=</span> <span class="st">"Region 2"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">models</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"AR 3"</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="bsts_model.html">bsts_model</a></span><span class="op">(</span>model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">ss</span>, <span class="va">y</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="fu">bsts</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsts/man/add.ar.html" class="external-link">AddAr</a></span><span class="op">(</span><span class="va">ss</span>, y <span class="op">=</span> <span class="va">y</span>, lags <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">}</span>, <span class="va">...</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"Semi-local linear trend"</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="bsts_model.html">bsts_model</a></span><span class="op">(</span>model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">ss</span>, <span class="va">y</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="fu">bsts</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsts/man/add.semilocal.linear.trend.html" class="external-link">AddSemilocalLinearTrend</a></span><span class="op">(</span><span class="va">ss</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">}</span>, <span class="va">...</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">forecast_eval</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="compare_timeseries.html">compare_timeseries</a></span><span class="op">(</span><span class="va">obs_rts</span>, <span class="va">obs_cases</span>, <span class="va">models</span>,</span></span>
+<span class="r-in"><span>    horizon <span class="op">=</span> <span class="fl">10</span>, samples <span class="op">=</span> <span class="fl">10</span>,</span></span>
+<span class="r-in"><span>    serial_interval <span class="op">=</span> <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="example_serial_interval.html">example_serial_interval</a></span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Produce all plots</span></span></span>
+<span class="r-in"><span><span class="fu">plot_compare_timeseries</span><span class="op">(</span><span class="va">forecast_eval</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Produce subsets of plots</span></span></span>
+<span class="r-in"><span><span class="fu">plot_compare_timeseries</span><span class="op">(</span><span class="va">forecast_eval</span>, type <span class="op">=</span> <span class="st">"summary_score"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_compare_timeseries</span><span class="op">(</span><span class="va">forecast_eval</span>,</span></span>
+<span class="r-in"><span>  type <span class="op">=</span> <span class="st">"summary_score"</span>,</span></span>
+<span class="r-in"><span>  score <span class="op">=</span> <span class="st">"Bias"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_compare_timeseries</span><span class="op">(</span><span class="va">forecast_eval</span>, type <span class="op">=</span> <span class="st">"horizon_score"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_compare_timeseries</span><span class="op">(</span><span class="va">forecast_eval</span>, type <span class="op">=</span> <span class="st">"region_score"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_compare_timeseries</span><span class="op">(</span><span class="va">forecast_eval</span>,</span></span>
+<span class="r-in"><span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"horizon_score"</span>, <span class="st">"region_score"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

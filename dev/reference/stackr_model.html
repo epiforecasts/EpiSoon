@@ -146,47 +146,62 @@ time horizon and rows representing samples).</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># make list with models</span></span></span>
 <span class="r-in"><span><span class="va">models</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="st">"ARIMA"</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span><span class="op">{</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="fable_model.html">fable_model</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu">fable</span><span class="fu">::</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html" class="external-link">ARIMA</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span><span class="op">}</span>,</span></span>
-<span class="r-in"><span>  <span class="st">"ETS"</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span><span class="op">{</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="fable_model.html">fable_model</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu">fable</span><span class="fu">::</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ETS.html" class="external-link">ETS</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span><span class="op">}</span>,</span></span>
-<span class="r-in"><span>  <span class="st">"Drift"</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span><span class="op">{</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="fable_model.html">fable_model</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu">fable</span><span class="fu">::</span><span class="fu"><a href="https://fable.tidyverts.org/reference/RW.html" class="external-link">RW</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="fu">drift</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span><span class="op">}</span></span></span>
+<span class="r-in"><span>  <span class="st">"ARIMA"</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="fable_model.html">fable_model</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu">fable</span><span class="fu">::</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html" class="external-link">ARIMA</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"ETS"</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="fable_model.html">fable_model</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu">fable</span><span class="fu">::</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ETS.html" class="external-link">ETS</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"Drift"</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="fable_model.html">fable_model</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu">fable</span><span class="fu">::</span><span class="fu"><a href="https://fable.tidyverts.org/reference/RW.html" class="external-link">RW</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="fu">drift</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># make forecast on its own</span></span></span>
-<span class="r-in"><span><span class="va">forecast</span> <span class="op">&lt;-</span> <span class="fu">stackr_model</span><span class="op">(</span>y <span class="op">=</span> <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="example_obs_rts.html">example_obs_rts</a></span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span><span class="op">$</span><span class="va">rt</span>,</span></span>
-<span class="r-in"><span>                         models <span class="op">=</span> <span class="va">models</span>,</span></span>
-<span class="r-in"><span>                         samples <span class="op">=</span> <span class="fl">10</span>,</span></span>
-<span class="r-in"><span>                         horizon <span class="op">=</span> <span class="fl">7</span>,</span></span>
-<span class="r-in"><span>                         weighting_period <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">forecast</span> <span class="op">&lt;-</span> <span class="fu">stackr_model</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  y <span class="op">=</span> <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="example_obs_rts.html">example_obs_rts</a></span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span><span class="op">$</span><span class="va">rt</span>,</span></span>
+<span class="r-in"><span>  models <span class="op">=</span> <span class="va">models</span>,</span></span>
+<span class="r-in"><span>  samples <span class="op">=</span> <span class="fl">10</span>,</span></span>
+<span class="r-in"><span>  horizon <span class="op">=</span> <span class="fl">7</span>,</span></span>
+<span class="r-in"><span>  weighting_period <span class="op">=</span> <span class="fl">5</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># together with forecast_rt</span></span></span>
 <span class="r-in"><span><span class="va">fc_rt</span> <span class="op">&lt;-</span> <span class="fu"><a href="forecast_rt.html">forecast_rt</a></span><span class="op">(</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="example_obs_rts.html">example_obs_rts</a></span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span>,</span></span>
-<span class="r-in"><span>                     model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>                       <span class="fu">stackr_model</span><span class="op">(</span>models <span class="op">=</span> <span class="va">models</span>,</span></span>
-<span class="r-in"><span>                                    weighting_period <span class="op">=</span> <span class="fl">5</span>,</span></span>
-<span class="r-in"><span>                                    <span class="va">...</span><span class="op">)</span><span class="op">}</span>,</span></span>
-<span class="r-in"><span>                     samples <span class="op">=</span> <span class="fl">10</span>,</span></span>
-<span class="r-in"><span>                     horizon <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu">stackr_model</span><span class="op">(</span></span></span>
+<span class="r-in"><span>      models <span class="op">=</span> <span class="va">models</span>,</span></span>
+<span class="r-in"><span>      weighting_period <span class="op">=</span> <span class="fl">5</span>,</span></span>
+<span class="r-in"><span>      <span class="va">...</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span>,</span></span>
+<span class="r-in"><span>  samples <span class="op">=</span> <span class="fl">10</span>,</span></span>
+<span class="r-in"><span>  horizon <span class="op">=</span> <span class="fl">7</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">forecast_eval</span> <span class="op">&lt;-</span> <span class="fu"><a href="evaluate_model.html">evaluate_model</a></span><span class="op">(</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="example_obs_rts.html">example_obs_rts</a></span>,</span></span>
-<span class="r-in"><span>                                <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="example_obs_cases.html">example_obs_cases</a></span>,</span></span>
-<span class="r-in"><span>                                model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span><span class="op">{</span></span></span>
-<span class="r-in"><span>                                  <span class="fu">stackr_model</span><span class="op">(</span>models <span class="op">=</span> <span class="va">models</span>,</span></span>
-<span class="r-in"><span>                                               weighting_period <span class="op">=</span> <span class="fl">5</span>,</span></span>
-<span class="r-in"><span>                                               <span class="va">...</span><span class="op">)</span><span class="op">}</span>,</span></span>
-<span class="r-in"><span>                                horizon <span class="op">=</span> <span class="fl">7</span>, samples <span class="op">=</span> <span class="fl">10</span>,</span></span>
-<span class="r-in"><span>                                serial_interval <span class="op">=</span> <span class="va">example_serial_interval</span>,</span></span>
-<span class="r-in"><span>                               min_points <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="example_obs_cases.html">example_obs_cases</a></span>,</span></span>
+<span class="r-in"><span>  model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu">stackr_model</span><span class="op">(</span></span></span>
+<span class="r-in"><span>      models <span class="op">=</span> <span class="va">models</span>,</span></span>
+<span class="r-in"><span>      weighting_period <span class="op">=</span> <span class="fl">5</span>,</span></span>
+<span class="r-in"><span>      <span class="va">...</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span>,</span></span>
+<span class="r-in"><span>  horizon <span class="op">=</span> <span class="fl">7</span>, samples <span class="op">=</span> <span class="fl">10</span>,</span></span>
+<span class="r-in"><span>  serial_interval <span class="op">=</span> <span class="va">example_serial_interval</span>,</span></span>
+<span class="r-in"><span>  min_points <span class="op">=</span> <span class="fl">10</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="plot_forecast_evaluation.html">plot_forecast_evaluation</a></span><span class="op">(</span><span class="va">forecast_eval</span><span class="op">$</span><span class="va">forecast_rts</span>,</span></span>
-<span class="r-in"><span>                         <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="example_obs_rts.html">example_obs_rts</a></span>,</span></span>
-<span class="r-in"><span>                         horizon_to_plot <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="example_obs_rts.html">example_obs_rts</a></span>,</span></span>
+<span class="r-in"><span>  horizon_to_plot <span class="op">=</span> <span class="fl">7</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
