@@ -249,11 +249,9 @@ plot_compare_timeseries <- function(compare_timeseries_output,
                                     score = c(
                                       "Bias",
                                       "CRPS",
-                                      "Sharpness",
-                                      "Calibration",
-                                      "Median",
-                                      "IQR",
-                                      "CI"
+                                      "Dispersion",
+                                      "AE (median)",
+                                      "SE (mean)"
                                     )) {
   ## Prepare plotting output
   plot_output <- list()
@@ -261,10 +259,6 @@ plot_compare_timeseries <- function(compare_timeseries_output,
   ## Pull in results
   rt_scores <- compare_timeseries_output$rt_scores
   case_scores <- compare_timeseries_output$case_scores
-
-  ## Fix attributes of calibration to remove warnings
-  names(rt_scores$calibration) <- NULL
-  names(case_scores$calibration) <- NULL
 
   ## Identify maximum available horizon
   max_horizon <- max(rt_scores$horizon)
@@ -344,25 +338,20 @@ adjust_score <- function(df, group_var) {
     dplyr::ungroup() # %>%
   df_update <-
     df_update[which(df_update$upper <= df_update$upper_min |
-      df_update$score %in% c("bias", "calibration")), ] %>%
-    # dplyr::filter(upper <= upper_min |
-    #                 score %in% c("bias", "calibration")) %>%
+      df_update$score %in% c("bias")), ] %>%
     dplyr::ungroup() %>%
-    dplyr::filter(!score %in% c("logs", "dss")) %>%
+    dplyr::filter(!score %in% c("log_score", "dss")) %>%
     dplyr::mutate(score = score %>%
       factor(levels = c(
-        "crps", "calibration",
-        "sharpness", "bias",
-        "median", "iqr", "ci"
+        "crps", "bias",
+        "ae_median", "mad", "se_mean"
       )) %>%
       dplyr::recode_factor(
         "crps" = "CRPS",
-        "calibration" = "Calibration",
-        "sharpness" = "Sharpness",
         "bias" = "Bias",
-        "median" = "Median",
-        "iqr" = "IQR",
-        "ci" = "CI"
+        "ae_median" = "AE (median)",
+        "mad" = "Dispersion",
+        "se_mean" = "SE (mean)"
       ))
   return(df_update)
 }
