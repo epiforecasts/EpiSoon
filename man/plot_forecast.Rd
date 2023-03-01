@@ -22,9 +22,11 @@ following variables:
 \item and \code{date}.
 }}
 
-\item{horizon_cutoff}{Numeric, defaults to NULL. Forecast horizon to plot up to.}
+\item{horizon_cutoff}{Numeric, defaults to NULL. Forecast horizon to plot up
+to.}
 
-\item{obs_cutoff_at_forecast}{Logical defaults to \code{TRUE}. Should observations only be shown
+\item{obs_cutoff_at_forecast}{Logical defaults to \code{TRUE}. Should
+observations only be shown
 up to the date of the forecast.}
 }
 \value{

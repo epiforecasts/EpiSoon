@@ -7,7 +7,7 @@
 plot_compare_timeseries(
   compare_timeseries_output,
   type = c("summary_score", "horizon_score", "region_score"),
-  score = c("Bias", "CRPS", "Sharpness", "Calibration", "Median", "IQR", "CI")
+  score = c("Bias", "CRPS", "Dispersion", "AE (median)", "SE (mean)")
 )
 }
 \arguments{
