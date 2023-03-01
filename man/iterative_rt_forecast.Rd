@@ -40,11 +40,17 @@ A tibble of iterative forecasts
 Iteratively Forecast
 }
 \examples{
-
 \dontrun{
 iterative_rt_forecast(EpiSoon::example_obs_rts,
-                      model = function(...) {EpiSoon::bsts_model(model =
-                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-                      horizon = 7, samples = 10, min_points = 4) -> tmp
-                      }
+  model = function(...) {
+    EpiSoon::bsts_model(
+      model =
+        function(ss, y) {
+          bsts::AddSemilocalLinearTrend(ss, y = y)
+        }, ...
+    )
+  },
+  horizon = 7, samples = 10, min_points = 4
+) -> tmp
+}
 }

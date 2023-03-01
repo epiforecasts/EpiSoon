@@ -41,15 +41,18 @@ Forecasts Cases for a Rt Forecasts
 \dontrun{
 ## Rt forecast
 forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-                        model = function(...){
-                        EpiSoon::bsts_model(model = function(ss, y){
-                        bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
-                        },
-                        horizon = 7, samples = 10)
+  model = function(...) {
+    EpiSoon::bsts_model(model = function(ss, y) {
+      bsts::AddAutoAr(ss, y = y, lags = 10)
+    }, ...)
+  },
+  horizon = 7, samples = 10
+)
 
 
 forecast_cases(EpiSoon::example_obs_cases,
-               fit_samples =  forecast,
-               serial_interval = EpiSoon::example_serial_interval)
-               }
+  fit_samples = forecast,
+  serial_interval = EpiSoon::example_serial_interval
+)
+}
 }

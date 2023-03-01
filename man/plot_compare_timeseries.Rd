@@ -38,39 +38,46 @@ Summary plots to compare timeseries and forecast models
 \dontrun{
 obs_rts <- EpiSoon::example_obs_rts \%>\%
   dplyr::mutate(timeseries = "Region 1") \%>\%
- dplyr::bind_rows(EpiSoon::example_obs_rts \%>\%
-  dplyr::mutate(timeseries = "Region 2"))
+  dplyr::bind_rows(EpiSoon::example_obs_rts \%>\%
+    dplyr::mutate(timeseries = "Region 2"))
 
 obs_cases <- EpiSoon::example_obs_cases \%>\%
   dplyr::mutate(timeseries = "Region 1") \%>\%
   dplyr::bind_rows(EpiSoon::example_obs_cases \%>\%
-  dplyr::mutate(timeseries = "Region 2"))
+    dplyr::mutate(timeseries = "Region 2"))
 
-models <- list("AR 3" = function(...){
-  EpiSoon::bsts_model(model = function(ss, y){
-    bsts::AddAr(ss, y = y, lags = 3)
-  }, ...)},
+models <- list(
+  "AR 3" = function(...) {
+    EpiSoon::bsts_model(model = function(ss, y) {
+      bsts::AddAr(ss, y = y, lags = 3)
+    }, ...)
+  },
   "Semi-local linear trend" = function(...) {
-    EpiSoon::bsts_model(model = function(ss, y){
-    bsts::AddSemilocalLinearTrend(ss, y = y)
-  }, ...)}
+    EpiSoon::bsts_model(model = function(ss, y) {
+      bsts::AddSemilocalLinearTrend(ss, y = y)
+    }, ...)
+  }
 )
 
 forecast_eval <-
   compare_timeseries(obs_rts, obs_cases, models,
-                     horizon = 10, samples = 10,
-                     serial_interval = EpiSoon::example_serial_interval)
+    horizon = 10, samples = 10,
+    serial_interval = EpiSoon::example_serial_interval
+  )
 
 ## Produce all plots
 plot_compare_timeseries(forecast_eval)
 
 ## Produce subsets of plots
 plot_compare_timeseries(forecast_eval, type = "summary_score")
-plot_compare_timeseries(forecast_eval, type = "summary_score",
-                       score = "Bias")
+plot_compare_timeseries(forecast_eval,
+  type = "summary_score",
+  score = "Bias"
+)
 plot_compare_timeseries(forecast_eval, type = "horizon_score")
 plot_compare_timeseries(forecast_eval, type = "region_score")
 plot_compare_timeseries(forecast_eval,
-                        type = c("horizon_score","region_score")
+  type = c("horizon_score", "region_score")
+)
 }
 }

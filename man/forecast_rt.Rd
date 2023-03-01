@@ -39,10 +39,12 @@ Fit and Forecast using a Model
 \examples{
 \dontrun{
 forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-            model = function(...){
-            EpiSoon::bsts_model(model = function(ss, y){
-            bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
-            },
-            horizon = 7, samples = 10)
-            }
+  model = function(...) {
+    EpiSoon::bsts_model(model = function(ss, y) {
+      bsts::AddAutoAr(ss, y = y, lags = 10)
+    }, ...)
+  },
+  horizon = 7, samples = 10
+)
+}
 }

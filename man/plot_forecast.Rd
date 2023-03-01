@@ -37,9 +37,16 @@ Plot a Forecast
 \dontrun{
 ## Forecast an Rt sample
 samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-                     model = function(...) {EpiSoon::bsts_model(model =
-                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-                     horizon = 21, samples = 10)
+  model = function(...) {
+    EpiSoon::bsts_model(
+      model =
+        function(ss, y) {
+          bsts::AddSemilocalLinearTrend(ss, y = y)
+        }, ...
+    )
+  },
+  horizon = 21, samples = 10
+)
 
 ## Summarise forecast
 summarised_forecast <- summarise_forecast(samples)
@@ -49,7 +56,8 @@ plot_forecast(summarised_forecast, EpiSoon::example_obs_rts)
 
 ## Forecast a case sample
 pred_cases <- forecast_cases(EpiSoon::example_obs_cases, samples,
-                            serial_interval = EpiSoon::example_serial_interval)
+  serial_interval = EpiSoon::example_serial_interval
+)
 
 summarised_case_forecast <- summarise_case_forecast(pred_cases)
 

@@ -25,9 +25,16 @@ Score a Model Fit
 \dontrun{
 ## Fit a model (using a subset of observations)
 samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-                     model = function(...) {EpiSoon::bsts_model(model =
-                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-                     horizon = 7, samples = 10)
+  model = function(...) {
+    EpiSoon::bsts_model(
+      model =
+        function(ss, y) {
+          bsts::AddSemilocalLinearTrend(ss, y = y)
+        }, ...
+    )
+  },
+  horizon = 7, samples = 10
+)
 
 ## Score the model fit (with observations during the time horizon of the forecast)
 score_forecast(samples, EpiSoon::example_obs_rts)

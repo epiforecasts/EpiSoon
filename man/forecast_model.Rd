@@ -29,38 +29,56 @@ Note that \code{forecast} must be installed for this model wrapper to be functio
 \dontrun{
 
 ## Used on its own
-forecast_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
-               model = forecast::auto.arima,
-               samples = 10, horizon = 7)
+forecast_model(
+  y = EpiSoon::example_obs_rts[1:10, ]$rt,
+  model = forecast::auto.arima,
+  samples = 10, horizon = 7
+)
 
 ## Used for forecasting
 forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-            model = function(...){
-            forecast_model(model = forecast::ets, ...)},
-            horizon = 7, samples = 10)
+  model = function(...) {
+    forecast_model(model = forecast::ets, ...)
+  },
+  horizon = 7, samples = 10
+)
 
 # run with non-default arguments
 forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-            model = function(...){
-            forecast_model(model = forecast::ets,
-            damped = TRUE, ...)},
-            horizon = 7, samples = 10)
+  model = function(...) {
+    forecast_model(
+      model = forecast::ets,
+      damped = TRUE, ...
+    )
+  },
+  horizon = 7, samples = 10
+)
 
-models <- list("ARIMA" = function(...) {forecast_model(model = forecast::auto.arima, ...)},
-               "ETS" = function(...) {forecast_model(model = forecast::ets, ...)},
-               "TBATS" = function(...) {forecast_model(model = forecast::tbats, ...)})
+models <- list(
+  "ARIMA" = function(...) {
+    forecast_model(model = forecast::auto.arima, ...)
+  },
+  "ETS" = function(...) {
+    forecast_model(model = forecast::ets, ...)
+  },
+  "TBATS" = function(...) {
+    forecast_model(model = forecast::tbats, ...)
+  }
+)
 
 ## Compare models
 evaluations <- compare_models(EpiSoon::example_obs_rts,
-                              EpiSoon::example_obs_cases, models,
-                              horizon = 7, samples = 10,
-                              serial_interval = example_serial_interval)
+  EpiSoon::example_obs_cases, models,
+  horizon = 7, samples = 10,
+  serial_interval = example_serial_interval
+)
 
 plot_forecast_evaluation(evaluations$forecast_rts,
-                         EpiSoon::example_obs_rts,
-                         horizon_to_plot = 7) +
-ggplot2::facet_grid(~ model) +
-cowplot::panel_border()
+  EpiSoon::example_obs_rts,
+  horizon_to_plot = 7
+) +
+  ggplot2::facet_grid(~model) +
+  cowplot::panel_border()
 }
 
 }

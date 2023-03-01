@@ -19,14 +19,23 @@ Summarise Forecast Cases
 \dontrun{
 ## Example forecast
 forecast <- forecast_rt(EpiSoon::example_obs_rts,
-                        model = function(...) {EpiSoon::bsts_model(model =
-                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-                        horizon = 7, samples = 10)
+  model = function(...) {
+    EpiSoon::bsts_model(
+      model =
+        function(ss, y) {
+          bsts::AddSemilocalLinearTrend(ss, y = y)
+        }, ...
+    )
+  },
+  horizon = 7, samples = 10
+)
 
 ## Forecast cases
-case_forecast <- forecast_cases(EpiSoon::example_obs_cases,
-                                forecast,
-                                EpiSoon::example_serial_interval)
+case_forecast <- forecast_cases(
+  EpiSoon::example_obs_cases,
+  forecast,
+  EpiSoon::example_serial_interval
+)
 ## Summarise case forecast
 summarise_case_forecast(case_forecast)
 }

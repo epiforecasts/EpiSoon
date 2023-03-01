@@ -37,10 +37,12 @@ Forecasts Cases Directly
 \examples{
 \dontrun{
 forecast_cases_directly(EpiSoon::example_obs_cases,
-                model = function(...){
-                        EpiSoon::bsts_model(model = function(ss, y){
-                        bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
-                        },
-                        horizon = 7, samples = 10)
+  model = function(...) {
+    EpiSoon::bsts_model(model = function(ss, y) {
+      bsts::AddAutoAr(ss, y = y, lags = 10)
+    }, ...)
+  },
+  horizon = 7, samples = 10
+)
 }
 }
