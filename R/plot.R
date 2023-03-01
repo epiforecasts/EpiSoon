@@ -185,7 +185,7 @@ plot_scores <- function() {
 #'
 #' @return A named list of `ggplot2` objects
 #' @export
-#' @importFrom dplyr mutate bind_rows filter group_by ungroup recode_factor
+#' @importFrom dplyr mutate bind_rows filter group_by ungroup recode_factor across
 #' @importFrom cowplot plot_grid theme_cowplot panel_border
 #' @importFrom purrr map_dfr
 #' @importFrom lubridate days
@@ -333,7 +333,7 @@ plot_compare_timeseries <- function(compare_timeseries_output,
 
 adjust_score <- function(df, group_var) {
   df_update <- df %>%
-    dplyr::group_by(score, .dots = group_var) %>%
+    dplyr::group_by(score, pick({{ group_var }})) %>%
     dplyr::mutate(upper_min = 10 * min(upper)) %>%
     dplyr::ungroup() # %>%
   df_update <-
