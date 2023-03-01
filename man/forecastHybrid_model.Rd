@@ -40,30 +40,40 @@ model wrapper to be functional.
 library(forecastHybrid)
 
 ## Used on its own
-forecastHybrid_model(y = EpiSoon::example_obs_rts$rt,
-                     samples = 10, horizon = 7)
+forecastHybrid_model(
+  y = EpiSoon::example_obs_rts$rt,
+  samples = 10, horizon = 7
+)
 
 
 ## Used with non-default arguments
 ## Note that with the current sampling from maximal confidence intervals model
 ## Weighting using cross-validation will only have an impact when 1 sample is used.
-forecastHybrid_model(y = EpiSoon::example_obs_rts$rt,
-                    samples = 1, horizon = 7,
-                    model_params = list(cvHorizon = 7, windowSize = 7,
-                                  rolling = TRUE, models = "zeta"))
+forecastHybrid_model(
+  y = EpiSoon::example_obs_rts$rt,
+  samples = 1, horizon = 7,
+  model_params = list(
+    cvHorizon = 7, windowSize = 7,
+    rolling = TRUE, models = "zeta"
+  )
+)
 
 
 ## Used for forecasting
- forecast_rt(EpiSoon::example_obs_rts,
-                    model = EpiSoon::forecastHybrid_model,
-                    horizon = 7, samples = 1)
+forecast_rt(EpiSoon::example_obs_rts,
+  model = EpiSoon::forecastHybrid_model,
+  horizon = 7, samples = 1
+)
 
 ## Used for forcasting with non-default arguments
 forecast_rt(EpiSoon::example_obs_rts,
-           model = function(...){EpiSoon::forecastHybrid_model(
-           model_params = list(models = "zte"),
-           forecast_params = list(PI.combination = "mean"), ...)
-           },
-           horizon = 7, samples = 10)
+  model = function(...) {
+    EpiSoon::forecastHybrid_model(
+      model_params = list(models = "zte"),
+      forecast_params = list(PI.combination = "mean"), ...
+    )
+  },
+  horizon = 7, samples = 10
+)
 }
 }

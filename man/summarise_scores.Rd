@@ -24,30 +24,45 @@ Summarise model forecasting scores
 \dontrun{
 ## Example cases
 cases <- EpiSoon::example_obs_cases \%>\%
-    dplyr::mutate(timeseries = "Region 1") \%>\%
-    dplyr::bind_rows(EpiSoon::example_obs_cases \%>\%
+  dplyr::mutate(timeseries = "Region 1") \%>\%
+  dplyr::bind_rows(EpiSoon::example_obs_cases \%>\%
     dplyr::mutate(timeseries = "Region 2"))
 
 
 ## Example Rts
 rts <- EpiSoon::example_obs_rts \%>\%
-    dplyr::mutate(timeseries = "Region 1") \%>\%
-    dplyr::bind_rows(EpiSoon::example_obs_rts \%>\%
+  dplyr::mutate(timeseries = "Region 1") \%>\%
+  dplyr::bind_rows(EpiSoon::example_obs_rts \%>\%
     dplyr::mutate(timeseries = "Region 2"))
 
 ## List of forecasting bsts models wrapped in functions.
-models <- list("AR 3" =
-                    function(...) {EpiSoon::bsts_model(model =
-                    function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)},
-               "Semi-local linear trend" =
-               function(...) {EpiSoon::bsts_model(model =
-                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)})
+models <- list(
+  "AR 3" =
+    function(...) {
+      EpiSoon::bsts_model(
+        model =
+          function(ss, y) {
+            bsts::AddAr(ss, y = y, lags = 3)
+          }, ...
+      )
+    },
+  "Semi-local linear trend" =
+    function(...) {
+      EpiSoon::bsts_model(
+        model =
+          function(ss, y) {
+            bsts::AddSemilocalLinearTrend(ss, y = y)
+          }, ...
+      )
+    }
+)
 
 
 ## Compare models
 evaluations <- compare_timeseries(rts, cases, models,
-                                  horizon = 7, samples = 10,
-                                  serial_interval = example_serial_interval)
+  horizon = 7, samples = 10,
+  serial_interval = example_serial_interval
+)
 
 
 

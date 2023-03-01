@@ -26,6 +26,3 @@ example_obs_cases <- readRDS("data-raw/obs_cases.rds") %>%
 
 
 usethis::use_data(example_obs_cases, overwrite = TRUE)
-
-
-

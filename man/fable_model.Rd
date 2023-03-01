@@ -29,14 +29,18 @@ order to not silently fail.
 \examples{
 \dontrun{
 ## Used on its own
-fable_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
-           model = fable::ARIMA(y ~ time),
-           samples = 10, horizon = 7)
+fable_model(
+  y = EpiSoon::example_obs_rts[1:10, ]$rt,
+  model = fable::ARIMA(y ~ time),
+  samples = 10, horizon = 7
+)
 
 
 forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-           model = function(...){
-           fable_model(model = fable::ARIMA(y ~ time), ...)},
-           horizon = 7, samples = 10)
+  model = function(...) {
+    fable_model(model = fable::ARIMA(y ~ time), ...)
+  },
+  horizon = 7, samples = 10
+)
 }
 }

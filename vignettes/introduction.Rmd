@@ -45,14 +45,13 @@ EpiSoon::example_obs_rts
 
 * Fit a `bsts` model and produce a Rt forecast. Any appropriately wrapped model can be used (see `bsts_model` and `fable_model` for an examples).
 ```{r}
-rt_forecast <- forecast_rt(
-  EpiSoon::example_obs_rts[1:10, ],
+rt_forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
   model = function(...) {
-    EpiSoon::bsts_model(
-      model = function(ss, y) {
-        bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
-      },
-      horizon = 21, samples = 10
+    EpiSoon::bsts_model(model = function(ss, y) {
+      bsts::AddAutoAr(ss, y = y, lags = 10)
+    }, ...)
+  },
+  horizon = 21, samples = 10
 )
 
 rt_forecast
@@ -103,8 +102,7 @@ EpiSoon::example_serial_interval
 * Forecast cases (using the case data on which the observed Rt estimates were based)
 
 ```{r}
-case_forecast <- forecast_cases(
-  EpiSoon::example_obs_cases, rt_forecast,
+case_forecast <- forecast_cases(EpiSoon::example_obs_cases, rt_forecast,
   serial_interval = EpiSoon::example_serial_interval
 )
 
@@ -146,10 +144,13 @@ plot_forecast(summarised_case_forecast, EpiSoon::example_obs_cases)
 
 ```{r}
 it_rt_forecast <- iterative_rt_forecast(EpiSoon::example_obs_rts,
-                                        model = function(...){
-                                          EpiSoon::bsts_model(model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
-                                          },
-                                        horizon = 7, samples = 10, min_points = 4)
+  model = function(...) {
+    EpiSoon::bsts_model(model = function(ss, y) {
+      bsts::AddAutoAr(ss, y = y, lags = 10)
+    }, ...)
+  },
+  horizon = 7, samples = 10, min_points = 4
+)
 
 it_rt_forecast
 ```
@@ -158,9 +159,11 @@ it_rt_forecast
 * We can then iteratively forecast cases using the following:
 
 ```{r}
-it_cases_forecast <- iterative_case_forecast(it_fit_samples = it_rt_forecast,
-                                             cases = EpiSoon::example_obs_cases,
-                                             serial_interval = EpiSoon::example_serial_interval)
+it_cases_forecast <- iterative_case_forecast(
+  it_fit_samples = it_rt_forecast,
+  cases = EpiSoon::example_obs_cases,
+  serial_interval = EpiSoon::example_serial_interval
+)
 
 it_cases_forecast
 ```
@@ -173,12 +176,15 @@ In real world use we are likely to want to evaluate a model by iteratively forec
 
 ```{r}
 model_eval <- evaluate_model(EpiSoon::example_obs_rts,
-                             EpiSoon::example_obs_cases,
-                             model = function(...){
-                                          EpiSoon::bsts_model(model = function(ss, y){bsts::AddAutoAr(ss, y = y, lags = 10)}, ...)
-                                          },
-                             horizon = 21, samples = 10,
-                             serial_interval = EpiSoon::example_serial_interval)
+  EpiSoon::example_obs_cases,
+  model = function(...) {
+    EpiSoon::bsts_model(model = function(ss, y) {
+      bsts::AddAutoAr(ss, y = y, lags = 10)
+    }, ...)
+  },
+  horizon = 21, samples = 10,
+  serial_interval = EpiSoon::example_serial_interval
+)
 
 model_eval
 ```
@@ -186,8 +192,9 @@ model_eval
 
 ```{r}
 plot_forecast_evaluation(model_eval$forecast_rts,
-                         EpiSoon::example_obs_rts,
-                         horizon_to_plot = 7)
+  EpiSoon::example_obs_rts,
+  horizon_to_plot = 7
+)
 ```
 
 * Then evaluate forecast cases against observed values.
@@ -195,8 +202,9 @@ plot_forecast_evaluation(model_eval$forecast_rts,
 
 ```{r}
 plot_forecast_evaluation(model_eval$forecast_cases,
-                         EpiSoon::example_obs_cases,
-                         horizon_to_plot = 7)
+  EpiSoon::example_obs_cases,
+  horizon_to_plot = 7
+)
 ```
 
 ## Wrapper functions

@@ -1,12 +1,14 @@
-##------------------------------------------------------------
+## ------------------------------------------------------------
 context("Test of the function 'plot_forecast'.... testing output")
 
 samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-                       model = function(...) {
-                         EpiSoon::bsts_model(model = function(ss, y) {
-                           bsts::AddSemilocalLinearTrend(ss, y = y)
-                         }, ...)},
-                       horizon = 21, samples = 10)
+  model = function(...) {
+    EpiSoon::bsts_model(model = function(ss, y) {
+      bsts::AddSemilocalLinearTrend(ss, y = y)
+    }, ...)
+  },
+  horizon = 21, samples = 10
+)
 
 test_that("Plot is obtained for summarized forecast", {
   summarised_forecast <- summarise_forecast(samples)
@@ -18,7 +20,8 @@ test_that("Plot is obtained for summarized forecast", {
 
 test_that("Plot is obtained for summarized cases", {
   pred_cases <- forecast_cases(EpiSoon::example_obs_cases, samples,
-                               serial_interval = EpiSoon::example_serial_interval)
+    serial_interval = EpiSoon::example_serial_interval
+  )
 
   summarised_case_forecast <- summarise_case_forecast(pred_cases)
   p <- plot_forecast(summarised_case_forecast, EpiSoon::example_obs_cases)

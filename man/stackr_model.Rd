@@ -55,47 +55,62 @@ to draw samples from the
 individual models to form the mixture models.
 }
 \examples{
-
 \dontrun{
 
 # make list with models
 models <- list(
-  "ARIMA" = function(...){EpiSoon::fable_model(model = fable::ARIMA(y), ...)},
-  "ETS" = function(...){EpiSoon::fable_model(model = fable::ETS(y), ...)},
-  "Drift" = function(...){EpiSoon::fable_model(model = fable::RW(y ~ drift()), ...)}
+  "ARIMA" = function(...) {
+    EpiSoon::fable_model(model = fable::ARIMA(y), ...)
+  },
+  "ETS" = function(...) {
+    EpiSoon::fable_model(model = fable::ETS(y), ...)
+  },
+  "Drift" = function(...) {
+    EpiSoon::fable_model(model = fable::RW(y ~ drift()), ...)
+  }
 )
 
 # make forecast on its own
-forecast <- stackr_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
-                         models = models,
-                         samples = 10,
-                         horizon = 7,
-                         weighting_period = 5)
+forecast <- stackr_model(
+  y = EpiSoon::example_obs_rts[1:10, ]$rt,
+  models = models,
+  samples = 10,
+  horizon = 7,
+  weighting_period = 5
+)
 
 
 # together with forecast_rt
 fc_rt <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-                     model = function(...){
-                       stackr_model(models = models,
-                                    weighting_period = 5,
-                                    ...)},
-                     samples = 10,
-                     horizon = 7)
+  model = function(...) {
+    stackr_model(
+      models = models,
+      weighting_period = 5,
+      ...
+    )
+  },
+  samples = 10,
+  horizon = 7
+)
 
 forecast_eval <- evaluate_model(EpiSoon::example_obs_rts,
-                                EpiSoon::example_obs_cases,
-                                model = function(...){
-                                  stackr_model(models = models,
-                                               weighting_period = 5,
-                                               ...)},
-                                horizon = 7, samples = 10,
-                                serial_interval = example_serial_interval,
-                               min_points = 10)
+  EpiSoon::example_obs_cases,
+  model = function(...) {
+    stackr_model(
+      models = models,
+      weighting_period = 5,
+      ...
+    )
+  },
+  horizon = 7, samples = 10,
+  serial_interval = example_serial_interval,
+  min_points = 10
+)
 
 plot_forecast_evaluation(forecast_eval$forecast_rts,
-                         EpiSoon::example_obs_rts,
-                         horizon_to_plot = 7)
-
+  EpiSoon::example_obs_rts,
+  horizon_to_plot = 7
+)
 }
 
 }

@@ -26,12 +26,21 @@ Score a case forecast
 \dontrun{
 ## Fit a model (using a subset of observations)
 samples <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-                     model = function(...) {EpiSoon::bsts_model(model =
-                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-                     horizon = 7, samples = 10)
+  model = function(...) {
+    EpiSoon::bsts_model(
+      model =
+        function(ss, y) {
+          bsts::AddSemilocalLinearTrend(ss, y = y)
+        }, ...
+    )
+  },
+  horizon = 7, samples = 10
+)
 
-pred_cases <- forecast_cases(EpiSoon::example_obs_cases,
-                             samples, EpiSoon::example_serial_interval)
+pred_cases <- forecast_cases(
+  EpiSoon::example_obs_cases,
+  samples, EpiSoon::example_serial_interval
+)
 
 ## Score the model fit (with observations during the time horizon of the forecast)
 score_case_forecast(pred_cases, EpiSoon::example_obs_cases)

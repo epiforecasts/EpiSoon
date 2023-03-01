@@ -11,11 +11,11 @@
 
 # set.seed(1234)
 
-forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ], model = function(...){
-  EpiSoon::bsts_model(model = function(ss, y){
+forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ], model = function(...) {
+  EpiSoon::bsts_model(model = function(ss, y) {
     bsts::AddSemilocalLinearTrend(ss, y = y)
-    }, ...)
-  }, horizon = 7, samples = 1)
+  }, ...)
+}, horizon = 7, samples = 1)
 
 set.seed(10)
 predictedCases <- predict_cases(

@@ -7,8 +7,10 @@
 #   - that the function return the proper result
 #   - that the result is of the proper class
 
-exampleResult <- draw_from_si_prob(c(1, 2, 4, 10),
-                                   EpiSoon::example_serial_interval)
+exampleResult <- draw_from_si_prob(
+  c(1, 2, 4, 10),
+  EpiSoon::example_serial_interval
+)
 # expectedResult <- EpiSoon::example_serial_interval[c(1, 2, 4, 10)]
 test_that("The expected draw is obtained", {
   # expect_equal(exampleResult, expectedResult)

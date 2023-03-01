@@ -47,9 +47,11 @@ model wrapper to be functional.
 ## Used on its own
 ## Note: More iterations and chains should be used
 library(brms)
-brms_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
-          model = brms::bf(y ~ gp(time)),
-          samples = 10, horizon = 7, n_iter = 40, n_chains = 1, refresh =0)
+brms_model(
+  y = EpiSoon::example_obs_rts[1:10, ]$rt,
+  model = brms::bf(y ~ gp(time)),
+  samples = 10, horizon = 7, n_iter = 40, n_chains = 1, refresh = 0
+)
 
 ## Used for forecasting
 ## Note that the timeout parameter has been increased to allow
@@ -57,8 +59,10 @@ brms_model(y = EpiSoon::example_obs_rts[1:10, ]$rt,
 ## Note: More iterations and chains should be used
 
 forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-            model = function(...){
-              brms_model(model = brms::bf(y ~ gp(time)), n_iter = 40, n_chains = 1, ...)},
-                   horizon = 7, samples = 10, timeout = 300)
+  model = function(...) {
+    brms_model(model = brms::bf(y ~ gp(time)), n_iter = 40, n_chains = 1, ...)
+  },
+  horizon = 7, samples = 10, timeout = 300
+)
 }
 }

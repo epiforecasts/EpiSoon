@@ -13,9 +13,7 @@
 #' draw_from_si_prob(rev(c(1, 2, 4, 10, 1:100)), EpiSoon::example_serial_interval)
 draw_from_si_prob <- function(days_ago = NULL,
                               serial_interval = NULL) {
-
-
-  ##Add zeroth day to days ago
+  ## Add zeroth day to days ago
   days_ago <- days_ago + 1
 
   var_length <- length(serial_interval)
@@ -49,27 +47,35 @@ draw_from_si_prob <- function(days_ago = NULL,
 #' @examples
 #'
 #' forecast <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
-#'                         model = function(...) {EpiSoon::bsts_model(model =
-#'                                 function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-#'                         horizon = 7, samples = 1)
+#'   model = function(...) {
+#'     EpiSoon::bsts_model(
+#'       model =
+#'         function(ss, y) {
+#'           bsts::AddSemilocalLinearTrend(ss, y = y)
+#'         }, ...
+#'     )
+#'   },
+#'   horizon = 7, samples = 1
+#' )
 #'
 #'
-#' purrr::map_dfr(1:100, ~ predict_cases(cases = EpiSoon::example_obs_cases,
-#'               rts = forecast,
-#'               forecast_date = as.Date("2020-03-10"),
-#'               serial_interval = example_serial_interval)) %>%
-#'               dplyr::group_by(date) %>%
-#'               dplyr::summarise(cases = mean(cases))
+#' purrr::map_dfr(1:100, ~ predict_cases(
+#'   cases = EpiSoon::example_obs_cases,
+#'   rts = forecast,
+#'   forecast_date = as.Date("2020-03-10"),
+#'   serial_interval = example_serial_interval
+#' )) %>%
+#'   dplyr::group_by(date) %>%
+#'   dplyr::summarise(cases = mean(cases))
 predict_cases <- function(cases = NULL,
                           rts = NULL,
                           serial_interval = NULL,
                           forecast_date = NULL,
                           horizon = NULL,
                           rdist = NULL) {
-
-   ## Make sure input is a data.table
-   rts <- data.table::setDT(rts)
-   cases <- data.table::setDT(cases)
+  ## Make sure input is a data.table
+  rts <- data.table::setDT(rts)
+  cases <- data.table::setDT(cases)
 
   ## Set forecast data to maximum observed case date if not given
   if (is.null(forecast_date)) {
@@ -94,18 +100,28 @@ predict_cases <- function(cases = NULL,
   rts <- rts[date > forecast_date]
 
   ## Initialise predictions for first time point.
-  predictions <- data.table::copy(rts)[,
-      index := 1:.N,][,
-      ## Calculate infectiousness from onserved data
-      infectiousness := purrr::map_dbl(index,
-                                      ~ sum(cases$cases * draw_from_si_prob((nrow(cases) + . - 1):.,
-                                                                            serial_interval)))][,
-      cases := rdist(1, rt[1] * infectiousness[1])]
+  predictions <- data.table::copy(rts)[
+    ,
+    index := 1:.N,
+  ][
+    ,
+    ## Calculate infectiousness from onserved data
+    infectiousness := purrr::map_dbl(
+      index,
+      ~ sum(cases$cases * draw_from_si_prob(
+        (nrow(cases) + . - 1):.,
+        serial_interval
+      ))
+    )
+  ][
+    ,
+    cases := rdist(1, rt[1] * infectiousness[1])
+  ]
 
   if (nrow(rts) > 1) {
-    for(i in 2:nrow(rts)) {
+    for (i in 2:nrow(rts)) {
       ## Previous cases
-      previous_cases <- predictions$cases[1:(i -1)]
+      previous_cases <- predictions$cases[1:(i - 1)]
       ## Update infectiousness
       predictions[i, ]$infectiousness <- predictions[i, ]$infectiousness +
         sum(previous_cases * draw_from_si_prob(length(previous_cases):1, serial_interval))
@@ -137,18 +153,17 @@ predict_cases <- function(cases = NULL,
 #' @importFrom purrr map_dbl
 #' @examples
 #'
-#' purrr::map_dfr(1:100, ~ predict_current_cases(cases = EpiSoon::example_obs_cases,
-#'                       rts = EpiSoon::example_obs_rts,
-#'                       serial_interval = EpiSoon::example_serial_interval)) %>%
-#'                       dplyr::group_by(date) %>%
-#'                       dplyr::summarise(cases = mean(cases))
-predict_current_cases <- function(
-  cases = NULL,
-  rts = NULL,
-  serial_interval = NULL,
-  rdist = NULL) {
-
-
+#' purrr::map_dfr(1:100, ~ predict_current_cases(
+#'   cases = EpiSoon::example_obs_cases,
+#'   rts = EpiSoon::example_obs_rts,
+#'   serial_interval = EpiSoon::example_serial_interval
+#' )) %>%
+#'   dplyr::group_by(date) %>%
+#'   dplyr::summarise(cases = mean(cases))
+predict_current_cases <- function(cases = NULL,
+                                  rts = NULL,
+                                  serial_interval = NULL,
+                                  rdist = NULL) {
   cases <- data.table::setDT(cases)
   rts <- data.table::setDT(rts)
 
@@ -172,17 +187,23 @@ predict_current_cases <- function(
   cases <- c(list(early_cases), cases)
 
 
-  predictions <- data.table::copy(rts)[,
-                  infectiousness :=
-                    purrr::map_dbl(cases,
-                                   function(cases_vect) {
-                                     inf <- sum(cases_vect * EpiSoon::draw_from_si_prob(
-                                       (length(cases_vect) - 1):0,
-                                       serial_interval))
-                                     return(inf)
-                                   })][,
-                  cases := purrr::map2_dbl(rt, infectiousness, ~ rdist(1, .x * .y))]
+  predictions <- data.table::copy(rts)[
+    ,
+    infectiousness :=
+      purrr::map_dbl(
+        cases,
+        function(cases_vect) {
+          inf <- sum(cases_vect * EpiSoon::draw_from_si_prob(
+            (length(cases_vect) - 1):0,
+            serial_interval
+          ))
+          return(inf)
+        }
+      )
+  ][
+    ,
+    cases := purrr::map2_dbl(rt, infectiousness, ~ rdist(1, .x * .y))
+  ]
 
   return(predictions)
-
 }

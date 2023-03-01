@@ -16,12 +16,18 @@ A summarised dataframe.
 Summarise Forecast Rts
 }
 \examples{
-
 \dontrun{
 samples <- forecast_rt(example_obs_rts,
-                       model = function(...) {EpiSoon::bsts_model(model =
-                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-                       horizon = 7, samples = 10)
+  model = function(...) {
+    EpiSoon::bsts_model(
+      model =
+        function(ss, y) {
+          bsts::AddSemilocalLinearTrend(ss, y = y)
+        }, ...
+    )
+  },
+  horizon = 7, samples = 10
+)
 
 
 summarise_forecast(samples)

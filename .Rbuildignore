@@ -11,3 +11,5 @@
 ^\.github$
 ^_pkgdown\.yml$
 ^pkgdown$
+^.lintr$
+^codecov\.yml$

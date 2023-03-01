@@ -22,33 +22,47 @@
 #' \dontrun{
 #' ## Evaluate a model based on a single sample of input cases
 #' evaluate_model(EpiSoon::example_obs_rts,
-#'                EpiSoon::example_obs_cases,
-#'                model = function(...) {EpiSoon::bsts_model(model =
-#'                                 function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-#'                horizon = 7, samples = 10,
-#'                serial_interval = example_serial_interval)
+#'   EpiSoon::example_obs_cases,
+#'   model = function(...) {
+#'     EpiSoon::bsts_model(
+#'       model =
+#'         function(ss, y) {
+#'           bsts::AddSemilocalLinearTrend(ss, y = y)
+#'         }, ...
+#'     )
+#'   },
+#'   horizon = 7, samples = 10,
+#'   serial_interval = example_serial_interval
+#' )
 #'
 #'
 #' ## Samples of observed data
 #' sampled_obs <- EpiSoon::example_obs_rts %>%
-#'    dplyr::mutate(sample = 1) %>%
-#'    dplyr::bind_rows(EpiSoon::example_obs_rts %>%
-#'    dplyr::mutate(sample = 2))
+#'   dplyr::mutate(sample = 1) %>%
+#'   dplyr::bind_rows(EpiSoon::example_obs_rts %>%
+#'     dplyr::mutate(sample = 2))
 #'
 #' sampled_cases <- EpiSoon::example_obs_cases %>%
-#'    dplyr::mutate(sample = 1) %>%
-#'    dplyr::bind_rows(EpiSoon::example_obs_cases %>%
-#'    dplyr::mutate(sample = 2))
+#'   dplyr::mutate(sample = 1) %>%
+#'   dplyr::bind_rows(EpiSoon::example_obs_cases %>%
+#'     dplyr::mutate(sample = 2))
 #'
 #'
 #' ## Evaluate a model across samples
 #' evaluate_model(sampled_obs,
-#'                sampled_cases,
-#'                model = function(...) {EpiSoon::bsts_model(model =
-#'                                 function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-#'                horizon = 7, samples = 10,
-#'                serial_interval = EpiSoon::example_serial_interval)
-#'                }
+#'   sampled_cases,
+#'   model = function(...) {
+#'     EpiSoon::bsts_model(
+#'       model =
+#'         function(ss, y) {
+#'           bsts::AddSemilocalLinearTrend(ss, y = y)
+#'         }, ...
+#'     )
+#'   },
+#'   horizon = 7, samples = 10,
+#'   serial_interval = EpiSoon::example_serial_interval
+#' )
+#' }
 evaluate_model <- function(obs_rts = NULL,
                            obs_cases = NULL,
                            model = NULL,
@@ -60,12 +74,11 @@ evaluate_model <- function(obs_rts = NULL,
                            serial_interval = NULL,
                            rdist = NULL,
                            return_raw = FALSE) {
-
   ## Split obs_rt into a list if present
   if (rlang::has_name(obs_rts, "sample")) {
     obs_rts <- obs_rts %>%
       dplyr::group_split(sample, .keep = FALSE)
-  }else{
+  } else {
     obs_rts <- list(obs_rts)
   }
 
@@ -73,7 +86,7 @@ evaluate_model <- function(obs_rts = NULL,
     obs_cases <- obs_cases %>%
       dplyr::group_split(sample) %>%
       purrr::map(~ select(., -sample))
-  }else{
+  } else {
     obs_cases <- list(obs_cases)
   }
 
@@ -86,10 +99,13 @@ evaluate_model <- function(obs_rts = NULL,
 
   samples <- obs_rts %>%
     purrr::map_dfr(
-      ~ safe_it(., model = model, horizon = horizon,
-                samples = samples, bound_rt = bound_rt,
-                timeout = timeout, min_points = min_points)[[1]],
-      .id = "obs_sample")
+      ~ safe_it(.,
+        model = model, horizon = horizon,
+        samples = samples, bound_rt = bound_rt,
+        timeout = timeout, min_points = min_points
+      )[[1]],
+      .id = "obs_sample"
+    )
 
 
   ## Summarise the forecast
@@ -109,25 +125,29 @@ evaluate_model <- function(obs_rts = NULL,
   samples <- samples %>%
     dplyr::group_split(obs_sample) %>%
     purrr::map(~ dplyr::select(., -obs_sample)) %>%
-    purrr::map2(obs_rts,
-                ~ dplyr::filter(.x, date <= max(.y$date)))
+    purrr::map2(
+      obs_rts,
+      ~ dplyr::filter(.x, date <= max(.y$date))
+    )
 
   ## Score the forecasts
   safe_score_forecast <- purrr::safely(score_forecast)
 
   scored_forecasts <-
     purrr::map2_dfr(samples, obs_rts,
-                    function(sample, obs) {
-                      scores <- dplyr::group_split(sample, forecast_date) %>%
-                        setNames(unique(sample$forecast_date)) %>%
-                        purrr::map(~ dplyr::select(., -forecast_date) %>%
-                                     safe_score_forecast(obs) %>%
-                                     .$result)
+      function(sample, obs) {
+        scores <- dplyr::group_split(sample, forecast_date) %>%
+          setNames(unique(sample$forecast_date)) %>%
+          purrr::map(~ dplyr::select(., -forecast_date) %>%
+            safe_score_forecast(obs) %>%
+            .$result)
 
-                      scores <- purrr::compact(scores)
-                      scores <- dplyr::bind_rows(scores, .id = "forecast_date")
-                      return(scores)
-                    }, .id = "sample")
+        scores <- purrr::compact(scores)
+        scores <- dplyr::bind_rows(scores, .id = "forecast_date")
+        return(scores)
+      },
+      .id = "sample"
+    )
 
   if (length(unique(scored_forecasts$sample)) == 1) {
     scored_forecasts <- scored_forecasts %>%
@@ -144,7 +164,9 @@ evaluate_model <- function(obs_rts = NULL,
         it_fit_samples = sample, cases = case,
         serial_interval = serial_interval, rdist = rdist
       )[[1]]
-    }, .id = "obs_sample")
+    },
+    .id = "obs_sample"
+  )
 
   summarised_case_forecasts <- case_predictions %>%
     dplyr::group_split(forecast_date) %>%
@@ -161,29 +183,35 @@ evaluate_model <- function(obs_rts = NULL,
   case_predictions <- case_predictions %>%
     dplyr::group_split(obs_sample) %>%
     purrr::map(~ dplyr::select(., -obs_sample)) %>%
-    purrr::map2(obs_cases,
-                ~ dplyr::filter(.x, date <= max(.y$date)))
+    purrr::map2(
+      obs_cases,
+      ~ dplyr::filter(.x, date <= max(.y$date))
+    )
 
   ## Score cases for each forecast
   safe_score_case_forecast <- purrr::safely(score_case_forecast)
 
   scored_cases <-
     purrr::map2_dfr(case_predictions, obs_cases,
-                    function(sample, obs) {
-                      scores <- dplyr::group_split(sample, forecast_date) %>%
-                        setNames(unique(sample$forecast_date)) %>%
-                        purrr::map(~ dplyr::select(., -forecast_date) %>%
-                                     safe_score_case_forecast(obs) %>%
-                                     .$result)
+      function(sample, obs) {
+        scores <- dplyr::group_split(sample, forecast_date) %>%
+          setNames(unique(sample$forecast_date)) %>%
+          purrr::map(~ dplyr::select(., -forecast_date) %>%
+            safe_score_case_forecast(obs) %>%
+            .$result)
 
-                      scores <- purrr::compact(scores)
-                      scores <- dplyr::bind_rows(scores, .id = "forecast_date")
-                      return(scores)
-                    }, .id = "sample")
+        scores <- purrr::compact(scores)
+        scores <- dplyr::bind_rows(scores, .id = "forecast_date")
+        return(scores)
+      },
+      .id = "sample"
+    )
 
   ## Return output
-  out <- list(summarised_forecasts, scored_forecasts,
-              summarised_case_forecasts, scored_cases)
+  out <- list(
+    summarised_forecasts, scored_forecasts,
+    summarised_case_forecasts, scored_cases
+  )
 
   names(out) <- c("forecast_rts", "rt_scores", "forecast_cases", "case_scores")
 
@@ -209,24 +237,41 @@ evaluate_model <- function(obs_rts = NULL,
 #' @importFrom furrr future_map furrr_options
 #' @importFrom dplyr bind_rows
 #' @examples
-#'\dontrun{
+#' \dontrun{
 #' ## List of forecasting bsts models wrapped in functions.
-#' models <- list("AR 3" =
-#'                     function(...) {EpiSoon::bsts_model(model =
-#'                     function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)},
-#'                "Semi-local linear trend" =
-#'                function(...) {EpiSoon::bsts_model(model =
-#'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-#'                "ARIMA" =
-#'                     function(...){fable_model(model = fable::ARIMA(y ~ time), ...)})
+#' models <- list(
+#'   "AR 3" =
+#'     function(...) {
+#'       EpiSoon::bsts_model(
+#'         model =
+#'           function(ss, y) {
+#'             bsts::AddAr(ss, y = y, lags = 3)
+#'           }, ...
+#'       )
+#'     },
+#'   "Semi-local linear trend" =
+#'     function(...) {
+#'       EpiSoon::bsts_model(
+#'         model =
+#'           function(ss, y) {
+#'             bsts::AddSemilocalLinearTrend(ss, y = y)
+#'           }, ...
+#'       )
+#'     },
+#'   "ARIMA" =
+#'     function(...) {
+#'       fable_model(model = fable::ARIMA(y ~ time), ...)
+#'     }
+#' )
 #'
 #'
 #'
 #' ## Compare models
 #' evaluations <- compare_models(EpiSoon::example_obs_rts,
-#'                               EpiSoon::example_obs_cases, models,
-#'                               horizon = 7, samples = 10,
-#'                               serial_interval = example_serial_interval)
+#'   EpiSoon::example_obs_cases, models,
+#'   horizon = 7, samples = 10,
+#'   serial_interval = example_serial_interval
+#' )
 #'
 #' ## Example evaluation plot for comparing forecasts
 #' ## with actuals for a range of models and time horizons.
@@ -235,11 +280,13 @@ evaluate_model <- function(obs_rts = NULL,
 #'   cowplot::panel_border()
 #'
 #' ## Hack to plot observed cases vs predicted
-#' plot_forecast_evaluation(evaluations$forecast_cases,
-#'                          EpiSoon::example_obs_cases, c(1, 3, 7)) +
+#' plot_forecast_evaluation(
+#'   evaluations$forecast_cases,
+#'   EpiSoon::example_obs_cases, c(1, 3, 7)
+#' ) +
 #'   ggplot2::facet_wrap(model ~ horizon, scales = "free") +
 #'   cowplot::panel_border()
-#'   }
+#' }
 compare_models <- function(obs_rts = NULL,
                            obs_cases = NULL,
                            models = NULL,
@@ -249,24 +296,23 @@ compare_models <- function(obs_rts = NULL,
                            min_points = 3,
                            rdist = NULL,
                            return_raw = FALSE) {
-
-
   safe_eval <- purrr::safely(evaluate_model)
 
   ## Evaluate each model (potential to swap in furrr here)
   evaluations <- models %>%
     furrr::future_map(
       ~ safe_eval(obs_rts,
-                  obs_cases,
-                  model = .,
-                  horizon = horizon,
-                  samples = samples,
-                  bound_rt = bound_rt,
-                  timeout = timeout,
-                  serial_interval = serial_interval,
-                  min_points = min_points,
-                  rdist = rdist,
-                  return_raw = return_raw)[[1]],
+        obs_cases,
+        model = .,
+        horizon = horizon,
+        samples = samples,
+        bound_rt = bound_rt,
+        timeout = timeout,
+        serial_interval = serial_interval,
+        min_points = min_points,
+        rdist = rdist,
+        return_raw = return_raw
+      )[[1]],
       .progress = TRUE,
       .options = furrr::furrr_options(seed = TRUE)
     ) %>%
@@ -274,7 +320,6 @@ compare_models <- function(obs_rts = NULL,
     purrr::map(~ dplyr::bind_rows(., .id = "model"))
 
   return(evaluations)
-
 }
 
 #' Compare timeseries and forecast models
@@ -295,33 +340,50 @@ compare_models <- function(obs_rts = NULL,
 #' @importFrom tidyr expand_grid unnest
 #' @importFrom tibble tibble
 #' @examples
-#'\dontrun{
+#' \dontrun{
 #' ## Example data
 #' obs_rts <- EpiSoon::example_obs_rts %>%
-#'     dplyr::mutate(timeseries = "Region 1") %>%
-#'     dplyr::bind_rows(EpiSoon::example_obs_rts %>%
+#'   dplyr::mutate(timeseries = "Region 1") %>%
+#'   dplyr::bind_rows(EpiSoon::example_obs_rts %>%
 #'     dplyr::mutate(timeseries = "Region 2"))
 #'
 #' obs_cases <- EpiSoon::example_obs_cases %>%
-#'     dplyr::mutate(timeseries = "Region 1") %>%
-#'     dplyr::bind_rows(EpiSoon::example_obs_cases %>%
+#'   dplyr::mutate(timeseries = "Region 1") %>%
+#'   dplyr::bind_rows(EpiSoon::example_obs_cases %>%
 #'     dplyr::mutate(timeseries = "Region 2"))
 #'
 #' ## List of forecasting bsts models wrapped in functions.
-#' models <- list("AR 3" =
-#'                     function(...){EpiSoon::bsts_model(model =
-#'                     function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)},
-#'                "Semi-local linear trend" =
-#'                function(...) {EpiSoon::bsts_model(model =
-#'                     function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-#'                "ARIMA" =
-#'                     function(...){fable_model(model = fable::ARIMA(y ~ time), ...)})
+#' models <- list(
+#'   "AR 3" =
+#'     function(...) {
+#'       EpiSoon::bsts_model(
+#'         model =
+#'           function(ss, y) {
+#'             bsts::AddAr(ss, y = y, lags = 3)
+#'           }, ...
+#'       )
+#'     },
+#'   "Semi-local linear trend" =
+#'     function(...) {
+#'       EpiSoon::bsts_model(
+#'         model =
+#'           function(ss, y) {
+#'             bsts::AddSemilocalLinearTrend(ss, y = y)
+#'           }, ...
+#'       )
+#'     },
+#'   "ARIMA" =
+#'     function(...) {
+#'       fable_model(model = fable::ARIMA(y ~ time), ...)
+#'     }
+#' )
 #'
 #'
 #' ## Compare models
 #' evaluations <- compare_timeseries(obs_rts, obs_cases, models,
-#'                                   horizon = 7, samples = 10,
-#'                                   serial_interval = EpiSoon::example_serial_interval)
+#'   horizon = 7, samples = 10,
+#'   serial_interval = EpiSoon::example_serial_interval
+#' )
 #'
 #' evaluations
 #'
@@ -332,13 +394,13 @@ compare_models <- function(obs_rts = NULL,
 #'   cowplot::panel_border()
 #'
 #' ## Hack to plot observed cases vs predicted
-#' plot_forecast_evaluation(evaluations$forecast_cases,
-#'                          obs_cases, c(7)) +
+#' plot_forecast_evaluation(
+#'   evaluations$forecast_cases,
+#'   obs_cases, c(7)
+#' ) +
 #'   ggplot2::facet_grid(model ~ timeseries, scales = "free") +
 #'   cowplot::panel_border()
-#'   }
-
-
+#' }
 compare_timeseries <- function(obs_rts = NULL,
                                obs_cases = NULL,
                                models = NULL,
@@ -350,7 +412,6 @@ compare_timeseries <- function(obs_rts = NULL,
                                serial_interval = NULL,
                                rdist = NULL,
                                return_raw = FALSE) {
-
   ## Make a nested tibble of timseries and observed ata
   data_tibble <- tibble::tibble(
     timeseries = unique(obs_cases$timeseries),
@@ -375,22 +436,25 @@ compare_timeseries <- function(obs_rts = NULL,
   evaluations <- combinations %>%
     dplyr::mutate(
       eval = furrr::future_pmap(list(rts, cases, models),
-                                function(rt, case, model) {
-                                  safe_eval(
-                                    obs_rts = rt,
-                                    obs_cases = case,
-                                    model = model,
-                                    horizon = horizon,
-                                    samples = samples,
-                                    bound_rt = bound_rt,
-                                    timeout = timeout,
-                                    serial_interval = serial_interval,
-                                    min_points = min_points,
-                                    rdist = rdist,
-                                    return_raw = return_raw
-                                  )[[1]]},
-                                .options = furrr::furrr_options(seed = TRUE)),
-      .progress = TRUE) %>%
+        function(rt, case, model) {
+          safe_eval(
+            obs_rts = rt,
+            obs_cases = case,
+            model = model,
+            horizon = horizon,
+            samples = samples,
+            bound_rt = bound_rt,
+            timeout = timeout,
+            serial_interval = serial_interval,
+            min_points = min_points,
+            rdist = rdist,
+            return_raw = return_raw
+          )[[1]]
+        },
+        .options = furrr::furrr_options(seed = TRUE)
+      ),
+      .progress = TRUE
+    ) %>%
     dplyr::select(timeseries, model = model_name, eval) %>%
     dplyr::arrange(timeseries, model)
 

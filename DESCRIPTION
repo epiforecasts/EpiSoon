@@ -86,5 +86,6 @@ Suggests:
     bsts,
     brms,
     tidybayes,
-    testthat
+    testthat,
+    covr
 VignetteBuilder: knitr

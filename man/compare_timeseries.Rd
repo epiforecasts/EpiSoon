@@ -63,30 +63,47 @@ Compare timeseries and forecast models
 \dontrun{
 ## Example data
 obs_rts <- EpiSoon::example_obs_rts \%>\%
-    dplyr::mutate(timeseries = "Region 1") \%>\%
-    dplyr::bind_rows(EpiSoon::example_obs_rts \%>\%
+  dplyr::mutate(timeseries = "Region 1") \%>\%
+  dplyr::bind_rows(EpiSoon::example_obs_rts \%>\%
     dplyr::mutate(timeseries = "Region 2"))
 
 obs_cases <- EpiSoon::example_obs_cases \%>\%
-    dplyr::mutate(timeseries = "Region 1") \%>\%
-    dplyr::bind_rows(EpiSoon::example_obs_cases \%>\%
+  dplyr::mutate(timeseries = "Region 1") \%>\%
+  dplyr::bind_rows(EpiSoon::example_obs_cases \%>\%
     dplyr::mutate(timeseries = "Region 2"))
 
 ## List of forecasting bsts models wrapped in functions.
-models <- list("AR 3" =
-                    function(...){EpiSoon::bsts_model(model =
-                    function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)},
-               "Semi-local linear trend" =
-               function(...) {EpiSoon::bsts_model(model =
-                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-               "ARIMA" =
-                    function(...){fable_model(model = fable::ARIMA(y ~ time), ...)})
+models <- list(
+  "AR 3" =
+    function(...) {
+      EpiSoon::bsts_model(
+        model =
+          function(ss, y) {
+            bsts::AddAr(ss, y = y, lags = 3)
+          }, ...
+      )
+    },
+  "Semi-local linear trend" =
+    function(...) {
+      EpiSoon::bsts_model(
+        model =
+          function(ss, y) {
+            bsts::AddSemilocalLinearTrend(ss, y = y)
+          }, ...
+      )
+    },
+  "ARIMA" =
+    function(...) {
+      fable_model(model = fable::ARIMA(y ~ time), ...)
+    }
+)
 
 
 ## Compare models
 evaluations <- compare_timeseries(obs_rts, obs_cases, models,
-                                  horizon = 7, samples = 10,
-                                  serial_interval = EpiSoon::example_serial_interval)
+  horizon = 7, samples = 10,
+  serial_interval = EpiSoon::example_serial_interval
+)
 
 evaluations
 
@@ -97,9 +114,11 @@ plot_forecast_evaluation(evaluations$forecast_rts, obs_rts, c(7)) +
   cowplot::panel_border()
 
 ## Hack to plot observed cases vs predicted
-plot_forecast_evaluation(evaluations$forecast_cases,
-                         obs_cases, c(7)) +
+plot_forecast_evaluation(
+  evaluations$forecast_cases,
+  obs_cases, c(7)
+) +
   ggplot2::facet_grid(model ~ timeseries, scales = "free") +
   cowplot::panel_border()
-  }
+}
 }

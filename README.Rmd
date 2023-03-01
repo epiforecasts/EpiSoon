@@ -12,31 +12,26 @@ knitr::opts_chunk$set(
 
 # EpiSoon
 
-[![R build status](https://github.com/epiforecasts/EpiSoon/workflows/R-CMD-check/badge.svg)](https://github.com/epiforecasts/EpiSoon)
-[![Docker Pulls](https://img.shields.io/docker/pulls/seabbs/episoon)](https://hub.docker.com/repository/docker/seabbs/episoon)
-[![DOI](https://zenodo.org/badge/248311916.svg)](https://zenodo.org/badge/latestdoi/248311916)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental) [![R build status](https://github.com/epiforecasts/EpiSoon/workflows/R-CMD-check/badge.svg)](https://github.com/epiforecasts/EpiSoon)
+[![Codecov test coverage](https://codecov.io/gh/epiforecasts/EpiSoon/branch/master/graph/badge.svg)](https://app.codecov.io/gh/epiforecasts/EpiSoon?branch=master) [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/epiforecasts/EpiSoon/blob/main/LICENSE.md/)   [![GitHub contributors](https://img.shields.io/github/contributors/epiforecasts/EpiSoon)](https://github.com/epiforecasts/EpiSoon/graphs/contributors)  [![universe](https://epiforecasts.r-universe.dev/badges/EpiSoon)](http://epiforecasts.r-universe.dev/ui/#package:EpiSoon) [![DOI](https://zenodo.org/badge/248311916.svg)](https://zenodo.org/badge/latestdoi/248311916)
 
-This package provides tooling to forecast the time-varying reproduction number and use this to forecast reported case counts via a branching process. It supports a range of time series modelling packages including `bsts`, `forecast`, and `fable`. It also supports ensembles via `stackr` and `forecastHyrbid`. Forecasts can be assessed by iteractively fitting and then using proper scoring rules (via `scoringutils` and `scoringRules`) to compare to both observed case counts and estimated reproduction numbers. Whilst `EpiSoon` is primarily developed to be used in tandem with `EpiNow` it can also be used as a standalone package. 
+This package provides tooling to forecast the time-varying reproduction number and use this to forecast reported case counts via a branching process. It supports a range of time series modelling packages including `bsts`, `forecast`, and `fable`. It also supports ensembles via `stackr` and `forecastHyrbid`. Forecasts can be assessed by iteractively fitting and then using proper scoring rules (via `scoringutils` and `scoringRules`) to compare to both observed case counts and estimated reproduction numbers.
 
 ## Installation
 
-Install the stable version of the package using [`{drat}`](https://epiforecasts.io/drat/):
+Install the stable development version of the package with:
 
-```r
-install.packages("drat")
-drat:::add("epiforecasts")
-install.packages("EpiSoon")
+```{r, eval = FALSE}
+install.packages("EpiSoon", repos = "https://epiforecasts.r-universe.dev")
 ```
 
-Install the development version of the package with: 
+Install the unstable development version of the package with (few users should need to do this):
 
-```r
+```{r, eval = FALSE}
 remotes::install_github("epiforecasts/EpiSoon")
 ```
 
-
 ## Quick start
-
 
 * Load packages (`bsts` and `fable` for models, `ggplot2` for plotting, and `cowplot` for theming)
 
@@ -53,27 +48,43 @@ library(dplyr)
 
 ```{r}
 obs_rts <- EpiSoon::example_obs_rts %>%
-   dplyr::mutate(timeseries = "Region 1") %>%
-   dplyr::bind_rows(EpiSoon::example_obs_rts %>%
-  dplyr::mutate(timeseries = "Region 2"))
+  dplyr::mutate(timeseries = "Region 1") %>%
+  dplyr::bind_rows(EpiSoon::example_obs_rts %>%
+    dplyr::mutate(timeseries = "Region 2"))
 
 obs_cases <- EpiSoon::example_obs_cases %>%
-   dplyr::mutate(timeseries = "Region 1") %>%
-   dplyr::bind_rows(EpiSoon::example_obs_cases %>%
-   dplyr::mutate(timeseries = "Region 2"))
+  dplyr::mutate(timeseries = "Region 1") %>%
+  dplyr::bind_rows(EpiSoon::example_obs_cases %>%
+    dplyr::mutate(timeseries = "Region 2"))
 ```
 
 * Define the list of models to be compared.
 
 ```{r}
-models <- list("AR 3" =
-                function(...) {EpiSoon::bsts_model(model =
-                     function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)},
-               "Semi-local linear trend" =
-                function(...) {EpiSoon::bsts_model(model =
-                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-               "ARIMA" = 
-                    function(...){EpiSoon::fable_model(model = fable::ARIMA(y ~ time), ...)})
+models <- list(
+  "AR 3" =
+    function(...) {
+      EpiSoon::bsts_model(
+        model =
+          function(ss, y) {
+            bsts::AddAr(ss, y = y, lags = 3)
+          }, ...
+      )
+    },
+  "Semi-local linear trend" =
+    function(...) {
+      EpiSoon::bsts_model(
+        model =
+          function(ss, y) {
+            bsts::AddSemilocalLinearTrend(ss, y = y)
+          }, ...
+      )
+    },
+  "ARIMA" =
+    function(...) {
+      EpiSoon::fable_model(model = fable::ARIMA(y ~ time), ...)
+    }
+)
 ```
 
 * Compare models across timeseries (change the `future::plan` to do this in parallel).
@@ -83,8 +94,9 @@ future::plan("sequential")
 
 ## Compare models
 forecasts <- EpiSoon::compare_timeseries(obs_rts, obs_cases, models,
-                                         horizon = 7, samples = 10,
-                                         serial_interval = EpiSoon::example_serial_interval)
+  horizon = 7, samples = 10,
+  serial_interval = EpiSoon::example_serial_interval
+)
 
 forecasts
 ```
@@ -93,8 +105,8 @@ forecasts
 
 ```{r, fig.width = 7, fig.height = 7, dpi = 320, out.width = "60%"}
 EpiSoon::plot_forecast_evaluation(forecasts$forecast_rts, obs_rts, c(7)) +
-   ggplot2::facet_grid(model ~ timeseries) +
-   cowplot::panel_border()
+  ggplot2::facet_grid(model ~ timeseries) +
+  cowplot::panel_border()
 ```
 
 * Plot an evaluation of case forecasts using iterative fitting
@@ -102,8 +114,8 @@ EpiSoon::plot_forecast_evaluation(forecasts$forecast_rts, obs_rts, c(7)) +
 
 ```{r, fig.width = 7, fig.height = 7, dpi = 320, out.width = "60%"}
 EpiSoon::plot_forecast_evaluation(forecasts$forecast_cases, obs_cases, c(7)) +
-   ggplot2::facet_grid(model ~ timeseries, scales = "free") +
-   cowplot::panel_border()
+  ggplot2::facet_grid(model ~ timeseries, scales = "free") +
+  cowplot::panel_border()
 ```
 
 * Summarise the forecasts by model scored against observed cases
@@ -115,33 +127,3 @@ EpiSoon::summarise_scores(forecasts$case_scores)
 ## Contributing
 
 File an issue [here](https://github.com/epiforecasts/EpiSoon/issues) if you have identified an issue with the package. Please note that due to operational constraints priority will be given to users informing government policy or offering methodological insights. We welcome all contributions, in particular those that improve the approach or the robustness of the code base.
-
-## Docker
-
-This package was developed in a docker container based on the `rocker/geospatial` docker image. 
-
-To build the docker image run (from the `EpiSoon` directory):
-
-```{bash, eval = FALSE}
-docker build . -t episoon
-```
-
-To run the docker image run:
-
-```{bash, eval = FALSE}
-docker run -d -p 8787:8787 --name episoon -e USER=episoon -e PASSWORD=episoon episoon
-```
-
-The rstudio client can be found on port :8787 at your local machines ip. The default username:password is epinow:epinow, set the user with -e USER=username, and the password with - e PASSWORD=newpasswordhere. The default is to save the analysis files into the user directory.
-
-To mount a folder (from your current working directory - here assumed to be `tmp`) in the docker container to your local system use the following in the above docker run command (as given mounts the whole `episoon` directory to `tmp`).
-
-```{bash, eval = FALSE}
---mount type=bind,source=$(pwd)/tmp,target=/home/EpiSoon
-```
-
-To access the command line run the following:
-
-```{bash, eval = FALSE}
-docker exec -ti episoon bash
-```

@@ -30,25 +30,33 @@ A \code{ggplot2} object
 Plot a Forecast
 }
 \examples{
-
 \dontrun{
 ## Evaluate a model
 forecast_eval <- evaluate_model(EpiSoon::example_obs_rts,
-                                EpiSoon::example_obs_cases,
-                                model = function(...) {EpiSoon::bsts_model(model =
-                                function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-                                serial_interval = EpiSoon::example_serial_interval,
-                                horizon = 7, samples = 10)
+  EpiSoon::example_obs_cases,
+  model = function(...) {
+    EpiSoon::bsts_model(
+      model =
+        function(ss, y) {
+          bsts::AddSemilocalLinearTrend(ss, y = y)
+        }, ...
+    )
+  },
+  serial_interval = EpiSoon::example_serial_interval,
+  horizon = 7, samples = 10
+)
 
 ## Plot Rt forecast
 plot_forecast_evaluation(forecast_eval$forecast_rts,
-                         EpiSoon::example_obs_rts,
-                         horizon_to_plot = 7)
+  EpiSoon::example_obs_rts,
+  horizon_to_plot = 7
+)
 
 
 ## Plot case forecast
 plot_forecast_evaluation(forecast_eval$forecast_cases,
-                         EpiSoon::example_obs_cases,
-                         horizon_to_plot = 7)
-                         }
+  EpiSoon::example_obs_cases,
+  horizon_to_plot = 7
+)
+}
 }

@@ -62,22 +62,39 @@ Compare forecasting models
 \examples{
 \dontrun{
 ## List of forecasting bsts models wrapped in functions.
-models <- list("AR 3" =
-                    function(...) {EpiSoon::bsts_model(model =
-                    function(ss, y){bsts::AddAr(ss, y = y, lags = 3)}, ...)},
-               "Semi-local linear trend" =
-               function(...) {EpiSoon::bsts_model(model =
-                    function(ss, y){bsts::AddSemilocalLinearTrend(ss, y = y)}, ...)},
-               "ARIMA" =
-                    function(...){fable_model(model = fable::ARIMA(y ~ time), ...)})
+models <- list(
+  "AR 3" =
+    function(...) {
+      EpiSoon::bsts_model(
+        model =
+          function(ss, y) {
+            bsts::AddAr(ss, y = y, lags = 3)
+          }, ...
+      )
+    },
+  "Semi-local linear trend" =
+    function(...) {
+      EpiSoon::bsts_model(
+        model =
+          function(ss, y) {
+            bsts::AddSemilocalLinearTrend(ss, y = y)
+          }, ...
+      )
+    },
+  "ARIMA" =
+    function(...) {
+      fable_model(model = fable::ARIMA(y ~ time), ...)
+    }
+)
 
 
 
 ## Compare models
 evaluations <- compare_models(EpiSoon::example_obs_rts,
-                              EpiSoon::example_obs_cases, models,
-                              horizon = 7, samples = 10,
-                              serial_interval = example_serial_interval)
+  EpiSoon::example_obs_cases, models,
+  horizon = 7, samples = 10,
+  serial_interval = example_serial_interval
+)
 
 ## Example evaluation plot for comparing forecasts
 ## with actuals for a range of models and time horizons.
@@ -86,9 +103,11 @@ plot_forecast_evaluation(evaluations$forecast_rts, EpiSoon::example_obs_rts, c(1
   cowplot::panel_border()
 
 ## Hack to plot observed cases vs predicted
-plot_forecast_evaluation(evaluations$forecast_cases,
-                         EpiSoon::example_obs_cases, c(1, 3, 7)) +
+plot_forecast_evaluation(
+  evaluations$forecast_cases,
+  EpiSoon::example_obs_cases, c(1, 3, 7)
+) +
   ggplot2::facet_wrap(model ~ horizon, scales = "free") +
   cowplot::panel_border()
-  }
+}
 }
