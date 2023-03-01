@@ -6,7 +6,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](htt
 [![R build
 status](https://github.com/epiforecasts/EpiSoon/workflows/R-CMD-check/badge.svg)](https://github.com/epiforecasts/EpiSoon)
 [![Codecov test
-coverage](https://codecov.io/gh/epiforecasts/EpiSoon/branch/master/graph/badge.svg)](https://app.codecov.io/gh/epiforecasts/EpiSoon?branch=master)
+coverage](https://codecov.io/gh/epiforecasts/EpiSoon/branch/main/graph/badge.svg)](https://app.codecov.io/gh/epiforecasts/EpiSoon?branch=main)
 [![MIT
 license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/epiforecasts/EpiSoon/blob/main/LICENSE.md/)
 [![GitHub

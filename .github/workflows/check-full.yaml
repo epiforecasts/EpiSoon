@@ -1,12 +1,12 @@
 on:
   push:
     branches:
-      - master
+      - main
   schedule:
     - cron: "0 0 * * *"
   pull_request:
     branches:
-      - master
+      - main
 
 name: R-CMD-check
 
