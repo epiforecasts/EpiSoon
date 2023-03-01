@@ -419,7 +419,7 @@ plot_region_score <- function(scores, label = NULL) {
       position = ggplot2::position_dodge(width = 1)
     ) +
     ggplot2::geom_linerange(ggplot2::aes(ymin = lower, ymax = upper),
-      alpha = 0.4, size = 1.1,
+      alpha = 0.4, linewidth = 1.1,
       position =
         ggplot2::position_dodge(width = 1)
     ) +
@@ -445,7 +445,7 @@ plot_internal <- function(df, label = NULL) {
     ggplot2::geom_point(size = 2) +
     ggplot2::geom_point(ggplot2::aes(y = median), shape = 2, size = 2) +
     ggplot2::geom_linerange(ggplot2::aes(ymin = lower, ymax = upper),
-      alpha = 0.4, size = 1.5,
+      alpha = 0.4, linewidth = 1.5,
       position =
         ggplot2::position_dodge(width = 3)
     ) +
@@ -475,7 +475,7 @@ summary_plot <- function(scores, target_score) {
       position = ggplot2::position_dodge(width = 1)
     ) +
     ggplot2::geom_linerange(ggplot2::aes(ymin = lower, ymax = upper),
-      alpha = 0.4, size = 1.5,
+      alpha = 0.4, linewidth = 1.5,
       position =
         ggplot2::position_dodge(width = 1)
     ) +
