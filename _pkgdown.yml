@@ -1,28 +1,22 @@
 url: epiforecasts.io/EpiSoon/
 template:
+  bootstrap: 5
+  opengraph:
+    twitter:
+      creator: "@seabbs"
+      site: "@epiforecasts"
+      card: summary_large_image
   params:
     bootswatch: lumen
 
 development:
-  mode: release
+  mode: auto
 
-navbar:
-  type: inverse 
-  left:
-    - text: "Home"
-      href: index.html
-    - text: "Getting started"
-      href: articles/introduction.html
-    - text: News
-      href: news/index.html
-    - icon: fa-file-code-o
-      text: "Functions"
-      href: reference/index.html
-  right:
-    - icon: fa-github
-      href: https://github.com/epiforecasts/EpiSoon
-
-
+authors:
+  Sam Abbott:
+    href: "https://www.samabbott.co.uk/"
+  Sebastian Funk: 
+    href: "https://www.lshtm.ac.uk/aboutus/people/funk.sebastian"
 
 reference:
   - title: Analysis wrappers
