@@ -3,6 +3,7 @@
 * Updated all GitHub Actions
 * Updated `tidyverse` code usage to account for depreciation.
 * Updated `pkgdown` site to use `pkgdown` 2.0.0.
+* Updated all uses of `size` to `linewidth` to account for depreciation in `ggplot2` line geoms.
 
 # EpiSoon 0.3.0
 
