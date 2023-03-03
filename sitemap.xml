@@ -1,84 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>epiforecasts.io/EpiSoon//index.html</loc>
+    <loc>epiforecasts.io/EpiSoon/404.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/brms_model.html</loc>
+    <loc>epiforecasts.io/EpiSoon/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/bsts_model.html</loc>
+    <loc>epiforecasts.io/EpiSoon/LICENSE.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/compare_models.html</loc>
+    <loc>epiforecasts.io/EpiSoon/articles/index.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/compare_timeseries.html</loc>
+    <loc>epiforecasts.io/EpiSoon/articles/introduction.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/draw_from_si_prob.html</loc>
+    <loc>epiforecasts.io/EpiSoon/authors.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/evaluate_model.html</loc>
+    <loc>epiforecasts.io/EpiSoon/index.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/example_obs_cases.html</loc>
+    <loc>epiforecasts.io/EpiSoon/news/index.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/example_obs_rts.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/brms_model.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/example_serial_interval.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/bsts_model.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/fable_model.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/compare_models.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/forecast_cases.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/compare_timeseries.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/forecast_rt.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/draw_from_si_prob.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/iterative_case_forecast.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/evaluate_model.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/iterative_rt_forecast.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/example_obs_cases.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/pipe.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/example_obs_rts.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/plot_forecast.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/example_serial_interval.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/plot_forecast_evaluation.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/fable_model.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/plot_scores.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/forecastHybrid_model.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/predict_cases.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/forecast_cases.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/predict_current_cases.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/forecast_cases_directly.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/score_case_forecast.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/forecast_model.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/score_forecast.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/forecast_rt.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/summarise_case_forecast.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/index.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/summarise_forecast.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/iterative_case_forecast.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//reference/summarise_scores.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/iterative_direct_case_forecast.html</loc>
   </url>
   <url>
-    <loc>epiforecasts.io/EpiSoon//articles/introduction.html</loc>
+    <loc>epiforecasts.io/EpiSoon/reference/iterative_rt_forecast.html</loc>
+  </url>
+  <url>
+    <loc>epiforecasts.io/EpiSoon/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>epiforecasts.io/EpiSoon/reference/plot_compare_timeseries.html</loc>
+  </url>
+  <url>
+    <loc>epiforecasts.io/EpiSoon/reference/plot_forecast.html</loc>
+  </url>
+  <url>
+    <loc>epiforecasts.io/EpiSoon/reference/plot_forecast_evaluation.html</loc>
+  </url>
+  <url>
+    <loc>epiforecasts.io/EpiSoon/reference/plot_scores.html</loc>
+  </url>
+  <url>
+    <loc>epiforecasts.io/EpiSoon/reference/predict_cases.html</loc>
+  </url>
+  <url>
+    <loc>epiforecasts.io/EpiSoon/reference/predict_current_cases.html</loc>
+  </url>
+  <url>
+    <loc>epiforecasts.io/EpiSoon/reference/score_case_forecast.html</loc>
+  </url>
+  <url>
+    <loc>epiforecasts.io/EpiSoon/reference/score_forecast.html</loc>
+  </url>
+  <url>
+    <loc>epiforecasts.io/EpiSoon/reference/stackr_model.html</loc>
+  </url>
+  <url>
+    <loc>epiforecasts.io/EpiSoon/reference/summarise_case_forecast.html</loc>
+  </url>
+  <url>
+    <loc>epiforecasts.io/EpiSoon/reference/summarise_forecast.html</loc>
+  </url>
+  <url>
+    <loc>epiforecasts.io/EpiSoon/reference/summarise_scores.html</loc>
   </url>
 </urlset>

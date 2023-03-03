@@ -4,516 +4,578 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="EpiSoon">
 <title>Getting started • EpiSoon</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/lumen/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Getting started">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Getting started">
 <meta property="og:description" content="EpiSoon">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@seabbs">
+<meta name="twitter:site" content="@epiforecasts">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-article">
-      <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">EpiSoon</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">Home</a>
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    
+    <a class="navbar-brand me-2" href="../index.html">EpiSoon</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item">
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/introduction.html">Getting started</a>
-</li>
-<li>
-  <a href="../news/index.html">News</a>
-</li>
-<li>
-  <a href="../reference/index.html">
-    <span class="fa fa-file-code-o"></span>
-     
-    Functions
-  </a>
-</li>
-      </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/epiforecasts/EpiSoon">
-    <span class="fa fa-github"></span>
-     
-  </a>
-</li>
-      </ul>
-</div>
-<!--/.nav-collapse -->
+<li class="active nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/introduction.html">Getting started</a>
   </div>
-<!--/.container -->
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
+      </ul>
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav"></ul>
 </div>
-<!--/.navbar -->
 
-      
+    
+  </div>
+</nav><div class="container template-article">
 
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Getting started</h1>
+
+
+
+<div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
+      <img src="" class="logo" alt=""><h1>Getting started</h1>
             
       
       
-      <div class="hidden name"><code>introduction.Rmd</code></div>
-
+      <div class="d-none name"><code>introduction.Rmd</code></div>
     </div>
 
     
     
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>This vignette briefly outlines the functionality of <code>EpiSoon</code>. To get started load the required packages.</p>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>This vignette briefly outlines the functionality of
+<code>EpiSoon</code>. To get started load the required packages.</p>
 <ul>
-<li>Load the package (<code>bsts</code> for models, <code>ggplot2</code> for plotting, and <code>cowplot</code> for theming)</li>
+<li>Load the package (<code>bsts</code> for models, <code>ggplot2</code>
+for plotting, and <code>cowplot</code> for theming)</li>
 </ul>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">EpiSoon</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">bsts</span>)
-<span class="co">#&gt; Warning: package 'BoomSpikeSlab' was built under R version 3.6.2</span>
-<span class="co">#&gt; Warning: package 'Boom' was built under R version 3.6.2</span>
-<span class="co">#&gt; Warning: package 'MASS' was built under R version 3.6.2</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">fable</span>)
-<span class="co">#&gt; Warning: package 'fable' was built under R version 3.6.2</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">cowplot</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">EpiSoon</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">bsts</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://fable.tidyverts.org" class="external-link">fable</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/cowplot/" class="external-link">cowplot</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="forecast-rts-score-and-plot" class="section level2">
-<h2 class="hasAnchor">
-<a href="#forecast-rts-score-and-plot" class="anchor"></a>Forecast Rts, score and plot</h2>
+<div class="section level2">
+<h2 id="forecast-rts-score-and-plot">Forecast Rts, score and plot<a class="anchor" aria-label="anchor" href="#forecast-rts-score-and-plot"></a>
+</h2>
 <ul>
-<li>We use an example dataframe built into the package but this could be replaced with your own data.</li>
+<li>We use an example dataframe built into the package but this could be
+replaced with your own data.</li>
 </ul>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_obs_rts.html">example_obs_rts</a></span>
-<span class="co">#&gt;          rt       date</span>
-<span class="co">#&gt; 1  2.490547 2020-03-01</span>
-<span class="co">#&gt; 2  2.442588 2020-03-02</span>
-<span class="co">#&gt; 3  2.402473 2020-03-03</span>
-<span class="co">#&gt; 4  2.335572 2020-03-04</span>
-<span class="co">#&gt; 5  2.266551 2020-03-05</span>
-<span class="co">#&gt; 6  2.192293 2020-03-06</span>
-<span class="co">#&gt; 7  2.146429 2020-03-07</span>
-<span class="co">#&gt; 8  2.104371 2020-03-08</span>
-<span class="co">#&gt; 9  2.059281 2020-03-09</span>
-<span class="co">#&gt; 10 2.027134 2020-03-10</span>
-<span class="co">#&gt; 11 2.014678 2020-03-11</span>
-<span class="co">#&gt; 12 1.998946 2020-03-12</span>
-<span class="co">#&gt; 13 1.968350 2020-03-13</span>
-<span class="co">#&gt; 14 1.947376 2020-03-14</span>
-<span class="co">#&gt; 15 1.906984 2020-03-15</span>
-<span class="co">#&gt; 16 1.812842 2020-03-16</span>
-<span class="co">#&gt; 17 1.718532 2020-03-17</span>
-<span class="co">#&gt; 18 1.665646 2020-03-18</span>
-<span class="co">#&gt; 19 1.639927 2020-03-19</span>
-<span class="co">#&gt; 20 1.633795 2020-03-20</span>
-<span class="co">#&gt; 21 1.682025 2020-03-21</span>
-<span class="co">#&gt; 22 1.561653 2020-03-22</span></pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_obs_rts.html">example_obs_rts</a></span></span>
+<span><span class="co">#&gt;          rt       date</span></span>
+<span><span class="co">#&gt; 1  2.490547 2020-03-01</span></span>
+<span><span class="co">#&gt; 2  2.442588 2020-03-02</span></span>
+<span><span class="co">#&gt; 3  2.402473 2020-03-03</span></span>
+<span><span class="co">#&gt; 4  2.335572 2020-03-04</span></span>
+<span><span class="co">#&gt; 5  2.266551 2020-03-05</span></span>
+<span><span class="co">#&gt; 6  2.192293 2020-03-06</span></span>
+<span><span class="co">#&gt; 7  2.146429 2020-03-07</span></span>
+<span><span class="co">#&gt; 8  2.104371 2020-03-08</span></span>
+<span><span class="co">#&gt; 9  2.059281 2020-03-09</span></span>
+<span><span class="co">#&gt; 10 2.027134 2020-03-10</span></span>
+<span><span class="co">#&gt; 11 2.014678 2020-03-11</span></span>
+<span><span class="co">#&gt; 12 1.998946 2020-03-12</span></span>
+<span><span class="co">#&gt; 13 1.968350 2020-03-13</span></span>
+<span><span class="co">#&gt; 14 1.947376 2020-03-14</span></span>
+<span><span class="co">#&gt; 15 1.906984 2020-03-15</span></span>
+<span><span class="co">#&gt; 16 1.812842 2020-03-16</span></span>
+<span><span class="co">#&gt; 17 1.718532 2020-03-17</span></span>
+<span><span class="co">#&gt; 18 1.665646 2020-03-18</span></span>
+<span><span class="co">#&gt; 19 1.639927 2020-03-19</span></span>
+<span><span class="co">#&gt; 20 1.633795 2020-03-20</span></span>
+<span><span class="co">#&gt; 21 1.682025 2020-03-21</span></span>
+<span><span class="co">#&gt; 22 1.561653 2020-03-22</span></span></code></pre></div>
 <ul>
-<li>Fit a <code>bsts</code> model and produce a Rt forecast. Any appropriately wrapped model can be used (see <code>bsts_model</code> and <code>fable_model</code> for an examples).</li>
+<li>Fit a <code>bsts</code> model and produce a Rt forecast. Any
+appropriately wrapped model can be used (see <code>bsts_model</code> and
+<code>fable_model</code> for an examples).</li>
 </ul>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">rt_forecast</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/forecast_rt.html">forecast_rt</a></span>(<span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_obs_rts.html">example_obs_rts</a></span>[<span class="fl">1</span>:<span class="fl">10</span>, ],
-                       <span class="kw">model</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">...</span>){<span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="fu"><a href="../reference/bsts_model.html">bsts_model</a></span>(<span class="kw">model</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">ss</span>, <span class="no">y</span>){<span class="kw pkg">bsts</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsts/man/auto.ar.html">AddAutoAr</a></span>(<span class="no">ss</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">y</span>, <span class="kw">lags</span> <span class="kw">=</span> <span class="fl">10</span>)}, <span class="no">...</span>)},
-                       <span class="kw">horizon</span> <span class="kw">=</span> <span class="fl">21</span>, <span class="kw">samples</span> <span class="kw">=</span> <span class="fl">10</span>)
-
-<span class="no">rt_forecast</span>
-<span class="co">#&gt; # A tibble: 210 x 4</span>
-<span class="co">#&gt;    sample date          rt horizon</span>
-<span class="co">#&gt;     &lt;int&gt; &lt;date&gt;     &lt;dbl&gt;   &lt;int&gt;</span>
-<span class="co">#&gt;  1      1 2020-03-11  1.99       1</span>
-<span class="co">#&gt;  2      2 2020-03-11  1.99       1</span>
-<span class="co">#&gt;  3      3 2020-03-11  1.97       1</span>
-<span class="co">#&gt;  4      4 2020-03-11  1.95       1</span>
-<span class="co">#&gt;  5      5 2020-03-11  1.97       1</span>
-<span class="co">#&gt;  6      6 2020-03-11  1.96       1</span>
-<span class="co">#&gt;  7      7 2020-03-11  1.98       1</span>
-<span class="co">#&gt;  8      8 2020-03-11  2.06       1</span>
-<span class="co">#&gt;  9      9 2020-03-11  2.05       1</span>
-<span class="co">#&gt; 10     10 2020-03-11  2.00       1</span>
-<span class="co">#&gt; # … with 200 more rows</span></pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rt_forecast</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/forecast_rt.html">forecast_rt</a></span><span class="op">(</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_obs_rts.html">example_obs_rts</a></span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span>,</span>
+<span>  model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="../reference/bsts_model.html">bsts_model</a></span><span class="op">(</span>model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">ss</span>, <span class="va">y</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="fu">bsts</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsts/man/auto.ar.html" class="external-link">AddAutoAr</a></span><span class="op">(</span><span class="va">ss</span>, y <span class="op">=</span> <span class="va">y</span>, lags <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span>    <span class="op">}</span>, <span class="va">...</span><span class="op">)</span></span>
+<span>  <span class="op">}</span>,</span>
+<span>  horizon <span class="op">=</span> <span class="fl">21</span>, samples <span class="op">=</span> <span class="fl">10</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">rt_forecast</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 210 × 4</span></span></span>
+<span><span class="co">#&gt;    sample date          rt horizon</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>      1 2020-03-11  1.98       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>      2 2020-03-11  1.94       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>      3 2020-03-11  1.98       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>      4 2020-03-11  1.88       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>      5 2020-03-11  1.96       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>      6 2020-03-11  1.95       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>      7 2020-03-11  1.98       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      8 2020-03-11  2.00       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      9 2020-03-11  2.01       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     10 2020-03-11  1.96       1</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 200 more rows</span></span></span></code></pre></div>
 <ul>
 <li>Score the forecast</li>
 </ul>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">rt_scores</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/score_forecast.html">score_forecast</a></span>(<span class="no">rt_forecast</span>, <span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_obs_rts.html">example_obs_rts</a></span>)
-
-<span class="no">rt_scores</span>
-<span class="co">#&gt; # A tibble: 12 x 11</span>
-<span class="co">#&gt;    date       horizon   dss   crps   logs   bias sharpness calibration median</span>
-<span class="co">#&gt;    &lt;date&gt;       &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 2020-03-11       1 -6.29 0.0200 -1.46  -0.6      0.0290       0.878 0.0573</span>
-<span class="co">#&gt;  2 2020-03-12       2 -5.34 0.0179 -1.87  -0.200    0.0516       0.878 0.0468</span>
-<span class="co">#&gt;  3 2020-03-13       3 -4.69 0.0249 -1.63  -0.400    0.0601       0.878 0.0628</span>
-<span class="co">#&gt;  4 2020-03-14       4 -4.38 0.0341 -1.33  -0.8      0.0556       0.878 0.0881</span>
-<span class="co">#&gt;  5 2020-03-15       5 -4.19 0.0325 -1.08  -0.200    0.118        0.878 0.0452</span>
-<span class="co">#&gt;  6 2020-03-16       6 -3.89 0.0336 -0.997  0.200    0.125        0.878 0.0424</span>
-<span class="co">#&gt;  7 2020-03-17       7 -3.64 0.0306 -1.36   0.200    0.0718       0.878 0.0482</span>
-<span class="co">#&gt;  8 2020-03-18       8 -3.38 0.0507 -0.863  0.8      0.0995       0.878 0.109 </span>
-<span class="co">#&gt;  9 2020-03-19       9 -3.10 0.0587 -0.846  0.6      0.0938       0.878 0.151 </span>
-<span class="co">#&gt; 10 2020-03-20      10 -3.25 0.0451 -0.802  0.4      0.172        0.878 0.0858</span>
-<span class="co">#&gt; 11 2020-03-21      11 -3.18 0.0405 -0.965 -0.200    0.0966       0.878 0.0900</span>
-<span class="co">#&gt; 12 2020-03-22      12 -3.02 0.0428 -1.02   0.6      0.124        0.878 0.0752</span>
-<span class="co">#&gt; # … with 2 more variables: iqr &lt;dbl&gt;, ci &lt;dbl&gt;</span></pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rt_scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/score_forecast.html">score_forecast</a></span><span class="op">(</span><span class="va">rt_forecast</span>, <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_obs_rts.html">example_obs_rts</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">rt_scores</span></span>
+<span><span class="co">#&gt;           date horizon        mad bias       dss       crps  log_score</span></span>
+<span><span class="co">#&gt;  1: 2020-03-11       1 0.02573592 -1.0 -4.553111 0.03290267 -1.5353635</span></span>
+<span><span class="co">#&gt;  2: 2020-03-12       2 0.03919393 -0.6 -4.856607 0.02579484 -1.3485222</span></span>
+<span><span class="co">#&gt;  3: 2020-03-13       3 0.09277602 -0.2 -3.945798 0.02735804 -1.2722783</span></span>
+<span><span class="co">#&gt;  4: 2020-03-14       4 0.11219841 -0.4 -3.795391 0.02900255 -1.2146965</span></span>
+<span><span class="co">#&gt;  5: 2020-03-15       5 0.04754504 -0.4 -3.332283 0.02267236 -1.7037985</span></span>
+<span><span class="co">#&gt;  6: 2020-03-16       6 0.13754226  0.4 -2.795172 0.04177356 -0.8803911</span></span>
+<span><span class="co">#&gt;  7: 2020-03-17       7 0.09360515  0.8 -2.337174 0.06003448 -0.8628702</span></span>
+<span><span class="co">#&gt;  8: 2020-03-18       8 0.14024932  0.8 -1.969768 0.07819108 -0.7267699</span></span>
+<span><span class="co">#&gt;  9: 2020-03-19       9 0.15013736  0.8 -1.783008 0.07225469 -0.6717516</span></span>
+<span><span class="co">#&gt; 10: 2020-03-20      10 0.14436293  0.6 -1.564876 0.06076511 -0.8091531</span></span>
+<span><span class="co">#&gt; 11: 2020-03-21      11 0.16663045  0.2 -1.771007 0.05771384 -0.6897299</span></span>
+<span><span class="co">#&gt; 12: 2020-03-22      12 0.13596459  0.6 -1.419566 0.09776245 -0.3038843</span></span>
+<span><span class="co">#&gt;      ae_median      se_mean</span></span>
+<span><span class="co">#&gt;  1: 0.04710905 0.0026550238</span></span>
+<span><span class="co">#&gt;  2: 0.03582168 0.0016620641</span></span>
+<span><span class="co">#&gt;  3: 0.02521131 0.0003024244</span></span>
+<span><span class="co">#&gt;  4: 0.02211149 0.0003460676</span></span>
+<span><span class="co">#&gt;  5: 0.02195477 0.0001393084</span></span>
+<span><span class="co">#&gt;  6: 0.03570195 0.0089837931</span></span>
+<span><span class="co">#&gt;  7: 0.07265309 0.0228576984</span></span>
+<span><span class="co">#&gt;  8: 0.12960073 0.0385682842</span></span>
+<span><span class="co">#&gt;  9: 0.10354380 0.0400960463</span></span>
+<span><span class="co">#&gt; 10: 0.05492956 0.0392526364</span></span>
+<span><span class="co">#&gt; 11: 0.05459074 0.0176142347</span></span>
+<span><span class="co">#&gt; 12: 0.14500268 0.0538552956</span></span></code></pre></div>
 <ul>
 <li>Summarise the forecast scores</li>
 </ul>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../reference/summarise_scores.html">summarise_scores</a></span>(<span class="no">rt_scores</span>)
-<span class="co">#&gt; Warning: attributes are not identical across measure variables;</span>
-<span class="co">#&gt; they will be dropped</span>
-<span class="co">#&gt; # A tibble: 9 x 8</span>
-<span class="co">#&gt;   score        bottom   lower  median    mean   upper     top     sd</span>
-<span class="co">#&gt; * &lt;chr&gt;         &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 bias        -0.745  -0.250   0       0.0333  0.45    0.745  0.510 </span>
-<span class="co">#&gt; 2 calibration  0.878   0.878   0.878   0.878   0.878   0.878  0     </span>
-<span class="co">#&gt; 3 ci           0.128   0.278   0.491   0.441   0.586   0.708  0.202 </span>
-<span class="co">#&gt; 4 crps         0.0185  0.0292  0.0338  0.0359  0.0434  0.0565 0.0122</span>
-<span class="co">#&gt; 5 dss         -6.03   -4.46   -3.77   -4.03   -3.24   -3.04   1.01  </span>
-<span class="co">#&gt; 6 iqr          0.0623  0.0942  0.150   0.146   0.171   0.264  0.0642</span>
-<span class="co">#&gt; 7 logs        -1.80   -1.38   -1.05   -1.19   -0.939  -0.814  0.342 </span>
-<span class="co">#&gt; 8 median       0.0432  0.0478  0.0690  0.0752  0.0886  0.140  0.0322</span>
-<span class="co">#&gt; 9 sharpness    0.0353  0.0590  0.0952  0.0915  0.119   0.159  0.0401</span></pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/summarise_scores.html">summarise_scores</a></span><span class="op">(</span><span class="va">rt_scores</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 8</span></span></span>
+<span><span class="co">#&gt;   score        bottom    lower  median    mean   upper     top     sd</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ae_median  0.022<span style="text-decoration: underline;">0</span>    0.033<span style="text-decoration: underline;">1</span>   0.050<span style="text-decoration: underline;">8</span>  0.062<span style="text-decoration: underline;">4</span>  0.080<span style="text-decoration: underline;">4</span>  0.141  0.042<span style="text-decoration: underline;">2</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> bias      -<span style="color: #BB0000;">0.89</span>     -<span style="color: #BB0000;">0.4</span>      0.3     0.133   0.65    0.8    0.629 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> crps       0.023<span style="text-decoration: underline;">5</span>    0.028<span style="text-decoration: underline;">6</span>   0.049<span style="text-decoration: underline;">7</span>  0.050<span style="text-decoration: underline;">5</span>  0.063<span style="text-decoration: underline;">6</span>  0.092<span style="text-decoration: underline;">4</span> 0.024<span style="text-decoration: underline;">3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> dss       -<span style="color: #BB0000;">4.77</span>     -<span style="color: #BB0000;">3.83</span>    -<span style="color: #BB0000;">2.57</span>   -<span style="color: #BB0000;">2.84</span>   -<span style="color: #BB0000;">1.78</span>   -<span style="color: #BB0000;">1.46</span>   1.22  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> log_score -<span style="color: #BB0000;">1.66</span>     -<span style="color: #BB0000;">1.29</span>    -<span style="color: #BB0000;">0.872</span>  -<span style="color: #BB0000;">1.00</span>   -<span style="color: #BB0000;">0.718</span>  -<span style="color: #BB0000;">0.405</span>  0.411 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> mad        0.029<span style="text-decoration: underline;">4</span>    0.081<span style="text-decoration: underline;">5</span>   0.124   0.107   0.141   0.162  0.047<span style="text-decoration: underline;">5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> se_mean    0.000<span style="text-decoration: underline;">184</span>  0.001<span style="text-decoration: underline;">33</span>  0.013<span style="text-decoration: underline;">3</span>  0.018<span style="text-decoration: underline;">9</span>  0.038<span style="text-decoration: underline;">7</span>  0.050<span style="text-decoration: underline;">1</span> 0.019<span style="text-decoration: underline;">5</span></span></span></code></pre></div>
 <ul>
 <li>Summarise the forecast</li>
 </ul>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">summarised_rt_forecast</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/summarise_forecast.html">summarise_forecast</a></span>(<span class="no">rt_forecast</span>)
-
-<span class="no">summarised_rt_forecast</span>
-<span class="co">#&gt; # A tibble: 21 x 9</span>
-<span class="co">#&gt;    date       horizon median  mean     sd bottom lower upper   top</span>
-<span class="co">#&gt;    &lt;date&gt;       &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 2020-03-11       1   1.99  1.99 0.0369   1.95  1.96  1.99  2.06</span>
-<span class="co">#&gt;  2 2020-03-12       2   1.98  1.97 0.0642   1.86  1.96  2.02  2.06</span>
-<span class="co">#&gt;  3 2020-03-13       3   1.94  1.92 0.0851   1.74  1.92  2.00  2.03</span>
-<span class="co">#&gt;  4 2020-03-14       4   1.90  1.88 0.0893   1.70  1.87  1.94  2.03</span>
-<span class="co">#&gt;  5 2020-03-15       5   1.88  1.85 0.116    1.63  1.87  2.00  2.00</span>
-<span class="co">#&gt;  6 2020-03-16       6   1.83  1.82 0.150    1.51  1.75  1.89  2.05</span>
-<span class="co">#&gt;  7 2020-03-17       7   1.74  1.76 0.165    1.46  1.70  1.80  2.04</span>
-<span class="co">#&gt;  8 2020-03-18       8   1.72  1.75 0.166    1.43  1.67  1.81  2.00</span>
-<span class="co">#&gt;  9 2020-03-19       9   1.72  1.75 0.183    1.43  1.64  1.74  2.08</span>
-<span class="co">#&gt; 10 2020-03-20      10   1.68  1.69 0.197    1.35  1.54  1.69  2.03</span>
-<span class="co">#&gt; # … with 11 more rows</span></pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">summarised_rt_forecast</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarise_forecast.html">summarise_forecast</a></span><span class="op">(</span><span class="va">rt_forecast</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">summarised_rt_forecast</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 21 × 9</span></span></span>
+<span><span class="co">#&gt;    date       horizon median  mean     sd bottom lower upper   top</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2020-03-11       1   1.97  1.96 0.037<span style="text-decoration: underline;">1</span>   1.88  1.95  1.98  2.01</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2020-03-12       2   1.96  1.96 0.080<span style="text-decoration: underline;">7</span>   1.77  1.93  1.97  2.06</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2020-03-13       3   1.94  1.95 0.145    1.68  1.89  2.01  2.23</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2020-03-14       4   1.93  1.93 0.157    1.69  1.90  2.02  2.28</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2020-03-15       5   1.89  1.92 0.199    1.64  1.86  1.92  2.42</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2020-03-16       6   1.85  1.91 0.239    1.64  1.75  1.90  2.51</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2020-03-17       7   1.79  1.87 0.278    1.58  1.72  1.83  2.60</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2020-03-18       8   1.80  1.86 0.319    1.59  1.68  1.82  2.72</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2020-03-19       9   1.74  1.84 0.366    1.53  1.68  1.88  2.83</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2020-03-20      10   1.69  1.83 0.428    1.51  1.67  1.86  3.01</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 11 more rows</span></span></span></code></pre></div>
 <ul>
 <li>Plot the forecast against observed data</li>
 </ul>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_forecast.html">plot_forecast</a></span>(<span class="no">summarised_rt_forecast</span>, <span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_obs_rts.html">example_obs_rts</a></span>)</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_forecast.html">plot_forecast</a></span><span class="op">(</span><span class="va">summarised_rt_forecast</span>, <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_obs_rts.html">example_obs_rts</a></span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-8-1.png" width="2560"></p>
 </div>
-<div id="forecast-cases-score-and-plot" class="section level2">
-<h2 class="hasAnchor">
-<a href="#forecast-cases-score-and-plot" class="anchor"></a>Forecast cases, score and plot</h2>
+<div class="section level2">
+<h2 id="forecast-cases-score-and-plot">Forecast cases, score and plot<a class="anchor" aria-label="anchor" href="#forecast-cases-score-and-plot"></a>
+</h2>
 <ul>
-<li>Forecasting cases requires the observed cases on which the observed Rt estimates were based</li>
+<li>Forecasting cases requires the observed cases on which the observed
+Rt estimates were based</li>
 </ul>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_obs_cases.html">example_obs_cases</a></span>
-<span class="co">#&gt; # A tibble: 63 x 2</span>
-<span class="co">#&gt;    cases date      </span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;date&gt;    </span>
-<span class="co">#&gt;  1     1 2020-01-20</span>
-<span class="co">#&gt;  2     0 2020-01-21</span>
-<span class="co">#&gt;  3     1 2020-01-22</span>
-<span class="co">#&gt;  4     0 2020-01-23</span>
-<span class="co">#&gt;  5     0 2020-01-24</span>
-<span class="co">#&gt;  6     0 2020-01-25</span>
-<span class="co">#&gt;  7     1 2020-01-26</span>
-<span class="co">#&gt;  8     0 2020-01-27</span>
-<span class="co">#&gt;  9     0 2020-01-28</span>
-<span class="co">#&gt; 10     0 2020-01-29</span>
-<span class="co">#&gt; # … with 53 more rows</span></pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_obs_cases.html">example_obs_cases</a></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 63 × 2</span></span></span>
+<span><span class="co">#&gt;    cases date      </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>     1 2020-01-20</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     0 2020-01-21</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     1 2020-01-22</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     0 2020-01-23</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>     0 2020-01-24</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     0 2020-01-25</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     1 2020-01-26</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     0 2020-01-27</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     0 2020-01-28</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     0 2020-01-29</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 53 more rows</span></span></span></code></pre></div>
 <ul>
-<li>It also requires an assumption to be made about the serial interval (defined using probability distribution).</li>
+<li>It also requires an assumption to be made about the serial interval
+(defined using probability distribution).</li>
 </ul>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_serial_interval.html">example_serial_interval</a></span>
-<span class="co">#&gt;         1    2    3    4    5    6    7    8    9   10   11   12   14 </span>
-<span class="co">#&gt; 0.00 0.03 0.25 0.17 0.09 0.15 0.13 0.05 0.05 0.03 0.02 0.01 0.01 0.01</span></pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_serial_interval.html">example_serial_interval</a></span></span>
+<span><span class="co">#&gt;         1    2    3    4    5    6    7    8    9   10   11   12   14 </span></span>
+<span><span class="co">#&gt; 0.00 0.03 0.25 0.17 0.09 0.15 0.13 0.05 0.05 0.03 0.02 0.01 0.01 0.01</span></span></code></pre></div>
 <ul>
-<li>Forecast cases (using the case data on which the observed Rt estimates were based)</li>
+<li>Forecast cases (using the case data on which the observed Rt
+estimates were based)</li>
 </ul>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">case_forecast</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/forecast_cases.html">forecast_cases</a></span>(<span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_obs_cases.html">example_obs_cases</a></span>, <span class="no">rt_forecast</span>,
-                                <span class="kw">serial_interval</span> <span class="kw">=</span> <span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_serial_interval.html">example_serial_interval</a></span>)
-
-<span class="no">case_forecast</span>
-<span class="co">#&gt; # A tibble: 210 x 4</span>
-<span class="co">#&gt;    sample date       cases horizon</span>
-<span class="co">#&gt;  *  &lt;dbl&gt; &lt;date&gt;     &lt;int&gt;   &lt;int&gt;</span>
-<span class="co">#&gt;  1      1 2020-03-11   171       1</span>
-<span class="co">#&gt;  2      1 2020-03-12   210       2</span>
-<span class="co">#&gt;  3      1 2020-03-13   238       3</span>
-<span class="co">#&gt;  4      1 2020-03-14   281       4</span>
-<span class="co">#&gt;  5      1 2020-03-15   323       5</span>
-<span class="co">#&gt;  6      1 2020-03-16   352       6</span>
-<span class="co">#&gt;  7      1 2020-03-17   414       7</span>
-<span class="co">#&gt;  8      1 2020-03-18   445       8</span>
-<span class="co">#&gt;  9      1 2020-03-19   526       9</span>
-<span class="co">#&gt; 10      1 2020-03-20   539      10</span>
-<span class="co">#&gt; # … with 200 more rows</span></pre></body></html></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">case_forecast</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/forecast_cases.html">forecast_cases</a></span><span class="op">(</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_obs_cases.html">example_obs_cases</a></span>, <span class="va">rt_forecast</span>,</span>
+<span>  serial_interval <span class="op">=</span> <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_serial_interval.html">example_serial_interval</a></span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">case_forecast</span></span>
+<span><span class="co">#&gt;      sample       date cases horizon</span></span>
+<span><span class="co">#&gt;   1:      1 2020-03-11   175       1</span></span>
+<span><span class="co">#&gt;   2:      1 2020-03-12   201       2</span></span>
+<span><span class="co">#&gt;   3:      1 2020-03-13   257       3</span></span>
+<span><span class="co">#&gt;   4:      1 2020-03-14   271       4</span></span>
+<span><span class="co">#&gt;   5:      1 2020-03-15   344       5</span></span>
+<span><span class="co">#&gt;  ---                                </span></span>
+<span><span class="co">#&gt; 206:     10 2020-03-27  1361      17</span></span>
+<span><span class="co">#&gt; 207:     10 2020-03-28  1421      18</span></span>
+<span><span class="co">#&gt; 208:     10 2020-03-29  1579      19</span></span>
+<span><span class="co">#&gt; 209:     10 2020-03-30  1768      20</span></span>
+<span><span class="co">#&gt; 210:     10 2020-03-31  1881      21</span></span></code></pre></div>
 <ul>
 <li>Score the cases forecast</li>
 </ul>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">case_scores</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/score_case_forecast.html">score_case_forecast</a></span>(<span class="no">case_forecast</span>, <span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_obs_cases.html">example_obs_cases</a></span>)
-
-<span class="no">case_scores</span>
-<span class="co">#&gt; # A tibble: 12 x 11</span>
-<span class="co">#&gt;    date       horizon   dss   crps  logs  bias sharpness calibration median</span>
-<span class="co">#&gt;    &lt;date&gt;       &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 2020-03-11       1  5.41   3.61  3.69   0.3      13.3   0.0000500      5</span>
-<span class="co">#&gt;  2 2020-03-12       2  5.56   5.97  4.09   0.4      13.3   0.0000500     21</span>
-<span class="co">#&gt;  3 2020-03-13       3  7.49  18.1   5.25   0.6      20.0   0.0000500     58</span>
-<span class="co">#&gt;  4 2020-03-14       4  6.58  10.3   4.57   0.5      22.2   0.0000500     36</span>
-<span class="co">#&gt;  5 2020-03-15       5  7.85  22.4   5.27   0.4      28.2   0.0000500     94</span>
-<span class="co">#&gt;  6 2020-03-16       6 10.4   58.9   6.15   0.8      56.3   0.0000500    176</span>
-<span class="co">#&gt;  7 2020-03-17       7 10.7   65.1   5.98   1        70.4   0.0000500    205</span>
-<span class="co">#&gt;  8 2020-03-18       8 10.7   75.6   6.26   0.8      86.0   0.0000500    209</span>
-<span class="co">#&gt;  9 2020-03-19       9 10.7   78.1   6.32   0.8     102.    0.0000500    250</span>
-<span class="co">#&gt; 10 2020-03-20      10 10.8   77.3   6.63   0.8      66.7   0.0000500    206</span>
-<span class="co">#&gt; 11 2020-03-21      11 10.8   41.8   5.75   0.4      96.4   0.0000500     75</span>
-<span class="co">#&gt; 12 2020-03-22      12 13.2  243.    7.47   0.8     139.    0.0000500    679</span>
-<span class="co">#&gt; # … with 2 more variables: iqr &lt;dbl&gt;, ci &lt;dbl&gt;</span></pre></body></html></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">case_scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/score_case_forecast.html">score_case_forecast</a></span><span class="op">(</span><span class="va">case_forecast</span>, <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_obs_cases.html">example_obs_cases</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">case_scores</span></span>
+<span><span class="co">#&gt;           date horizon      mad bias       dss   crps ae_median   se_mean</span></span>
+<span><span class="co">#&gt;  1: 2020-03-11       1  16.3086 -0.2  5.219815   3.99       1.0      0.09</span></span>
+<span><span class="co">#&gt;  2: 2020-03-12       2  19.2738  0.4  5.803853   7.07       9.5     20.25</span></span>
+<span><span class="co">#&gt;  3: 2020-03-13       3  25.9455  0.8  7.762877  19.90      34.0    852.64</span></span>
+<span><span class="co">#&gt;  4: 2020-03-14       4  18.5325  0.4  7.081803  10.06      14.5    231.04</span></span>
+<span><span class="co">#&gt;  5: 2020-03-15       5  31.1346  0.8  8.951473  33.34      45.0   2809.00</span></span>
+<span><span class="co">#&gt;  6: 2020-03-16       6  55.5975  1.0 10.967258  74.00      93.5  11278.44</span></span>
+<span><span class="co">#&gt;  7: 2020-03-17       7  38.5476  0.8 10.932307  85.49     113.5  17292.25</span></span>
+<span><span class="co">#&gt;  8: 2020-03-18       8  57.0801  0.8 11.165629  92.28     125.0  25985.44</span></span>
+<span><span class="co">#&gt;  9: 2020-03-19       9  53.3736  0.8 11.461539  94.04     128.0  32942.25</span></span>
+<span><span class="co">#&gt; 10: 2020-03-20      10  98.5929  0.8 12.332301 118.62     127.0  65536.00</span></span>
+<span><span class="co">#&gt; 11: 2020-03-21      11 130.4688  0.4 12.620408  57.53      65.0  44352.36</span></span>
+<span><span class="co">#&gt; 12: 2020-03-22      12 168.2751  1.0 13.881388 329.44     380.5 372710.25</span></span></code></pre></div>
 <ul>
 <li>Summarise the cases scores</li>
 </ul>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="../reference/summarise_scores.html">summarise_scores</a></span>(<span class="no">case_scores</span>)
-<span class="co">#&gt; Warning: attributes are not identical across measure variables;</span>
-<span class="co">#&gt; they will be dropped</span>
-<span class="co">#&gt; # A tibble: 9 x 8</span>
-<span class="co">#&gt;   score        bottom     lower     median      mean     upper       top      sd</span>
-<span class="co">#&gt; * &lt;chr&gt;         &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 bias        3.28e-1   4.00e-1    7.00e-1   6.33e-1   8.00e-1   9.45e-1   0.227</span>
-<span class="co">#&gt; 2 calibrat…   5.00e-5   5.00e-5    5.00e-5   5.00e-5   5.00e-5   5.00e-5   0    </span>
-<span class="co">#&gt; 3 ci          4.41e+1   7.53e+1    2.34e+2   4.29e+2   5.44e+2   1.71e+3 573.   </span>
-<span class="co">#&gt; 4 crps        4.26e+0   1.61e+1    5.04e+1   5.84e+1   7.60e+1   1.98e+2  65.0  </span>
-<span class="co">#&gt; 5 dss         5.45e+0   7.26e+0    1.05e+1   9.18e+0   1.07e+1   1.25e+1   2.50 </span>
-<span class="co">#&gt; 6 iqr         1.56e+1   4.97e+1    1.92e+2   2.51e+2   3.20e+2   9.02e+2 300.   </span>
-<span class="co">#&gt; 7 logs        3.80e+0   5.08e+0    5.87e+0   5.62e+0   6.27e+0   7.24e+0   1.10 </span>
-<span class="co">#&gt; 8 median      9.40e+0   5.25e+1    1.35e+2   1.68e+2   2.07e+2   5.61e+2 182.   </span>
-<span class="co">#&gt; 9 sharpness   1.33e+1   2.17e+1    6.15e+1   5.96e+1   8.86e+1   1.29e+2  41.2</span></pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/summarise_scores.html">summarise_scores</a></span><span class="op">(</span><span class="va">case_scores</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 8</span></span></span>
+<span><span class="co">#&gt;   score     bottom  lower  median     mean   upper      top         sd</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ae_median  3.34   29.1     79.2    94.7    126.     311.     102.   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> bias      -<span style="color: #BB0000;">0.035</span>   0.4      0.8     0.65     0.8      1        0.342</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> crps       4.84   17.4     65.8    77.1     92.7    271.      88.6  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> dss        5.38    7.59    10.9     9.85    11.7     13.5      2.82 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> mad       16.9    24.3     46.0    59.4     67.5    158.      48.6  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> se_mean    5.63  697.   <span style="text-decoration: underline;">14</span>285.  <span style="text-decoration: underline;">47</span>834.   <span style="text-decoration: underline;">35</span>795.  <span style="text-decoration: underline;">288</span>237.  <span style="text-decoration: underline;">104</span>409.</span></span></code></pre></div>
 <ul>
 <li>Summarise the cases forecast</li>
 </ul>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">summarised_case_forecast</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/summarise_case_forecast.html">summarise_case_forecast</a></span>(<span class="no">case_forecast</span>)
-
-<span class="no">summarised_case_forecast</span>
-<span class="co">#&gt; # A tibble: 21 x 9</span>
-<span class="co">#&gt;    date       horizon median  mean    sd bottom lower upper   top</span>
-<span class="co">#&gt;    &lt;date&gt;       &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 2020-03-11       1   170.  168.  15.7    141   165   181   186</span>
-<span class="co">#&gt;  2 2020-03-12       2   204.  200.  15.6    170   202   217   217</span>
-<span class="co">#&gt;  3 2020-03-13       3   237   234.  26.5    190   222   249   269</span>
-<span class="co">#&gt;  4 2020-03-14       4   269   264.  24.0    220   251   281   292</span>
-<span class="co">#&gt;  5 2020-03-15       5   320   300.  42.4    211   318   348   348</span>
-<span class="co">#&gt;  6 2020-03-16       6   354   349.  55.6    239   308   358   424</span>
-<span class="co">#&gt;  7 2020-03-17       7   398.  399.  73.0    298   334   414   553</span>
-<span class="co">#&gt;  8 2020-03-18       8   448.  461.  95.4    300   407   507   627</span>
-<span class="co">#&gt;  9 2020-03-19       9   524.  526. 122.     321   418   549   750</span>
-<span class="co">#&gt; 10 2020-03-20      10   557   586. 159.     335   508   598   915</span>
-<span class="co">#&gt; # … with 11 more rows</span></pre></body></html></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">summarised_case_forecast</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarise_case_forecast.html">summarise_case_forecast</a></span><span class="op">(</span><span class="va">case_forecast</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">summarised_case_forecast</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 21 × 9</span></span></span>
+<span><span class="co">#&gt;    date       horizon median  mean    sd bottom lower upper   top</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2020-03-11       1   166   167.  14.3    143   165   185   185</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2020-03-12       2   204.  198.  18.6    166   201   217   217</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2020-03-13       3   242   237.  28.3    180   241   273   273</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2020-03-14       4   266.  266.  32.1    213   250   275   324</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2020-03-15       5   318   326   52.0    241   305   344   439</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2020-03-16       6   360.  372.  69.6    314   317   379   547</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2020-03-17       7   410.  428. 106.     295   386   438   702</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2020-03-18       8   468   504. 172.     337   446   520   970</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2020-03-19       9   528.  581  230.     376   488   560  <span style="text-decoration: underline;">1</span>206</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2020-03-20      10   581   710  400.     382   545   678  <span style="text-decoration: underline;">1</span>815</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 11 more rows</span></span></span></code></pre></div>
 <ul>
 <li>Plot the forecast against observed case data</li>
 </ul>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_forecast.html">plot_forecast</a></span>(<span class="no">summarised_case_forecast</span>, <span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_obs_cases.html">example_obs_cases</a></span>)</pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_forecast.html">plot_forecast</a></span><span class="op">(</span><span class="va">summarised_case_forecast</span>, <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_obs_cases.html">example_obs_cases</a></span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-15-1.png" width="2560"></p>
 </div>
-<div id="use-iterative-fitting-to-explore-a-forecast" class="section level2">
-<h2 class="hasAnchor">
-<a href="#use-iterative-fitting-to-explore-a-forecast" class="anchor"></a>Use iterative fitting to explore a forecast</h2>
+<div class="section level2">
+<h2 id="use-iterative-fitting-to-explore-a-forecast">Use iterative fitting to explore a forecast<a class="anchor" aria-label="anchor" href="#use-iterative-fitting-to-explore-a-forecast"></a>
+</h2>
 <ul>
-<li>To explore the quality of a models forecast it can help to iteratively forecast from each available data point. This is supported in <code>EpiSoon</code> using the following:</li>
+<li>To explore the quality of a models forecast it can help to
+iteratively forecast from each available data point. This is supported
+in <code>EpiSoon</code> using the following:</li>
 </ul>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">it_rt_forecast</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/iterative_rt_forecast.html">iterative_rt_forecast</a></span>(<span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_obs_rts.html">example_obs_rts</a></span>,
-                                        <span class="kw">model</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">...</span>){
-                                          <span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="fu"><a href="../reference/bsts_model.html">bsts_model</a></span>(<span class="kw">model</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">ss</span>, <span class="no">y</span>){<span class="kw pkg">bsts</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsts/man/auto.ar.html">AddAutoAr</a></span>(<span class="no">ss</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">y</span>, <span class="kw">lags</span> <span class="kw">=</span> <span class="fl">10</span>)}, <span class="no">...</span>)
-                                          },
-                                        <span class="kw">horizon</span> <span class="kw">=</span> <span class="fl">7</span>, <span class="kw">samples</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">min_points</span> <span class="kw">=</span> <span class="fl">4</span>)
-
-<span class="no">it_rt_forecast</span>
-<span class="co">#&gt; # A tibble: 1,260 x 5</span>
-<span class="co">#&gt;    forecast_date sample date          rt horizon</span>
-<span class="co">#&gt;  * &lt;chr&gt;          &lt;int&gt; &lt;date&gt;     &lt;dbl&gt;   &lt;int&gt;</span>
-<span class="co">#&gt;  1 2020-03-05         1 2020-03-06  2.31       1</span>
-<span class="co">#&gt;  2 2020-03-05         2 2020-03-06  2.16       1</span>
-<span class="co">#&gt;  3 2020-03-05         3 2020-03-06  2.22       1</span>
-<span class="co">#&gt;  4 2020-03-05         4 2020-03-06  2.22       1</span>
-<span class="co">#&gt;  5 2020-03-05         5 2020-03-06  2.33       1</span>
-<span class="co">#&gt;  6 2020-03-05         6 2020-03-06  2.25       1</span>
-<span class="co">#&gt;  7 2020-03-05         7 2020-03-06  2.16       1</span>
-<span class="co">#&gt;  8 2020-03-05         8 2020-03-06  2.23       1</span>
-<span class="co">#&gt;  9 2020-03-05         9 2020-03-06  2.21       1</span>
-<span class="co">#&gt; 10 2020-03-05        10 2020-03-06  2.17       1</span>
-<span class="co">#&gt; # … with 1,250 more rows</span></pre></body></html></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">it_rt_forecast</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/iterative_rt_forecast.html">iterative_rt_forecast</a></span><span class="op">(</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_obs_rts.html">example_obs_rts</a></span>,</span>
+<span>  model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="../reference/bsts_model.html">bsts_model</a></span><span class="op">(</span>model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">ss</span>, <span class="va">y</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="fu">bsts</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsts/man/auto.ar.html" class="external-link">AddAutoAr</a></span><span class="op">(</span><span class="va">ss</span>, y <span class="op">=</span> <span class="va">y</span>, lags <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span>    <span class="op">}</span>, <span class="va">...</span><span class="op">)</span></span>
+<span>  <span class="op">}</span>,</span>
+<span>  horizon <span class="op">=</span> <span class="fl">7</span>, samples <span class="op">=</span> <span class="fl">10</span>, min_points <span class="op">=</span> <span class="fl">4</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">it_rt_forecast</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,260 × 5</span></span></span>
+<span><span class="co">#&gt;    forecast_date sample date          rt horizon</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2020-03-05         1 2020-03-06  2.16       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2020-03-05         2 2020-03-06  2.19       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2020-03-05         3 2020-03-06  2.12       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2020-03-05         4 2020-03-06  2.16       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2020-03-05         5 2020-03-06  2.14       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2020-03-05         6 2020-03-06  2.28       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2020-03-05         7 2020-03-06  2.23       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2020-03-05         8 2020-03-06  2.18       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2020-03-05         9 2020-03-06  2.18       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2020-03-05        10 2020-03-06  2.14       1</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 1,250 more rows</span></span></span></code></pre></div>
 <ul>
 <li>We can then iteratively forecast cases using the following:</li>
 </ul>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">it_cases_forecast</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/iterative_case_forecast.html">iterative_case_forecast</a></span>(<span class="kw">it_fit_samples</span> <span class="kw">=</span> <span class="no">it_rt_forecast</span>,
-                                             <span class="kw">cases</span> <span class="kw">=</span> <span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_obs_cases.html">example_obs_cases</a></span>,
-                                             <span class="kw">serial_interval</span> <span class="kw">=</span> <span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_serial_interval.html">example_serial_interval</a></span>)
-
-<span class="no">it_cases_forecast</span>
-<span class="co">#&gt; # A tibble: 1,260 x 5</span>
-<span class="co">#&gt;    forecast_date sample date       cases horizon</span>
-<span class="co">#&gt;  * &lt;chr&gt;          &lt;dbl&gt; &lt;date&gt;     &lt;int&gt;   &lt;int&gt;</span>
-<span class="co">#&gt;  1 2020-03-05         1 2020-03-06    79       1</span>
-<span class="co">#&gt;  2 2020-03-05         1 2020-03-07   101       2</span>
-<span class="co">#&gt;  3 2020-03-05         1 2020-03-08   108       3</span>
-<span class="co">#&gt;  4 2020-03-05         1 2020-03-09   142       4</span>
-<span class="co">#&gt;  5 2020-03-05         1 2020-03-10   173       5</span>
-<span class="co">#&gt;  6 2020-03-05         1 2020-03-11   207       6</span>
-<span class="co">#&gt;  7 2020-03-05         1 2020-03-12   257       7</span>
-<span class="co">#&gt;  8 2020-03-05         2 2020-03-06    81       1</span>
-<span class="co">#&gt;  9 2020-03-05         2 2020-03-07    78       2</span>
-<span class="co">#&gt; 10 2020-03-05         2 2020-03-08   104       3</span>
-<span class="co">#&gt; # … with 1,250 more rows</span></pre></body></html></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">it_cases_forecast</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/iterative_case_forecast.html">iterative_case_forecast</a></span><span class="op">(</span></span>
+<span>  it_fit_samples <span class="op">=</span> <span class="va">it_rt_forecast</span>,</span>
+<span>  cases <span class="op">=</span> <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_obs_cases.html">example_obs_cases</a></span>,</span>
+<span>  serial_interval <span class="op">=</span> <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_serial_interval.html">example_serial_interval</a></span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">it_cases_forecast</span></span>
+<span><span class="co">#&gt;       forecast_date sample       date cases horizon</span></span>
+<span><span class="co">#&gt;    1:    2020-03-05      1 2020-03-06    94       1</span></span>
+<span><span class="co">#&gt;    2:    2020-03-05      1 2020-03-07   100       2</span></span>
+<span><span class="co">#&gt;    3:    2020-03-05      1 2020-03-08   117       3</span></span>
+<span><span class="co">#&gt;    4:    2020-03-05      1 2020-03-09   134       4</span></span>
+<span><span class="co">#&gt;    5:    2020-03-05      1 2020-03-10   154       5</span></span>
+<span><span class="co">#&gt;   ---                                              </span></span>
+<span><span class="co">#&gt; 1256:    2020-03-22     10 2020-03-25   585       3</span></span>
+<span><span class="co">#&gt; 1257:    2020-03-22     10 2020-03-26   633       4</span></span>
+<span><span class="co">#&gt; 1258:    2020-03-22     10 2020-03-27   614       5</span></span>
+<span><span class="co">#&gt; 1259:    2020-03-22     10 2020-03-28   721       6</span></span>
+<span><span class="co">#&gt; 1260:    2020-03-22     10 2020-03-29   739       7</span></span></code></pre></div>
 <ul>
-<li>All functionality shown above is also supported for iterative forecasting.</li>
+<li>All functionality shown above is also supported for iterative
+forecasting.</li>
 </ul>
 </div>
-<div id="evaluate-a-model" class="section level2">
-<h2 class="hasAnchor">
-<a href="#evaluate-a-model" class="anchor"></a>Evaluate a model</h2>
-<p>In real world use we are likely to want to evaluate a model by iteratively forecasting Rts and cases, summarising these forecasts, scoring them and then returning them in a sensible format. These steps are all contained in the <code>evaluate_model</code> function.</p>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">model_eval</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/evaluate_model.html">evaluate_model</a></span>(<span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_obs_rts.html">example_obs_rts</a></span>,
-                             <span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_obs_cases.html">example_obs_cases</a></span>,
-                             <span class="kw">model</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">...</span>){
-                                          <span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="fu"><a href="../reference/bsts_model.html">bsts_model</a></span>(<span class="kw">model</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">ss</span>, <span class="no">y</span>){<span class="kw pkg">bsts</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsts/man/auto.ar.html">AddAutoAr</a></span>(<span class="no">ss</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">y</span>, <span class="kw">lags</span> <span class="kw">=</span> <span class="fl">10</span>)}, <span class="no">...</span>)
-                                          },
-                             <span class="kw">horizon</span> <span class="kw">=</span> <span class="fl">21</span>, <span class="kw">samples</span> <span class="kw">=</span> <span class="fl">10</span>,
-                             <span class="kw">serial_interval</span> <span class="kw">=</span> <span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_serial_interval.html">example_serial_interval</a></span>)
-
-<span class="no">model_eval</span>
-<span class="co">#&gt; $forecast_rts</span>
-<span class="co">#&gt; # A tibble: 399 x 10</span>
-<span class="co">#&gt;    forecast_date date       horizon median  mean    sd bottom lower upper   top</span>
-<span class="co">#&gt;  * &lt;chr&gt;         &lt;date&gt;       &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 2020-03-04    2020-03-05       1   2.29  2.29 0.164  2.01   2.25  2.35  2.66</span>
-<span class="co">#&gt;  2 2020-03-04    2020-03-06       2   2.20  2.24 0.404  1.82   2.12  2.34  3.27</span>
-<span class="co">#&gt;  3 2020-03-04    2020-03-07       3   2.10  2.10 0.413  1.49   2.03  2.29  2.95</span>
-<span class="co">#&gt;  4 2020-03-04    2020-03-08       4   1.98  1.95 0.387  1.13   1.89  2.11  2.49</span>
-<span class="co">#&gt;  5 2020-03-04    2020-03-09       5   1.81  1.80 0.456  0.868  1.58  2.05  2.41</span>
-<span class="co">#&gt;  6 2020-03-04    2020-03-10       6   1.81  1.67 0.504  0.678  1.81  2.23  2.23</span>
-<span class="co">#&gt;  7 2020-03-04    2020-03-11       7   1.83  1.61 0.614  0.520  1.82  2.56  2.56</span>
-<span class="co">#&gt;  8 2020-03-04    2020-03-12       8   1.78  1.52 0.709  0.392  1.19  1.95  2.75</span>
-<span class="co">#&gt;  9 2020-03-04    2020-03-13       9   1.59  1.32 0.819  0.122  1.04  1.98  2.65</span>
-<span class="co">#&gt; 10 2020-03-04    2020-03-14      10   1.52  1.27 0.864  0      1.00  2.06  2.73</span>
-<span class="co">#&gt; # … with 389 more rows</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $rt_scores</span>
-<span class="co">#&gt; # A tibble: 171 x 12</span>
-<span class="co">#&gt;    forecast_date date       horizon    dss   crps   logs   bias sharpness</span>
-<span class="co">#&gt;    &lt;chr&gt;         &lt;date&gt;       &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 2020-03-04    2020-03-05       1 -3.70  0.0276 -1.33   0.200    0.0839</span>
-<span class="co">#&gt;  2 2020-03-04    2020-03-06       2 -1.90  0.0638 -0.422  0        0.169 </span>
-<span class="co">#&gt;  3 2020-03-04    2020-03-07       3 -1.86  0.0695 -0.563 -0.400    0.198 </span>
-<span class="co">#&gt;  4 2020-03-04    2020-03-08       4 -1.82  0.0862 -0.310 -0.400    0.169 </span>
-<span class="co">#&gt;  5 2020-03-04    2020-03-09       5 -1.32  0.146   0.239 -0.6      0.352 </span>
-<span class="co">#&gt;  6 2020-03-04    2020-03-10       6 -0.921 0.170   0.370 -0.400    0.483 </span>
-<span class="co">#&gt;  7 2020-03-04    2020-03-11       7 -0.595 0.214   0.631 -0.6      0.688 </span>
-<span class="co">#&gt;  8 2020-03-04    2020-03-12       8 -0.281 0.264   0.801 -0.8      0.563 </span>
-<span class="co">#&gt;  9 2020-03-04    2020-03-13       9  0.185 0.351   0.981 -0.6      0.701 </span>
-<span class="co">#&gt; 10 2020-03-04    2020-03-14      10  0.276 0.394   1.05  -0.6      0.785 </span>
-<span class="co">#&gt; # … with 161 more rows, and 4 more variables: calibration &lt;dbl&gt;, median &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   iqr &lt;dbl&gt;, ci &lt;dbl&gt;</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $forecast_cases</span>
-<span class="co">#&gt; # A tibble: 171 x 10</span>
-<span class="co">#&gt;    forecast_date date       horizon median  mean    sd bottom lower upper   top</span>
-<span class="co">#&gt;  * &lt;chr&gt;         &lt;date&gt;       &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 2020-03-04    2020-03-05       1   67.5  69.3  10.4     58    58    69    93</span>
-<span class="co">#&gt;  2 2020-03-04    2020-03-06       2   81.5  83.7  13.5     71    76    86   118</span>
-<span class="co">#&gt;  3 2020-03-04    2020-03-07       3  100.  104.   27.1     70    82   105   167</span>
-<span class="co">#&gt;  4 2020-03-04    2020-03-08       4  109   104    27.1     47    91   116   151</span>
-<span class="co">#&gt;  5 2020-03-04    2020-03-09       5  133   130.   44.3     55   114   167   206</span>
-<span class="co">#&gt;  6 2020-03-04    2020-03-10       6  143   139.   54.1     37   104   173   213</span>
-<span class="co">#&gt;  7 2020-03-04    2020-03-11       7  164.  153.   73.5     38    86   177   260</span>
-<span class="co">#&gt;  8 2020-03-04    2020-03-12       8  185   169.  105.      11    83   220   370</span>
-<span class="co">#&gt;  9 2020-03-04    2020-03-13       9  182.  177.  139.      14    14   194   444</span>
-<span class="co">#&gt; 10 2020-03-04    2020-03-14      10  214.  209   196.       0    91   303   662</span>
-<span class="co">#&gt; # … with 161 more rows</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $case_scores</span>
-<span class="co">#&gt; # A tibble: 171 x 13</span>
-<span class="co">#&gt;    sample forecast_date date       horizon   dss  crps  logs   bias sharpness</span>
-<span class="co">#&gt;  * &lt;chr&gt;  &lt;chr&gt;         &lt;date&gt;       &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 1      2020-03-04    2020-03-05       1  4.99  3.05  3.29  0.200      9.64</span>
-<span class="co">#&gt;  2 1      2020-03-04    2020-03-06       2  5.80  5.13  3.41  0.6        7.41</span>
-<span class="co">#&gt;  3 1      2020-03-04    2020-03-07       3  6.86  8.09  4.14  0.4       17.0 </span>
-<span class="co">#&gt;  4 1      2020-03-04    2020-03-08       4  6.50  6.    4.09  0.200     19.3 </span>
-<span class="co">#&gt;  5 1      2020-03-04    2020-03-09       5  7.59 12.8   4.92  0.200     45.2 </span>
-<span class="co">#&gt;  6 1      2020-03-04    2020-03-10       6  7.88 13.2   5.04  0         51.1 </span>
-<span class="co">#&gt;  7 1      2020-03-04    2020-03-11       7  8.53 17.7   5.42 -0.200     97.9 </span>
-<span class="co">#&gt;  8 1      2020-03-04    2020-03-12       8  9.26 23.9   5.68  0        102.  </span>
-<span class="co">#&gt;  9 1      2020-03-04    2020-03-13       9  9.82 39.3   6.10 -0.200    153.  </span>
-<span class="co">#&gt; 10 1      2020-03-04    2020-03-14      10 10.5  46.1   6.22 -0.200    157.  </span>
-<span class="co">#&gt; # … with 161 more rows, and 4 more variables: calibration &lt;dbl&gt;, median &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   iqr &lt;dbl&gt;, ci &lt;dbl&gt;</span></pre></body></html></div>
+<div class="section level2">
+<h2 id="evaluate-a-model">Evaluate a model<a class="anchor" aria-label="anchor" href="#evaluate-a-model"></a>
+</h2>
+<p>In real world use we are likely to want to evaluate a model by
+iteratively forecasting Rts and cases, summarising these forecasts,
+scoring them and then returning them in a sensible format. These steps
+are all contained in the <code>evaluate_model</code> function.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model_eval</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/evaluate_model.html">evaluate_model</a></span><span class="op">(</span><span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_obs_rts.html">example_obs_rts</a></span>,</span>
+<span>  <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_obs_cases.html">example_obs_cases</a></span>,</span>
+<span>  model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu">EpiSoon</span><span class="fu">::</span><span class="fu"><a href="../reference/bsts_model.html">bsts_model</a></span><span class="op">(</span>model <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">ss</span>, <span class="va">y</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="fu">bsts</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/bsts/man/auto.ar.html" class="external-link">AddAutoAr</a></span><span class="op">(</span><span class="va">ss</span>, y <span class="op">=</span> <span class="va">y</span>, lags <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span>    <span class="op">}</span>, <span class="va">...</span><span class="op">)</span></span>
+<span>  <span class="op">}</span>,</span>
+<span>  horizon <span class="op">=</span> <span class="fl">21</span>, samples <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  serial_interval <span class="op">=</span> <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_serial_interval.html">example_serial_interval</a></span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">model_eval</span></span>
+<span><span class="co">#&gt; $forecast_rts</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 399 × 10</span></span></span>
+<span><span class="co">#&gt;    forecast_date date       horizon median  mean     sd bottom lower upper   top</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2020-03-04    2020-03-05       1   2.21  2.22 0.080<span style="text-decoration: underline;">2</span>   2.13  2.13  2.22  2.37</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2020-03-04    2020-03-06       2   2.24  2.22 0.164    1.95  2.18  2.39  2.43</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2020-03-04    2020-03-07       3   2.20  2.18 0.246    1.71  2.18  2.47  2.47</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2020-03-04    2020-03-08       4   2.12  2.17 0.282    1.55  2.11  2.44  2.44</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2020-03-04    2020-03-09       5   2.18  2.15 0.255    1.56  1.99  2.23  2.42</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2020-03-04    2020-03-10       6   2.11  2.13 0.324    1.43  1.92  2.32  2.51</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2020-03-04    2020-03-11       7   2.07  2.07 0.339    1.31  2.05  2.35  2.54</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2020-03-04    2020-03-12       8   2.11  2.05 0.362    1.28  2.02  2.35  2.50</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2020-03-04    2020-03-13       9   2.07  2.00 0.385    1.18  1.84  2.17  2.56</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2020-03-04    2020-03-14      10   2.05  2.00 0.417    1.00  1.88  2.20  2.53</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 389 more rows</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $rt_scores</span></span>
+<span><span class="co">#&gt;      forecast_date       date horizon        mad bias       dss       crps</span></span>
+<span><span class="co">#&gt;   1:    2020-03-04 2020-03-05       1 0.06472105 -0.6 -4.788096 0.03869727</span></span>
+<span><span class="co">#&gt;   2:    2020-03-04 2020-03-06       2 0.20277714  0.2 -3.680760 0.04879533</span></span>
+<span><span class="co">#&gt;   3:    2020-03-04 2020-03-07       3 0.30234443  0.4 -2.883924 0.06720283</span></span>
+<span><span class="co">#&gt;   4:    2020-03-04 2020-03-08       4 0.31850620  0.4 -2.571591 0.06920782</span></span>
+<span><span class="co">#&gt;   5:    2020-03-04 2020-03-09       5 0.23906807  0.4 -2.699062 0.07950957</span></span>
+<span><span class="co">#&gt;  ---                                                                      </span></span>
+<span><span class="co">#&gt; 167:    2020-03-19 2020-03-21       2 0.11317994 -0.8 -3.617583 0.07170635</span></span>
+<span><span class="co">#&gt; 168:    2020-03-19 2020-03-22       3 0.12410195  0.2 -4.091479 0.02804814</span></span>
+<span><span class="co">#&gt; 169:    2020-03-20 2020-03-21       1 0.09571498 -0.8 -3.569250 0.05712748</span></span>
+<span><span class="co">#&gt; 170:    2020-03-20 2020-03-22       2 0.09002139  0.2 -4.282744 0.02443402</span></span>
+<span><span class="co">#&gt; 171:    2020-03-21 2020-03-22       1 0.06438448  0.4 -5.553418 0.02326429</span></span>
+<span><span class="co">#&gt;       log_score   ae_median      se_mean</span></span>
+<span><span class="co">#&gt;   1: -0.9868680 0.055872507 0.0021060541</span></span>
+<span><span class="co">#&gt;   2: -0.5720947 0.043973224 0.0010325879</span></span>
+<span><span class="co">#&gt;   3: -0.2520517 0.052966560 0.0013015645</span></span>
+<span><span class="co">#&gt;   4: -0.1885792 0.018718086 0.0045895764</span></span>
+<span><span class="co">#&gt;   5: -0.3171123 0.116651478 0.0081541582</span></span>
+<span><span class="co">#&gt;  ---                                    </span></span>
+<span><span class="co">#&gt; 167: -0.5852135 0.095066030 0.0095284898</span></span>
+<span><span class="co">#&gt; 168: -1.0136438 0.016544410 0.0001219593</span></span>
+<span><span class="co">#&gt; 169: -1.1475601 0.101830812 0.0088583915</span></span>
+<span><span class="co">#&gt; 170: -1.2662181 0.007600479 0.0001148906</span></span>
+<span><span class="co">#&gt; 171: -1.5925883 0.038530822 0.0010780631</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $forecast_cases</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 171 × 10</span></span></span>
+<span><span class="co">#&gt;    forecast_date date       horizon median  mean    sd bottom lower upper   top</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2020-03-04    2020-03-05       1   66.5  70.8  12.8     55    60    69    93</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2020-03-04    2020-03-06       2   79    84.1  15.9     68    68    85   111</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2020-03-04    2020-03-07       3   94    99.7  20.5     75    75    95   138</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2020-03-04    2020-03-08       4  120   122.   20.9     83   106   128   160</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2020-03-04    2020-03-09       5  144   148.   36.1     83   124   157   208</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2020-03-04    2020-03-10       6  178   171.   37.0     91   148   190   217</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2020-03-04    2020-03-11       7  215   215.   72.0     79   193   243   327</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2020-03-04    2020-03-12       8  242.  240.   78.7     95   183   251   384</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2020-03-04    2020-03-13       9  291   305.  117.     104   227   320   515</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2020-03-04    2020-03-14      10  354.  364.  147.     100   313   396   615</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 161 more rows</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $case_scores</span></span>
+<span><span class="co">#&gt;      sample forecast_date       date horizon     mad bias       dss   crps</span></span>
+<span><span class="co">#&gt;   1:      1    2020-03-04 2020-03-05       1  8.1543  0.4  5.410520   3.60</span></span>
+<span><span class="co">#&gt;   2:      1    2020-03-04 2020-03-06       2 14.8260  0.0  5.966698   5.21</span></span>
+<span><span class="co">#&gt;   3:      1    2020-03-04 2020-03-07       3 17.0499  0.4  6.298403   5.79</span></span>
+<span><span class="co">#&gt;   4:      1    2020-03-04 2020-03-08       4 16.3086  0.8  7.043393  13.45</span></span>
+<span><span class="co">#&gt;   5:      1    2020-03-04 2020-03-09       5 26.6868  0.8  7.918688  19.28</span></span>
+<span><span class="co">#&gt;  ---                                                                      </span></span>
+<span><span class="co">#&gt; 167:      1    2020-03-19 2020-03-21       2 34.0998 -1.0 21.707962  94.91</span></span>
+<span><span class="co">#&gt; 168:      1    2020-03-19 2020-03-22       3 53.3736  1.0 20.694553 144.84</span></span>
+<span><span class="co">#&gt; 169:      1    2020-03-20 2020-03-21       1 25.2042 -1.0 18.610899  91.48</span></span>
+<span><span class="co">#&gt; 170:      1    2020-03-20 2020-03-22       2 40.0302  1.0 22.861510 145.20</span></span>
+<span><span class="co">#&gt; 171:      1    2020-03-21 2020-03-22       1 28.1694  1.0 62.076264 174.43</span></span>
+<span><span class="co">#&gt;      ae_median  se_mean</span></span>
+<span><span class="co">#&gt;   1:       3.5    60.84</span></span>
+<span><span class="co">#&gt;   2:       6.0   123.21</span></span>
+<span><span class="co">#&gt;   3:       6.0   136.89</span></span>
+<span><span class="co">#&gt;   4:      18.0   420.25</span></span>
+<span><span class="co">#&gt;   5:      28.0   998.56</span></span>
+<span><span class="co">#&gt;  ---                   </span></span>
+<span><span class="co">#&gt; 167:     113.0 12276.64</span></span>
+<span><span class="co">#&gt; 168:     172.5 29343.69</span></span>
+<span><span class="co">#&gt; 169:     115.5 11946.49</span></span>
+<span><span class="co">#&gt; 170:     163.0 28594.81</span></span>
+<span><span class="co">#&gt; 171:     188.5 35419.24</span></span></code></pre></div>
 <ul>
-<li>All functionality outlined above can be applied to this output but a special plotting function (<code>plot_forecast_evaluation</code>) is also provided. First evaluate the Rt forecast against observed values.</li>
+<li>All functionality outlined above can be applied to this output but a
+special plotting function (<code>plot_forecast_evaluation</code>) is
+also provided. First evaluate the Rt forecast against observed
+values.</li>
 </ul>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_forecast_evaluation.html">plot_forecast_evaluation</a></span>(<span class="no">model_eval</span>$<span class="no">forecast_rts</span>,
-                         <span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_obs_rts.html">example_obs_rts</a></span>,
-                         <span class="kw">horizon_to_plot</span> <span class="kw">=</span> <span class="fl">7</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_forecast_evaluation.html">plot_forecast_evaluation</a></span><span class="op">(</span><span class="va">model_eval</span><span class="op">$</span><span class="va">forecast_rts</span>,</span>
+<span>  <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_obs_rts.html">example_obs_rts</a></span>,</span>
+<span>  horizon_to_plot <span class="op">=</span> <span class="fl">7</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-19-1.png" width="2560"></p>
 <ul>
 <li>Then evaluate forecast cases against observed values.</li>
 </ul>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_forecast_evaluation.html">plot_forecast_evaluation</a></span>(<span class="no">model_eval</span>$<span class="no">forecast_cases</span>,
-                         <span class="kw pkg">EpiSoon</span><span class="kw ns">::</span><span class="no"><a href="../reference/example_obs_cases.html">example_obs_cases</a></span>,
-                         <span class="kw">horizon_to_plot</span> <span class="kw">=</span> <span class="fl">7</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_forecast_evaluation.html">plot_forecast_evaluation</a></span><span class="op">(</span><span class="va">model_eval</span><span class="op">$</span><span class="va">forecast_cases</span>,</span>
+<span>  <span class="fu">EpiSoon</span><span class="fu">::</span><span class="va"><a href="../reference/example_obs_cases.html">example_obs_cases</a></span>,</span>
+<span>  horizon_to_plot <span class="op">=</span> <span class="fl">7</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-20-1.png" width="2560"></p>
 </div>
-<div id="wrapper-functions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#wrapper-functions" class="anchor"></a>Wrapper functions</h2>
-<p><code>EpiSoon</code> provides several wrapper functions (<code>compare_models</code> and <code>compare_timeseries</code>). These both wrap <code>evaluate_model</code> and can be used to rapidly explore several forecasting models (<code>compare_models</code>) against multiple time series (<code>compare_timeseries</code>). All lower level summary and plotting functions can be then used with the output of these wrappers to explore the results. See the function documentation for further details.</p>
+<div class="section level2">
+<h2 id="wrapper-functions">Wrapper functions<a class="anchor" aria-label="anchor" href="#wrapper-functions"></a>
+</h2>
+<p><code>EpiSoon</code> provides several wrapper functions
+(<code>compare_models</code> and <code>compare_timeseries</code>). These
+both wrap <code>evaluate_model</code> and can be used to rapidly explore
+several forecasting models (<code>compare_models</code>) against
+multiple time series (<code>compare_timeseries</code>). All lower level
+summary and plotting functions can be then used with the output of these
+wrappers to explore the results. See the function documentation for
+further details.</p>
 </div>
-<div id="supporting-generic-modelling-packages" class="section level2">
-<h2 class="hasAnchor">
-<a href="#supporting-generic-modelling-packages" class="anchor"></a>Supporting generic modelling packages</h2>
-<p><code>EpiSoon</code> supports the use of generic forecasting models if they are used in a wrapper that accepts a standardised set of inputs and outputs its forecast in the form the package expects. Examples of model wrappers are those for the <code>bsts</code> and <code>fable</code> packages (<code>bsts_model</code> and <code>fable_model</code>). See the examples and documentation for <code>fable_model</code> for further details.</p>
+<div class="section level2">
+<h2 id="supporting-generic-modelling-packages">Supporting generic modelling packages<a class="anchor" aria-label="anchor" href="#supporting-generic-modelling-packages"></a>
+</h2>
+<p><code>EpiSoon</code> supports the use of generic forecasting models
+if they are used in a wrapper that accepts a standardised set of inputs
+and outputs its forecast in the form the package expects. Examples of
+model wrappers are those for the <code>bsts</code> and
+<code>fable</code> packages (<code>bsts_model</code> and
+<code>fable_model</code>). See the examples and documentation for
+<code>fable_model</code> for further details.</p>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
-
-</div>
-
-
-
-      <footer><div class="copyright">
-  <p>Developed by Sam Abbott, Joel Hellewell, Nikos Bosse, Katharine Sherratt, James Munday, Robin Thompson, Sebastian Funk.</p>
-</div>
-
-<div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
-      </footer>
+
+
+    <footer><div class="pkgdown-footer-left">
+  <p></p>
+<p>Developed by <a href="https://www.samabbott.co.uk/" class="external-link">Sam Abbott</a>, Nikos Bosse, Joel Hellewell, Katharine Sherratt, James Munday, Robin Thompson, Aurelien Chateigner, Sylvain Mareschal, Andrea Rau, Nathalie Vialaneix, Michael DeWitt, <a href="https://www.lshtm.ac.uk/aboutus/people/funk.sebastian" class="external-link">Sebastian Funk</a>.</p>
+</div>
+
+<div class="pkgdown-footer-right">
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+</div>
+
+    </footer>
 </div>
 
   
 
+  
 
   </body>
 </html>
