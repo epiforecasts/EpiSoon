@@ -1,5 +1,9 @@
 # EpiSoon 0.3.1
 
+This is a maintenance release which updates the package CI and use of functions depreciated since the least release in 2020. It also includes a range of other changes that were missed from previous releases.
+
+Thanks to @nikosbosse, @andreamra, @tuxette, @sbfnk, and @seabbs for code contributions towards this release.
+
 * Updated all GitHub Actions
 * Updated `tidyverse` code usage to account for depreciation.
 * Updated `pkgdown` site to use `pkgdown` 2.0.0.
