@@ -70,7 +70,7 @@ Imports:
     HDInterval,
     R.utils
 Remotes:
-    nikosbosse/stackr
+    epiforecasts/stackr
 Suggests: 
     knitr,
     rmarkdown,
