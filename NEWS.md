@@ -1,3 +1,9 @@
+# EpiSoon 0.3.2
+
+This is a maintenance release in response to some recent package updates.
+
+* Updated references to the `stackr` package to the new `lopensemble` name
+
 # EpiSoon 0.3.1
 
 This is a maintenance release which updates the package CI and use of functions depreciated since the last release in 2020. It also includes a range of other changes that were missed from previous releases.

@@ -42,7 +42,7 @@ reference:
       - fable_model
       - brms_model
       - forecastHybrid_model
-      - stackr_model
+      - lopensemble_model
   - title: Predicting cases from reproduction numbers
     desc: Functions to for mapping reproduction number estimates to forecast cases
     contents:

@@ -449,9 +449,9 @@ forecast_model <- function(y = NULL, samples = NULL,
 #' models. Draws from the individual model predictive samples are then used
 #' to generate a mixture model with the weights obtained in the previous step.
 #'
-#' The weights are computed using \code{\link[stackr]{crps_weights}} from
-#' the package `stackr` to minimise CRPS. The function
-#' \code{\link[stackr]{mixture_from_samples}} from the same package is used
+#' The weights are computed using \code{\link[lopensemble]{crps_weights}} from
+#' the package `lopensemble` to minimise CRPS. The function
+#' \code{\link[lopensemble]{mixture_from_samples}} from the same package is used
 #' to draw samples from the
 #' individual models to form the mixture models.
 #'
@@ -465,6 +465,7 @@ forecast_model <- function(y = NULL, samples = NULL,
 #' small to do crps weighting
 #' @return A dataframe of predictions (with columns representing the
 #'  time horizon and rows representing samples).
+#' @importFrom lopensemble crps_weights mixture_from_samples
 #' @export
 #' @examples
 #' \dontrun{
@@ -483,7 +484,7 @@ forecast_model <- function(y = NULL, samples = NULL,
 #' )
 #'
 #' # make forecast on its own
-#' forecast <- stackr_model(
+#' forecast <- lopensemble_model(
 #'   y = EpiSoon::example_obs_rts[1:10, ]$rt,
 #'   models = models,
 #'   samples = 10,
@@ -495,7 +496,7 @@ forecast_model <- function(y = NULL, samples = NULL,
 #' # together with forecast_rt
 #' fc_rt <- forecast_rt(EpiSoon::example_obs_rts[1:10, ],
 #'   model = function(...) {
-#'     stackr_model(
+#'     lopensemble_model(
 #'       models = models,
 #'       weighting_period = 5,
 #'       ...
@@ -508,7 +509,7 @@ forecast_model <- function(y = NULL, samples = NULL,
 #' forecast_eval <- evaluate_model(EpiSoon::example_obs_rts,
 #'   EpiSoon::example_obs_cases,
 #'   model = function(...) {
-#'     stackr_model(
+#'     lopensemble_model(
 #'       models = models,
 #'       weighting_period = 5,
 #'       ...
@@ -525,7 +526,7 @@ forecast_model <- function(y = NULL, samples = NULL,
 #' )
 #' }
 #'
-stackr_model <- function(y = NULL,
+lopensemble_model <- function(y = NULL,
                          models = NULL,
                          samples = NULL,
                          horizon = NULL,
@@ -534,12 +535,6 @@ stackr_model <- function(y = NULL,
   #### Error Handling
   # check if y is there
   if (is.null(y)) stop("parameter y is missing")
-
-  # check if stackr is installed
-  check_suggests("stackr",
-    dev_message =
-      "Install using devtools::install_github('nikosbosse/stackr')"
-  )
 
   # check if enough data exists to do CRPS stacking
   if (length(y) <= weighting_period) {
@@ -564,7 +559,7 @@ stackr_model <- function(y = NULL,
           samples = samples,
           horizon = horizon)
 
-        # put data in correct format for stackr package
+        # put data in correct format for lopensemble package
         out <- dplyr::as_tibble(out) %>%
           dplyr::mutate(sample_nr = 1:dplyr::n()) %>%
           tidyr::pivot_longer(
@@ -604,7 +599,7 @@ stackr_model <- function(y = NULL,
     )
 
     # obtain weights based on the training forecasts generated
-    w <- stackr::crps_weights(train_forecast)
+    w <- crps_weights(train_forecast)
   } else {
     # not enough data --> make ensemble with equal means
     num_models <- length(list)
@@ -620,7 +615,7 @@ stackr_model <- function(y = NULL,
   )
 
   # generate mixture
-  mix <- stackr::mixture_from_samples(forecasts, weights = w)
+  mix <- mixture_from_samples(forecasts, weights = w)
 
   # make output compatible with what the other EpiSoon functions return
   mixed_samples <- mix %>%

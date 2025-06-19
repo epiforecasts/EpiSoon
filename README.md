@@ -17,7 +17,7 @@ contributors](https://img.shields.io/github/contributors/epiforecasts/EpiSoon)](
 This package provides tooling to forecast the time-varying reproduction
 number and use this to forecast reported case counts via a branching
 process. It supports a range of time series modelling packages including
-`bsts`, `forecast`, and `fable`. It also supports ensembles via `stackr`
+`bsts`, `forecast`, and `fable`. It also supports ensembles via `lopensemble`
 and `forecastHyrbid`. Forecasts can be assessed by iteractively fitting
 and then using proper scoring rules (via `scoringutils` and
 `scoringRules`) to compare to both observed case counts and estimated

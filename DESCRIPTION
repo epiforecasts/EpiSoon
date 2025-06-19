@@ -68,9 +68,10 @@ Imports:
     ggplot2,
     cowplot,
     HDInterval,
-    R.utils
+    R.utils,
+    lopensemble
 Remotes:
-    nikosbosse/stackr
+    epiforecasts/lopensemble
 Suggests: 
     knitr,
     rmarkdown,
@@ -82,7 +83,6 @@ Suggests:
     fable,
     feasts,
     future.apply,
-    stackr,
     bsts,
     brms,
     tidybayes,
