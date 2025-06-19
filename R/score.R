@@ -11,7 +11,7 @@
 #' @importFrom dplyr filter select select_if
 #' @importFrom tidyr spread
 #' @importFrom tibble tibble
-#' @importFrom scoringutils score
+#' @importFrom scoringutils score as_forecast_sample
 #' @inheritParams summarise_forecast
 #' @examples
 #' \dontrun{
@@ -44,8 +44,6 @@ score_forecast <- function(fit_samples, observations, scores = "all") {
       date >= min(fit_samples$date),
       date <= max(fit_samples$date)
     )
-  observations <-
-    dplyr::rename(observations, true_value = rt)
 
   fit_samples <-
     dplyr::filter(
@@ -53,17 +51,16 @@ score_forecast <- function(fit_samples, observations, scores = "all") {
       date >= min(observations$date),
       date <= max(observations$date)
     )
-  fit_samples <-
-    dplyr::rename(fit_samples, prediction = rt)
 
   combined <-
     dplyr::inner_join(observations, fit_samples, by = "date", multiple = "all")
 
-  if (!("model" %in% names(combined))) {
-    combined$model <- NA_character_
-  }
-
-  scores <- scoringutils::score(combined)
+  scores <- scoringutils::score(
+    as_forecast_sample(
+      combined,
+      sample_id = "sample", observed = "rt.x", predicted = "rt.y"
+    )
+  )
   scores <- dplyr::select_if(scores, ~ any(!is.na(.)))
 
   return(scores)

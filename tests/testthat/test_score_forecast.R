@@ -22,7 +22,7 @@ test_that("Output has proper length, names, class", {
   expect_named(run_test)
   expect_equal(nrow(run_test), length(intersect(samples$date, obs_test$date)))
   expect_named(run_test, c(
-    "date", "horizon", "mad", "bias", "dss",
-    "crps", "log_score", "ae_median", "se_mean"
+    "date", "horizon", "bias", "dss", "crps", "overprediction",
+    "underprediction", "dispersion", "log_score", "mad", "ae_median", "se_mean"
   ))
 })

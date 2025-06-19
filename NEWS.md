@@ -3,6 +3,7 @@
 This is a maintenance release in response to some recent package updates.
 
 * Updated references to the `stackr` package to the new `lopensemble` name
+* Updated for compatibility with `scoringutils` 2.0.0, which is now a requirement.
 
 # EpiSoon 0.3.1
 
