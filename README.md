@@ -1,6 +1,8 @@
 
 # EpiSoon
 
+> **Archived.** No longer maintained; last updated June 2025.
+
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R build
